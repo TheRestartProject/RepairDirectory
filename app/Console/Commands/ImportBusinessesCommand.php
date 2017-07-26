@@ -52,7 +52,7 @@ class ImportBusinessesCommand extends Command
         $csv = Reader::createFromPath($this->argument('file'));
         $rows = $csv->fetchAssoc();
         foreach($rows as $row) {
-            $business = BusinessFactory::fromRow($row);
+            $business = BusinessFactory::fromCsvRow($row);
             $this->businessRepository->add($business);
         }
     }

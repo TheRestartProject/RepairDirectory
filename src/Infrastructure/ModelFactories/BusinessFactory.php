@@ -13,7 +13,14 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 class BusinessFactory
 {
-    public static function fromRow($row) {
+    /**
+     * Creates a Business from a CSV row that has been parsed into an associative array.
+     * The keys of the array are the CSV column headers.
+     * 
+     * @param $row
+     * @return Business
+     */
+    public static function fromCsvRow($row) {
         $business = new Business();
         $business->setName($row['Name']);
         $business->setAddress($row['Address']);
