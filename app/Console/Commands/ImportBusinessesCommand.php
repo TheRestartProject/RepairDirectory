@@ -14,7 +14,7 @@ class ImportBusinessesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'import:businesses {file}';
+    protected $signature = 'restart:import:businesses {file}';
 
     /**
      * The console command description.
