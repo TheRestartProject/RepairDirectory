@@ -14,6 +14,6 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 interface BusinessRepository
 {
 
-    public function persist(Business $business);
+    public function add(Business $business);
     
 }

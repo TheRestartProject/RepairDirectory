@@ -53,7 +53,7 @@ class ImportBusinessesCommand extends Command
         $rows = $csv->fetchAssoc();
         foreach($rows as $row) {
             $business = BusinessFactory::fromRow($row);
-            $this->businessRepository->persist($business);
+            $this->businessRepository->add($business);
         }
     }
 }

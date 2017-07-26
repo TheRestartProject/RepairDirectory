@@ -19,7 +19,8 @@ return [
                 'type' => 'string'
             ],
             'postcode' => [
-                'type' => 'string'
+                'type' => 'string',
+                'unique' => true
             ]
         ]
     ]
