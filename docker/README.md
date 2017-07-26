@@ -130,8 +130,8 @@ command
     
 ### Console container
 
-The Social Monitor application comes with a Symfony 2 console application, which provides a number of 
-command-line tools. To run a command in this console application, run the following command
+The Repair Directory application comes with a Larave artisan console application, which provides a 
+number of command-line tools. To run a command in this console application, run the following command
 
-    docker/bin/console <command>
+    docker/bin/artisan <command>
     
