@@ -11,5 +11,10 @@ namespace TheRestartProject\RepairDirectory\Domain\Services;
 
 interface Persister
 {
+    /**
+     * Persist all changes present in entity repositories.
+     *
+     * @return void
+     */
     public function commit();
 }
