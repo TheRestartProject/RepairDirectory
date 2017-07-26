@@ -20,7 +20,8 @@ class BusinessFactory
      * @param $row
      * @return Business
      */
-    public static function fromCsvRow($row) {
+    public static function fromCsvRow($row)
+    {
         $business = new Business();
         $business->setName($row['Name']);
         $business->setAddress($row['Address']);

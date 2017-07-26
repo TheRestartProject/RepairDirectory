@@ -15,11 +15,13 @@ class DoctrinePersister implements Persister
 {
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager) {
+    public function __construct(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
-    public function commit() {
+    public function commit()
+    {
         $this->entityManager->flush();
     }
 }

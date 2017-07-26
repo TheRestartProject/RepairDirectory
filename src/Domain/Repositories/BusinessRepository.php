@@ -15,7 +15,5 @@ interface BusinessRepository
 {
 
     public function add(Business $business);
-    
-    public function persist();
 
 }
