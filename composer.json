@@ -13,6 +13,7 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
+        "phpmd/phpmd": "^2.6",
         "phpunit/phpunit": "~5.7",
         "squizlabs/php_codesniffer": "3.*"
     },
@@ -47,6 +48,9 @@
         ],
         "sniff": [
             "vendor/bin/phpcs src --extensions=php"
+        ],
+        "mess-detection": [
+            "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode"
         ]
     },
     "config": {
