@@ -26,6 +26,9 @@ class DoctrineBusinessRepository implements BusinessRepository
 
     public function add(Business $business) {
         $this->entityManager->persist($business);
-        $this->entityManager->flush($business);
+    }
+
+    public function persist() {
+        $this->entityManager->flush();
     }
 }

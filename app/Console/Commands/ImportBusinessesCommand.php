@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Domain\Services\Persister;
 use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
 
 class ImportBusinessesCommand extends Command
@@ -24,21 +25,30 @@ class ImportBusinessesCommand extends Command
     protected $description = 'Import businesses from a CSV file';
 
     /**
-     * For persisting the imported Businesses
+     * Stores the imported Businesses
      * 
      * @var BusinessRepository
      */
     private $businessRepository;
 
     /**
+     * Persists the newly imported Businesses
+     *
+     * @var Persister
+     */
+    private $persister;
+
+    /**
      * Create a new command instance.
      *
      * @param BusinessRepository $businessRepository
+     * @param Persister $persister
      */
-    public function __construct(BusinessRepository $businessRepository)
+    public function __construct(BusinessRepository $businessRepository, Persister $persister)
     {
         parent::__construct();
         $this->businessRepository = $businessRepository;
+        $this->persister = $persister;
     }
 
     /**
@@ -49,11 +59,16 @@ class ImportBusinessesCommand extends Command
     public function handle()
     {
         // load the CSV document from a file path
-        $csv = Reader::createFromPath($this->argument('file'));
+        $file = $this->argument('file');
+        $this->output->writeln('Reading ' . $file);
+        $csv = Reader::createFromPath($file);
         $rows = $csv->fetchAssoc();
         foreach($rows as $row) {
             $business = BusinessFactory::fromCsvRow($row);
             $this->businessRepository->add($business);
+            $this->output->writeln('Importing ' . $business->getName());
         }
+        $this->persister->commit();
+        $this->output->writeln('Complete');
     }
 }
