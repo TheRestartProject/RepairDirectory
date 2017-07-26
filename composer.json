@@ -48,18 +48,22 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
         ],
+        "code": [
+            "@sniff",
+            "@mess",
+            "@copypaste",
+            "@analyse"
+        ],
+        "test": [
+            "vendor/bin/phpunit"
+        ],
         "sniff": [
-            "vendor/bin/phpcs src --extensions=php",
-            "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
-            "vendor/bin/phpcpd src app",
-            "vendor/bin/phpstan analyse src tests"
+            "vendor/bin/phpcs --config-set ignore_errors_on_exit 1",
+            "vendor/bin/phpcs --extensions=php src"
         ],
-        "mess-detection": [
-            "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode"
-        ],
-        "copy-paste-detection": [
-            "vendor/bin/phpcpd src app"
-        ],
+        "mess": "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
+        "copypaste": "vendor/bin/phpcpd src app",
+        "analyse": "vendor/bin/phpstan analyse src tests"
     },
     "config": {
         "preferred-install": "dist",
