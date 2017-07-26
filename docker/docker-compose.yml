@@ -1,0 +1,54 @@
+version: '2'
+
+services:
+
+  database:
+    image: mariadb
+    container_name: restartproject_database
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=restartproject
+      - MYSQL_DATABASE=restartproject
+      - MYSQL_USER=restartproject
+      - MYSQL_PASSWORD=restartproject
+    networks:
+      - proxy-tier
+    restart: always
+
+  phpmyadmin:
+    depends_on:
+      - database
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: restartproject_phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=restartproject
+      - MYSQL_USER=restartproject
+      - MYSQL_PASSWORD=restartproject
+      - PMA_HOSTS=database
+      - VIRTUAL_HOST=db.restart-project.local
+    networks:
+      - proxy-tier
+    restart: always
+
+  php:
+    depends_on:
+      - database
+    build: ./php
+    image: restartproject_php
+    container_name: restartproject_php
+    volumes:
+      - ../:/app
+    environment:
+      - VIRTUAL_HOST=restart-project.local
+      - LETSENCRYPT_HOST=restart-project.local
+      - LETSENCRYPT_EMAIL=admin@restart-project.local
+    command: ["php", "-S", "0.0.0.0:80", "-t", "/app", "server.php"]
+    networks:
+      - proxy-tier
+    restart: always
+
+networks:
+  proxy-tier:
+    external:
+      name: reverse-proxy

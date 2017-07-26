@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+$(cd docker && docker-compose up -d)
+docker/bin/build-tools.sh
+docker/bin/composer install
+docker/bin/yarn
+docker/bin/npm-run build
