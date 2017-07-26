@@ -1,0 +1,1 @@
+docker run --rm -v %cd%:/app restartproject_composer %*
