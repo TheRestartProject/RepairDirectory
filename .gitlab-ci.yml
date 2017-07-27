@@ -1,0 +1,53 @@
+image: tetraweb/php:5.6
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  before_script:
+  - "apt-get update && apt-get install zip unzip -y"
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php composer-setup.php
+  - php -r "unlink('composer-setup.php');"
+  script:
+  - php composer.phar install --no-dev
+  tags:
+  - docker
+  only:
+  - gitlab-ci
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 hour
+
+test:
+  stage: test
+  before_script:
+  - "apt-get update && apt-get install zip unzip -y"
+  script:
+  - php composer.phar install
+  - php composer.phar run-script test
+  tags:
+  - docker
+  only:
+  - gitlab-ci
+
+deploy:staging:
+  dependencies:
+  - build
+  stage: deploy
+  script:
+  - rm composer.phar
+  tags:
+  - docker
+  only:
+  - gitlab-ci
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 day
