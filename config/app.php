@@ -167,6 +167,8 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -176,6 +178,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\PersisterServiceProvider::class,
         App\Providers\BusinessServiceProvider::class,
 
     ],

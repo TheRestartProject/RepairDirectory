@@ -9,7 +9,11 @@
 namespace TheRestartProject\RepairDirectory\Domain\Repositories;
 
 
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
+
 interface BusinessRepository
 {
+
+    public function add(Business $business);
 
 }
