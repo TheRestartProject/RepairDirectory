@@ -1,23 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joaquim
- * Date: 26/07/2017
- * Time: 16:38
- */
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\ModelFactories;
 
-
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
+/**
+ * Class BusinessFactory
+ *
+ * @category Class
+ * @package  TheRestartProject\RepairDirectory\Infrastructure\ModelFactories
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class BusinessFactory
 {
     /**
-     * Creates a Business from a CSV row that has been parsed into an associative array.
+     * Creates a Business from a CSV row that has been parsed
+     * into an associative array.
+     *
      * The keys of the array are the CSV column headers.
      * 
-     * @param $row
+     * @param array $row An associative array containing the row data
+     * 
      * @return Business
      */
     public static function fromCsvRow($row)

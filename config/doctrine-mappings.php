@@ -4,7 +4,7 @@ return [
         'type'   => 'entity',
         'table'  => 'businesses',
         'id'     => [
-            'id' => [
+            'uid' => [
                 'type'     => 'integer',
                 'generator' => [
                     'strategy' => 'auto'
