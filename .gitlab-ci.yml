@@ -30,6 +30,7 @@ test:
   - "apt-get update && apt-get install zip unzip -y"
   script:
   - php composer.phar install
+  - php artisan key:generate
   - php composer.phar run-script test
   tags:
   - docker
