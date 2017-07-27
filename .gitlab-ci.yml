@@ -13,7 +13,9 @@ build:
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
   script:
-  - php composer.phar install --no-dev
+  - php composer.phar install
+  - php composer.phar run-script post-root-package-install
+  - php artisan key:generate
   tags:
   - docker
   only:
@@ -29,8 +31,6 @@ test:
   before_script:
   - "apt-get update && apt-get install zip unzip -y"
   script:
-  - php composer.phar install
-  - php artisan key:generate
   - php composer.phar run-script test
   tags:
   - docker
@@ -42,7 +42,7 @@ deploy:staging:
   - build
   stage: deploy
   script:
-  - php artisan key:generate
+  - php composer.phar install --no-dev
   - rm composer.phar
   tags:
   - docker
