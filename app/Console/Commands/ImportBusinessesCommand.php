@@ -68,7 +68,7 @@ class ImportBusinessesCommand extends Command
             $this->businessRepository->add($business);
             $this->output->writeln('Importing ' . $business->getName());
         }
-        $this->persister->commit();
+        $this->persister->persistChanges();
         $this->output->writeln('Complete');
     }
 }

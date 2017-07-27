@@ -20,7 +20,7 @@ class DoctrinePersister implements Persister
         $this->entityManager = $entityManager;
     }
 
-    public function commit()
+    public function persistChanges()
     {
         $this->entityManager->flush();
     }

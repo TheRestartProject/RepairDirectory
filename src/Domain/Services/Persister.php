@@ -16,5 +16,5 @@ interface Persister
      *
      * @return void
      */
-    public function commit();
+    public function persistChanges();
 }
