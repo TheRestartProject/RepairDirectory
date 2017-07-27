@@ -1,0 +1,84 @@
+image: tetraweb/php:7.1
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  before_script:
+  - "apt-get update && apt-get install zip unzip -y"
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php composer-setup.php
+  - php -r "unlink('composer-setup.php');"
+  script:
+  - php composer.phar install
+  - php composer.phar run-script post-root-package-install
+  - php artisan key:generate
+  tags:
+  - docker
+  only:
+  - master
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 hour
+
+test:static-analysis:
+  stage: test
+  allow_failure: true
+  before_script:
+  - "apt-get update && apt-get install zip unzip -y"
+  script:
+  - php composer.phar run-script code
+  tags:
+  - docker
+  only:
+  - master
+
+test:unittests:
+  stage: test
+  before_script:
+  - "apt-get update && apt-get install zip unzip -y"
+  script:
+  - php composer.phar run-script test
+  tags:
+  - docker
+  only:
+  - master
+
+deploy:staging:
+  dependencies:
+  - build
+  stage: deploy
+  script:
+  - php composer.phar install --no-dev
+  - rm composer.phar
+  tags:
+  - docker
+  only:
+  - master
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 day
+
+deploy:production:
+  dependencies:
+  - build
+  stage: deploy
+  script:
+  - php composer.phar install --no-dev
+  - rm composer.phar
+  tags:
+  - docker
+  only:
+  - tags
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 week
