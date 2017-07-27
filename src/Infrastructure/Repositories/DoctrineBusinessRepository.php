@@ -25,6 +25,13 @@ class DoctrineBusinessRepository implements BusinessRepository
     private $entityManager;
 
     /**
+     * The Doctrine Repository for businesses
+     *
+     * @var
+     */
+    private $businessRepository;
+
+    /**
      * DoctrineBusinessRepository constructor.
      *
      * @param EntityManager $entityManager The Doctrine Entity Manager (autowired)
@@ -32,6 +39,7 @@ class DoctrineBusinessRepository implements BusinessRepository
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->businessRepository = $entityManager->getRepository(Business::class);
     }
 
     /**
@@ -45,5 +53,15 @@ class DoctrineBusinessRepository implements BusinessRepository
     public function add(Business $business)
     {
         $this->entityManager->persist($business);
+    }
+
+    /**
+     * Get all businesses from the repository.
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        return $this->businessRepository->findAll();
     }
 }
