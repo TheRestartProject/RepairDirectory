@@ -19,7 +19,7 @@ build:
   tags:
   - docker
   only:
-  - gitlab-ci
+  - master
   artifacts:
     paths:
     - ./
@@ -36,7 +36,7 @@ test:static-analysis:
   tags:
   - docker
   only:
-  - gitlab-ci
+  - master
 
 test:unittests:
   stage: test
@@ -47,7 +47,7 @@ test:unittests:
   tags:
   - docker
   only:
-  - gitlab-ci
+  - master
 
 deploy:staging:
   dependencies:
@@ -59,7 +59,7 @@ deploy:staging:
   tags:
   - docker
   only:
-  - gitlab-ci
+  - master
   artifacts:
     paths:
     - ./
