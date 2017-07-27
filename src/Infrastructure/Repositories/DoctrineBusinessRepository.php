@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Infrastructure\Repositories;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
@@ -27,7 +28,7 @@ class DoctrineBusinessRepository implements BusinessRepository
     /**
      * The Doctrine Repository for businesses
      *
-     * @var
+     * @var EntityRepository
      */
     private $businessRepository;
 

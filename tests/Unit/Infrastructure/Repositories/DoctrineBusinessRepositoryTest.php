@@ -1,40 +1,89 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: matt
+ * Date: 26/07/17
+ * Time: 22:47
+ */
 
-namespace TheRestartProject\RepairDirectory\Tests\Unit;
+namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Repositories;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Mockery;
+use Mockery\MockInterface;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Infrastructure\Repositories\DoctrineBusinessRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
-
 class DoctrineBusinessRepositoryTest extends TestCase
 {
     /**
-     * The repository to be tested
+     * Mock EntityManager
+     *
+     * @var MockInterface
+     */
+    private $entityManager;
+
+    /**
+     * A mocked version of the entity repository used for querying.
+     *
+     * @var MockInterface
+     */
+    private $entityRepository;
+
+    /**
+     * The repository to test
      *
      * @var DoctrineBusinessRepository
      */
-    private $repository;
+    private $doctrineBusinessRepository;
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
-        $this->repository = $this->app->make(DoctrineBusinessRepository::class);
+        $this->entityManager = Mockery::mock(EntityManager::class)->shouldIgnoreMissing();
+        $this->entityRepository = Mockery::mock(EntityRepository::class)->shouldIgnoreMissing();
+        
+        $this->entityManager->shouldReceive('getRepository')->andReturn($this->entityRepository);
+
+        /** @var EntityManager $entityManager */
+        $entityManager = $this->entityManager;
+        $this->doctrineBusinessRepository = new DoctrineBusinessRepository($entityManager);
     }
 
-    public function testAdd()
+    /**
+     * @test
+     */
+    public function it_can_be_instantiated()
+    {
+        /** @var EntityManager $entityManager */
+        $entityManager = Mockery::mock(EntityManager::class)->shouldIgnoreMissing();
+        $repository = new DoctrineBusinessRepository($entityManager);
+        self::assertInstanceOf(DoctrineBusinessRepository::class, $repository);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_add_a_business()
     {
         $business = new Business();
-        $business->setName('iRepair Centre Bath');
-        $business->setAddress('12 Westgate St, Bath');
-        $business->setPostcode('BA1 1EQ');
+        $this->doctrineBusinessRepository->add($business);
+        $this->entityManager
+            ->shouldHaveReceived('persist')
+            ->once()
+            ->with($business);
+    }
 
-        $retrievedBusinesses = $this->repository->getAll();
-        $this->assertEquals(1, count($retrievedBusinesses));
-
-        /** @var Business $retrievedBusiness */
-        $retrievedBusiness = $retrievedBusinesses[0];
-        $this->assertEquals('iRepair Centre Bath', $retrievedBusiness->getName());
-        $this->assertEquals('12 Westgate St, Bath', $retrievedBusiness->getAddress());
-        $this->assertEquals('BA1 1EQ', $retrievedBusiness->getPostcode());
+    /**
+     * @test
+     */
+    public function it_can_retrieve_all_businesses()
+    {
+        $this->doctrineBusinessRepository->getAll();
+        $this->entityRepository
+            ->shouldHaveReceived('findAll')
+            ->once();
     }
 }
