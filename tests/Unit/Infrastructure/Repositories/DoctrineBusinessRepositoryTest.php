@@ -42,9 +42,9 @@ class DoctrineBusinessRepositoryTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->entityManager = Mockery::mock(EntityManager::class)->shouldIgnoreMissing();
-        $this->entityRepository = Mockery::mock(EntityRepository::class)->shouldIgnoreMissing();
-        
+        $this->entityManager = Mockery::mock(EntityManager::class);
+        $this->entityRepository = Mockery::mock(EntityRepository::class);
+
         $this->entityManager->shouldReceive('getRepository')->andReturn($this->entityRepository);
 
         /** @var EntityManager $entityManager */
@@ -58,7 +58,7 @@ class DoctrineBusinessRepositoryTest extends TestCase
     public function it_can_be_instantiated()
     {
         /** @var EntityManager $entityManager */
-        $entityManager = Mockery::mock(EntityManager::class)->shouldIgnoreMissing();
+        $entityManager = Mockery::spy(EntityManager::class);
         $repository = new DoctrineBusinessRepository($entityManager);
         self::assertInstanceOf(DoctrineBusinessRepository::class, $repository);
     }
@@ -69,6 +69,7 @@ class DoctrineBusinessRepositoryTest extends TestCase
     public function it_can_add_a_business()
     {
         $business = new Business();
+        $this->entityManager->shouldReceive('persist');
         $this->doctrineBusinessRepository->add($business);
         $this->entityManager
             ->shouldHaveReceived('persist')
@@ -81,6 +82,7 @@ class DoctrineBusinessRepositoryTest extends TestCase
      */
     public function it_can_retrieve_all_businesses()
     {
+        $this->entityRepository->shouldReceive('findAll');
         $this->doctrineBusinessRepository->getAll();
         $this->entityRepository
             ->shouldHaveReceived('findAll')
