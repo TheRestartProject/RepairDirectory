@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace TheRestartProject\RepairDirectory\Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 

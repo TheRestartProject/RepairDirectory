@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Unit;
+namespace TheRestartProject\RepairDirectory\Tests\Unit;
 
-use Tests\TestCase;
+use TheRestartProject\RepairDirectory\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

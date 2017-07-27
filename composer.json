@@ -13,7 +13,11 @@
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpmd/phpmd": "^2.6",
+        "phpstan/phpstan": "^0.8.0",
+        "phpunit/phpunit": "~5.7",
+        "sebastian/phpcpd": "^3.0",
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "classmap": [
@@ -43,7 +47,23 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize"
-        ]
+        ],
+        "code": [
+            "@sniff",
+            "@mess",
+            "@copypaste",
+            "@stan"
+        ],
+        "test": [
+            "vendor/bin/phpunit"
+        ],
+        "sniff": [
+            "vendor/bin/phpcs --config-set ignore_errors_on_exit 1",
+            "vendor/bin/phpcs --extensions=php src"
+        ],
+        "mess": "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
+        "copypaste": "vendor/bin/phpcpd src app",
+        "stan": "vendor/bin/phpstan analyse src tests --level=7"
     },
     "config": {
         "preferred-install": "dist",
