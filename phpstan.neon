@@ -1,0 +1,3 @@
+parameters:
+    ignoreErrors:
+        - '#Method Mockery\\MockInterface::shouldReceive\(\) invoked with 1 parameter, 0 required#'

@@ -61,11 +61,14 @@
         ],
         "sniff": [
             "vendor/bin/phpcs --config-set ignore_errors_on_exit 1",
-            "vendor/bin/phpcs --standard=phpstandard.xml --extensions=php src -s"
+            "vendor/bin/phpcs --standard=phpstandard.xml --extensions=php src tests"
         ],
-        "mess": "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
-        "copypaste": "vendor/bin/phpcpd src app",
-        "stan": "vendor/bin/phpstan analyse src tests --level=7"
+        "mess": [
+            "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
+            "vendor/bin/phpmd tests/ text codesize,controversial,design,naming,unusedcode"
+        ],
+        "copypaste": "vendor/bin/phpcpd src app tests",
+        "stan": "vendor/bin/phpstan analyse src tests --level=7 -c phpstan.neon"
     },
     "config": {
         "preferred-install": "dist",

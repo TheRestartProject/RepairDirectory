@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: matt
- * Date: 26/07/17
- * Time: 22:47
- */
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Repositories;
 
@@ -13,9 +7,19 @@ use Doctrine\ORM\EntityRepository;
 use Mockery;
 use Mockery\MockInterface;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
-use TheRestartProject\RepairDirectory\Infrastructure\Repositories\DoctrineBusinessRepository;
+use TheRestartProject\RepairDirectory\Infrastructure\Repositories\
+DoctrineBusinessRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
+/**
+ * Class DoctrineBusinessRepositoryTest
+ *
+ * @category Class
+ * @package  TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Repositories
+ * @author   Matt Kendon <matt@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class DoctrineBusinessRepositoryTest extends TestCase
 {
     /**
@@ -39,34 +43,57 @@ class DoctrineBusinessRepositoryTest extends TestCase
      */
     private $doctrineBusinessRepository;
 
+    /**
+     * Set up the mocks for the test
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
         $this->entityManager = Mockery::mock(EntityManager::class);
         $this->entityRepository = Mockery::mock(EntityRepository::class);
 
-        $this->entityManager->shouldReceive('getRepository')->andReturn($this->entityRepository);
-
-        /** @var EntityManager $entityManager */
+        /**
+         * Cast mock to EntityManager.
+         *
+         * @var EntityManager $entityManager
+         */
         $entityManager = $this->entityManager;
-        $this->doctrineBusinessRepository = new DoctrineBusinessRepository($entityManager);
+        $this->entityManager->shouldReceive('getRepository')
+            ->andReturn($this->entityRepository);
+
+        $this->doctrineBusinessRepository
+            = new DoctrineBusinessRepository($entityManager);
     }
 
     /**
+     * Test that the repository can be instantiated
+     *
      * @test
+     *
+     * @return void
      */
-    public function it_can_be_instantiated()
+    public function itCanBeInstantiated()
     {
-        /** @var EntityManager $entityManager */
+        /**
+         * Cast to EntityManager to squash type hint errors.
+         *
+         * @var EntityManager $entityManager
+         */
         $entityManager = Mockery::spy(EntityManager::class);
         $repository = new DoctrineBusinessRepository($entityManager);
         self::assertInstanceOf(DoctrineBusinessRepository::class, $repository);
     }
 
     /**
+     * Test that the repository can have a business added to it
+     *
      * @test
+     *
+     * @return void
      */
-    public function it_can_add_a_business()
+    public function itCanAddABusiness()
     {
         $business = new Business();
         $this->entityManager->shouldReceive('persist');
@@ -78,9 +105,13 @@ class DoctrineBusinessRepositoryTest extends TestCase
     }
 
     /**
+     * Test that all businesses can be retrieved from the business.
+     *
      * @test
+     *
+     * @return void
      */
-    public function it_can_retrieve_all_businesses()
+    public function itCanRetrieveAllBusinesses()
     {
         $this->entityRepository->shouldReceive('findAll');
         $this->doctrineBusinessRepository->getAll();
