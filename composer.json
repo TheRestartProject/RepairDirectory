@@ -57,6 +57,7 @@
             "@stan"
         ],
         "test": [
+            "artisan config:clear",
             "vendor/bin/phpunit"
         ],
         "sniff": [
