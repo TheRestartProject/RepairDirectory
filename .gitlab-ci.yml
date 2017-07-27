@@ -65,3 +65,20 @@ deploy:staging:
     - ./
     name: "${CI_BUILD_REF_NAME}"
     expire_in: 1 day
+
+deploy:production:
+  dependencies:
+  - build
+  stage: deploy
+  script:
+  - php composer.phar install --no-dev
+  - rm composer.phar
+  tags:
+  - docker
+  only:
+  - tags
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 week
