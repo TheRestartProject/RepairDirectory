@@ -26,7 +26,19 @@ build:
     name: "${CI_BUILD_REF_NAME}"
     expire_in: 1 hour
 
-test:
+test:static-analysis:
+  stage: test
+  allow_failure: true
+  before_script:
+  - "apt-get update && apt-get install zip unzip -y"
+  script:
+  - php composer.phar run-script code
+  tags:
+  - docker
+  only:
+  - gitlab-ci
+
+test:unittests:
   stage: test
   before_script:
   - "apt-get update && apt-get install zip unzip -y"
