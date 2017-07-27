@@ -42,6 +42,7 @@ deploy:staging:
   - build
   stage: deploy
   script:
+  - php artisan key:generate
   - rm composer.phar
   tags:
   - docker
