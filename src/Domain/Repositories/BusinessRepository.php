@@ -26,4 +26,10 @@ interface BusinessRepository
      */
     public function add(Business $business);
 
+    /**
+     * Get all Businesses from the repository.
+     *
+     * @return array
+     */
+    public function getAll();
 }
