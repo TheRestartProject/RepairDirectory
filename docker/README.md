@@ -106,6 +106,12 @@ Not required for running the application, but useful for viewing emails sent by 
 When running you can view and manager the emails send from the application at 
 [http://mail.restart-project.local](http://mail.restart-project.local)
 
+You will need to set your mail driver settings in your `.env` file to connect to this SMTP server
+
+    MAIL_DRIVER=smtp
+    MAIL_HOST=maildev
+    MAIL_PORT=25
+
 ### Start application
 
 Run the following command to create the containers for the application
