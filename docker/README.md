@@ -98,6 +98,13 @@ Not required for running the application, but useful for managing the database.
 When running you can view and manage the contents of the database at 
 [http://db.restart-project.local](http://db.restart-project.local)
 
+**MailDev**
+
+Not required for running the application, but useful for viewing emails sent by the application.
+
+When running you can view and manager the emails send from the application at 
+[http://mail.restart-project.local](http://mail.restart-project.local)
+
 ### Start application
 
 Run the following command to create the containers for the application
