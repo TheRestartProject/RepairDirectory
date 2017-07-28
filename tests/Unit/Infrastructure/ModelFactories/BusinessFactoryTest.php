@@ -24,7 +24,7 @@ class BusinessFactoryTest extends TestCase
      *
      * @test
      */
-    public function testFromCsvRow()
+    public function it_can_create_a_business_from_csv_row()
     {
         $row = [
             'Name' => 'iRepair Centre Bath',

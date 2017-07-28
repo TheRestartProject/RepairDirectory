@@ -24,7 +24,7 @@ class ImportBusinessesCommandTest extends FeatureTestCase
      *
      * @return void
      */
-    public function itCreatesBusinesses()
+    public function it_persists_businesses()
     {
         Artisan::call(
             'restart:import:businesses', [

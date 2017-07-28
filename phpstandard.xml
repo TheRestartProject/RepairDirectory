@@ -4,5 +4,6 @@
     <rule ref="PEAR">
         <exclude name="PEAR.Commenting.FileComment.Missing"/>
         <exclude name="PEAR.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
+        <exclude name="PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps"/>
     </rule>
 </ruleset>

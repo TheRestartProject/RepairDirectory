@@ -66,7 +66,7 @@
         ],
         "mess": [
             "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
-            "vendor/bin/phpmd tests/ text codesize,controversial,design,naming,unusedcode"
+            "vendor/bin/phpmd tests/ text codesize,design,naming,unusedcode"
         ],
         "copypaste": "vendor/bin/phpcpd src app tests",
         "stan": "vendor/bin/phpstan analyse src tests --level=7 -c phpstan.neon"

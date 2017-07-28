@@ -74,7 +74,7 @@ class DoctrineBusinessRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function itCanBeInstantiated()
+    public function it_can_be_instantiated()
     {
         /**
          * Cast to EntityManager to squash type hint errors.
@@ -93,7 +93,7 @@ class DoctrineBusinessRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function itCanAddABusiness()
+    public function it_can_add_a_business()
     {
         $business = new Business();
         $this->entityManager->shouldReceive('persist');
@@ -111,7 +111,7 @@ class DoctrineBusinessRepositoryTest extends TestCase
      *
      * @return void
      */
-    public function itCanRetrieveAllBusinesses()
+    public function it_can_retrieve_all_businesses()
     {
         $this->entityRepository->shouldReceive('findAll');
         $this->doctrineBusinessRepository->getAll();

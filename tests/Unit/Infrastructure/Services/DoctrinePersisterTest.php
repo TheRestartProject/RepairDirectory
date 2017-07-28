@@ -1,4 +1,5 @@
 <?php
+
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Services;
 
 use Doctrine\ORM\EntityManager;
@@ -58,7 +59,7 @@ class DoctrinePersisterTest extends TestCase
      *
      * @return void
      */
-    public function itCanBeInstantiated()
+    public function it_can_be_instantiated()
     {
         /**
          * Cast mock to EntityManager
@@ -77,7 +78,7 @@ class DoctrinePersisterTest extends TestCase
      *
      * @return void
      */
-    public function itCanPersistchanges()
+    public function it_can_persist_changes()
     {
         $this->entityManager->shouldReceive('flush');
         $this->doctrinePersister->persistChanges();
