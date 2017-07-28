@@ -31,6 +31,17 @@ services:
       - proxy-tier
     restart: always
 
+  # local dev email server
+  maildev:
+    image: djfarrelly/maildev:1.0.0-rc2
+    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+    environment:
+      - VIRTUAL_HOST=mail.restart-project.local
+      - LETSENCRYPT_HOST=mail.restart-project.local
+      - LETSENCRYPT_EMAIL=admin@restart-project.local
+    networks:
+      - proxy-tier
+
   php:
     depends_on:
       - database
