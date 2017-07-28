@@ -65,6 +65,7 @@ You will want to add the following two lines to the bottom of your file
 
     127.0.0.1 restart-project.local    // social-monitor application
     127.0.0.1 db.restart-project.local // phpmyadmin for restart project database
+    127.0.0.1 mail.restart-project.local // maildev for testing email functionality in restart project 
     
 ### Create configuration files
 
