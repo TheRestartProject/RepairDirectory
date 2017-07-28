@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
-docker run --rm -v $(pwd):/app restartproject_composer $@
+
+cd docker
+docker-compose run --rm composer $@
+cd ..

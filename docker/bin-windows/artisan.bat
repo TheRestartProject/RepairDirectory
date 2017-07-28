@@ -1,1 +1,3 @@
-docker run --rm -v %cd%:/app restartproject_php php artisan %*
+cd docker
+docker-compose run --rm php php artisan %*
+cd ..

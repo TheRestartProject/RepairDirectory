@@ -42,14 +42,17 @@ services:
     networks:
       - proxy-tier
 
-  php:
+  web:
     depends_on:
       - database
+      - maildev
     build: ./php
     image: restartproject_php
-    container_name: restartproject_php
+    container_name: restartproject_web
     volumes:
       - ../:/app
+    env_file:
+        - ./php/application.env
     environment:
       - VIRTUAL_HOST=restart-project.local
       - LETSENCRYPT_HOST=restart-project.local
@@ -58,6 +61,36 @@ services:
     networks:
       - proxy-tier
     restart: always
+
+  php:
+    depends_on:
+      - database
+      - maildev
+    build: ./php
+    image: restartproject_php
+    container_name: restartproject_php
+    volumes:
+      - ../:/app
+    env_file:
+        - ./php/application.env
+    command: ["--version"]
+    networks:
+      - proxy-tier
+
+  composer:
+    depends_on:
+      - database
+      - maildev
+    build: ./composer
+    image: restartproject_composer
+    container_name: restartproject_composer
+    volumes:
+      - ../:/app
+    env_file:
+        - ./php/application.env
+    command: ["install"]
+    networks:
+      - proxy-tier
 
 networks:
   proxy-tier:

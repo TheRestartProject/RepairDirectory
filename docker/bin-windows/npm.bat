@@ -1,1 +1,0 @@
-docker run --rm -v %cd%:/app restartproject_yarn npm %
