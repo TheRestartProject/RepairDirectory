@@ -1,6 +1,10 @@
 FROM php:7-alpine
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN set -ex \
+  && apk --no-cache add \
+    postgresql-dev
+
+RUN docker-php-ext-install pdo pdo_pgsql pgsql
 
 COPY php.ini /usr/local/etc/php/php.ini
 
