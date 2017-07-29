@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use League\Csv\Reader;
+use League\Tactician\CommandBus;
+use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportBusinessFromCsvRowCommand;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Persister;
 use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
@@ -43,7 +45,7 @@ class ImportBusinessesCommand extends Command
      *
      * @return void
      */
-    public function handle(BusinessRepository $businessRepository, Persister $persister)
+    public function handle(CommandBus $commandBus)
     {
         // load the CSV document from a file path
         $file = $this->argument('file');
@@ -51,11 +53,8 @@ class ImportBusinessesCommand extends Command
         $csv = Reader::createFromPath($file);
         $rows = $csv->fetchAssoc();
         foreach($rows as $row) {
-            $business = BusinessFactory::fromCsvRow($row);
-            $businessRepository->add($business);
-            $this->output->writeln('Importing ' . $business->getName());
+            $commandBus->handle(new ImportBusinessFromCsvRowCommand($row));
         }
-        $persister->persistChanges();
         $this->output->writeln('Complete');
     }
 }
