@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-$(cd docker && docker-compose up -d)
-docker/bin/build
+cd docker
+docker-compose up -d web phpmyadmin
+cd ..
 docker/bin/composer install

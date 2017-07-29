@@ -65,6 +65,7 @@ You will want to add the following two lines to the bottom of your file
 
     127.0.0.1 restart-project.local    // social-monitor application
     127.0.0.1 db.restart-project.local // phpmyadmin for restart project database
+    127.0.0.1 mail.restart-project.local // maildev for testing email functionality in restart project 
     
 ### Create configuration files
 
@@ -97,6 +98,19 @@ Not required for running the application, but useful for managing the database.
 
 When running you can view and manage the contents of the database at 
 [http://db.restart-project.local](http://db.restart-project.local)
+
+**MailDev**
+
+Not required for running the application, but useful for viewing emails sent by the application.
+
+When running you can view and manager the emails send from the application at 
+[http://mail.restart-project.local](http://mail.restart-project.local)
+
+You will need to set your mail driver settings in your `.env` file to connect to this SMTP server
+
+    MAIL_DRIVER=smtp
+    MAIL_HOST=maildev
+    MAIL_PORT=25
 
 ### Start application
 
