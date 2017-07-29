@@ -7,9 +7,10 @@ case "$1" in
         docker-compose run --rm php php artisan doctrine:migrations:migrate
         ;;
     'stop')
-            docker-compose stop
+        docker-compose stop
         ;;
     *)
         echo $"Usage: $0 {start|stop}"
+        ;;
 esac
 cd ..
