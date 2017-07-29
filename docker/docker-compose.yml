@@ -5,8 +5,8 @@ services:
   database:
     image: postgres:9-alpine
     container_name: restartproject_database
-    volumes:
-      - ./database:/var/lib/postgresql/data/pgsql
+#    volumes:
+#      - ./database:/var/lib/postgresql/data/pgdata
     environment:
       - POSTGRES_DB=restartproject
       - POSTGRES_USER=restartproject
