@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace TheRestartProject\RepairDirectory\Tests\Browser;
 
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;

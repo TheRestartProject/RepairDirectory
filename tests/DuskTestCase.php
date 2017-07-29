@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace TheRestartProject\RepairDirectory\Tests;
 
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
