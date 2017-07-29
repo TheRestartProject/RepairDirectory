@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+cd docker
+case "$1" in
+    'start')
+        docker-compose up -d web phppgadmin
+        ;;
+    'stop')
+            docker-compose stop
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop}"
+esac
+cd ..

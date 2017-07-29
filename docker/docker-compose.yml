@@ -11,21 +11,7 @@ services:
       - POSTGRES_DB=restartproject
       - POSTGRES_USER=restartproject
       - POSTGRES_PASSWORD=restartproject
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    networks:
-      - proxy-tier
-    restart: always
-
-  database_dusk:
-    image: postgres:9-alpine
-    container_name: restartproject_database_dusk
-#    volumes:
-#      - ./database:/var/lib/postgresql/data/pgdata
-    environment:
-      - POSTGRES_DB=restartproject
-      - POSTGRES_USER=restartproject
-      - POSTGRES_PASSWORD=restartproject
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      - PGDATA=/var/lib/postgresql/data/dev/pgdata
     networks:
       - proxy-tier
     restart: always
@@ -75,30 +61,6 @@ services:
       - proxy-tier
     restart: always
 
-  selenium:
-    image: selenium/standalone-chrome
-    container_name: restartproject_selenium
-    networks:
-      - proxy-tier
-
-  web_dusk:
-    depends_on:
-      - database_dusk
-      - maildev
-      - selenium
-    build: ./php
-    image: restartproject_php
-    container_name: restartproject_web_dusk
-    volumes:
-      - ../:/app
-    env_file:
-        - ./php/application.env
-        - ./php/dusk.env
-    command: ["php", "-S", "0.0.0.0:80", "-t", "/app", "server.php", "&&"]
-    networks:
-      - proxy-tier
-    restart: always
-
   php:
     depends_on:
       - database
@@ -110,22 +72,6 @@ services:
       - ../:/app
     env_file:
         - ./php/application.env
-    command: ["--version"]
-    networks:
-      - proxy-tier
-
-  php_dusk:
-    depends_on:
-      - database_dusk
-      - maildev
-    build: ./php
-    image: restartproject_php
-    container_name: restartproject_php_dusk
-    volumes:
-      - ../:/app
-    env_file:
-        - ./php/application.env
-        - ./php/dusk.env
     command: ["--version"]
     networks:
       - proxy-tier
