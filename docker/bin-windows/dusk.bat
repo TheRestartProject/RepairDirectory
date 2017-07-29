@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 cd docker
 docker-compose up -d dusk.restart-project.local
 docker-compose run --rm php_dusk php artisan dusk $@
