@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Browser;
 
-use Tests\DuskTestCase;
+use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
