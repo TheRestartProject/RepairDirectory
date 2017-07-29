@@ -69,10 +69,10 @@ You will want to add the following two lines to the bottom of your file
     
 ### Create configuration files
 
-Create the `parameters.yml` file by copying the `parameters.dist.yml` and fill in the blanks.
+Create the configuration for this project by copying the `.env.example` as `.env`. You will also 
+need an application key which can be generated with the following command:
 
-Create the `application/config/config.yaml` file by copying the `application/config/config.sample.yaml` and
-fill in the blanks.
+    docker/bin/artisan key:generate
 
 ## Application containers
  
@@ -106,17 +106,11 @@ Not required for running the application, but useful for viewing emails sent by 
 When running you can view and manager the emails send from the application at 
 [http://mail.restart-project.local](http://mail.restart-project.local)
 
-You will need to set your mail driver settings in your `.env` file to connect to this SMTP server
-
-    MAIL_DRIVER=smtp
-    MAIL_HOST=maildev
-    MAIL_PORT=25
-
 ### Start application
 
 Run the following command to create the containers for the application
 
-    docker/bin/start
+    docker/bin/dev start
     
 This creates the containers to run the application, builds the containers for the tools needed to develop
 the application and runs `composer install`, `yarn` to set up the dependencies for PHP and Node. Finally
@@ -126,7 +120,7 @@ it runs `npm run build` to build the assets using webpack.
 
 Run the following command to stop the containers for the application
 
-    docker/bin/stop
+    docker/bin/dev stop
     
 This simply stops the running applications containers.
 
@@ -149,3 +143,39 @@ number of command-line tools. To run a command in this console application, run 
 
     docker/bin/artisan <command>
     
+    
+## Testing Tools
+
+Along with normal development tools, there are also specific testing tools that you can run, which
+will place the application into the correct environment before running tests. 
+
+There are a number of different testing suites that can be run using the following commands
+
+### Unit tests
+
+Unit tests run very quickly and do not require other services to complete. They should be run all 
+the time to ensure that you changes do not break other parts of the codebase.
+
+To run unit tests you can use the following command
+
+    docker/bin/tests unit
+    
+### Feature tests
+    
+Integration tests run more slowly and are used to test how individual units of code are joined 
+together. These sorts of tests will often use additional services such as databases, key stores,
+queues and the like. 
+
+To run integration tests you can use the following command
+
+    docker/bin/tests feature
+    
+### Browser tests
+
+Browsers tests run tests through the browser, driving the tests through Selenium using the 
+`laravel/dusk` library. These tests test that the website acts in the correct way when 
+interacting with the application through the Browser.
+
+To run the browser tests you can use the following command
+
+    docker/bin/tests browser
