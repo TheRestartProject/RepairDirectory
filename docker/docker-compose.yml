@@ -51,7 +51,7 @@ services:
     volumes:
       - ../:/app
     env_file:
-        - ./php/application.env
+      - ./php/application.env
     environment:
       - VIRTUAL_HOST=restart-project.local
       - LETSENCRYPT_HOST=restart-project.local
@@ -71,7 +71,7 @@ services:
     volumes:
       - ../:/app
     env_file:
-        - ./php/application.env
+      - ./php/application.env
     command: ["--version"]
     networks:
       - proxy-tier
@@ -86,7 +86,7 @@ services:
     volumes:
       - ../:/app
     env_file:
-        - ./php/application.env
+      - ./php/application.env
     command: ["install"]
     networks:
       - proxy-tier

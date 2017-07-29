@@ -12,6 +12,6 @@
 */
 
 Route::get('/', function () {
-    app(\TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository::class);
-    return view('welcome');
+    $environment = app()->environment();
+    return view('welcome', compact('environment'));
 });

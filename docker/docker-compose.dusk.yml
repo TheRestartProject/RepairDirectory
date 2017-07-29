@@ -7,9 +7,8 @@ services:
       - PGDATA=/var/lib/postgresql/data/dusk/pgdata
 
   web:
-    env_file:
-        - ./php/application.env
-        - ./php/dusk.env
+    environment:
+      - APP_ENV=testing
 
   selenium:
     image: selenium/standalone-chrome
@@ -20,9 +19,8 @@ services:
       - proxy-tier
 
   php:
-    env_file:
-        - ./php/application.env
-        - ./php/dusk.env
+    environment:
+      - APP_ENV=testing
 
   dusk:
     depends_on:
@@ -35,17 +33,16 @@ services:
     container_name: restartproject_php
     volumes:
       - ../:/app
-    env_file:
-      - php/application.env
-      - php/dusk.env
+    env_file: php/application.env
+    environment:
+      - APP_ENV=testing
     command: ["php", "artisan", "dusk"]
     networks:
       - proxy-tier
 
   composer:
-    env_file:
-        - ./php/application.env
-        - ./php/dusk.env
+    environment:
+      - APP_ENV=testing
 
 networks:
   proxy-tier:
