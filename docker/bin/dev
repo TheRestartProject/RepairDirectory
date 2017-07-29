@@ -3,6 +3,8 @@ cd docker
 case "$1" in
     'start')
         docker-compose up -d web phppgadmin
+        docker-compose run --rm composer install
+        docker-compose run --rm php php artisan doctrine:migrations:migrate
         ;;
     'stop')
             docker-compose stop
