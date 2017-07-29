@@ -3,30 +3,28 @@ version: '2'
 services:
 
   database:
-    image: mariadb
+    image: postgres:9-alpine
     container_name: restartproject_database
-    volumes:
-      - ./database:/var/lib/mysql
+#    volumes:
+#      - ./database:/var/lib/postgresql/data/pgdata
     environment:
-      - MYSQL_ROOT_PASSWORD=restartproject
-      - MYSQL_DATABASE=restartproject
-      - MYSQL_USER=restartproject
-      - MYSQL_PASSWORD=restartproject
+      - POSTGRES_DB=restartproject
+      - POSTGRES_USER=restartproject
+      - POSTGRES_PASSWORD=restartproject
+      - PGDATA=/var/lib/postgresql/data/pgdata
     networks:
       - proxy-tier
     restart: always
 
-  phpmyadmin:
-    depends_on:
-      - database
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: restartproject_phpmyadmin
+  phppgadmin:
+    image: zhajor/docker-phppgadmin
+    container_name: restartproject_phppgadmin
     environment:
-      - MYSQL_ROOT_PASSWORD=restartproject
-      - MYSQL_USER=restartproject
-      - MYSQL_PASSWORD=restartproject
-      - PMA_HOSTS=database
       - VIRTUAL_HOST=db.restart-project.local
+      - LETSENCRYPT_HOST=db.restart-project.local
+      - LETSENCRYPT_EMAIL=admin@restart-project.local
+      - DB_HOST=database
+      - DB_PORT=5432
     networks:
       - proxy-tier
     restart: always
@@ -34,6 +32,7 @@ services:
   # local dev email server
   maildev:
     image: djfarrelly/maildev:1.0.0-rc2
+    container_name: restartproject_maildev
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
     environment:
       - VIRTUAL_HOST=mail.restart-project.local
