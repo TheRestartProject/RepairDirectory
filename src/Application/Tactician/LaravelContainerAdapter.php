@@ -10,16 +10,28 @@ use Psr\Container\NotFoundExceptionInterface;
 /**
  * Allows the Laravel Container to be used as an InteropContainer
  *
- * @package TheRestartProject\RepairDirectory\Application\Tactician
- * @author Matthew Kendon <matt@outlandish.com>
+ * @category Adapter
+ * @package  TheRestartProject\RepairDirectory\Application\Tactician
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://tactician.thephpleague.com/
+ *
+ * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class LaravelContainerAdapter implements ContainerInterface
 {
     /**
+     * An instance of the Laravel Container
+     *
      * @var Container
      */
     private $container;
 
+    /**
+     * Constructs the Adapter with the Laravel Container
+     *
+     * @param Container $container The Laravel Container
+     */
     public function __construct(Container $container)
     {
         $this->container = $container;
