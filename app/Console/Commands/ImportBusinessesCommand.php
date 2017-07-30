@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 use League\Tactician\CommandBus;
-use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportBusinessFromCsvRowCommand;
+use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportFromCsvRowCommand;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Persister;
 use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
@@ -53,7 +53,7 @@ class ImportBusinessesCommand extends Command
         $csv = Reader::createFromPath($file);
         $rows = $csv->fetchAssoc();
         foreach($rows as $row) {
-            $commandBus->handle(new ImportBusinessFromCsvRowCommand($row));
+            $commandBus->handle(new ImportFromCsvRowCommand($row));
         }
         $this->output->writeln('Complete');
     }

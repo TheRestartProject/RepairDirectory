@@ -5,7 +5,7 @@ use \TheRestartProject\RepairDirectory\Application\Business\Handlers as Business
 
 return [
     'handlers' => [
-        BusinessCommands\ImportBusinessFromCsvRowCommand::class => BusinessHandlers\ImportBusinessFromCsvRowHandler::class
+        BusinessCommands\ImportFromCsvRowCommand::class => BusinessHandlers\ImportFromCsvRowHandler::class
     ],
     'middleware' => [
         \League\Tactician\Logger\LoggerMiddleware::class,
