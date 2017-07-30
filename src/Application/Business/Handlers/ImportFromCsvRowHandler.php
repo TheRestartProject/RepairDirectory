@@ -26,16 +26,21 @@ class ImportFromCsvRowHandler
      * @var BusinessRepository
      */
     private $repository;
+    /**
+     * @var BusinessFactory
+     */
+    private $factory;
 
     /**
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
-     * @param BusinessRepository $repository An implementation of the
-     *                                       BusinessRepository
+     * @param BusinessRepository $repository An implementation of the BusinessRepository
+     * @param BusinessFactory    $factory    Factory class to construct businesses
      */
-    public function __construct(BusinessRepository $repository)
+    public function __construct(BusinessRepository $repository, BusinessFactory $factory)
     {
         $this->repository = $repository;
+        $this->factory = $factory;
     }
 
     /**
@@ -47,7 +52,7 @@ class ImportFromCsvRowHandler
      */
     public function handle(ImportFromCsvRowCommand $command)
     {
-        $business = BusinessFactory::fromCsvRow($command->getRow());
+        $business = $this->factory->fromCsvRow($command->getRow());
         $this->repository->add($business);
 
         return $business;
