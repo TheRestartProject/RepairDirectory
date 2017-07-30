@@ -4,6 +4,15 @@ namespace TheRestartProject\RepairDirectory\Tests\Browser\Pages;
 
 use Laravel\Dusk\Browser;
 
+/**
+ * Class HomePage
+ *
+ * @category Tests
+ * @package  TheRestartProject\RepairDirectory\Tests\Browser\Pages
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     https://laravel.com/docs/5.4/dusk
+ */
 class HomePage extends Page
 {
     /**
@@ -19,12 +28,13 @@ class HomePage extends Page
     /**
      * Assert that the browser is on the page.
      *
-     * @param  Browser  $browser
+     * @param Browser $browser The browser object to run tests with
+     *
      * @return void
      */
     public function assert(Browser $browser)
     {
-        //
+        $browser->text('Laravel');
     }
 
     /**

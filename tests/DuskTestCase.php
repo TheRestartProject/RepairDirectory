@@ -6,6 +6,15 @@ use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 
+/**
+ * Class DuskTestCase
+ *
+ * @category Tests
+ * @package  TheRestartProject\RepairDirectory\Tests
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     https://laravel.com/docs/5.4/dusk
+ */
 abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
@@ -14,11 +23,10 @@ abstract class DuskTestCase extends BaseTestCase
      * Prepare for Dusk test execution.
      *
      * @beforeClass
-     * @return void
+     * @return      void
      */
     public static function prepare()
     {
-//        static::startChromeDriver();
     }
 
     /**
