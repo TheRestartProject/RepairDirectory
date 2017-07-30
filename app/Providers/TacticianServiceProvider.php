@@ -39,25 +39,24 @@ class TacticianServiceProvider extends ServiceProvider
     public function register()
     {
 
-        $this->handlerMiddleware();
-        $this->loggerMiddleware();
-        $this->doctrineMiddleware();
-
-        $this->app->singleton(CommandBus::class, function(Application $app) {
-            return new CommandBus([
-                $app->make(LoggerMiddleware::class),
-                $app->make(TransactionMiddleware::class),
-                $app->make(CommandHandlerMiddleware::class)
-            ]);
-        });
+        $this->setupMiddleware();
+        $this->setupCommandBus();
     }
 
+    /**
+     * Sets up the Command Bus Handler middleware
+     *
+     * This middleware allows handlers to be fetched from the container instead of
+     * created in memory. Makes things faster.
+     *
+     * @link http://tactician.thephpleague.com/plugins/container/
+     */
     public function handlerMiddleware()
     {
         $this->app->singleton(HandlerLocator::class, function ($app) {
             return new ContainerLocator(
                 new LaravelContainerAdapter($app),
-                app('config')->get('tactician.handlers', [])
+                app('config')->get('tactician.handlers')
             );
         });
 
@@ -66,15 +65,57 @@ class TacticianServiceProvider extends ServiceProvider
         $this->app->singleton(CommandHandlerMiddleware::class, CommandHandlerMiddleware::class);
     }
 
+    /**
+     * Sets up LoggerMiddleware for Command Bus
+     *
+     * This logs all commands that pass through the CommandBus and records their
+     * success.
+     *
+     * @link http://tactician.thephpleague.com/plugins/logger/
+     */
     public function loggerMiddleware()
     {
-//Setting up Logger middleware
         $this->app->singleton(Formatter::class, ClassNameFormatter::class);
         $this->app->singleton(LoggerMiddleware::class, LoggerMiddleware::class);
     }
 
+    /**
+     * Sets up the Command Bus Middleware for the Doctrine Orm in the container
+     *
+     * Ensures that the EntityManager is flushed after each command is handled.
+     *
+     * @link http://tactician.thephpleague.com/plugins/doctrine/
+     */
     public function doctrineMiddleware()
     {
         $this->app->singleton(TransactionMiddleware::class, TransactionMiddleware::class);
+    }
+
+    /**
+     * Sets up the Command Bus in the container
+     *
+     * @link http://tactician.thephpleague.com/
+     */
+    public function setupCommandBus()
+    {
+        $this->app->singleton(CommandBus::class, function (Application $app) {
+            $middleware = $app->make('config')->get('tactician.middleware');
+
+            $middlewareCollection = collect($middleware)->map(function ($className) use ($app) {
+                return $app->make($className);
+            });
+
+            return new CommandBus($middlewareCollection->toArray());
+        });
+    }
+
+    /**
+     * Sets up the middleware needed for the CommandBus
+     */
+    public function setupMiddleware()
+    {
+        $this->handlerMiddleware();
+        $this->loggerMiddleware();
+        $this->doctrineMiddleware();
     }
 }
