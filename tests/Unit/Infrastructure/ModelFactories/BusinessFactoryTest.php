@@ -9,7 +9,7 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
 /**
  * Class BusinessFactoryTest
  *
- * @category Class
+ * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\ModelFactories
  * @author   Matt Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
@@ -18,7 +18,24 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
 class BusinessFactoryTest extends TestCase
 {
     /**
-     * Test BusinessFactoryTest::fromCsvRow
+     * The Factory under test
+     *
+     * @var BusinessFactory
+     */
+    private $factory;
+
+    /**
+     * The setup function run before each test
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->factory = new BusinessFactory();
+    }
+
+    /**
+     * Tests that it can create a simple business
      *
      * @return void
      *
@@ -31,7 +48,7 @@ class BusinessFactoryTest extends TestCase
             'Address' => '12 Westgate St, Bath',
             'Postcode' => 'BA1 1EQ'
         ];
-        $business = BusinessFactory::fromCsvRow($row);
+        $business = $this->factory->fromCsvRow($row);
         $this->assertInstanceOf(Business::class, $business);
         $this->assertEquals('iRepair Centre Bath', $business->getName());
         $this->assertEquals('12 Westgate St, Bath', $business->getAddress());

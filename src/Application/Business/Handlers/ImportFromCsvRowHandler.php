@@ -26,7 +26,10 @@ class ImportFromCsvRowHandler
      * @var BusinessRepository
      */
     private $repository;
+
     /**
+     * The factory to create the business with
+     *
      * @var BusinessFactory
      */
     private $factory;
