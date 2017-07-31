@@ -31,14 +31,14 @@ class ImportFromCsvRowHandlerTest extends TestCase
     /**
      * The mocked repository
      *
-     * @var BusinessRepository
+     * @var m\MockInterface
      */
     private $repository;
 
     /**
      * The mocked factory
      *
-     * @var BusinessFactory
+     * @var m\MockInterface
      */
     private $factory;
 
@@ -51,9 +51,24 @@ class ImportFromCsvRowHandlerTest extends TestCase
     {
         $this->repository = m::spy(BusinessRepository::class);
         $this->factory = m::mock(BusinessFactory::class);
+
+        /**
+         * Cast mock to BusinessRepository
+         *
+         * @var BusinessRepository $repository
+         */
+        $repository = $this->repository;
+
+        /**
+         * Cast mock to BusinessFactory
+         *
+         * @var BusinessFactory $factory
+         */
+        $factory = $this->factory;
+
         $this->handler = new ImportFromCsvRowHandler(
-            $this->repository,
-            $this->factory
+            $repository,
+            $factory
         );
     }
 
@@ -69,8 +84,21 @@ class ImportFromCsvRowHandlerTest extends TestCase
      */
     public function it_can_be_constructed()
     {
-        $handler = new ImportFromCsvRowHandler($this->repository, $this->factory);
+        /**
+         * Cast mock to BusinessRepository
+         *
+         * @var BusinessRepository $repository
+         */
+        $repository = m::spy(BusinessRepository::class);
 
+        /**
+         * Cast mock to BusinessFactory
+         *
+         * @var BusinessFactory $factory
+         */
+        $factory = m::mock(BusinessFactory::class);
+        
+        $handler = new ImportFromCsvRowHandler($repository, $factory);
         self::assertInstanceOf(ImportFromCsvRowHandler::class, $handler);
     }
 
