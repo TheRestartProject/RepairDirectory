@@ -39,24 +39,11 @@ class ImportBusinessesCommand extends Command
     private $persister;
 
     /**
-     * Create a new command instance.
-     *
-     * @param BusinessRepository $businessRepository
-     * @param Persister $persister
-     */
-    public function __construct(BusinessRepository $businessRepository, Persister $persister)
-    {
-        parent::__construct();
-        $this->businessRepository = $businessRepository;
-        $this->persister = $persister;
-    }
-
-    /**
      * Execute the console command.
      *
      * @return void
      */
-    public function handle()
+    public function handle(BusinessRepository $businessRepository, Persister $persister)
     {
         // load the CSV document from a file path
         $file = $this->argument('file');
@@ -65,10 +52,10 @@ class ImportBusinessesCommand extends Command
         $rows = $csv->fetchAssoc();
         foreach($rows as $row) {
             $business = BusinessFactory::fromCsvRow($row);
-            $this->businessRepository->add($business);
+            $businessRepository->add($business);
             $this->output->writeln('Importing ' . $business->getName());
         }
-        $this->persister->persistChanges();
+        $persister->persistChanges();
         $this->output->writeln('Complete');
     }
 }
