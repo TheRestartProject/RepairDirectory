@@ -7,7 +7,7 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 /**
  * Class BusinessFactory
  *
- * @category Class
+ * @category Factory
  * @package  TheRestartProject\RepairDirectory\Infrastructure\ModelFactories
  * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
@@ -25,7 +25,7 @@ class BusinessFactory
      * 
      * @return Business
      */
-    public static function fromCsvRow($row)
+    public function fromCsvRow($row)
     {
         $business = new Business();
         $business->setName($row['Name']);

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 case "$1" in
+    'code')
+        docker/bin/composer run-script code
+        ;;
     'unit')
         docker/bin/php vendor/bin/phpunit --testsuite=Unit
         ;;
