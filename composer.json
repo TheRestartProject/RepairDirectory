@@ -75,7 +75,7 @@
             "vendor/bin/phpmd tests/ text codesize,design,naming,unusedcode"
         ],
         "copypaste": "vendor/bin/phpcpd src app tests",
-        "stan": "vendor/bin/phpstan analyse src --level=7 -c phpstan.neon"
+        "stan": "vendor/bin/phpstan analyse src tests --level=7 -c phpstan.neon"
     },
     "config": {
         "preferred-install": "dist",
