@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Business\Handlers;
 
 use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportFromCsvRowCommand;
-use TheRestartProject\RepairDirectory\Application\Business\Handlers\ImportFromCsvRowHandler;
+use TheRestartProject\RepairDirectory\Application\Business\CommandHandlers\ImportFromCsvRowHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;

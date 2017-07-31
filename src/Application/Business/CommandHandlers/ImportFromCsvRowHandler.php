@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Business\Handlers;
+namespace TheRestartProject\RepairDirectory\Application\Business\CommandHandlers;
 
 
 use TheRestartProject\RepairDirectory\Application\Business\Commands\

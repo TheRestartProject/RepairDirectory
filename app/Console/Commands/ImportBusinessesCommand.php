@@ -6,9 +6,6 @@ use Illuminate\Console\Command;
 use League\Csv\Reader;
 use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportFromCsvRowCommand;
-use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Domain\Services\Persister;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
 
 class ImportBusinessesCommand extends Command
 {
@@ -25,20 +22,6 @@ class ImportBusinessesCommand extends Command
      * @var string
      */
     protected $description = 'Import businesses from a CSV file';
-
-    /**
-     * Stores the imported Businesses
-     * 
-     * @var BusinessRepository
-     */
-    private $businessRepository;
-
-    /**
-     * Persists the newly imported Businesses
-     *
-     * @var Persister
-     */
-    private $persister;
 
     /**
      * Execute the console command.

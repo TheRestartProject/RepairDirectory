@@ -1,7 +1,7 @@
 <?php
 
 use \TheRestartProject\RepairDirectory\Application\Business\Commands as BusinessCommands;
-use \TheRestartProject\RepairDirectory\Application\Business\Handlers as BusinessHandlers;
+use \TheRestartProject\RepairDirectory\Application\Business\CommandHandlers as BusinessHandlers;
 
 return [
     'handlers' => [

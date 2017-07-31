@@ -3,7 +3,6 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Tests\Feature\FeatureTestCase;
 
 /**
