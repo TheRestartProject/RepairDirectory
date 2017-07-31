@@ -4,7 +4,7 @@ case "$1" in
         docker/bin/composer run-script code
         ;;
     'unit')
-        docker/bin/php vendor/bin/phpunit --testsuite=Unit
+        docker/bin/xdebug vendor/bin/phpunit --testsuite=Unit --coverage-html reports/codecoverage --testdox-html reports/docs/index.html
         ;;
     'feature')
         docker/bin/php vendor/bin/phpunit --testsuite=Feature

@@ -2,15 +2,21 @@
 cd docker
 case "$1" in
     'start')
-        docker-compose up -d web phppgadmin
+        cd docker
+        docker-compose up -d web phppgadmin codecoverage docs
         docker-compose run --rm composer install
         docker-compose run --rm php php artisan doctrine:migrations:migrate
+        cd ..
+        docker/bin/composer install
+        docker/bin/artisan doctrine:migrations:migrate
+        docker/bin/test unit
         ;;
     'stop')
+        cd docker
         docker-compose stop
+        cd ..
         ;;
     *)
         echo $"Usage: $0 {start|stop}"
         ;;
 esac
-cd ..

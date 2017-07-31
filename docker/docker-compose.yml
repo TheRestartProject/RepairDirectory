@@ -40,6 +40,37 @@ services:
       - LETSENCRYPT_EMAIL=admin@restart-project.local
     networks:
       - proxy-tier
+    restart: always
+
+  codecoverage:
+    image: nginx
+    container_name: restartproject_codecoverage
+    volumes:
+      - ../reports/codecoverage:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=cc.restart-project.local
+      - LETSENCRYPT_HOST=cc.restart-project.local
+      - LETSENCRYPT_EMAIL=admin@restart-project.local
+      - NGINX_HOST=cc.restart-project.local
+      - NGINX_PORT=80
+    networks:
+      - proxy-tier
+    restart: always
+
+  docs:
+    image: nginx
+    container_name: restartproject_docs
+    volumes:
+      - ../reports/docs:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=docs.restart-project.local
+      - LETSENCRYPT_HOST=docs.restart-project.local
+      - LETSENCRYPT_EMAIL=admin@restart-project.local
+      - NGINX_HOST=docs.restart-project.local
+      - NGINX_PORT=80
+    networks:
+      - proxy-tier
+    restart: always
 
   web:
     depends_on:
@@ -73,6 +104,22 @@ services:
     env_file:
       - ./php/application.env
     command: ["--version"]
+    networks:
+      - proxy-tier
+
+  xdebug:
+    depends_on:
+      - database
+      - maildev
+    build: ./xdebug
+    image: restartproject_xdebug
+    container_name: restartproject_xdebug
+    working_dir: /app
+    volumes:
+      - ../:/app
+    environment:
+      - XDEBUG_CONFIG="idekey=PHPSTORM"
+    command: ["php", "--version"]
     networks:
       - proxy-tier
 
