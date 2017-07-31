@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run --rm -t -v $PWD:/data -u `id -u` sebp/phpdoc "$@"

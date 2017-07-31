@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 case "$1" in
+    'documentation')
+        docker/bin/phpdoc -d src -t reports/docs
+        ;;
     'code')
         docker/bin/composer run-script code
         ;;
     'unit')
-        docker/bin/xdebug vendor/bin/phpunit --testsuite=Unit --coverage-html reports/codecoverage --testdox-html reports/docs/index.html
+        docker/bin/xdebug vendor/bin/phpunit --testsuite=Unit --coverage-html reports/codecoverage
         ;;
     'feature')
         docker/bin/php vendor/bin/phpunit --testsuite=Feature
