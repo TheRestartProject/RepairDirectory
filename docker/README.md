@@ -112,7 +112,7 @@ When running you can view and manage the contents of the database at
 **Documentation**
 
 Not required for running the application, but useful for documentation about the app created
-from the unit tests. 
+from the docblocks using [phpDocumentor](https://www.phpdoc.org/). 
 
 When running you can view and manage the contents of the database at 
 [http://docs.restart-project.local](http://docs.restart-project.local)
@@ -185,8 +185,8 @@ To run unit tests you can use the following command
 
     docker/bin/tests unit
 
-This command also creates code coverage reports and code documentation from the unit tests that are
-run, which are available as html. 
+This command also creates code coverage reports from the unit tests that are run, which are 
+available as html. 
     
 ### Feature tests
     
@@ -207,3 +207,53 @@ interacting with the application through the Browser.
 To run the browser tests you can use the following command
 
     docker/bin/tests browser
+    
+## Coding standards
+
+This project comes with a suite for static analysis tools and coding standard tools to test the
+code in the project and report on how bugs or improperly formatted code. 
+
+All of the tools below can be run with one command like so
+
+    docker/bin/test code
+
+### Code Sniffer
+
+This tool compares the project against defined coding standards and reports on any 
+inconsistencies. It can be run like this
+
+    docker/bin/test sniff
+    
+### Mess Detector
+
+This tool checks the complexity of your code, and ensures that the code that you have 
+written is clean and expressive. It can be run like this
+
+    docker/bin/test mess
+    
+### Code duplication
+
+Code duplication is generally a code smell, and this tool can test to see if there is any
+code duplication in the project and warn you if it finds any. It can be run like this
+
+    docker/bin/test duplication
+    
+### Static Analysis
+
+This tool is very powerful and can often confirm whether a piece of code will run without 
+needing to run it. It compares the code and its annotations against how it is used elsewhere 
+and determines whether incorrect data is moving through it. 
+
+    docker/bin/test stan
+
+## Documentation
+
+Documentation is generated from the docblocks in the codebase using `phpDocumentor`. You can
+run the command to generate this documentation using
+
+    docker/bin/tests documentation
+    
+After running this documentation command, you can view the HTML in the `reports/docs`
+directory. 
+    
+

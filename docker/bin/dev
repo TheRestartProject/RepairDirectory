@@ -2,13 +2,17 @@
 case "$1" in
     'start')
         cd docker
-        docker-compose up -d web phppgadmin codecoverage docs
+        docker-compose up -d web phppgadmin
         cd ..
         docker/bin/composer install
         docker/bin/artisan doctrine:migrations:migrate
+        ;;
+    'reports')
         docker/bin/test unit
         docker/bin/test documentation
-        ;;
+        cd docker
+        docker-compose up -d codecoverage docs
+        cd ..
     'stop')
         cd docker
         docker-compose stop
