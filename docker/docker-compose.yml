@@ -11,7 +11,7 @@ services:
       - POSTGRES_DB=restartproject
       - POSTGRES_USER=restartproject
       - POSTGRES_PASSWORD=restartproject
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      - PGDATA=/var/lib/postgresql/data/dev/pgdata
     networks:
       - proxy-tier
     restart: always
@@ -51,7 +51,7 @@ services:
     volumes:
       - ../:/app
     env_file:
-        - ./php/application.env
+      - ./php/application.env
     environment:
       - VIRTUAL_HOST=restart-project.local
       - LETSENCRYPT_HOST=restart-project.local
@@ -71,7 +71,7 @@ services:
     volumes:
       - ../:/app
     env_file:
-        - ./php/application.env
+      - ./php/application.env
     command: ["--version"]
     networks:
       - proxy-tier
@@ -86,7 +86,7 @@ services:
     volumes:
       - ../:/app
     env_file:
-        - ./php/application.env
+      - ./php/application.env
     command: ["install"]
     networks:
       - proxy-tier

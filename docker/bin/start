@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-cd docker
-docker-compose up -d web phppgadmin
-cd ..
-docker/bin/composer install

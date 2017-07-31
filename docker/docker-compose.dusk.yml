@@ -1,0 +1,50 @@
+version: '2'
+
+services:
+
+  database:
+    environment:
+      - PGDATA=/var/lib/postgresql/data/dusk/pgdata
+
+  web:
+    environment:
+      - APP_ENV=testing
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: restartproject_selenium
+    links:
+      - web:restart-project.local
+    networks:
+      - proxy-tier
+
+  php:
+    environment:
+      - APP_ENV=testing
+
+  dusk:
+    depends_on:
+      - database
+      - web
+      - selenium
+      - maildev
+    build: ./php
+    image: restartproject_php
+    container_name: restartproject_php
+    volumes:
+      - ../:/app
+    env_file: php/application.env
+    environment:
+      - APP_ENV=testing
+    command: ["php", "artisan", "dusk"]
+    networks:
+      - proxy-tier
+
+  composer:
+    environment:
+      - APP_ENV=testing
+
+networks:
+  proxy-tier:
+    external:
+      name: reverse-proxy

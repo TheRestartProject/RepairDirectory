@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    @lang('auth.failed')
+                    Laravel ({{ $environment }})
                 </div>
 
                 <div class="links">
