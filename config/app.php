@@ -179,7 +179,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TacticianServiceProvider::class,
-        App\Providers\PersisterServiceProvider::class,
         App\Providers\BusinessServiceProvider::class,
 
     ],
