@@ -66,6 +66,8 @@ You will want to add the following two lines to the bottom of your file
     127.0.0.1 restart-project.local    // social-monitor application
     127.0.0.1 db.restart-project.local // phpmyadmin for restart project database
     127.0.0.1 mail.restart-project.local // maildev for testing email functionality in restart project 
+    127.0.0.1 cc.restart-project.local // view code-coverage statistics from unit tests 
+    127.0.0.1 docs.restart-project.local // view docs generated from unit tests 
     
 ### Create configuration files
 
@@ -91,6 +93,29 @@ When running, the site will be available at [http://restart-project.local](http:
 
 This runs a simple `mariadb` container with a `volume` to store the MySQL data in the `database` folder locally.
 Stopping this container or removing it won't delete any data, as the data will be stored in the `database` folder.
+
+**Phpmyadmin**
+
+Not required for running the application, but useful for managing the database. 
+
+When running you can view and manage the contents of the database at 
+[http://db.restart-project.local](http://db.restart-project.local)
+
+**Code Coverage**
+
+Not required for running the application, but useful for displaying metrics about PhpUnit code
+coverage. 
+
+When running you can view and manage the contents of the database at 
+[http://cc.restart-project.local](http://cc.restart-project.local)
+
+**Documentation**
+
+Not required for running the application, but useful for documentation about the app created
+from the unit tests. 
+
+When running you can view and manage the contents of the database at 
+[http://docs.restart-project.local](http://docs.restart-project.local)
 
 **Phpmyadmin**
 
@@ -159,6 +184,9 @@ the time to ensure that you changes do not break other parts of the codebase.
 To run unit tests you can use the following command
 
     docker/bin/tests unit
+
+This command also creates code coverage reports and code documentation from the unit tests that are
+run, which are available as html. 
     
 ### Feature tests
     
