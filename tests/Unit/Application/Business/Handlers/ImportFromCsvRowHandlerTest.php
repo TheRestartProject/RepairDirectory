@@ -97,7 +97,7 @@ class ImportFromCsvRowHandlerTest extends TestCase
          * @var BusinessFactory $factory
          */
         $factory = m::mock(BusinessFactory::class);
-        
+
         $handler = new ImportFromCsvRowHandler($repository, $factory);
         self::assertInstanceOf(ImportFromCsvRowHandler::class, $handler);
     }
