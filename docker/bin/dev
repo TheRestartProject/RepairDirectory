@@ -13,6 +13,7 @@ case "$1" in
         cd docker
         docker-compose up -d codecoverage docs
         cd ..
+        ;;
     'stop')
         cd docker
         docker-compose stop

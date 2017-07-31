@@ -141,6 +141,16 @@ This creates the containers to run the application, builds the containers for th
 the application and runs `composer install`, `yarn` to set up the dependencies for PHP and Node. Finally
 it runs `npm run build` to build the assets using webpack.
 
+### Start reports
+
+As well as the web application, the docker environment also provides metrics on code coverage
+and general documentation of the code. These can be started by using the following command
+
+    docker/bin/dev reports
+    
+This commands creates the report containers so that they can be viewed in the browser. See the 
+section above for more information about viewing these reports.
+
 ### Stop application
 
 Run the following command to stop the containers for the application
@@ -163,7 +173,7 @@ command
     
 ### Console container
 
-The Repair Directory application comes with a Larave artisan console application, which provides a 
+The Repair Directory application comes with a Laravel artisan console application, which provides a 
 number of command-line tools. To run a command in this console application, run the following command
 
     docker/bin/artisan <command>
