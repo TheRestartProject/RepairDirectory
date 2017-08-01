@@ -43,7 +43,7 @@ test:unittests:
   before_script:
   - "apt-get update && apt-get install zip unzip -y"
   script:
-  - php composer.phar run-script test
+  - php composer.phar run-script test:unit
   tags:
   - docker
   only:

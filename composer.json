@@ -62,9 +62,17 @@
             "@copypaste",
             "@stan"
         ],
-        "test": [
-            "artisan config:clear",
+        "test:all": [
+            "php artisan config:clear",
             "vendor/bin/phpunit"
+        ],
+        "test:unit": [
+            "php artisan config:clear",
+            "vendor/bin/phpunit --testsuite=Unit"
+        ],
+        "test:feature": [
+            "php artisan config:clear",
+            "vendor/bin/phpunit --testsuite=Feature"
         ],
         "sniff": [
             "vendor/bin/phpcs --config-set ignore_errors_on_exit 1",
