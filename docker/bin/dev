@@ -8,7 +8,7 @@ case "$1" in
         docker/bin/artisan doctrine:migrations:migrate
         ;;
     'reports')
-        docker/bin/test unit
+        docker/bin/test coverage
         docker/bin/test documentation
         cd docker
         docker-compose up -d codecoverage docs

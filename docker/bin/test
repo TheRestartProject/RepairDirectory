@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 case "$1" in
     'documentation')
-        docker/bin/phpdoc -d src -t reports/docs
+        docker/bin/phpdoc -d src -d app -t reports/docs
         ;;
 
     'code')
