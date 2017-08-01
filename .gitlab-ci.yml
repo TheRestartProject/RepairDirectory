@@ -56,7 +56,7 @@ deploy:staging:
   script:
   - php composer.phar install --no-dev
   - rm composer.phar
-  - rm .git
+  - rm -rf .git
   tags:
   - docker
   only:
@@ -74,7 +74,7 @@ deploy:production:
   script:
   - php composer.phar install --no-dev
   - rm composer.phar
-  - rm .git
+  - rm -rf .git
   tags:
   - docker
   only:
