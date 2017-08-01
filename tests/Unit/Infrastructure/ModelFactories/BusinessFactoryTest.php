@@ -43,26 +43,7 @@ class BusinessFactoryTest extends TestCase
      */
     public function it_can_create_a_business_from_csv_row()
     {
-        $row = [
-            'Geolocation' => '51.3813993,-2.363582',
-            'Name' => 'iRepair Centre Bath',
-            'Description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
-            'Address' => '12 Westgate St, Bath, BA1 1EQ',
-            'Borough' => 'Bath',
-            'Landline' => '01225 427538',
-            'Mobile' => '07700 900220',
-            'Website' => 'http://irepaircentrebath.co.uk',
-            'Email' => '',
-            'Category' => 'Electronic gadgets',
-            'Products repaired' => 'Phones',
-            'Authorised repairer' => 'No',
-            'Qualifications' => 'BTEC',
-            'Independent review link' => 'https://www.google.com/maps/place/iRepair+Centre+Bath/@51.3813993,-2.363582,17z/',
-            'Other review link' => 'https://www.yell.com/biz/irepair-centre-bath-7943040/',
-            'Positive review %' => '92',
-            'Warranty offered' => 'None',
-            'Pricing information' => 'Varied'
-        ];
+        $row = $this->createTestRow();
 
         $business = $this->factory->fromCsvRow($row);
         $this->assertInstanceOf(Business::class, $business);
@@ -88,5 +69,49 @@ class BusinessFactoryTest extends TestCase
         $this->assertEquals(92, $business->getPositiveReviewPc());
         $this->assertEquals('None', $business->getWarranty());
         $this->assertEquals('Varied', $business->getPricingInformation());
+    }
+
+    /**
+     * Tests the parsing of the 'Authorised repairer' column
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function it_can_parse_the_authorised_repairer_column()
+    {
+        $row = $this->createTestRow();
+        $row['Authorised repairer'] = 'Yes';
+        $business = $this->factory->fromCsvRow($row);
+        $this->assertEquals(true, $business->isAuthorised());
+    }
+
+    /**
+     * Return a row with the structure expected from the CSV parser and data files
+     *
+     * @return array
+     */
+    private function createTestRow()
+    {
+        return [
+            'Geolocation' => '51.3813993,-2.363582',
+            'Name' => 'iRepair Centre Bath',
+            'Description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
+            'Address' => '12 Westgate St, Bath, BA1 1EQ',
+            'Borough' => 'Bath',
+            'Landline' => '01225 427538',
+            'Mobile' => '07700 900220',
+            'Website' => 'http://irepaircentrebath.co.uk',
+            'Email' => '',
+            'Category' => 'Electronic gadgets',
+            'Products repaired' => 'Phones',
+            'Authorised repairer' => 'No',
+            'Qualifications' => 'BTEC',
+            'Independent review link' => 'https://www.google.com/maps/place/iRepair+Centre+Bath/@51.3813993,-2.363582,17z/',
+            'Other review link' => 'https://www.yell.com/biz/irepair-centre-bath-7943040/',
+            'Positive review %' => '92',
+            'Warranty offered' => 'None',
+            'Pricing information' => 'Varied'
+        ];
     }
 }
