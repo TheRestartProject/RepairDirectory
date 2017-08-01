@@ -65,4 +65,15 @@ class DoctrineBusinessRepository implements BusinessRepository
     {
         return $this->businessRepository->findAll();
     }
+
+    /**
+     * Finds the business or returns null
+     *
+     * @param integer $id The id of the business to find
+     * @return Business|null
+     */
+    public function findById($id)
+    {
+        return $this->businessRepository->find($id);
+    }
 }

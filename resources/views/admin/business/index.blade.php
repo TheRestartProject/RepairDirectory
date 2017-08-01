@@ -23,7 +23,7 @@
                 <td>{{ $business->getAddress() }}</td>
                 <td>{{ $business->getPostcode() }}</td>
                 <td>{{ $business->getDescription() }}</td>
-                <td><a href="">View</a></td>
+                <td><a href="{{ route('admin.business.show', ['id' => $business->getUid()]) }}">View</a></td>
             </tr>
             @endforeach
         </tbody>

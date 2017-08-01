@@ -32,4 +32,12 @@ interface BusinessRepository
      * @return array
      */
     public function getAll();
+
+    /**
+     * Finds the business or returns null
+     *
+     * @param integer $id The id of the business to find
+     * @return Business|null
+     */
+    public function findById($id);
 }

@@ -20,7 +20,11 @@ Route::prefix('admin')
     ->namespace('Admin')
     ->group(function () {
         Route::get('business', 'BusinessController@index')->name('admin.business.index');
+
         Route::get('business/new', 'BusinessController@create')->name('admin.business.new');
         Route::post('business', 'BusinessController@store')->name('admin.business.store');
+
+        Route::get('business/{id}', 'BusinessController@show')->name('admin.business.show');
+        Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
     });
 

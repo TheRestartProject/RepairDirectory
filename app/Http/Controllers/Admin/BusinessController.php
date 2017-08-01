@@ -27,4 +27,20 @@ class BusinessController extends Controller
         return redirect()->route('admin.business.index');
     }
 
+    public function show($id, BusinessRepository $repository)
+    {
+        $business = $repository->findById($id);
+
+        return view('admin.business.show', compact('business'));
+    }
+
+    public function update($id, Request $request, BusinessRepository $repository)
+    {
+        $business = $repository->findById($id);
+
+        // do something with the request
+
+        return redirect()->route('admin.business.index');
+    }
+
 }
