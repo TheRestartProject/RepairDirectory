@@ -11,6 +11,12 @@ return [
                 ]
             ],
         ],
+        'uniqueConstraints' => [
+            [
+                'name' => 'business_unique_idx',
+                'columns' => ['name', 'address']
+            ]
+        ],
         'fields' => [
             'name' => [
                 'type' => 'string'
