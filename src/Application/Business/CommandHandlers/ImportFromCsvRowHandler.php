@@ -57,7 +57,6 @@ class ImportFromCsvRowHandler
     {
         $business = $this->factory->fromCsvRow($command->getRow());
         $this->repository->add($business);
-
         return $business;
     }
 }
