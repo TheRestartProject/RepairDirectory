@@ -15,3 +15,10 @@ Route::get('/', function () {
     $environment = app()->environment();
     return view('welcome', compact('environment'));
 });
+
+Route::prefix('admin')
+    ->namespace('Admin')
+    ->group(function () {
+        Route::get('business', 'BusinessController@index')->name('admin.business.index');
+    });
+
