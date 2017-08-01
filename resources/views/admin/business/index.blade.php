@@ -1,6 +1,11 @@
 @extends('admin.layout')
 
 @section('content')
+
+    <div>
+        <a href="{{ route('admin.business.new') }}">Create new business</a>
+    </div>
+
     <table>
         <thead>
             <tr>

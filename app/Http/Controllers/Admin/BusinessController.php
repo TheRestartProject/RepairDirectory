@@ -15,4 +15,16 @@ class BusinessController extends Controller
         return view('admin.business.index', compact('businesses'));
     }
 
+    public function create()
+    {
+        return view('admin.business.new');
+    }
+
+    public function store(Request $request)
+    {
+        // do something with the request
+
+        return redirect()->route('admin.business.index');
+    }
+
 }
