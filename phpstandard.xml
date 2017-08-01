@@ -5,6 +5,7 @@
         <exclude name="Generic.Files.LineLength.TooLong"/>
         <exclude name="PEAR.Commenting.FileComment.Missing"/>
         <exclude name="PEAR.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
+        <exclude name="PEAR.NamingConventions.ValidFunctionName.PrivateNoUnderscore"/>
         <exclude name="PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps"/>
     </rule>
 </ruleset>
