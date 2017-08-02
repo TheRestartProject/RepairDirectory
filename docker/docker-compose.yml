@@ -4,36 +4,6 @@ services:
 
   database:
     image: mariadb
-    container_name: socialmonitor_database
-    volumes:
-      - ./database:/var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=socialmonitor
-      - MYSQL_DATABASE=socialmonitor
-      - MYSQL_USER=socialmonitor
-      - MYSQL_PASSWORD=socialmonitor
-    networks:
-      - socialmonitor
-    restart: always
-
-  db.socialmonitor.local:
-    depends_on:
-      - database
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: socialmonitor_phpmyadmin
-    environment:
-      - MYSQL_ROOT_PASSWORD=socialmonitor
-      - MYSQL_USER=socialmonitor
-      - MYSQL_PASSWORD=socialmonitor
-      - PMA_HOSTS=database
-      - VIRTUAL_HOST=db.socialmonitor.local
-    networks:
-      - proxy-tier
-      - socialmonitor
-    restart: always
-
-  database:
-    image: mariadb
     container_name: restartproject_database
     volumes:
       - ./database:/var/lib/mysql
