@@ -2,8 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
-use TheRestartProject\RepairDirectory\Application\Commands\ImportFromCsvRow\ImportFromCsvRowCommand;
-use TheRestartProject\RepairDirectory\Application\Commands\ImportFromCsvRow\ImportFromCsvRowHandler;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowCommand;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;

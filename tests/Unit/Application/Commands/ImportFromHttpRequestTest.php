@@ -3,8 +3,8 @@
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
 use Illuminate\Http\Request;
-use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\UpdateFromHttpRequestCommand;
-use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\UpdateFromHttpRequestHandler;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
@@ -21,12 +21,12 @@ use \Mockery as m;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class CreateFromHttpRequestTest extends TestCase
+class ImportFromHttpRequestTest extends TestCase
 {
     /**
      * The Handler under test
      *
-     * @var UpdateFromHttpRequestHandler
+     * @var ImportFromHttpRequestHandler
      */
     private $handler;
 
@@ -83,7 +83,7 @@ class CreateFromHttpRequestTest extends TestCase
          */
         $geocoder = $this->geocoder;
 
-        $this->handler = new UpdateFromHttpRequestHandler(
+        $this->handler = new ImportFromHttpRequestHandler(
             $repository,
             $factory,
             $geocoder
@@ -123,12 +123,12 @@ class CreateFromHttpRequestTest extends TestCase
          */
         $geocoder = m::mock(BusinessGeocoder::class);
 
-        $handler = new UpdateFromHttpRequestHandler(
+        $handler = new ImportFromHttpRequestHandler(
             $repository,
             $factory,
             $geocoder
         );
-        self::assertInstanceOf(UpdateFromHttpRequestHandler::class, $handler);
+        self::assertInstanceOf(ImportFromHttpRequestHandler::class, $handler);
     }
 
     /**
@@ -148,7 +148,7 @@ class CreateFromHttpRequestTest extends TestCase
         $this->setupFactory($request);
         $this->setupGeocoder();
 
-        $addedBusiness = $this->handler->handle(new UpdateFromHttpRequestCommand($request));
+        $addedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($request));
 
         $this->assertBusinessAdded($addedBusiness);
         self::assertInstanceOf(Business::class, $addedBusiness);
