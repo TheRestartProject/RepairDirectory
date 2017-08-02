@@ -39,5 +39,5 @@ interface BusinessRepository
      * @param integer $id The id of the business to find
      * @return Business|null
      */
-    public function findById($id);
+    public function get($id);
 }

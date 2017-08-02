@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Business\Commands;
+namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
 
 /**
  * Command to import business from csv row

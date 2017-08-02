@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Tactician;
+namespace TheRestartProject\RepairDirectory\Application\CommandBus;
 
 use Illuminate\Contracts\Container\Container;
 use Psr\Container\ContainerExceptionInterface;

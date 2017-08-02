@@ -1,17 +1,19 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Business\Handlers;
+namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
-use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportFromCsvRowCommand;
-use TheRestartProject\RepairDirectory\Application\Business\CommandHandlers\ImportFromCsvRowHandler;
+use Illuminate\Http\Request;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\UpdateFromHttpRequestCommand;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\UpdateFromHttpRequestHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
 use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 use \Mockery as m;
 
 /**
- * Test for the ImportFromCsvRowHandler class
+ * Test for the CreateFromHttpRequestTest command
  *
  * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Unit\Application\Business\Handlers
@@ -19,12 +21,12 @@ use \Mockery as m;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class ImportFromCsvRowHandlerTest extends TestCase
+class CreateFromHttpRequestTest extends TestCase
 {
     /**
      * The Handler under test
      *
-     * @var ImportFromCsvRowHandler
+     * @var UpdateFromHttpRequestHandler
      */
     private $handler;
 
@@ -43,6 +45,13 @@ class ImportFromCsvRowHandlerTest extends TestCase
     private $factory;
 
     /**
+     * The mocked Geocoder
+     *
+     * @var m\MockInterface
+     */
+    private $geocoder;
+
+    /**
      * Setups the the handler under test for each test
      *
      * @return void
@@ -51,6 +60,7 @@ class ImportFromCsvRowHandlerTest extends TestCase
     {
         $this->repository = m::spy(BusinessRepository::class);
         $this->factory = m::mock(BusinessFactory::class);
+        $this->geocoder = m::mock(BusinessGeocoder::class);
 
         /**
          * Cast mock to BusinessRepository
@@ -66,9 +76,17 @@ class ImportFromCsvRowHandlerTest extends TestCase
          */
         $factory = $this->factory;
 
-        $this->handler = new ImportFromCsvRowHandler(
+        /**
+         * Cast mock to Geocoder
+         *
+         * @var BusinessGeocoder $geocoder
+         */
+        $geocoder = $this->geocoder;
+
+        $this->handler = new UpdateFromHttpRequestHandler(
             $repository,
-            $factory
+            $factory,
+            $geocoder
         );
     }
 
@@ -98,8 +116,19 @@ class ImportFromCsvRowHandlerTest extends TestCase
          */
         $factory = m::mock(BusinessFactory::class);
 
-        $handler = new ImportFromCsvRowHandler($repository, $factory);
-        self::assertInstanceOf(ImportFromCsvRowHandler::class, $handler);
+        /**
+         * Cast mock to Geocoder
+         *
+         * @var BusinessGeocoder $geocoder
+         */
+        $geocoder = m::mock(BusinessGeocoder::class);
+
+        $handler = new UpdateFromHttpRequestHandler(
+            $repository,
+            $factory,
+            $geocoder
+        );
+        self::assertInstanceOf(UpdateFromHttpRequestHandler::class, $handler);
     }
 
     /**
@@ -115,10 +144,11 @@ class ImportFromCsvRowHandlerTest extends TestCase
      */
     public function it_can_add_a_business_to_the_repository()
     {
-        $csvRow = [];
-        $this->setupFactory($csvRow);
+        $request = new Request();
+        $this->setupFactory($request);
+        $this->setupGeocoder();
 
-        $addedBusiness = $this->handler->handle(new ImportFromCsvRowCommand($csvRow));
+        $addedBusiness = $this->handler->handle(new UpdateFromHttpRequestCommand($request));
 
         $this->assertBusinessAdded($addedBusiness);
         self::assertInstanceOf(Business::class, $addedBusiness);
@@ -127,14 +157,26 @@ class ImportFromCsvRowHandlerTest extends TestCase
     /**
      * Sets up the factory to turn a CSV row into a Business
      *
-     * @param array $csvRow the array that represents a CSV row
+     * @param Request $request the request with Business data
      *
      * @return void
      */
-    public function setupFactory(array $csvRow)
+    public function setupFactory($request)
     {
         $business = new Business();
-        $this->factory->shouldReceive('fromCsvRow')->with($csvRow)->andReturn($business);
+        $this->factory->shouldReceive('fromHttpRequest')->with($request)->andReturn($business);
+    }
+
+    /**
+     * Sets up the geocoder to return a [lat, lng] for a Business
+     *
+     * @param Request $request the request with Business data
+     *
+     * @return void
+     */
+    public function setupGeocoder()
+    {
+        $this->geocoder->shouldReceive('geocode')->andReturn([0, 0]);
     }
 
     /**

@@ -1,10 +1,8 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Business\CommandHandlers;
+namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
 
 
-use TheRestartProject\RepairDirectory\Application\Business\Commands\
-ImportFromCsvRowCommand;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;

@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\ModelFactories;
 
+use Illuminate\Http\Request;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 /**
@@ -40,9 +41,22 @@ class BusinessFactory
             )
         );
 
-        $addressParts = explode(',', $row['Address']);
-        $business->setPostcode(trim(array_pop($addressParts)));
-        $business->setAddress(implode(',', $addressParts));
+        // Split address into lines and trim each line
+        $addressParts = array_map(
+            function ($str) {
+                return trim($str);
+            },
+            explode(',', $row['Address'])
+        );
+        // extract final line
+        $postcode = array_pop($addressParts);
+        // move town/area from the front of the postcode to the end of the address
+        $postcodeParts = explode(' ', $postcode);
+        while(count($postcodeParts) > 2) {
+            $addressParts[] = array_shift($postcodeParts);
+        }
+        $business->setPostcode(implode(' ', $postcodeParts));
+        $business->setAddress(implode(', ', $addressParts));
         $business->setDescription($row['Description']);
         $business->setLandline($row['Landline']);
         $business->setMobile($row['Mobile']);

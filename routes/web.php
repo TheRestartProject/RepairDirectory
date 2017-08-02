@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::prefix('admin')
     ->namespace('Admin')
     ->group(function () {
-        Route::get('business', 'BusinessController@index')->name('admin.business.index');
+        Route::get('/', 'AdminController@index')->name('admin.index');
 
         Route::get('business/new', 'BusinessController@create')->name('admin.business.new');
         Route::post('business', 'BusinessController@store')->name('admin.business.store');

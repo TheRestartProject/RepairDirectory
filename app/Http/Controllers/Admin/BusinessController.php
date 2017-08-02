@@ -4,43 +4,34 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use League\Tactician\CommandBus;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
 class BusinessController extends Controller
 {
-    public function index(BusinessRepository $repository)
-    {
-        $businesses = $repository->getAll();
-
-        return view('admin.business.index', compact('businesses'));
-    }
-
     public function create()
     {
-        return view('admin.business.new');
+        $business = new Business();
+        return view('admin.business.show', compact('business'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, CommandBus $commandBus)
     {
-        // do something with the request
-
-        return redirect()->route('admin.business.index');
+        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request));
+        return view('admin.business.show', compact('business'));
     }
 
     public function show($id, BusinessRepository $repository)
     {
-        $business = $repository->findById($id);
-
+        $business = $repository->get($id);
         return view('admin.business.show', compact('business'));
     }
 
-    public function update($id, Request $request, BusinessRepository $repository)
+    public function update($id, Request $request, CommandBus $commandBus)
     {
-        $business = $repository->findById($id);
-
-        // do something with the request
-
-        return redirect()->route('admin.business.index');
+        $commandBus->handle(new ImportFromHttpRequestCommand($request, $id));
+        return view('admin.business.show', compact('business'));
     }
-
 }

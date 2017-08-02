@@ -37,11 +37,7 @@ abstract class FeatureTestCase extends TestCase
      */
     public function tearDown()
     {
-        Artisan::call(
-            'doctrine:migrations:rollback', [
-                '0'
-            ]
-        );
+        Artisan::call('doctrine:migrations:reset');
         parent::tearDown();
     }
 
