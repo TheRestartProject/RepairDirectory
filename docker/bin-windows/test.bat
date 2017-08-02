@@ -37,7 +37,7 @@ IF "%1"=="documentation" (
 ) ELSE IF "%1"=="browser" (
 
       cd docker
-      docker-compose -f docker-compose.yml -f docker-compose.dusk.yml up -d web
+      docker-compose -f docker-compose.yml -f docker-compose.dusk.yml up -d restart-project.local
       docker-compose -f docker-compose.yml -f docker-compose.dusk.yml run --rm  dusk
       docker-compose -f docker-compose.yml -f docker-compose.dusk.yml stop selenium
       cd ..
