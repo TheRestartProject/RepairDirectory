@@ -66,6 +66,8 @@ You will want to add the following two lines to the bottom of your file
     127.0.0.1 restart-project.local    // social-monitor application
     127.0.0.1 db.restart-project.local // phpmyadmin for restart project database
     127.0.0.1 mail.restart-project.local // maildev for testing email functionality in restart project 
+    127.0.0.1 cc.restart-project.local // view code-coverage statistics from unit tests 
+    127.0.0.1 docs.restart-project.local // view docs generated from unit tests 
     
 ### Create configuration files
 
@@ -99,6 +101,29 @@ Not required for running the application, but useful for managing the database.
 When running you can view and manage the contents of the database at 
 [http://db.restart-project.local](http://db.restart-project.local)
 
+**Code Coverage**
+
+Not required for running the application, but useful for displaying metrics about PhpUnit code
+coverage. 
+
+When running you can view and manage the contents of the database at 
+[http://cc.restart-project.local](http://cc.restart-project.local)
+
+**Documentation**
+
+Not required for running the application, but useful for documentation about the app created
+from the docblocks using [phpDocumentor](https://www.phpdoc.org/). 
+
+When running you can view and manage the contents of the database at 
+[http://docs.restart-project.local](http://docs.restart-project.local)
+
+**Phpmyadmin**
+
+Not required for running the application, but useful for managing the database. 
+
+When running you can view and manage the contents of the database at 
+[http://db.restart-project.local](http://db.restart-project.local)
+
 **MailDev**
 
 Not required for running the application, but useful for viewing emails sent by the application.
@@ -115,6 +140,16 @@ Run the following command to create the containers for the application
 This creates the containers to run the application, builds the containers for the tools needed to develop
 the application and runs `composer install`, `yarn` to set up the dependencies for PHP and Node. Finally
 it runs `npm run build` to build the assets using webpack.
+
+### Start reports
+
+As well as the web application, the docker environment also provides metrics on code coverage
+and general documentation of the code. These can be started by using the following command
+
+    docker/bin/dev reports
+    
+This commands creates the report containers so that they can be viewed in the browser. See the 
+section above for more information about viewing these reports.
 
 ### Stop application
 
@@ -138,7 +173,7 @@ command
     
 ### Console container
 
-The Repair Directory application comes with a Larave artisan console application, which provides a 
+The Repair Directory application comes with a Laravel artisan console application, which provides a 
 number of command-line tools. To run a command in this console application, run the following command
 
     docker/bin/artisan <command>
@@ -159,6 +194,9 @@ the time to ensure that you changes do not break other parts of the codebase.
 To run unit tests you can use the following command
 
     docker/bin/tests unit
+
+This command also creates code coverage reports from the unit tests that are run, which are 
+available as html. 
     
 ### Feature tests
     
@@ -179,3 +217,53 @@ interacting with the application through the Browser.
 To run the browser tests you can use the following command
 
     docker/bin/tests browser
+    
+## Coding standards
+
+This project comes with a suite for static analysis tools and coding standard tools to test the
+code in the project and report on how bugs or improperly formatted code. 
+
+All of the tools below can be run with one command like so
+
+    docker/bin/test code
+
+### Code Sniffer
+
+This tool compares the project against defined coding standards and reports on any 
+inconsistencies. It can be run like this
+
+    docker/bin/test sniff
+    
+### Mess Detector
+
+This tool checks the complexity of your code, and ensures that the code that you have 
+written is clean and expressive. It can be run like this
+
+    docker/bin/test mess
+    
+### Code duplication
+
+Code duplication is generally a code smell, and this tool can test to see if there is any
+code duplication in the project and warn you if it finds any. It can be run like this
+
+    docker/bin/test duplication
+    
+### Static Analysis
+
+This tool is very powerful and can often confirm whether a piece of code will run without 
+needing to run it. It compares the code and its annotations against how it is used elsewhere 
+and determines whether incorrect data is moving through it. 
+
+    docker/bin/test stan
+
+## Documentation
+
+Documentation is generated from the docblocks in the codebase using `phpDocumentor`. You can
+run the command to generate this documentation using
+
+    docker/bin/tests documentation
+    
+After running this documentation command, you can view the HTML in the `reports/docs`
+directory. 
+    
+

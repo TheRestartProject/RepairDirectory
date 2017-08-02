@@ -1,10 +1,27 @@
 #!/usr/bin/env bash
 case "$1" in
+    'documentation')
+        docker/bin/phpdoc -d src -d app -t reports/docs
+        ;;
+
     'code')
         docker/bin/composer run-script code
         ;;
+    'sniff')
+        docker/bin/composer run-script sniff
+        ;;
+    'mess')
+        docker/bin/composer run-script mess
+        ;;
+    'duplication')
+        docker/bin/composer run-script copypaste
+        ;;
+    'stan')
+        docker/bin/composer run-script stan
+        ;;
+
     'unit')
-        docker/bin/php vendor/bin/phpunit --testsuite=Unit
+        docker/bin/xdebug vendor/bin/phpunit --testsuite=Unit --coverage-html reports/codecoverage
         ;;
     'feature')
         docker/bin/php vendor/bin/phpunit --testsuite=Feature
@@ -18,6 +35,6 @@ case "$1" in
         docker/bin/dev start
         ;;
     *)
-        echo $"Usage: $0 {start|stop}"
+        echo $"Usage: $0 {documentation|code|sniff|mess|duplication|stan|unit|feature|browser}"
         ;;
 esac

@@ -1,12 +1,27 @@
-cd docker
-case "%1" in
-    'start')
-       %docker-compose -f docker-compose.yml up -d web phppgadmin
-        ;;
-    'stop')
-        docker-compose -f docker-compose.yml stop
-        ;;
-    *)
-        echo $"Usage: %0 {start|stop}"
-esac
-cd ..
+IF "%1"=="start" (
+
+    cd docker
+    docker-compose up -d web phppgadmin
+    cd ..
+    docker/bin-windows/composer install
+    docker/bin-windows/artisan doctrine:migrations:migrate
+
+) ELSE IF "%1"=="reports" (
+
+    docker/bin-windows/test coverage
+    docker/bin-windows/test documentation
+    cd docker
+    docker-compose up -d codecoverage docs
+    cd ..
+
+) ELSE IF "%1"=="stop" (
+
+    cd docker
+    docker-compose stop
+    cd ..
+
+) ELSE (
+
+    echo "Usage: %0 {start|reports|stop}"
+
+)
