@@ -4,7 +4,7 @@ services:
 
   database:
     environment:
-      - PGDATA=/var/lib/postgresql/data/dusk/pgdata
+      - MYSQL_DATABASE=restartproject_testing
 
   restart-project.local:
     environment:
