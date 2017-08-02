@@ -75,6 +75,17 @@ Create the configuration for this project by copying the `.env.example` as `.env
 need an application key which can be generated with the following command:
 
     docker/bin/artisan key:generate
+    
+### Create Environment file
+
+Docker-compose needs an environment file to tell it what name it should use for the project (it's 
+default method doesn't work when the `docker-compose.yml` is in a sub folder). To set the project 
+name, create a file called `.env` in the `docker/` folder and add the following content to it.
+
+    COMPOSE_PROJECT_NAME=restartproject
+    
+This will make sure that your project has a unique name so that `docker-compose` doesn't get 
+confused when working across multiple projects.
 
 ## Application containers
  
