@@ -3,28 +3,30 @@ version: '2'
 services:
 
   database:
-    image: postgres:9-alpine
+    image: mariadb
     container_name: restartproject_database
-#    volumes:
-#      - ./database:/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./database:/var/lib/mysql
     environment:
-      - POSTGRES_DB=restartproject
-      - POSTGRES_USER=restartproject
-      - POSTGRES_PASSWORD=restartproject
-      - PGDATA=/var/lib/postgresql/data/dev/pgdata
+      - MYSQL_ROOT_PASSWORD=restartproject
+      - MYSQL_DATABASE=restartproject
+      - MYSQL_USER=restartproject
+      - MYSQL_PASSWORD=restartproject
     networks:
       - restartproject
     restart: always
 
   db.restart-project.local:
-    image: zhajor/docker-phppgadmin
-    container_name: restartproject_phppgadmin
+    depends_on:
+      - database
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: restartproject_phpmyadmin
     environment:
+      - MYSQL_ROOT_PASSWORD=restartproject
+      - MYSQL_USER=restartproject
+      - MYSQL_PASSWORD=restartproject
+      - PMA_HOSTS=database
       - VIRTUAL_HOST=db.restart-project.local
-      - LETSENCRYPT_HOST=db.restart-project.local
-      - LETSENCRYPT_EMAIL=admin@restart-project.local
-      - DB_HOST=database
-      - DB_PORT=5432
     networks:
       - proxy-tier
       - restartproject
