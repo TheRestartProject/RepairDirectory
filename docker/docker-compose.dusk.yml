@@ -14,7 +14,7 @@ services:
     image: selenium/standalone-chrome
     container_name: restartproject_selenium
     networks:
-      - app
+      - restartproject
 
   php:
     environment:
@@ -36,7 +36,7 @@ services:
       - APP_ENV=testing
     command: ["php", "artisan", "dusk"]
     networks:
-      - app
+      - restartproject
 
   composer:
     environment:
@@ -46,4 +46,4 @@ networks:
   proxy-tier:
     external:
       name: reverse-proxy
-  app:
+  restartproject:

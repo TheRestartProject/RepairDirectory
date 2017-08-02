@@ -13,7 +13,7 @@ services:
       - POSTGRES_PASSWORD=restartproject
       - PGDATA=/var/lib/postgresql/data/dev/pgdata
     networks:
-      - app
+      - restartproject
     restart: always
 
   db.restart-project.local:
@@ -27,7 +27,7 @@ services:
       - DB_PORT=5432
     networks:
       - proxy-tier
-      - app
+      - restartproject
     restart: always
 
   # local dev email server
@@ -41,7 +41,7 @@ services:
       - LETSENCRYPT_EMAIL=admin@restart-project.local
     networks:
       - proxy-tier
-      - app
+      - restartproject
     restart: always
 
   cc.restart-project.local:
@@ -92,7 +92,7 @@ services:
     command: ["php", "-S", "0.0.0.0:80", "-t", "/app", "server.php"]
     networks:
       - proxy-tier
-      - app
+      - restartproject
     restart: always
 
   php:
@@ -108,7 +108,7 @@ services:
       - ./php/application.env
     command: ["--version"]
     networks:
-      - app
+      - restartproject
 
   xdebug:
     depends_on:
@@ -124,7 +124,7 @@ services:
       - XDEBUG_CONFIG="idekey=PHPSTORM"
     command: ["php", "--version"]
     networks:
-      - app
+      - restartproject
 
   composer:
     depends_on:
@@ -139,10 +139,10 @@ services:
       - ./php/application.env
     command: ["install"]
     networks:
-      - app
+      - restartproject
 
 networks:
   proxy-tier:
     external:
       name: reverse-proxy
-  app:
+  restartproject:
