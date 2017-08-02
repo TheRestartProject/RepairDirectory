@@ -6,17 +6,15 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data/dusk/pgdata
 
-  web:
+  restart-project.local:
     environment:
       - APP_ENV=testing
 
   selenium:
     image: selenium/standalone-chrome
     container_name: restartproject_selenium
-    links:
-      - web:restart-project.local
     networks:
-      - proxy-tier
+      - app
 
   php:
     environment:
@@ -25,9 +23,9 @@ services:
   dusk:
     depends_on:
       - database
-      - web
+      - restart-project.local
       - selenium
-      - maildev
+      - mail.restart-project.local
     build: ./php
     image: restartproject_php
     container_name: restartproject_php
@@ -38,7 +36,7 @@ services:
       - APP_ENV=testing
     command: ["php", "artisan", "dusk"]
     networks:
-      - proxy-tier
+      - app
 
   composer:
     environment:
@@ -48,3 +46,4 @@ networks:
   proxy-tier:
     external:
       name: reverse-proxy
+  app:
