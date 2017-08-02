@@ -2,7 +2,7 @@
 case "$1" in
     'start')
         cd docker
-        docker-compose up -d web phppgadmin
+        docker-compose up -d restart-project.local db.restart-project.local
         cd ..
         docker/bin/composer install
         docker/bin/artisan doctrine:migrations:migrate
@@ -11,7 +11,7 @@ case "$1" in
         docker/bin/test coverage
         docker/bin/test documentation
         cd docker
-        docker-compose up -d codecoverage docs
+        docker-compose up -d cc.restart-project.local docs.restart-project.local
         cd ..
         ;;
     'stop')

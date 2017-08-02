@@ -13,10 +13,10 @@ services:
       - POSTGRES_PASSWORD=restartproject
       - PGDATA=/var/lib/postgresql/data/dev/pgdata
     networks:
-      - proxy-tier
+      - app
     restart: always
 
-  phppgadmin:
+  db.restart-project.local:
     image: zhajor/docker-phppgadmin
     container_name: restartproject_phppgadmin
     environment:
@@ -27,10 +27,11 @@ services:
       - DB_PORT=5432
     networks:
       - proxy-tier
+      - app
     restart: always
 
   # local dev email server
-  maildev:
+  mail.restart-project.local:
     image: djfarrelly/maildev:1.0.0-rc2
     container_name: restartproject_maildev
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
@@ -40,9 +41,10 @@ services:
       - LETSENCRYPT_EMAIL=admin@restart-project.local
     networks:
       - proxy-tier
+      - app
     restart: always
 
-  codecoverage:
+  cc.restart-project.local:
     image: nginx
     container_name: restartproject_codecoverage
     volumes:
@@ -57,7 +59,7 @@ services:
       - proxy-tier
     restart: always
 
-  docs:
+  docs.restart-project.local:
     image: nginx
     container_name: restartproject_docs
     volumes:
@@ -72,10 +74,10 @@ services:
       - proxy-tier
     restart: always
 
-  web:
+  restart-project.local:
     depends_on:
       - database
-      - maildev
+      - mail.restart-project.local
     build: ./php
     image: restartproject_php
     container_name: restartproject_web
@@ -90,12 +92,13 @@ services:
     command: ["php", "-S", "0.0.0.0:80", "-t", "/app", "server.php"]
     networks:
       - proxy-tier
+      - app
     restart: always
 
   php:
     depends_on:
       - database
-      - maildev
+      - mail.restart-project.local
     build: ./php
     image: restartproject_php
     container_name: restartproject_php
@@ -105,12 +108,12 @@ services:
       - ./php/application.env
     command: ["--version"]
     networks:
-      - proxy-tier
+      - app
 
   xdebug:
     depends_on:
       - database
-      - maildev
+      - mail.restart-project.local
     build: ./xdebug
     image: restartproject_xdebug
     container_name: restartproject_xdebug
@@ -121,12 +124,12 @@ services:
       - XDEBUG_CONFIG="idekey=PHPSTORM"
     command: ["php", "--version"]
     networks:
-      - proxy-tier
+      - app
 
   composer:
     depends_on:
       - database
-      - maildev
+      - mail.restart-project.local
     build: ./composer
     image: restartproject_composer
     container_name: restartproject_composer
@@ -136,9 +139,10 @@ services:
       - ./php/application.env
     command: ["install"]
     networks:
-      - proxy-tier
+      - app
 
 networks:
   proxy-tier:
     external:
       name: reverse-proxy
+  app:
