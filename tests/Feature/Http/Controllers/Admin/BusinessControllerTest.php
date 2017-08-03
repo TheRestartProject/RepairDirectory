@@ -37,7 +37,7 @@ class BusinessControllerTest extends FeatureTestCase
 
         $this->assertDatabaseHas(
             'businesses', [
-go                'name' => 'iRepair Centre Bath',
+                'name' => 'iRepair Centre Bath',
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
                 'postcode' => 'BA1 1EQ',
