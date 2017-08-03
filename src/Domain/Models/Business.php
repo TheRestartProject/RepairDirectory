@@ -110,7 +110,7 @@ class Business
      *
      * @var boolean
      */
-    private $authorised;
+    private $authorised = false;
 
     /**
      * Official qualifications that the Business has

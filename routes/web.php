@@ -15,3 +15,14 @@ Route::get('/', function () {
     $environment = app()->environment();
     return view('welcome', compact('environment'));
 });
+
+Route::prefix('admin')
+    ->namespace('Admin')
+    ->group(function () {
+        Route::get('/', 'AdminController@index')->name('admin.index');
+
+        Route::get('business/{id?}', 'BusinessController@edit')->name('admin.business.edit');
+        Route::post('business', 'BusinessController@create')->name('admin.business.store');
+        Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
+    });
+

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use League\Csv\Reader;
 use League\Tactician\CommandBus;
-use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportFromCsvRowCommand;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowCommand;
 
 class ImportBusinessesCommand extends Command
 {

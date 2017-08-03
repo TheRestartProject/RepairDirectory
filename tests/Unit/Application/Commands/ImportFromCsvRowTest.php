@@ -1,17 +1,17 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Business\Handlers;
+namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
-use TheRestartProject\RepairDirectory\Application\Business\Commands\ImportFromCsvRowCommand;
-use TheRestartProject\RepairDirectory\Application\Business\CommandHandlers\ImportFromCsvRowHandler;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowCommand;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
+use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 use \Mockery as m;
 
 /**
- * Test for the ImportFromCsvRowHandler class
+ * Test for the ImportFromCsvRow command
  *
  * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Unit\Application\Business\Handlers
@@ -19,7 +19,7 @@ use \Mockery as m;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class ImportFromCsvRowHandlerTest extends TestCase
+class ImportFromCsvRowTest extends TestCase
 {
     /**
      * The Handler under test

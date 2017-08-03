@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
-class DatabaseSeeder extends Seeder
+class BusinessesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(BusinessesTableSeeder::class);
+        entity(Business::class)->create();
     }
 }

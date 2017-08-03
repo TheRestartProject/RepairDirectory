@@ -34,43 +34,55 @@ return [
                 'type' => 'text'
             ],
             'landline' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'mobile' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'website' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'email' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'localArea' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'category' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'productsRepaired' => [
-                'type' => 'array'
+                'type' => 'array',
+                'nullable' => true
             ],
             'authorised' => [
                 'type' => 'boolean'
             ],
             'qualifications' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'reviews' => [
-                'type' => 'array'
+                'type' => 'array',
+                'nullable' => true
             ],
             'positiveReviewPc' => [
-                'type' => 'integer'
+                'type' => 'integer',
+                'nullable' => true
             ],
             'warranty' => [
-                'type' => 'text'
+                'type' => 'text',
+                'nullable' => true
             ],
             'pricingInformation' => [
-                'type' => 'text'
+                'type' => 'text',
+                'nullable' => true
             ]
         ]
     ]

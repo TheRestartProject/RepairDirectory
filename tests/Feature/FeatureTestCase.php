@@ -28,6 +28,7 @@ abstract class FeatureTestCase extends TestCase
     {
         parent::setUp();
         Artisan::call('doctrine:migrations:migrate');
+        Artisan::call('db:seed');
     }
 
     /**
@@ -37,11 +38,7 @@ abstract class FeatureTestCase extends TestCase
      */
     public function tearDown()
     {
-        Artisan::call(
-            'doctrine:migrations:rollback', [
-                '0'
-            ]
-        );
+        Artisan::call('doctrine:migrations:reset');
         parent::tearDown();
     }
 

@@ -1,11 +1,13 @@
 <?php
 
-use \TheRestartProject\RepairDirectory\Application\Business\Commands as BusinessCommands;
-use \TheRestartProject\RepairDirectory\Application\Business\CommandHandlers as BusinessHandlers;
+use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
+use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
+
 
 return [
     'handlers' => [
-        BusinessCommands\ImportFromCsvRowCommand::class => BusinessHandlers\ImportFromCsvRowHandler::class
+        ImportFromCsvRow\ImportFromCsvRowCommand::class => ImportFromCsvRow\ImportFromCsvRowHandler::class,
+        ImportFromHttpRequest\ImportFromHttpRequestCommand::class => ImportFromHttpRequest\ImportFromHttpRequestHandler::class
     ],
     'middleware' => [
         \League\Tactician\Logger\LoggerMiddleware::class,

@@ -1,19 +1,17 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Business\CommandHandlers;
+namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
 
 
-use TheRestartProject\RepairDirectory\Application\Business\Commands\
-ImportFromCsvRowCommand;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
+use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 
 /**
  * Handles the ImportFromCsvRowCommand to import a Business
  *
  * @category CommandHandler
- * @package  TheRestartProject\RepairDirectory\Application\Business\Handlers
+ * @package  TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/

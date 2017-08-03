@@ -16,10 +16,9 @@ use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use League\Tactician\Logger\Formatter\ClassNameFormatter;
 use League\Tactician\Logger\Formatter\Formatter;
 use League\Tactician\Logger\LoggerMiddleware;
-use Psr\Container\ContainerInterface;
-use TheRestartProject\RepairDirectory\Application\Tactician\LaravelContainerAdapter;
+use TheRestartProject\RepairDirectory\Application\CommandBus\LaravelContainerAdapter;
 
-class TacticianServiceProvider extends ServiceProvider
+class CommandBusServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
