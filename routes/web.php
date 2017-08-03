@@ -21,10 +21,8 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('/', 'AdminController@index')->name('admin.index');
 
-        Route::get('business/new', 'BusinessController@create')->name('admin.business.new');
+        Route::get('business/{id?}', 'BusinessController@edit')->name('admin.business.edit');
         Route::post('business', 'BusinessController@store')->name('admin.business.store');
-
-        Route::get('business/{id}', 'BusinessController@show')->name('admin.business.show');
         Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
     });
 

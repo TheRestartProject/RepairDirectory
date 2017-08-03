@@ -11,27 +11,21 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
 class BusinessController extends Controller
 {
-    public function create()
+    public function edit($id = null, BusinessRepository $repository)
     {
-        $business = new Business();
-        return view('admin.business.show', compact('business'));
+        $business = $id ? $repository->get($id) : new Business();
+        return view('admin.business.edit', compact('business'));
     }
 
-    public function store(Request $request, CommandBus $commandBus)
+    public function create(Request $request, CommandBus $commandBus)
     {
         $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
-        return view('admin.business.show', compact('business'));
-    }
-
-    public function show($id, BusinessRepository $repository)
-    {
-        $business = $repository->get($id);
-        return view('admin.business.show', compact('business'));
+        return view('admin.business.edit', compact('business'));
     }
 
     public function update($id, Request $request, CommandBus $commandBus)
     {
         $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
-        return view('admin.business.show', compact('business'));
+        return view('admin.business.edit', compact('business'));
     }
 }
