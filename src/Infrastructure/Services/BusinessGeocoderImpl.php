@@ -2,8 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\Services;
 
+use Geocoder\Exception\ChainNoResult;
 use Geocoder\Laravel\ProviderAndDumperAggregator;
-use Geocoder\Model\AddressCollection;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
 
@@ -30,13 +30,17 @@ class BusinessGeocoderImpl implements BusinessGeocoder
     public function geocode(Business $business)
     {
         $addressString = $business->getAddress() . ', ' . $business->getPostcode();
-        /** @var ProviderAndDumperAggregator $geocodeResponse */
-        $geocodeResponse = $this->geocoder->geocode($addressString);
-        $addressCollection = $geocodeResponse->get();
-        $address = $addressCollection->get(0);
-        if ($address) {
-            return [$address->getLatitude(), $address->getLongitude()];
+        try {
+            /** @var ProviderAndDumperAggregator $geocodeResponse */
+            $geocodeResponse = $this->geocoder->geocode($addressString);
+            $addressCollection = $geocodeResponse->get();
+            $address = $addressCollection->get(0);
+            if ($address) {
+                return [$address->getLatitude(), $address->getLongitude()];
+            }
+        } catch (ChainNoResult $e) {
+            return null;
         }
-        return [0, 0];
+        return null;
     }
 }

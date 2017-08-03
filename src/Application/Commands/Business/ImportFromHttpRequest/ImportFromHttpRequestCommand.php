@@ -8,41 +8,41 @@ use Illuminate\Http\Request;
  * Command to create a business from HTTP post data
  *
  * @category Command
- * @package  TheRestartProject\RepairDirectory\Application\Business\Commands
- * @author   Matthew Kendon <matt@outlandish.com>
+ * @package  TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
 class ImportFromHttpRequestCommand
 {
     /**
-     * The HTTP request to import as a Business
+     * The HTTP request data to import as a Business
      *
-     * @var Request
+     * @var array
      */
-    private $request;
+    private $data;
     private $businessUid;
 
     /**
      * Creates the ImportFromHttpRequestCommand from a CSV Row
      *
-     * @param Request $request The HTTP request to import as a Business
+     * @param array $data The HTTP request data to import as a Business
      * @param integer $businessUid The id of the business to update
      */
-    public function __construct($request, $businessUid = null)
+    public function __construct($data, $businessUid = null)
     {
-        $this->request = $request;
+        $this->data = $data;
         $this->businessUid = $businessUid;
     }
 
     /**
-     * Gets the request from the Command
+     * Gets the data from the Command
      *
-     * @return Request
+     * @return array
      */
-    public function getRequest()
+    public function getData()
     {
-        return $this->request;
+        return $this->data;
     }
 
     /**

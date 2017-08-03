@@ -19,7 +19,7 @@ class BusinessController extends Controller
 
     public function store(Request $request, CommandBus $commandBus)
     {
-        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request));
+        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
         return view('admin.business.show', compact('business'));
     }
 
@@ -31,7 +31,7 @@ class BusinessController extends Controller
 
     public function update($id, Request $request, CommandBus $commandBus)
     {
-        $commandBus->handle(new ImportFromHttpRequestCommand($request, $id));
+        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
         return view('admin.business.show', compact('business'));
     }
 }

@@ -6,7 +6,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
  * Command to import business from csv row
  *
  * @category Command
- * @package  TheRestartProject\RepairDirectory\Application\Business\Commands
+ * @package  TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/

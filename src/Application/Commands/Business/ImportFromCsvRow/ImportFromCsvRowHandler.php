@@ -11,7 +11,7 @@ use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFact
  * Handles the ImportFromCsvRowCommand to import a Business
  *
  * @category CommandHandler
- * @package  TheRestartProject\RepairDirectory\Application\Business\Handlers
+ * @package  TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/

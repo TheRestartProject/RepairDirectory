@@ -46,14 +46,14 @@ class BusinessControllerTest extends FeatureTestCase
     public function test_update()
     {
         $response = $this->put('/admin/business/1', [
+            'name' => 'This is a new name',
             'description' => 'This is a new description.'
         ]);
         $response->assertStatus(200);
 
         $this->assertDatabaseHas(
             'businesses', [
-                'name' => 'iRepair Centre Bath',
-                'address' => '12 Westgate St, Bath',
+                'name' => 'This is a new name',
                 'description' => 'This is a new description.'
             ]
         );

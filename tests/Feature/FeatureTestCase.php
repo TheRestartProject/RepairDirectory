@@ -28,6 +28,7 @@ abstract class FeatureTestCase extends TestCase
     {
         parent::setUp();
         Artisan::call('doctrine:migrations:migrate');
+        Artisan::call('db:seed');
     }
 
     /**

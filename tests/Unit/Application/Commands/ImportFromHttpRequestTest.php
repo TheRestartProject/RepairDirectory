@@ -3,12 +3,12 @@
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 use \Mockery as m;
 
@@ -16,8 +16,8 @@ use \Mockery as m;
  * Test for the CreateFromHttpRequestTest command
  *
  * @category Test
- * @package  TheRestartProject\RepairDirectory\Tests\Unit\Application\Business\Handlers
- * @author   Matthew Kendon <matt@outlandish.com>
+ * @package  TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
@@ -38,13 +38,6 @@ class ImportFromHttpRequestTest extends TestCase
     private $repository;
 
     /**
-     * The mocked factory
-     *
-     * @var m\MockInterface
-     */
-    private $factory;
-
-    /**
      * The mocked Geocoder
      *
      * @var m\MockInterface
@@ -59,7 +52,6 @@ class ImportFromHttpRequestTest extends TestCase
     public function setUp()
     {
         $this->repository = m::spy(BusinessRepository::class);
-        $this->factory = m::mock(BusinessFactory::class);
         $this->geocoder = m::mock(BusinessGeocoder::class);
 
         /**
@@ -70,13 +62,6 @@ class ImportFromHttpRequestTest extends TestCase
         $repository = $this->repository;
 
         /**
-         * Cast mock to BusinessFactory
-         *
-         * @var BusinessFactory $factory
-         */
-        $factory = $this->factory;
-
-        /**
          * Cast mock to Geocoder
          *
          * @var BusinessGeocoder $geocoder
@@ -85,7 +70,6 @@ class ImportFromHttpRequestTest extends TestCase
 
         $this->handler = new ImportFromHttpRequestHandler(
             $repository,
-            $factory,
             $geocoder
         );
     }
@@ -110,13 +94,6 @@ class ImportFromHttpRequestTest extends TestCase
         $repository = m::spy(BusinessRepository::class);
 
         /**
-         * Cast mock to BusinessFactory
-         *
-         * @var BusinessFactory $factory
-         */
-        $factory = m::mock(BusinessFactory::class);
-
-        /**
          * Cast mock to Geocoder
          *
          * @var BusinessGeocoder $geocoder
@@ -125,16 +102,14 @@ class ImportFromHttpRequestTest extends TestCase
 
         $handler = new ImportFromHttpRequestHandler(
             $repository,
-            $factory,
             $geocoder
         );
         self::assertInstanceOf(ImportFromHttpRequestHandler::class, $handler);
     }
 
     /**
-     * Tests that the handler works
      *
-     * Tests that the handler successfully converts a CSV row
+     * Tests that the handler successfully converts a data array
      * into a Business using the factory and adds it to the
      * Repository.
      *
@@ -144,27 +119,41 @@ class ImportFromHttpRequestTest extends TestCase
      */
     public function it_can_add_a_business_to_the_repository()
     {
-        $request = new Request();
-        $this->setupFactory($request);
+        $data = [];
         $this->setupGeocoder();
 
-        $addedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($request));
+        $addedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data));
 
         $this->assertBusinessAdded($addedBusiness);
         self::assertInstanceOf(Business::class, $addedBusiness);
     }
 
+
     /**
-     * Sets up the factory to turn a CSV row into a Business
      *
-     * @param Request $request the request with Business data
+     * Tests that the handler successfully updates an existing business from
+     * a data array.
+     *
+     * @test
      *
      * @return void
      */
-    public function setupFactory($request)
+    public function it_can_update_an_existing_business()
     {
+        $data = [
+            'name' => 'New Name'
+        ];
         $business = new Business();
-        $this->factory->shouldReceive('fromHttpRequest')->with($request)->andReturn($business);
+        $business->setName('Old Name');
+
+        $this->setupGeocoder();
+        $this->repository->shouldReceive('get')->with(1)->andReturn($business);
+
+        $updatedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data, 1));
+
+        $this->repository->shouldHaveReceived('get')->with(1);
+        self::assertInstanceOf(Business::class, $updatedBusiness);
+        self::assertEquals('New Name', $business->getName());
     }
 
     /**
