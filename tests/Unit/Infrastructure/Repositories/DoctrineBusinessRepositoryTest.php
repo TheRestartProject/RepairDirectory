@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Mockery;
 use Mockery\MockInterface;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
-use TheRestartProject\RepairDirectory\Infrastructure\Repositories\
+use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\
 DoctrineBusinessRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 

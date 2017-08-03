@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
-use TheRestartProject\RepairDirectory\Infrastructure\Services\BusinessGeocoderImpl;
+use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
+use TheRestartProject\RepairDirectory\Infrastructure\Services\GeocoderImpl;
 
 class GeocoderServiceProvider extends ServiceProvider
 {
@@ -26,8 +26,8 @@ class GeocoderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(BusinessGeocoder::class, function () {
-            return new BusinessGeocoderImpl($this->app->make('geocoder'));
+        $this->app->singleton(Geocoder::class, function () {
+            return new GeocoderImpl($this->app->make('geocoder'));
         });
     }
 }

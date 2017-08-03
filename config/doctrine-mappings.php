@@ -28,7 +28,8 @@ return [
                 'type' => 'string'
             ],
             'geolocation' => [
-                'type' => 'array'
+                'type' => 'point',
+                'nullable' => true
             ],
             'description' => [
                 'type' => 'text'

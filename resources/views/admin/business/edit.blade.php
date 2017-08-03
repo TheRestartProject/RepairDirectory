@@ -9,7 +9,7 @@
 
         {{ method_field($formMethod) }}
 
-        <div class="col-sm-12 col-md-4">
+        <div class="col-xs-12 col-md-4">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input id="name" name="name" class="form-control" value="{{ $business->getName() }}"/>

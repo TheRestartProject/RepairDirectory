@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\ModelFactories;
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 
 /**
  * Class BusinessFactory
@@ -31,14 +32,14 @@ class BusinessFactory
 
         $business = new Business();
         $business->setName($row['Name']);
-        $business->setGeolocation(
-            array_map(
-                function ($str) {
-                    return (float) $str;
-                },
-                explode(',', $row['Geolocation'])
-            )
+
+        $latLng = array_map(
+            function ($str) {
+                return (float) $str;
+            },
+            explode(',', $row['Geolocation'])
         );
+        $business->setGeolocation(new Point($latLng[0], $latLng[1]));
 
         // Split address into lines and trim each line
         $addressParts = array_map(

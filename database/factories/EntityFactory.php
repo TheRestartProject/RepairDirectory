@@ -1,6 +1,7 @@
 <?php
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,6 @@ $factory->define(Business::class, function (Faker\Generator $faker) {
     $business->setAddress(implode(', ', explode("\n", $faker->address)));
     $business->setPostcode($faker->postcode);
     $business->setDescription($faker->sentence);
+    $business->setGeolocation(new Point($faker->randomFloat(), $faker->randomFloat()));
     return $business;
 });

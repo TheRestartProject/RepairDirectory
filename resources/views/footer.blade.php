@@ -1,0 +1,1 @@
+<!-- View used to inject javascript variables -->

@@ -7,3 +7,10 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.map__container {
+  height: 500px;
+}
+#map {
+  height: 100%;
+}

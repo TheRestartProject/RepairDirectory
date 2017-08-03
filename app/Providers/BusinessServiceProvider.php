@@ -8,10 +8,13 @@
 
 namespace App\Providers;
 
+use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Support\ServiceProvider;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
-use TheRestartProject\RepairDirectory\Infrastructure\Repositories\DoctrineBusinessRepository;
+use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
+use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineBusinessRepository;
+use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Types\PointType;
 
 class BusinessServiceProvider extends ServiceProvider
 {
@@ -23,7 +26,7 @@ class BusinessServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->registerCustomTypes();
     }
 
     /**
@@ -35,5 +38,18 @@ class BusinessServiceProvider extends ServiceProvider
     {
         $this->app->singleton(BusinessRepository::class, DoctrineBusinessRepository::class);
         $this->app->singleton(BusinessFactory::class, BusinessFactory::class);
+    }
+
+    /**
+     * Registers the 'point' type, which is used for the Business geolocation
+     *
+     * @return void
+     */
+    private function registerCustomTypes()
+    {
+        if (!Type::hasType('point')) {
+            Type::addType('point', PointType::class);
+            $this->app->make(EntityManager::class)->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('point', 'point');
+        }
     }
 }
