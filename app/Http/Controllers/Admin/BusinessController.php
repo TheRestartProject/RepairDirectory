@@ -19,13 +19,13 @@ class BusinessController extends Controller
 
     public function create(Request $request, CommandBus $commandBus)
     {
-        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
-        return view('admin.business.edit', compact('business'));
+        $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
+        return redirect('admin');
     }
 
     public function update($id, Request $request, CommandBus $commandBus)
     {
-        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
-        return view('admin.business.edit', compact('business'));
+        $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
+        return redirect('admin');
     }
 }
