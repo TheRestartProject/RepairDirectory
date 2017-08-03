@@ -150,6 +150,7 @@ class ImportFromHttpRequestTest extends TestCase
         $updatedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data, 1));
 
         $this->repository->shouldHaveReceived('get')->with(1);
+        $this->repository->shouldNotHaveReceived('add');
         self::assertInstanceOf(Business::class, $updatedBusiness);
         self::assertEquals('New Name', $business->getName());
     }
