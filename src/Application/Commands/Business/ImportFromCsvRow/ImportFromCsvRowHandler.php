@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
+use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 
 /**
  * Handles the ImportFromCsvRowCommand to import a Business

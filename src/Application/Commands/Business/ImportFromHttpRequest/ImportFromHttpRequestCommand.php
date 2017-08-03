@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 use Illuminate\Http\Request;
 
 /**
- * Command to create a business from HTTP post data
+ * Command to create or update a business from HTTP post data
  *
  * @category Command
  * @package  TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest
@@ -26,7 +26,7 @@ class ImportFromHttpRequestCommand
     /**
      * Creates the ImportFromHttpRequestCommand from a CSV Row
      *
-     * @param array $data The HTTP request data to import as a Business
+     * @param array   $data        The HTTP request data to import as a Business
      * @param integer $businessUid The id of the business to update
      */
     public function __construct($data, $businessUid = null)
@@ -46,6 +46,8 @@ class ImportFromHttpRequestCommand
     }
 
     /**
+     * Return the uid of the business to update (if any)
+     *
      * @return integer
      */
     public function getBusinessUid()

@@ -6,7 +6,7 @@ use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCs
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
+use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 use \Mockery as m;
 

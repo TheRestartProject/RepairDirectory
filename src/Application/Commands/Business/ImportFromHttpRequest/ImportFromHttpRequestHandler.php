@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
+use TheRestartProject\RepairDirectory\Domain\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
@@ -36,7 +37,7 @@ class ImportFromHttpRequestHandler
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
      * @param BusinessRepository $repository An implementation of the BusinessRepository
-     * @param BusinessGeocoder           $geocoder   Geocoder to get [lat, lng] of business
+     * @param BusinessGeocoder   $geocoder   Geocoder to get [lat, lng] of business
      */
     public function __construct(BusinessRepository $repository, BusinessGeocoder $geocoder)
     {
@@ -50,6 +51,8 @@ class ImportFromHttpRequestHandler
      * @param ImportFromHttpRequestCommand $command The command to handle
      *
      * @return Business
+     *
+     * @throws EntityNotFoundException
      */
     public function handle(ImportFromHttpRequestCommand $command)
     {
@@ -57,6 +60,9 @@ class ImportFromHttpRequestHandler
         $businessUid = $command->getBusinessUid();
         $isCreate = !(boolean) $businessUid;
         $business = $isCreate ? new Business() : $this->repository->get($businessUid);
+        if (!$business) {
+            throw new EntityNotFoundException();
+        }
         if (array_key_exists('name', $data)) {
             $business->setName($data['name']);
         }

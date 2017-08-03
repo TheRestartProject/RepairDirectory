@@ -1,9 +1,9 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\ModelFactories;
+namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\ModelFactories;
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
-use TheRestartProject\RepairDirectory\Infrastructure\ModelFactories\BusinessFactory;
+use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**

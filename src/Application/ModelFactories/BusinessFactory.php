@@ -1,8 +1,7 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Infrastructure\ModelFactories;
+namespace TheRestartProject\RepairDirectory\Application\ModelFactories;
 
-use Illuminate\Http\Request;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 /**
@@ -52,7 +51,7 @@ class BusinessFactory
         $postcode = array_pop($addressParts);
         // move town/area from the front of the postcode to the end of the address
         $postcodeParts = explode(' ', $postcode);
-        while(count($postcodeParts) > 2) {
+        while (count($postcodeParts) > 2) {
             $addressParts[] = array_shift($postcodeParts);
         }
         $business->setPostcode(implode(' ', $postcodeParts));

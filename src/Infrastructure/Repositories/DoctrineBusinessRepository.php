@@ -69,13 +69,18 @@ class DoctrineBusinessRepository implements BusinessRepository
     /**
      * Finds the business or returns null
      *
-     * @param integer $id The id of the business to find
+     * @param integer $uid The id of the business to find
+     *
      * @return Business|null
      */
-    public function get($id)
+    public function get($uid)
     {
-        /** @var Business $business */
-        $business = $this->businessRepository->find($id);
+        /**
+         * The business to update
+         *
+         * @var Business $business
+         */
+        $business = $this->businessRepository->find($uid);
         return $business;
     }
 }

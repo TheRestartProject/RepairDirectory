@@ -77,10 +77,10 @@
         ],
         "sniff": [
             "vendor/bin/phpcs --config-set ignore_errors_on_exit 1",
-            "vendor/bin/phpcs -s --standard=phpstandard.xml --extensions=php src tests"
+            "vendor/bin/phpcs -s --standard=phpcs.xml --extensions=php src tests"
         ],
         "mess": [
-            "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
+            "vendor/bin/phpmd src/ text phpmd.xml",
             "vendor/bin/phpmd tests/ text codesize,design,naming,unusedcode"
         ],
         "copypaste": "vendor/bin/phpcpd src app tests",

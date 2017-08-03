@@ -108,7 +108,6 @@ class ImportFromHttpRequestTest extends TestCase
     }
 
     /**
-     *
      * Tests that the handler successfully converts a data array
      * into a Business using the factory and adds it to the
      * Repository.
@@ -130,7 +129,6 @@ class ImportFromHttpRequestTest extends TestCase
 
 
     /**
-     *
      * Tests that the handler successfully updates an existing business from
      * a data array.
      *
@@ -158,8 +156,6 @@ class ImportFromHttpRequestTest extends TestCase
 
     /**
      * Sets up the geocoder to return a [lat, lng] for a Business
-     *
-     * @param Request $request the request with Business data
      *
      * @return void
      */

@@ -36,8 +36,9 @@ interface BusinessRepository
     /**
      * Finds the business or returns null
      *
-     * @param integer $id The id of the business to find
+     * @param integer $uid The uid of the business to find
+     *
      * @return Business|null
      */
-    public function get($id);
+    public function get($uid);
 }
