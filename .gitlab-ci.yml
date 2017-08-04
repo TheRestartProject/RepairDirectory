@@ -48,39 +48,55 @@ test:unittests:
   - docker
   only:
   - master
-
+  
 deploy:staging:
-  dependencies:
-  - build
+  image: ruby:2.2
   stage: deploy
-  script:
-  - php composer.phar install --no-dev
-  - rm composer.phar
-  - rm -rf .git
   tags:
-  - docker
+    - docker
+  before_script:
+    - gem install dpl
+  script:
+    - "echo 'web: composer warmup && $(composer config bin-dir)/heroku-php-apache2 public/' > ./Procfile"
+    - dpl --provider=heroku --app=restartproject --api-key=$HEROKU_STAGING_API_KEY --skip-cleanup
+  environment:
+    name: staging
+    url: https://restartproject.herokuapp.com/
   only:
-  - master
-  artifacts:
-    paths:
-    - ./
-    name: "${CI_BUILD_REF_NAME}"
-    expire_in: 1 day
+    - master
+    
+# deploy:staging:
+#   dependencies:
+#   - build
+#   stage: deploy
+#   script:
+#   - php composer.phar install --no-dev
+#   - rm composer.phar
+#   - rm -rf .git
+#   tags:
+#   - docker
+#   only:
+#   - master
+#   artifacts:
+#     paths:
+#     - ./
+#     name: "${CI_BUILD_REF_NAME}"
+#     expire_in: 1 day
 
-deploy:production:
-  dependencies:
-  - build
-  stage: deploy
-  script:
-  - php composer.phar install --no-dev
-  - rm composer.phar
-  - rm -rf .git
-  tags:
-  - docker
-  only:
-  - tags
-  artifacts:
-    paths:
-    - ./
-    name: "${CI_BUILD_REF_NAME}"
-    expire_in: 1 week
+# deploy:production:
+#   dependencies:
+#   - build
+#   stage: deploy
+#   script:
+#   - php composer.phar install --no-dev
+#   - rm composer.phar
+#   - rm -rf .git
+#   tags:
+#   - docker
+#   only:
+#   - tags
+#   artifacts:
+#     paths:
+#     - ./
+#     name: "${CI_BUILD_REF_NAME}"
+#     expire_in: 1 week
