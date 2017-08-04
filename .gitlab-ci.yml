@@ -8,7 +8,9 @@ stages:
 build:
   stage: build
   before_script:
-  - "apt-get update && apt-get install zip unzip -y"
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  - "apt-get update && apt-get install zip unzip yarn -y"
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
@@ -16,6 +18,8 @@ build:
   - php composer.phar install
   - php composer.phar run-script post-root-package-install
   - php artisan key:generate
+  - yarn
+  - npm run production
   tags:
   - docker
   only:
@@ -48,55 +52,39 @@ test:unittests:
   - docker
   only:
   - master
-  
-deploy:staging:
-  image: ruby:2.2
-  stage: deploy
-  tags:
-    - docker
-  before_script:
-    - gem install dpl
-  script:
-    - "echo 'web: php artisan doctrine:migrations:refresh && php artisan restart:import:businesses data/all.csv && $(composer config bin-dir)/heroku-php-apache2 public/' > ./Procfile"
-    - dpl --provider=heroku --app=restartproject --api-key=$HEROKU_STAGING_API_KEY --skip-cleanup
-  environment:
-    name: staging
-    url: https://restartproject.herokuapp.com/
-  only:
-    - master
-    
-# deploy:staging:
-#   dependencies:
-#   - build
-#   stage: deploy
-#   script:
-#   - php composer.phar install --no-dev
-#   - rm composer.phar
-#   - rm -rf .git
-#   tags:
-#   - docker
-#   only:
-#   - master
-#   artifacts:
-#     paths:
-#     - ./
-#     name: "${CI_BUILD_REF_NAME}"
-#     expire_in: 1 day
 
-# deploy:production:
-#   dependencies:
-#   - build
-#   stage: deploy
-#   script:
-#   - php composer.phar install --no-dev
-#   - rm composer.phar
-#   - rm -rf .git
-#   tags:
-#   - docker
-#   only:
-#   - tags
-#   artifacts:
-#     paths:
-#     - ./
-#     name: "${CI_BUILD_REF_NAME}"
-#     expire_in: 1 week
+deploy:staging:
+  dependencies:
+  - build
+  stage: deploy
+  script:
+  - php composer.phar install --no-dev
+  - rm composer.phar
+  - rm -rf .git
+  tags:
+  - docker
+  only:
+  - master
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 day
+
+deploy:production:
+  dependencies:
+  - build
+  stage: deploy
+  script:
+  - php composer.phar install --no-dev
+  - rm composer.phar
+  - rm -rf .git
+  tags:
+  - docker
+  only:
+  - tags
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 week
