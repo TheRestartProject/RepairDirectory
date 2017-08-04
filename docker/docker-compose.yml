@@ -3,7 +3,7 @@ version: '2'
 services:
 
   database:
-    image: mariadb
+    image: mysql:5.7
     container_name: restartproject_database
     volumes:
       - ./database:/var/lib/mysql
