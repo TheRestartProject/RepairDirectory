@@ -112,6 +112,16 @@ services:
     networks:
       - restartproject
 
+  node:
+    build: ./node
+    image: restartproject_node
+    container_name: restartproject_node
+    volumes:
+      - ../:/app
+    command: ["node", "--version"]
+    networks:
+      - restartproject
+
   xdebug:
     depends_on:
       - database

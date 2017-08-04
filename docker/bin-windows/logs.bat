@@ -1,3 +1,3 @@
 cd docker
-docker-compose logs
+docker-compose logs %*
 cd ..
