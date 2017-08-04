@@ -7,12 +7,11 @@ let $businessDetails, $businessDetailsPlaceholder;
 
 $(document).ready(() => {
     $('#search').submit(onSearch);
+    $businessDetails = $('#business-details');
+    $businessDetailsPlaceholder = $('#business-details-placeholder');
 });
 
 function initMap() {
-    $businessDetails = $('#business-details');
-    $businessDetailsPlaceholder = $('#business-details-placeholder');
-
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 11,
         center: {lat: 51.5715356, lng: 0.1332412}
@@ -72,6 +71,7 @@ function showRepairer(business) {
         <h2>${business.name}</h2>
         <p>${business.description}</p>
         ${business.address.split(',').join('<br/>')}
+        <br/>
         ${business.postcode}
         `
     );
