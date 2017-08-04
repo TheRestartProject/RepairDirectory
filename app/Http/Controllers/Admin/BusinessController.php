@@ -14,18 +14,28 @@ class BusinessController extends Controller
     public function edit($id = null, BusinessRepository $repository)
     {
         $business = $id ? $repository->get($id) : new Business();
-        return view('admin.business.edit', compact('business'));
+
+        $isCreate = $id === null;
+        $formAction = $isCreate ? route('admin.business.create') : route('admin.business.update', ['id' => $business->getUid()]);
+        $formMethod = $isCreate ? 'post' : 'put';
+
+        return view('admin.business.edit', [
+            'business' => $business,
+            'isCreate' => $isCreate,
+            'formAction' => $formAction,
+            'formMethod' => $formMethod
+        ]);
     }
 
     public function create(Request $request, CommandBus $commandBus)
     {
-        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
-        return view('admin.business.edit', compact('business'));
+        $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
+        return redirect('admin');
     }
 
     public function update($id, Request $request, CommandBus $commandBus)
     {
-        $business = $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
-        return view('admin.business.edit', compact('business'));
+        $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
+        return redirect('admin');
     }
 }

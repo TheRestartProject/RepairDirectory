@@ -3,7 +3,7 @@
 @section('content')
 
     <h2>All Repairers</h2>
-    <a class="btn btn-primary" href="{{ route('admin.business.new') }}">Add repairer</a>
+    <a class="btn btn-primary" href="{{ route('admin.business.edit') }}">Add repairer</a>
 
     <table class="table table-striped table-hover">
         <thead>
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         @foreach($businesses as $business)
-            <tr onclick="window.document.location='{{ route('admin.business.show', ['id' => $business->getUid()]) }}'"
+            <tr onclick="window.document.location='{{ route('admin.business.edit', ['id' => $business->getUid()]) }}'"
                 role="button">
                 <td>{{ $business->getName() }}</td>
                 <td>{{ $business->getAddress() }}</td>

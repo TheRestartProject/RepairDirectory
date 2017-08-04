@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Repair Directory Admin</h1>
+    <h1><a href="{{ route('admin.index') }}">Repair Directory Admin</a></h1>
     @yield('content')
 </div>
 </body>

@@ -33,7 +33,7 @@ class BusinessControllerTest extends FeatureTestCase
                 'postcode' => 'BA1 1EQ'
             ]
         );
-        $response->assertStatus(200);
+        $response->assertStatus(302);
 
         $this->assertDatabaseHas(
             'businesses', [
@@ -62,7 +62,7 @@ class BusinessControllerTest extends FeatureTestCase
                 'description' => 'This is a new description.'
             ]
         );
-        $response->assertStatus(200);
+        $response->assertStatus(302);
 
         $this->assertDatabaseHas(
             'businesses', [
