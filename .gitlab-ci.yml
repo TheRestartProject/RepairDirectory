@@ -20,6 +20,7 @@ build:
   - php artisan key:generate
   - yarn
   - npm run production
+  - rm -rf node_modules
   tags:
   - docker
   only:
