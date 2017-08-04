@@ -91,7 +91,7 @@ services:
       - VIRTUAL_HOST=restart-project.local
       - LETSENCRYPT_HOST=restart-project.local
       - LETSENCRYPT_EMAIL=admin@restart-project.local
-    command: ["php", "-S", "0.0.0.0:80", "-t", "/app", "server.php"]
+    command: ["php", "-S", "0.0.0.0:80", "server.php"]
     networks:
       - proxy-tier
       - restartproject
