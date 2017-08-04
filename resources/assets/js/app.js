@@ -1,8 +1,8 @@
 // called when the Google Maps JavaScript API has loaded
 window.initMap = function () {
     var center;
-    if (window.geolocation) {
-        center = {lat: window.geolocation.latitude, lng: window.geolocation.longitude};
+    if (window.searchLocation) {
+        center = {lat: window.searchLocation.latitude, lng: window.searchLocation.longitude};
     } else {
         center = {lat: 51.5074, lng: -0.1278};
     }

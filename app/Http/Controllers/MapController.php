@@ -15,10 +15,10 @@ class MapController extends Controller
         $search = $request->input('search');
 
         if ($search) {
-            $geolocation = $geocoder->geocode($search);
-            $businesses = $repository->findByLocation($geolocation);
+            $searchLocation = $geocoder->geocode($search);
+            $businesses = $repository->findByLocation($searchLocation);
         } else {
-            $geolocation = null;
+            $searchLocation = null;
             $businesses = $repository->getAll();
         }
 
@@ -29,10 +29,10 @@ class MapController extends Controller
             $businesses
         );
 
-        $geolocationJson = $geolocation ? $geolocation->toArray() : null;
+        $searchLocationJson = $searchLocation ? $searchLocation->toArray() : null;
 
         JavaScript::put([
-            'geolocation' => $geolocationJson,
+            'searchLocation' => $searchLocationJson,
             'businesses' => $businessesJson
         ]);
         return view('map', compact('search'));
