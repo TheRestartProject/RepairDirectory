@@ -8,9 +8,15 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+.header__link {
+  float: right;
+  margin-top: 3rem;
+}
+
 .map__container {
   height: 500px;
 }
+
 #map {
   height: 100%;
 }

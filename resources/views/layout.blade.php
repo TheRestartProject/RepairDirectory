@@ -12,6 +12,7 @@
 </head>
 <body>
 <div class="container">
+    <a href='/admin' class="header__link btn btn-primary">Admin</a>
     <h1>Repair Directory</h1>
     @yield('content')
     @include('footer')
