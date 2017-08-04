@@ -57,7 +57,7 @@ deploy:staging:
   before_script:
     - gem install dpl
   script:
-    - "echo 'web: $(composer config bin-dir)/heroku-php-apache2 public/' > ./Procfile"
+    - "echo 'web: php artisan doctrine:migrations:refresh && php artisan restart:import:businesses data/all.csv && $(composer config bin-dir)/heroku-php-apache2 public/' > ./Procfile"
     - dpl --provider=heroku --app=restartproject --api-key=$HEROKU_STAGING_API_KEY --skip-cleanup
   environment:
     name: staging
