@@ -5,6 +5,8 @@ case "$1" in
         docker-compose up -d restart-project.local db.restart-project.local
         cd ..
         docker/bin/composer install
+        docker/bin/yarn
+        docker/bin/npm run dev
         docker/bin/artisan doctrine:migrations:migrate
         ;;
     'reports')
