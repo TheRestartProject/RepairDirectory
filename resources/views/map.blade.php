@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <form class="row">
+    <form id="search" class="row">
         <div class="col-xs-12">
             <div class="form-group">
                 <label for="search">Search by postcode</label>
-                <input id="search" name="search" class="form-control" value="{{ $search }}">
+                <input id="search" name="search" class="form-control">
             </div>
         </div>
     </form>
@@ -24,7 +24,7 @@
 
     </div>
 
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzOdSRgPAZO6wC_oxOOkb7lkarq0PjT8&callback=initMap"></script>
+    <script async defer onload="initMap()"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzOdSRgPAZO6wC_oxOOkb7lkarq0PjT8"></script>
 
 @endsection

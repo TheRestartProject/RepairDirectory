@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'MapController@index')->name('map.index');
+Route::get('/', function () {
+    return view('map');
+});
 
 Route::prefix('admin')
     ->namespace('Admin')
