@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-    <h2>{{ $isCreate ? 'Edit' : 'New' }} Business</h2>
+    <h2>{{ $isCreate ? 'New' : 'Edit' }} Business</h2>
 
     <form class="row" action="{{ $formAction }}" method="post">
 
@@ -9,7 +9,7 @@
 
         {{ method_field($formMethod) }}
 
-        <div class="col-sm-12 col-md-4">
+        <div class="col-xs-12 col-md-4">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input id="name" name="name" class="form-control" value="{{ $business->getName() }}"/>

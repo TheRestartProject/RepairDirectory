@@ -2,6 +2,9 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin;
 
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
+use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Tests\Feature\FeatureTestCase;
 
 /**
@@ -37,13 +40,17 @@ class BusinessControllerTest extends FeatureTestCase
 
         $this->assertDatabaseHas(
             'businesses', [
+                'uid' => 2,
                 'name' => 'iRepair Centre Bath',
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
-                'postcode' => 'BA1 1EQ',
-                'geolocation' => 'a:2:{i:0;d:51.3813963;i:1;d:-2.3613877;}'
+                'postcode' => 'BA1 1EQ'
             ]
         );
+
+        $businessRepository = $this->app->make(BusinessRepository::class);
+
+        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->get(2)->getGeolocation());
     }
 
     /**
@@ -66,6 +73,7 @@ class BusinessControllerTest extends FeatureTestCase
 
         $this->assertDatabaseHas(
             'businesses', [
+                'uid' => 1,
                 'name' => 'This is a new name',
                 'description' => 'This is a new description.'
             ]

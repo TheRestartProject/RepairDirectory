@@ -6,7 +6,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 use TheRestartProject\RepairDirectory\Domain\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
+use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
 /**
  * Handles the ImportFromCsvRowCommand to import a Business
@@ -29,7 +29,7 @@ class ImportFromHttpRequestHandler
     /**
      * The geocoder to get [lat, lng] of business
      *
-     * @var BusinessGeocoder
+     * @var Geocoder
      */
     private $geocoder;
 
@@ -37,9 +37,9 @@ class ImportFromHttpRequestHandler
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
      * @param BusinessRepository $repository An implementation of the BusinessRepository
-     * @param BusinessGeocoder   $geocoder   Geocoder to get [lat, lng] of business
+     * @param Geocoder           $geocoder   Geocoder to get [lat, lng] of business
      */
-    public function __construct(BusinessRepository $repository, BusinessGeocoder $geocoder)
+    public function __construct(BusinessRepository $repository, Geocoder $geocoder)
     {
         $this->repository = $repository;
         $this->geocoder = $geocoder;
@@ -75,7 +75,7 @@ class ImportFromHttpRequestHandler
         if (array_key_exists('postcode', $data)) {
             $business->setPostcode($data['postcode']);
         }
-        $business->setGeolocation($this->geocoder->geocode($business));
+        $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
         if ($isCreate) {
             $this->repository->add($business);
         }

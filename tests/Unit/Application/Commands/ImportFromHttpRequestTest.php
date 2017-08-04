@@ -2,13 +2,11 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Bus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
+use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 use \Mockery as m;
 
@@ -52,7 +50,7 @@ class ImportFromHttpRequestTest extends TestCase
     public function setUp()
     {
         $this->repository = m::spy(BusinessRepository::class);
-        $this->geocoder = m::mock(BusinessGeocoder::class);
+        $this->geocoder = m::mock(Geocoder::class);
 
         /**
          * Cast mock to BusinessRepository
@@ -64,7 +62,7 @@ class ImportFromHttpRequestTest extends TestCase
         /**
          * Cast mock to Geocoder
          *
-         * @var BusinessGeocoder $geocoder
+         * @var Geocoder $geocoder
          */
         $geocoder = $this->geocoder;
 
@@ -96,9 +94,9 @@ class ImportFromHttpRequestTest extends TestCase
         /**
          * Cast mock to Geocoder
          *
-         * @var BusinessGeocoder $geocoder
+         * @var Geocoder $geocoder
          */
-        $geocoder = m::mock(BusinessGeocoder::class);
+        $geocoder = m::mock(Geocoder::class);
 
         $handler = new ImportFromHttpRequestHandler(
             $repository,

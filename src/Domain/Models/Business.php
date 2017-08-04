@@ -43,9 +43,9 @@ class Business
     private $postcode;
 
     /**
-     * The [lat, lng] of the business
+     * The location of the business
      *
-     * @var array
+     * @var Point
      */
     private $geolocation;
 
@@ -524,7 +524,7 @@ class Business
     /**
      * Return the [lat, lng] of the business
      *
-     * @return array
+     * @return Point
      */
     public function getGeolocation()
     {
@@ -532,9 +532,9 @@ class Business
     }
 
     /**
-     * Set the [lat, lng] of the business
+     * Set the location of the business
      *
-     * @param array $geolocation The array to set
+     * @param Point $geolocation The point to set
      *
      * @return void
      */
@@ -563,6 +563,18 @@ class Business
     public function setPostcode($postcode)
     {
         $this->postcode = $postcode;
+    }
+
+    /**
+     * Convert the instance to a [ key => value ] array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = get_object_vars($this);
+        $array['geolocation'] = $this->getGeolocation()->toArray();
+        return $array;
     }
 
 }

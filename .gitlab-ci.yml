@@ -8,7 +8,9 @@ stages:
 build:
   stage: build
   before_script:
-  - "apt-get update && apt-get install zip unzip -y"
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  - "apt-get update && apt-get install zip unzip yarn -y"
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
@@ -16,6 +18,8 @@ build:
   - php composer.phar install
   - php composer.phar run-script post-root-package-install
   - php artisan key:generate
+  - yarn
+  - npm run production
   tags:
   - docker
   only:
@@ -51,7 +55,7 @@ test:unittests:
   only:
   - master
   - /^feature-.*$/
-  
+
 deploy:staging:
   image: ruby:2.2
   stage: deploy

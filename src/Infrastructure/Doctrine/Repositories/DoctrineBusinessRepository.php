@@ -1,9 +1,11 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Infrastructure\Repositories;
+namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
@@ -82,5 +84,41 @@ class DoctrineBusinessRepository implements BusinessRepository
          */
         $business = $this->businessRepository->find($uid);
         return $business;
+    }
+
+    /**
+     * Finds businesses within 5 miles of the provided [lat, lng]
+     *
+     * It first finds businesses that are within a bounding box, in order to make use of spatial indexes.
+     * This is done by MBRContains.
+     *
+     * It then also checks that these businesses are within the bounding circle.
+     * This is done by ST_Distance_Sphere
+     *
+     * @param Point $geolocation The location to search by
+     *
+     * @return array
+     */
+    public function findByLocation($geolocation)
+    {
+        $rsm = new ResultSetMappingBuilder($this->entityManager);
+        $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+        $query = $this->entityManager->createNativeQuery(
+            "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
+                  MBRContains(
+                    LineString(
+                      Point(:x - :radius, :y - :radius),
+                      Point(:x + :radius, :y + :radius)
+                    ),
+                    b.geolocation
+                  )
+                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius",
+            $rsm
+        );
+        $query->setParameter('x', $geolocation->getLatitude());
+        $query->setParameter('y', $geolocation->getLongitude());
+        $query->setParameter('radius', 5000);
+
+        return $query->getResult();
     }
 }

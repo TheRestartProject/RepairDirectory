@@ -1,14 +1,13 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Repositories;
+namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Doctrine\Repositories;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Mockery;
 use Mockery\MockInterface;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
-use TheRestartProject\RepairDirectory\Infrastructure\Repositories\
-DoctrineBusinessRepository;
+use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineBusinessRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**

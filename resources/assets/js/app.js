@@ -1,22 +1,65 @@
+// called when the Google Maps JavaScript API has loaded
+window.initMap = function () {
+    var center;
+    if (window.searchLocation) {
+        center = {lat: window.searchLocation.latitude, lng: window.searchLocation.longitude};
+    } else {
+        center = {lat: 51.5074, lng: -0.1278};
+    }
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: center
+    });
 
-require('./bootstrap');
+    map.addListener('click', function () {
+       hideRepairer();
+    });
 
-window.Vue = require('vue');
+    window.businesses.forEach(function (business) {
+        var marker = new google.maps.Marker({
+            position: { lat: business.geolocation.latitude, lng: business.geolocation.longitude },
+            map: map,
+            title: business.name
+        });
+        marker.addListener('click', function() {
+            map.setZoom(12);
+            map.setCenter(marker.getPosition());
+            showRepairer(business);
+        });
+    });
+};
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+function showRepairer(business) {
+    hideElement(document.getElementById('business-details-placeholder'));
 
-Vue.component('example', require('./components/Example.vue'));
+    var detailsElement = document.getElementById('business-details');
+    detailsElement.innerHTML = '<h2>' + business.name + '</h2>' +
+        '<p>' + business.description + '</p>' +
+        '<p>' + (business.address.split(',').join('<br/>')) + '<br/>' + business.postcode + '</p>';
 
-const app = new Vue({
-    el: '#app'
-});
+    showElement(detailsElement);
+}
+
+function hideRepairer() {
+    hideElement(document.getElementById('business-details'));
+    showElement(document.getElementById('business-details-placeholder'));
+}
+
+function showElement(element) {
+    var classNames = element.getAttribute('class').split(' ');
+    var hiddenIndex = classNames.indexOf('hidden');
+    if (hiddenIndex > -1) {
+        classNames.splice(hiddenIndex, 1);
+    }
+    element.setAttribute('class', classNames.join(' '));
+}
+
+function hideElement(element) {
+    var classNames = element.getAttribute('class').split(' ');
+    var hiddenIndex = classNames.indexOf('hidden');
+    if (hiddenIndex === -1) {
+        classNames.push('hidden');
+    }
+    element.setAttribute('class', classNames.join(' '));
+}

@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\ModelFactorie
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**
@@ -47,7 +48,7 @@ class BusinessFactoryTest extends TestCase
 
         $business = $this->factory->fromCsvRow($row);
         $this->assertInstanceOf(Business::class, $business);
-        $this->assertEquals([51.3813993,-2.363582], $business->getGeolocation());
+        $this->assertEquals(new Point(51.3813993, -2.363582), $business->getGeolocation());
         $this->assertEquals('iRepair Centre Bath', $business->getName());
         $this->assertEquals('Bath\'s iRepair Centre. Fix all your broken devices.', $business->getDescription());
         $this->assertEquals('12 Westgate St, Bath', $business->getAddress());

@@ -4,11 +4,11 @@ namespace TheRestartProject\RepairDirectory\Infrastructure\Services;
 
 use Geocoder\Exception\ChainNoResult;
 use Geocoder\Laravel\ProviderAndDumperAggregator;
-use TheRestartProject\RepairDirectory\Domain\Models\Business;
-use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
+use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
 /**
- * Implements the BusinessGeocoder interface using the Laravel Geocoder library.
+ * Implements the Geocoder domain interface using the Laravel Geocoder library.
  *
  * @category Class
  * @package  TheRestartProject\RepairDirectory\Infrastructure\Services
@@ -16,7 +16,7 @@ use TheRestartProject\RepairDirectory\Domain\Services\BusinessGeocoder;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class BusinessGeocoderImpl implements BusinessGeocoder
+class GeocoderImpl implements Geocoder
 {
 
     /**
@@ -27,7 +27,7 @@ class BusinessGeocoderImpl implements BusinessGeocoder
     private $geocoder;
 
     /**
-     * BusinessGeocoderImpl constructor.
+     * GeocoderImpl constructor.
      *
      * @param ProviderAndDumperAggregator $geocoder The Laravel Geocoder service
      */
@@ -39,19 +39,18 @@ class BusinessGeocoderImpl implements BusinessGeocoder
     /**
      * Find the [lat, lng] of a business
      *
-     * @param Business $business The Business to geolocate
+     * @param string $address The address to geolocate
      *
-     * @return array|null The [lat, lng] of the business
+     * @return Point|null The location of the address, or null if not found
      */
-    public function geocode(Business $business)
+    public function geocode($address)
     {
-        $addressString = $business->getAddress() . ', ' . $business->getPostcode();
         try {
-            $geocodeResponse = $this->geocoder->geocode($addressString);
+            $geocodeResponse = $this->geocoder->geocode($address);
             $addressCollection = $geocodeResponse->get();
             $address = $addressCollection->get(0);
             if ($address) {
-                return [$address->getLatitude(), $address->getLongitude()];
+                return new Point($address->getLatitude(), $address->getLongitude());
             }
         } catch (ChainNoResult $e) {
             return null;

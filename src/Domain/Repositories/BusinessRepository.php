@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Domain\Repositories;
 
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 
 /**
  * Interface BusinessRepository
@@ -41,4 +42,13 @@ interface BusinessRepository
      * @return Business|null
      */
     public function get($uid);
+
+    /**
+     * Finds businesses within 5 miles of the provided [lat, lng]
+     *
+     * @param Point $geolocation The location to search by
+     *
+     * @return array
+     */
+    public function findByLocation($geolocation);
 }

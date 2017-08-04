@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    $environment = app()->environment();
-    return view('welcome', compact('environment'));
-});
+Route::get('/', 'MapController@index')->name('map.index');
 
 Route::prefix('admin')
     ->namespace('Admin')
