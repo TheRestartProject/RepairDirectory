@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use JavaScript;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
-class MapController extends Controller
+class BusinessController extends Controller
 {
-    public function index(Request $request, BusinessRepository $repository, Geocoder $geocoder)
+    public function search(Request $request, BusinessRepository $repository, Geocoder $geocoder)
     {
         $search = $request->input('search');
 
+        $businesses = [];
         if ($search) {
             $searchLocation = $geocoder->geocode($search);
-            $businesses = $repository->findByLocation($searchLocation);
+            if ($searchLocation) {
+                $businesses = $repository->findByLocation($searchLocation);
+            }
         } else {
-            $searchLocation = null;
             $businesses = $repository->getAll();
         }
 
@@ -29,12 +31,6 @@ class MapController extends Controller
             $businesses
         );
 
-        $searchLocationJson = $searchLocation ? $searchLocation->toArray() : null;
-
-        JavaScript::put([
-            'searchLocation' => $searchLocationJson,
-            'businesses' => $businessesJson
-        ]);
-        return view('map', compact('search'));
+        return $businessesJson;
     }
 }
