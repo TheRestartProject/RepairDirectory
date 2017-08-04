@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-    <h2>{{ $isCreate ? 'Edit' : 'New' }} Business</h2>
+    <h2>{{ $isCreate ? 'New' : 'Edit' }} Business</h2>
 
     <form class="row" action="{{ $formAction }}" method="post">
 

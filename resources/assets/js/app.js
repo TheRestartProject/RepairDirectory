@@ -1,10 +1,15 @@
 // called when the Google Maps JavaScript API has loaded
 window.initMap = function () {
-    var londonLatLng = {lat: 51.5074, lng: -0.1278};
+    var center;
+    if (window.geolocation) {
+        center = {lat: window.geolocation.latitude, lng: window.geolocation.longitude};
+    } else {
+        center = {lat: 51.5074, lng: -0.1278};
+    }
 
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
-        center: londonLatLng
+        center: center
     });
 
     map.addListener('click', function () {

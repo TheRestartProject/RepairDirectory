@@ -18,16 +18,21 @@ class MapController extends Controller
             $geolocation = $geocoder->geocode($search);
             $businesses = $repository->findByLocation($geolocation);
         } else {
+            $geolocation = null;
             $businesses = $repository->getAll();
         }
 
         $businessesJson = array_map(
             function (Business $business) {
-                return $business->toJson();
+                return $business->toArray();
             },
             $businesses
         );
+
+        $geolocationJson = $geolocation ? $geolocation->toArray() : null;
+
         JavaScript::put([
+            'geolocation' => $geolocationJson,
             'businesses' => $businessesJson
         ]);
         return view('map', compact('search'));
