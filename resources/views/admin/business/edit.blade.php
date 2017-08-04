@@ -1,13 +1,13 @@
 @extends('admin.layout')
 
 @section('content')
-    <h2>{{ $business->getUid() ? 'Edit' : 'New' }} Business</h2>
+    <h2>{{ $isCreate ? 'Edit' : 'New' }} Business</h2>
 
-    <form class="row" action="{{ $business->getUid() ? route('admin.business.update', ['id' => $business->getUid()]) : route('admin.business.create') }}" method="post">
+    <form class="row" action="{{ $formAction }}" method="post">
 
         {{ csrf_field() }}
 
-        {{ method_field($business->getUid() ? 'put' : 'post') }}
+        {{ method_field($formMethod) }}
 
         <div class="col-sm-12 col-md-4">
             <div class="form-group">
