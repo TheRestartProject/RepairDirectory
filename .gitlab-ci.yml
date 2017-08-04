@@ -20,7 +20,7 @@ build:
   - docker
   only:
   - master
-  - feature-*
+  - /^feature-.*$/
   artifacts:
     paths:
     - ./
@@ -38,7 +38,7 @@ test:static-analysis:
   - docker
   only:
   - master
-  - feature-*
+  - /^feature-.*$/
 
 test:unittests:
   stage: test
@@ -50,7 +50,7 @@ test:unittests:
   - docker
   only:
   - master
-  - feature-*
+  - /^feature-.*$/
   
 deploy:staging:
   image: ruby:2.2
