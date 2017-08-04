@@ -14,8 +14,8 @@ function initMap() {
     $businessDetailsPlaceholder = $('#business-details-placeholder');
 
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 10,
-        center: {lat: 51.5074, lng: -0.1278}
+        zoom: 11,
+        center: {lat: 51.5715356, lng: 0.1332412}
     });
 
     map.addListener('click', function () {
@@ -36,8 +36,11 @@ function onSearch(e) {
 }
 
 function doSearch(query) {
-    $.get('/api/business/search', query, (businesses) => {
+    $.get('/api/business/search', query, ({ searchLocation, businesses }) => {
         clearMap();
+        if (searchLocation) {
+            map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude});
+        }
         businesses.forEach(addRepairer);
     });
 }

@@ -15,6 +15,8 @@ class BusinessController extends Controller
         $search = $request->input('search');
 
         $businesses = [];
+        $searchLocation = null;
+
         if ($search) {
             $searchLocation = $geocoder->geocode($search);
             if ($searchLocation) {
@@ -24,13 +26,18 @@ class BusinessController extends Controller
             $businesses = $repository->getAll();
         }
 
-        $businessesJson = array_map(
+        $businessesAsArrays = array_map(
             function (Business $business) {
                 return $business->toArray();
             },
             $businesses
         );
 
-        return $businessesJson;
+        $searchLocationAsArray = $searchLocation ? $searchLocation->toArray() : null;
+
+        return [
+            'businesses' => $businessesAsArrays,
+            'searchLocation' => $searchLocationAsArray
+        ];
     }
 }
