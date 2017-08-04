@@ -15,12 +15,38 @@ use TheRestartProject\RepairDirectory\Domain\Models\Point;
 */
 
 /** @var LaravelDoctrine\ORM\Testing\Factory $factory */
-$factory->define(Business::class, function (Faker\Generator $faker) {
+$factory->define(Business::class, function (Faker\Generator $faker, $attributes) {
     $business = new Business();
-    $business->setName($faker->name);
-    $business->setAddress(implode(', ', explode("\n", $faker->address)));
-    $business->setPostcode($faker->postcode);
-    $business->setDescription($faker->sentence);
-    $business->setGeolocation(new Point($faker->randomFloat(), $faker->randomFloat()));
+
+    if (array_key_exists('name', $attributes)) {
+        $business->setName($attributes['name']);
+    } else {
+        $business->setName($faker->name);
+    }
+
+    if (array_key_exists('description', $attributes)) {
+        $business->setDescription($attributes['description']);
+    } else {
+        $business->setDescription($faker->sentence);
+    }
+
+    if (array_key_exists('address', $attributes)) {
+        $business->setAddress($attributes['address']);
+    } else {
+        $business->setAddress(implode(', ', explode("\n", $faker->address)));
+    }
+
+    if (array_key_exists('postcode', $attributes)) {
+        $business->setPostcode($attributes['postcode']);
+    } else {
+        $business->setPostcode($faker->postcode);
+    }
+
+    if (array_key_exists('geolocation', $attributes)) {
+        $business->setGeolocation($attributes['geolocation']);
+    } else {
+        $business->setGeolocation(new Point($faker->randomFloat(), $faker->randomFloat()));
+    }
+
     return $business;
 });
