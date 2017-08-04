@@ -6,6 +6,9 @@ use Illuminate\Contracts\Container\Container;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use ReflectionException;
+use TheRestartProject\RepairDirectory\Application\CommandBus\Exceptions\ContainerException;
+use TheRestartProject\RepairDirectory\Application\CommandBus\Exceptions\NotFoundException;
 
 /**
  * Allows the Laravel Container to be used as an InteropContainer
@@ -49,7 +52,13 @@ class LaravelContainerAdapter implements ContainerInterface
      */
     public function get($id)
     {
-        return $this->container->make($id);
+        try {
+            return $this->container->make($id);
+        } catch (ReflectionException $e) {
+            throw new NotFoundException($e->getMessage(), $e->getCode());
+        } catch (\Exception $e) {
+            throw new ContainerException($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
