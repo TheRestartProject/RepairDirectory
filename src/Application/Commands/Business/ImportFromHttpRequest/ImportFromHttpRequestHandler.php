@@ -37,7 +37,7 @@ class ImportFromHttpRequestHandler
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
      * @param BusinessRepository $repository An implementation of the BusinessRepository
-     * @param Geocoder   $geocoder   Geocoder to get [lat, lng] of business
+     * @param Geocoder           $geocoder   Geocoder to get [lat, lng] of business
      */
     public function __construct(BusinessRepository $repository, Geocoder $geocoder)
     {

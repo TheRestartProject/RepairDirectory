@@ -2,22 +2,37 @@
 
 namespace TheRestartProject\RepairDirectory\Domain\Models;
 
+/**
+ * Class Point
+ *
+ * Represents a location in the World.
+ *
+ * @category Class
+ * @package  TheRestartProject\RepairDirectory\Domain\Models
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class Point
 {
     private $latitude;
     private $longitude;
 
     /**
-     * @param float $latitude
-     * @param float $longitude
+     * Point constructor
+     *
+     * @param float $latitude  The latitude of the point
+     * @param float $longitude The longitude of the point
      */
     public function __construct($latitude, $longitude)
     {
-        $this->latitude  = $latitude;
+        $this->latitude = $latitude;
         $this->longitude = $longitude;
     }
 
     /**
+     * Return the latitude of the point
+     *
      * @return float
      */
     public function getLatitude()
@@ -26,6 +41,8 @@ class Point
     }
 
     /**
+     * Return the longitude of the point
+     *
      * @return float
      */
     public function getLongitude()
@@ -33,9 +50,14 @@ class Point
         return $this->longitude;
     }
 
-    public function toJson()
+    /**
+     * Convert the instance to a [ key => value ] array.
+     *
+     * @return array
+     */
+    public function toArray()
     {
-        $json = get_object_vars($this);
-        return $json;
+        $array = get_object_vars($this);
+        return $array;
     }
 }

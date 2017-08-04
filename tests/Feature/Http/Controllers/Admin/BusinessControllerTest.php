@@ -40,8 +40,7 @@ class BusinessControllerTest extends FeatureTestCase
                 'name' => 'iRepair Centre Bath',
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
-                'postcode' => 'BA1 1EQ',
-                'geolocation' => ''
+                'postcode' => 'BA1 1EQ'
             ]
         );
     }
@@ -66,6 +65,7 @@ class BusinessControllerTest extends FeatureTestCase
 
         $this->assertDatabaseHas(
             'businesses', [
+                'uid' => 1,
                 'name' => 'This is a new name',
                 'description' => 'This is a new description.'
             ]

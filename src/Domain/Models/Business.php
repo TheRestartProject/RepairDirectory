@@ -565,11 +565,16 @@ class Business
         $this->postcode = $postcode;
     }
 
-    public function toJson()
+    /**
+     * Convert the instance to a [ key => value ] array.
+     *
+     * @return array
+     */
+    public function toArray()
     {
-        $json = get_object_vars($this);
-        $json['geolocation'] = $this->getGeolocation()->toJson();
-        return $json;
+        $array = get_object_vars($this);
+        $array['geolocation'] = $this->getGeolocation()->toArray();
+        return $array;
     }
 
 }
