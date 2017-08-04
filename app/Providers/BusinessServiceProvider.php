@@ -26,7 +26,6 @@ class BusinessServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerCustomTypes();
     }
 
     /**
@@ -40,16 +39,4 @@ class BusinessServiceProvider extends ServiceProvider
         $this->app->singleton(BusinessFactory::class, BusinessFactory::class);
     }
 
-    /**
-     * Registers the 'point' type, which is used for the Business geolocation
-     *
-     * @return void
-     */
-    private function registerCustomTypes()
-    {
-        if (!Type::hasType('point')) {
-            Type::addType('point', PointType::class);
-            $this->app->make(EntityManager::class)->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping('point', 'point');
-        }
-    }
 }

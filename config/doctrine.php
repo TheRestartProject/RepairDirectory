@@ -111,7 +111,8 @@ return [
     |--------------------------------------------------------------------------
     */
     'custom_types'               => [
-        'json' => LaravelDoctrine\ORM\Types\Json::class
+        'json' => LaravelDoctrine\ORM\Types\Json::class,
+        'point' => TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Types\PointType::class
     ],
     /*
     |--------------------------------------------------------------------------
