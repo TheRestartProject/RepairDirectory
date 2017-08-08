@@ -5,8 +5,8 @@
     <form id="search" class="row">
         <div class="col-xs-12">
             <div class="form-group">
-                <label for="search">Search by postcode</label>
-                <input id="search" name="search" class="form-control">
+                <label for="location">Search by postcode</label>
+                <input id="location" name="location" class="form-control">
             </div>
         </div>
     </form>

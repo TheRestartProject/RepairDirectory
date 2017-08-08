@@ -60,7 +60,7 @@ class PointType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        list($latitude, $longitude) = sscanf($value, 'POINT(%f %f)');
+        list($longitude, $latitude) = sscanf($value, 'POINT(%f %f)');
 
         return new Point($latitude, $longitude);
     }
@@ -78,7 +78,7 @@ class PointType extends Type
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value instanceof Point) {
-            $value = sprintf('POINT(%F %F)', $value->getLatitude(), $value->getLongitude());
+            $value = sprintf('POINT(%F %F)', $value->getLongitude(), $value->getLatitude());
         }
 
         return $value;
