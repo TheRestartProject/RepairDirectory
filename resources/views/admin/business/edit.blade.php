@@ -24,11 +24,41 @@
                 <label for="postcode">Postcode</label>
                 <input id="postcode" name="postcode" class="form-control" value="{{ $business->getPostcode() }}"/>
             </div>
+            
+            <div class="form-group">
+                <label for="city">City</label>
+                <input id="city" name="city"
+                          class="form-control">{{ $business->getCity() }}</input>
+            </div>
+
+            <div class="form-group">
+                <label for="borough">Borough</label>
+                <input id="borough" name="borough"
+                          class="form-control">{{ $business->getBorough() }}</input>
+            </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea id="description" name="description"
                           class="form-control">{{ $business->getDescription() }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="landline">Landline</label>
+                <input id="landline" name="landline"
+                          class="form-control">{{ $business->getLandline() }}</input>
+            </div>
+
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input id="mobile" name="mobile"
+                          class="form-control">{{ $business->getMobile() }}</input>
+            </div>
+
+            <div class="form-group">
+                <label for="website">Website</label>
+                <input id="website" name="website"
+                          class="form-control">{{ $business->getWebsite() }}</input>
             </div>
 
             <div>
