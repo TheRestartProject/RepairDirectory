@@ -12,13 +12,13 @@ class BusinessController extends Controller
 {
     public function search(Request $request, BusinessRepository $repository, Geocoder $geocoder)
     {
-        $search = $request->input('search');
+        $location = $request->input('location');
 
         $businesses = [];
         $searchLocation = null;
 
-        if ($search) {
-            $searchLocation = $geocoder->geocode($search);
+        if ($location) {
+            $searchLocation = $geocoder->geocode($location);
             if ($searchLocation) {
                 $businesses = $repository->findByLocation($searchLocation);
             }

@@ -28,7 +28,7 @@ function onSearch(e) {
     e.preventDefault();
 
     const query = {
-        search: $('[name="search"]').val()
+        location: $('[name="location"]').val()
     };
 
     doSearch(query);

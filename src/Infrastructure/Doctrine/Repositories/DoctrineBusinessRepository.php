@@ -96,28 +96,32 @@ class DoctrineBusinessRepository implements BusinessRepository
      * This is done by ST_Distance_Sphere
      *
      * @param Point $geolocation The location to search by
+     * @param integer $radius The radius, in miles, that Businesses must be within
      *
      * @return array
      */
-    public function findByLocation($geolocation)
+    public function findByLocation($geolocation, $radius = 4)
     {
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+
+        $radiusKm = $radius * 1.60934;
         $query = $this->entityManager->createNativeQuery(
             "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
                   MBRContains(
                     LineString(
-                      Point(:x - :radius, :y - :radius),
-                      Point(:x + :radius, :y + :radius)
+                      Point(:x - :radius / (69 * COS(RADIANS(:y))), :y - :radius / 69),
+                      Point(:x + :radius / (69 * COS(RADIANS(:y))), :y + :radius / 69)
                     ),
                     b.geolocation
                   )
-                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius",
+                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000",
             $rsm
         );
-        $query->setParameter('x', $geolocation->getLatitude());
-        $query->setParameter('y', $geolocation->getLongitude());
-        $query->setParameter('radius', 5000);
+
+        $query->setParameter('x', $geolocation->getLongitude());
+        $query->setParameter('y', $geolocation->getLatitude());
+        $query->setParameter('radius', $radiusKm);
 
         return $query->getResult();
     }

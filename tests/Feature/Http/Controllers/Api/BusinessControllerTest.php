@@ -52,7 +52,7 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_with_location()
     {
-        $response = $this->get('/api/business/search?search=RM7%207JN');
+        $response = $this->get('/api/business/search?location=RM7%207JN');
         $response->assertStatus(200);
         $response->assertJson([
             'searchLocation' => [
