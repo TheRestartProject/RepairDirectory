@@ -3,13 +3,13 @@ IF "%1"=="start" (
     cd docker
     docker-compose up -d restart-project.local db.restart-project.local
     cd ..
-    docker/bin-windows/composer install
-    docker/bin-windows/artisan doctrine:migrations:migrate
+    docker\bin-windows\composer.bat install
+    docker\bin-windows\artisan.bat doctrine:migrations:migrate
 
 ) ELSE IF "%1"=="reports" (
 
-    docker/bin-windows/test coverage
-    docker/bin-windows/test documentation
+    docker\bin-windows\test coverage
+    docker\bin-windows\test documentation
     cd docker
     docker-compose up -d cc.restart-project.local docs.restart-project.local
     cd ..
