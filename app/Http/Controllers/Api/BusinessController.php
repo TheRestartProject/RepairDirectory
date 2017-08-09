@@ -15,6 +15,7 @@ class BusinessController extends Controller
         $location = $request->input('location');
         $category = $request->input('category');
         $radius = $request->input('radius') ?: 5;
+        $criteria = $category ? [ 'category' => $category ] : [];
 
         $businesses = [];
         $searchLocation = null;
@@ -22,18 +23,10 @@ class BusinessController extends Controller
         if ($location) {
             $searchLocation = $geocoder->geocode($location);
             if ($searchLocation) {
-                $businesses = $repository->findByLocation($searchLocation, $radius);
+                $businesses = $repository->findByLocation($searchLocation, $radius, $criteria);
             }
         } else {
-            $businesses = $repository->getAll();
-        }
-        
-        if ($category) {
-            $businesses = array_values(
-                array_filter($businesses, function (Business $business) use ($category) {
-                    return $business->getCategory() === $category;
-                })
-            );
+            $businesses = $repository->findBy($criteria);
         }
 
         $businessesAsArrays = array_map(

@@ -97,17 +97,16 @@ class DoctrineBusinessRepository implements BusinessRepository
      *
      * @param Point $geolocation The location to search by
      * @param integer $radius The radius, in miles, that Businesses must be within
+     * @param array $criteria An additional set of properties to match
      *
      * @return array
      */
-    public function findByLocation($geolocation, $radius)
+    public function findByLocation($geolocation, $radius, $criteria)
     {
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
 
-        $radiusKm = $radius * 1.60934;
-        $query = $this->entityManager->createNativeQuery(
-            "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
+        $sql = "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
                   MBRContains(
                     LineString(
                       Point(:x - :radius / (69 * COS(RADIANS(:y))), :y - :radius / 69),
@@ -115,7 +114,17 @@ class DoctrineBusinessRepository implements BusinessRepository
                     ),
                     b.geolocation
                   )
-                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000",
+                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000";
+
+        if (count($criteria)) {
+            $additionalSQL = $this->queryFromCriteria($criteria)->getDQL();
+            $where = substr($additionalSQL, strpos($additionalSQL, 'WHERE') + 6);
+            $sql .= " AND $where";
+        }
+
+        $radiusKm = $radius * 1.60934;
+        $query = $this->entityManager->createNativeQuery(
+            $sql,
             $rsm
         );
 
@@ -124,5 +133,27 @@ class DoctrineBusinessRepository implements BusinessRepository
         $query->setParameter('radius', $radiusKm);
 
         return $query->getResult();
+    }
+
+    /**
+     * Finds businesses that match an array of [ property => value ].
+     *
+     * @param array $criteria
+     *
+     * @return array
+     */
+    public function findBy($criteria)
+    {
+        $query = $this->queryFromCriteria($criteria);
+        return $query->getResult();
+    }
+
+    private function queryFromCriteria($criteria) {
+        $qb = $this->businessRepository->createQueryBuilder('b');
+        $qb->select('b');
+        foreach ($criteria as $key => $value) {
+            $qb->andWhere("b.$key = '$value'");
+        }
+        return $qb->getQuery();
     }
 }
