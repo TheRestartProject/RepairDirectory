@@ -14,7 +14,7 @@ class Version20170809101734 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE businesses ADD city VARCHAR(255) NOT NULL, ADD borough VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE businesses ADD city VARCHAR(255) NULL');
     }
 
     /**
@@ -24,6 +24,6 @@ class Version20170809101734 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE businesses DROP city, DROP borough');
+        $this->addSql('ALTER TABLE businesses DROP city');
     }
 }

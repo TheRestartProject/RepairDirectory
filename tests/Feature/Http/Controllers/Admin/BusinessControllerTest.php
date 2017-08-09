@@ -33,8 +33,8 @@ class BusinessControllerTest extends FeatureTestCase
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
                 'postcode' => 'BA1 1EQ',
-                'city' => 'London',
-                'localArea' => 'Islington',
+                'city' => 'Bath',
+                'localArea' => 'Somerset',
                 'mobile' => '07761901775',
                 'landline' => '07141200908',
                 'website' => 'outlandish.com'
@@ -49,8 +49,8 @@ class BusinessControllerTest extends FeatureTestCase
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
                 'postcode' => 'BA1 1EQ',
-                'city' => 'London',
-                'localArea' => 'Islington',
+                'city' => 'Bath',
+                'local_area' => 'Somerset',
                 'mobile' => '07761901775',
                 'landline' => '07141200908',
                 'website' => 'outlandish.com'
