@@ -27,6 +27,12 @@ return [
             'postcode' => [
                 'type' => 'string'
             ],
+            'city' => [
+                'type' => 'string'
+            ],
+            'borough' => [
+                'type' => 'string'
+            ],
             'geolocation' => [
                 'type' => 'point',
                 'nullable' => true
