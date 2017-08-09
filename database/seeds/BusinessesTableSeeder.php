@@ -29,7 +29,7 @@ class BusinessesTableSeeder extends Seeder
             'address' => '7 Cranbrook Road, Ilford',
             'postcode' => 'IG1 4DU',
             'geolocation' => new Point(51.5589297,-0.1090134),
-            'category' => Category::ELECTRONIC_GADGETS
+            'category' => Category::COMPUTERS_AND_HOME_OFFICE
         ]);
 
         entity(Business::class)->create();

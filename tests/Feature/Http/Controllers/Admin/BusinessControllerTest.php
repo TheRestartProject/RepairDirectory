@@ -39,7 +39,7 @@ class BusinessControllerTest extends FeatureTestCase
 
         $this->assertDatabaseHas(
             'businesses', [
-                'uid' => 3,
+                'uid' => 4,
                 'name' => 'iRepair Centre Bath',
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
@@ -49,7 +49,7 @@ class BusinessControllerTest extends FeatureTestCase
 
         $businessRepository = $this->app->make(BusinessRepository::class);
 
-        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->get(3)->getGeolocation());
+        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->get(4)->getGeolocation());
     }
 
     /**

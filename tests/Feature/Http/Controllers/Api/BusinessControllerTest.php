@@ -37,6 +37,9 @@ class BusinessControllerTest extends FeatureTestCase
                 ],
                 [
                     'uid' => 2
+                ],
+                [
+                    'uid' => 3
                 ]
             ]
         ]);
@@ -59,6 +62,9 @@ class BusinessControllerTest extends FeatureTestCase
             'businesses' => [
                 [
                     'uid' => 1
+                ],
+                [
+                    'uid' => 2
                 ]
             ]
         ]);
@@ -91,20 +97,32 @@ class BusinessControllerTest extends FeatureTestCase
                         "latitude" => 51.583626,
                         "longitude" => 0.163757
                     ],
-                    "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                    "landline" => null,
-                    "mobile" => null,
-                    "website" => null,
-                    "email" => null,
-                    "localArea" => null,
-                    "category" => null,
-                    "productsRepaired" => null,
-                    "authorised" => false,
-                    "qualifications" => null,
-                    "reviews" => null,
-                    "positiveReviewPc" => null,
-                    "warranty" => null,
-                    "pricingInformation" => null
+                    "description" => "Laptop, PC, and Netbook repairs, mobile service."
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Asserts that the BusinessController->search returns businesses that match
+     * a category and location when both are provided
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function test_search_with_category_and_location()
+    {
+        $response = $this->get('/api/business/search?category=Computers%20and%20Home%20Office&location=RM7%207JN');
+        $response->assertStatus(200);
+        $response->assertJson([
+            'searchLocation' => [
+                'latitude' => 51.5847097,
+                'longitude' => 0.1706761
+            ],
+            'businesses' => [
+                [
+                    'uid' => 1
                 ]
             ]
         ]);
