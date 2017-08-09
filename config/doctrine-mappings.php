@@ -28,10 +28,8 @@ return [
                 'type' => 'string'
             ],
             'city' => [
-                'type' => 'string'
-            ],
-            'borough' => [
-                'type' => 'string'
+                'type' => 'string',
+                'nullable' => true
             ],
             'geolocation' => [
                 'type' => 'point',

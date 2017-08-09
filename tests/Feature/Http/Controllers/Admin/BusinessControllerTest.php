@@ -32,7 +32,12 @@ class BusinessControllerTest extends FeatureTestCase
                 'name' => 'iRepair Centre Bath',
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
-                'postcode' => 'BA1 1EQ'
+                'postcode' => 'BA1 1EQ',
+                'city' => 'London',
+                'localArea' => 'Islington',
+                'mobile' => '07761901775',
+                'landline' => '07141200908',
+                'website' => 'outlandish.com'
             ]
         );
         $response->assertStatus(302);
@@ -43,7 +48,12 @@ class BusinessControllerTest extends FeatureTestCase
                 'name' => 'iRepair Centre Bath',
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
-                'postcode' => 'BA1 1EQ'
+                'postcode' => 'BA1 1EQ',
+                'city' => 'London',
+                'localArea' => 'Islington',
+                'mobile' => '07761901775',
+                'landline' => '07141200908',
+                'website' => 'outlandish.com'
             ]
         );
 
