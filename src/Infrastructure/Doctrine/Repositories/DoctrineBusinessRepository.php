@@ -95,19 +95,18 @@ class DoctrineBusinessRepository implements BusinessRepository
      * It then also checks that these businesses are within the bounding circle.
      * This is done by ST_Distance_Sphere
      *
-     * @param Point $geolocation The location to search by
-     * @param integer $radius The radius, in miles, that Businesses must be within
+     * @param Point   $geolocation The location to search by
+     * @param integer $radius      The radius, in miles, that Businesses must be within
+     * @param array   $criteria    An additional set of properties to match
      *
      * @return array
      */
-    public function findByLocation($geolocation, $radius = 4)
+    public function findByLocation($geolocation, $radius, $criteria)
     {
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
 
-        $radiusKm = $radius * 1.60934;
-        $query = $this->entityManager->createNativeQuery(
-            "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
+        $sql = "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
                   MBRContains(
                     LineString(
                       Point(:x - :radius / (69 * COS(RADIANS(:y))), :y - :radius / 69),
@@ -115,14 +114,61 @@ class DoctrineBusinessRepository implements BusinessRepository
                     ),
                     b.geolocation
                   )
-                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000",
+                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000";
+
+        if (count($criteria)) {
+            $additionalSQL = $this->queryFromCriteria($criteria)->getDQL();
+            $where = substr($additionalSQL, strpos($additionalSQL, 'WHERE') + 6);
+            $sql .= " AND $where";
+        }
+
+        $radiusKm = $radius * 1.60934;
+        $query = $this->entityManager->createNativeQuery(
+            $sql,
             $rsm
         );
 
-        $query->setParameter('x', $geolocation->getLongitude());
-        $query->setParameter('y', $geolocation->getLatitude());
-        $query->setParameter('radius', $radiusKm);
+        $parameters = array_merge(
+            [
+            'x' => $geolocation->getLongitude(),
+            'y' => $geolocation->getLatitude(),
+            'radius' => $radiusKm
+            ], $criteria
+        );
+
+        $query->setParameters($parameters);
 
         return $query->getResult();
+    }
+
+    /**
+     * Finds businesses that match an array of [ property => value ].
+     *
+     * @param array $criteria The [ property => value ] array to match against businesses
+     *
+     * @return array All matching businesses
+     */
+    public function findBy($criteria)
+    {
+        $query = $this->queryFromCriteria($criteria);
+        return $query->getResult();
+    }
+
+    /**
+     * Converts a [ property => value] array to a doctrine query that can be executed.
+     *
+     * @param array $criteria The [ property => value ] array to convert to a query
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    private function queryFromCriteria($criteria) 
+    {
+        $queryBuilder = $this->businessRepository->createQueryBuilder('b');
+        $queryBuilder->select('b');
+        foreach ($criteria as $key => $value) {
+            $queryBuilder->andWhere("b.$key = :$key");
+            $queryBuilder->setParameter($key, $value);
+        }
+        return $queryBuilder->getQuery();
     }
 }

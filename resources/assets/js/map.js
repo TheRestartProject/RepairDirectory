@@ -28,7 +28,9 @@ function onSearch(e) {
     e.preventDefault();
 
     const query = {
-        location: $('[name="location"]').val()
+        location: $('[name="location"]').val(),
+        category: $('[name="category"]').val(),
+        radius: 5
     };
 
     doSearch(query);

@@ -44,12 +44,22 @@ interface BusinessRepository
     public function get($uid);
 
     /**
+     * Finds businesses that match an array of [ property => value ].
+     * 
+     * @param array $criteria The [ property => value ] array to match against businesses
+     * 
+     * @return array
+     */
+    public function findBy($criteria);
+
+    /**
      * Finds businesses within 5 miles of the provided [lat, lng]
      *
-     * @param Point $geolocation The location to search by
-     * @param integer $radius
+     * @param Point   $geolocation The location to search by
+     * @param integer $radius      The radius in miles
+     * @param array   $criteria    An additional set of properties to match
      *
      * @return array
      */
-    public function findByLocation($geolocation, $radius);
+    public function findByLocation($geolocation, $radius, $criteria);
 }
