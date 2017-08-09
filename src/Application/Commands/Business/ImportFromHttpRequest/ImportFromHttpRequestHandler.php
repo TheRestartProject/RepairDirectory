@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
+use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
@@ -74,6 +75,9 @@ class ImportFromHttpRequestHandler
         }
         if (array_key_exists('postcode', $data)) {
             $business->setPostcode($data['postcode']);
+        }
+        if (array_key_exists('category', $data)) {
+            $business->setCategory($data['category']);
         }
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
         if ($isCreate) {

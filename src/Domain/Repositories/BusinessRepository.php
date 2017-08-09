@@ -47,7 +47,7 @@ interface BusinessRepository
      * Finds businesses within 5 miles of the provided [lat, lng]
      *
      * @param Point $geolocation The location to search by
-     * @param integer $radius
+     * @param integer $radius The radius in miles
      *
      * @return array
      */

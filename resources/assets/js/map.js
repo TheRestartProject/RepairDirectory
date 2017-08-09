@@ -28,7 +28,9 @@ function onSearch(e) {
     e.preventDefault();
 
     const query = {
-        location: $('[name="location"]').val()
+        location: $('[name="location"]').val(),
+        category: $('[name="category"]').val(),
+        radius: 5
     };
 
     doSearch(query);
@@ -36,6 +38,7 @@ function onSearch(e) {
 
 function doSearch(query) {
     $.get('/api/business/search', query, ({ searchLocation, businesses }) => {
+        console.log('businesses', businesses);
         clearMap();
         if (searchLocation) {
             map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude});

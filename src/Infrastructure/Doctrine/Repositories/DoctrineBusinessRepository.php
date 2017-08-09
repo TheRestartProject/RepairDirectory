@@ -100,7 +100,7 @@ class DoctrineBusinessRepository implements BusinessRepository
      *
      * @return array
      */
-    public function findByLocation($geolocation, $radius = 4)
+    public function findByLocation($geolocation, $radius)
     {
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b');

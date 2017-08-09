@@ -35,5 +35,18 @@
                 <button class="btn btn-success">Save</button>
             </div>
         </div>
+
+        <div class="col-xs-12 col-md-4">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" class="form-control">
+                    @foreach($categories as $category)
+                        <option value="{{ $category }}" {{ $business->getCategory() == $category ? "selected" : "" }}>
+                            {{ $category }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
     </form>
 @endsection

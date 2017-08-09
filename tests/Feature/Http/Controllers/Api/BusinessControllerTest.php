@@ -43,6 +43,28 @@ class BusinessControllerTest extends FeatureTestCase
     }
 
     /**
+     * Asserts that the BusinessController->search returns businesses that match
+     * a category when one is provided
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function test_search_with_category()
+    {
+        $response = $this->get('/api/business/search?category=Computers%20and%20Home%20Office');
+        $response->assertStatus(200);
+        $response->assertJson([
+            'searchLocation' => null,
+            'businesses' => [
+                [
+                    'uid' => 1
+                ]
+            ]
+        ]);
+    }
+
+    /**
      * Asserts that the BusinessController->search returns the correct businesses
      * when a location is present in the query parameters
      *

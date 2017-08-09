@@ -2,11 +2,33 @@
 
 @section('content')
 
-    <form id="search" class="row">
-        <div class="col-xs-12">
-            <div class="form-group">
-                <label for="location">Search by postcode</label>
-                <input id="location" name="location" class="form-control">
+    <form id="search">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="location">Postcode</label>
+                    <input id="location" name="location" class="form-control">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="form-control">
+                        <option value="" selected>All</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category }}">
+                                {{ $category }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <button class="btn btn-primary form-group">Search</button>
+                </div>
             </div>
         </div>
     </form>

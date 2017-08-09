@@ -11,8 +11,10 @@
 |
 */
 
+use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+
 Route::get('/', function () {
-    return view('map');
+    return view('map', [ 'categories' => Category::values() ]);
 });
 
 Route::prefix('admin')
