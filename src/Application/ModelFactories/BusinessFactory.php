@@ -83,24 +83,37 @@ class BusinessFactory
         return $newRow;
     }
 
+    /**
+     * Parse a string representing an address into a keyed array with the structure:
+     *
+     * [
+     *     'address' => $address,
+     *     'city'    => $city,
+     *     'postcode => $postcode
+     * ]
+     *
+     * @param string $addressRow The address to parse
+     * 
+     * @return array
+     */
     private function splitUKAddress($addressRow)
     {
-        $arr = explode("," ,  $addressRow);
-        $arr = array_map( function ($item) { return trim($item);}, $arr);
+        $addressLines = explode(",",  $addressRow);
+        $addressLines = array_map(
+            function ($item) {
+                return trim($item);
+            }, $addressLines
+        );
 
-        $last = explode(" " , array_pop($arr));
-        if (count($last) > 2)
-        {
-            $postcode = $last[count($last) - 2] . end($last);
-            $city = implode(" ", array_slice($last, 0, count($last - 2)));
-            $address = implode(", ", $arr);
+        $lastLineWords = explode(" ", array_pop($addressLines));
+
+        while (count($lastLineWords) > 2) {
+            $addressLines[] = array_shift($lastLineWords);
         }
-        else
-        {
-            $postcode = implode(" ", $last);
-            $city = array_pop($arr);
-            $address = implode(", ", $arr);
-        }
+
+        $postcode = implode(" ", $lastLineWords);
+        $city = array_pop($addressLines);
+        $address = implode(", ", $addressLines);
 
         return [
             "address" => $address,
