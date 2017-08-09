@@ -27,38 +27,33 @@
 
             <div class="form-group">
                 <label for="city">City</label>
-                <input id="city" name="city"
-                          class="form-control">{{ $business->getCity() }}</input>
+                <input id="city" name="city" class="form-control">{{ $business->getCity() }}/>
             </div>
 
             <div class="form-group">
-                <label for="borough">Borough</label>
-                <input id="borough" name="borough"
-                          class="form-control">{{ $business->getBorough() }}</input>
+                <label for="borough">Borough/ Local Area</label>
+                <input id="localArea" name="localArea" class="form-control">{{ $business->getLocalArea() }}>
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description"
-                          class="form-control">{{ $business->getDescription() }}</textarea>
+                <textarea id="description" name="description" class="form-control">{{ $business->getDescription() }}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="landline">Landline</label>
-                <input id="landline" name="landline"
-                          class="form-control">{{ $business->getLandline() }}</input>
+                <input id="landline" name="landline" class="form-control">{{ $business->getLandline() }}>
             </div>
 
             <div class="form-group">
                 <label for="mobile">Mobile</label>
-                <input id="mobile" name="mobile"
-                          class="form-control">{{ $business->getMobile() }}</input>
+                <input id="mobile" name="mobile" class="form-control">{{ $business->getMobile() }}>
             </div>
 
             <div class="form-group">
                 <label for="website">Website</label>
                 <input id="website" name="website"
-                          class="form-control">{{ $business->getWebsite() }}</input>
+                          class="form-control">{{ $business->getWebsite() }}>
             </div>
 
             <div>

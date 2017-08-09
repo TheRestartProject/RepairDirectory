@@ -42,20 +42,12 @@ class Business
      */
     private $postcode;
 
-
     /**
      * The city of the business
      *
      * @var string
      */
     private $city;
-
-    /**
-     * The borough of the business
-     *
-     * @var string
-     */
-    private $borough;
 
     /**
      * The location of the business
@@ -601,28 +593,6 @@ class Business
     public function setCity($city)
     {
         $this->city = $city;
-    }
-
-    /**
-     * Return the borough of the business
-     *
-     * @return string
-     */
-    public function getBorough()
-    {
-        return $this->borough;
-    }
-
-    /**
-     * Set the borough of the business
-     *
-     * @param string $borough The value to set
-     *
-     * @return void
-     */
-    public function setBorough($borough)
-    {
-        $this->borough = $borough;
     }
 
     /**
