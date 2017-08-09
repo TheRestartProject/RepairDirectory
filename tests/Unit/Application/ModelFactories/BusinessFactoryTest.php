@@ -51,8 +51,10 @@ class BusinessFactoryTest extends TestCase
         $this->assertEquals(new Point(51.3813993, -2.363582), $business->getGeolocation());
         $this->assertEquals('iRepair Centre Bath', $business->getName());
         $this->assertEquals('Bath\'s iRepair Centre. Fix all your broken devices.', $business->getDescription());
-        $this->assertEquals('12 Westgate St, Bath', $business->getAddress());
+        $this->assertEquals('12 Westgate St', $business->getAddress());
         $this->assertEquals('BA1 1EQ', $business->getPostcode());
+        $this->assertEquals('Bath', $business->getCity());
+        $this->assertEquals('Bath', $business->getLocalArea());
         $this->assertEquals('01225 427538', $business->getLandline());
         $this->assertEquals('07700 900220', $business->getMobile());
         $this->assertEquals('http://irepaircentrebath.co.uk', $business->getWebsite());
@@ -85,6 +87,25 @@ class BusinessFactoryTest extends TestCase
         $row['Authorised repairer'] = 'Yes';
         $business = $this->factory->fromCsvRow($row);
         $this->assertEquals(true, $business->isAuthorised());
+    }
+
+    /**
+     * Tests the parsing of the 'Authorised repairer' column
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function it_can_parse_unseparated_addresses()
+    {
+        $row = $this->createTestRow();
+        $row['address'] = '12 Westgate St, Bath BA1 1EQ';
+        $business = $this->factory->fromCsvRow($row);
+        var_dump($business);
+
+        $this->assertEquals('12 Westgate St', $business->getAddress());
+        $this->assertEquals('BA1 1EQ', $business->getPostcode());
+        $this->assertEquals('Bath', $business->getCity());
     }
 
     /**
