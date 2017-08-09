@@ -24,7 +24,7 @@
                 <label for="postcode">Postcode</label>
                 <input id="postcode" name="postcode" class="form-control" value="{{ $business->getPostcode() }}"/>
             </div>
-            
+
             <div class="form-group">
                 <label for="city">City</label>
                 <input id="city" name="city"
