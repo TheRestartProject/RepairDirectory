@@ -3,6 +3,7 @@ image: tetraweb/php:7.1
 stages:
   - build
   - test
+  - cleanup
   - deploy
 
 build:
@@ -26,6 +27,7 @@ build:
   only:
   - master
   - /^feature-.*$/
+  - new-deploy-process
   artifacts:
     paths:
     - ./
@@ -35,8 +37,6 @@ build:
 test:static-analysis:
   stage: test
   allow_failure: true
-  before_script:
-  - "apt-get update && apt-get install zip unzip -y"
   script:
   - php composer.phar run-script code
   tags:
@@ -47,8 +47,6 @@ test:static-analysis:
 
 test:unittests:
   stage: test
-  before_script:
-  - "apt-get update && apt-get install zip unzip -y"
   script:
   - php composer.phar run-script test:unit
   tags:
@@ -72,24 +70,41 @@ deploy:staging:
     url: https://restartproject.herokuapp.com/
   only:
     - master
-    
-# deploy:staging:
-#   dependencies:
-#   - build
-#   stage: deploy
-#   script:
-#   - php composer.phar install --no-dev
-#   - rm composer.phar
-#   - rm -rf .git
-#   tags:
-#   - docker
-#   only:
-#   - master
-#   artifacts:
-#     paths:
-#     - ./
-#     name: "${CI_BUILD_REF_NAME}"
-#     expire_in: 1 day
+
+cleanup:
+  stage: cleanup
+  script:
+  - php composer.phar install --no-dev
+  - rm -rf .git
+  tags:
+  - docker
+  only:
+  - master
+  - new-deploy-process
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 day
+
+ deploy:staging:
+   dependencies:
+   - build
+   stage: deploy
+  before_script:
+  - "apt-get update && apt-get install sshpass"
+   script:
+   - sshpass -f <(printf '%s\n' "$SSH_PASSWORD") ssh "$SSH_USERNAME@shell.gridhost.co.uk" "rm repairmap.zip && curl -H \"PRIVATE-TOKEN: $GITLAB_TOKEN\" https://gitlab.outlandish.com/api/v3/projects/185/jobs/artifacts/master/download?job=cleanup > repairmap.zip"
+   - sshpass -f <(printf '%s\n' "$SSH_PASSWORD") ssh "$SSH_USERNAME@shell.gridhost.co.uk" "unzip repairmap.zip -d public_html/repairmap"
+   - sshpass -f <(printf '%s\n' "$SSH_PASSWORD") ssh "$SSH_USERNAME@shell.gridhost.co.uk" "cp -r public_html/repairmap/public public_html/public/map"
+   - sshpass -f <(printf '%s\n' "$SSH_PASSWORD") ssh "$SSH_USERNAME@shell.gridhost.co.uk" "sed -i 's|/../bootstrap/|/../../repairmap/bootstrap/|' public_html/public/map/index.php"
+   - sshpass -f <(printf '%s\n' "$SSH_PASSWORD") ssh "$SSH_USERNAME@shell.gridhost.co.uk" "cp -r public_html/repairmap/public/css public_html/public/css"
+   - sshpass -f <(printf '%s\n' "$SSH_PASSWORD") ssh "$SSH_USERNAME@shell.gridhost.co.uk" "cp -r public_html/repairmap/public/js public_html/public/js"
+   tags:
+   - docker
+   only:
+   - master
+   - new-deploy-process
 
 # deploy:production:
 #   dependencies:
