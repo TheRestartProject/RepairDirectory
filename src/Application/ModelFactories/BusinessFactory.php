@@ -42,22 +42,11 @@ class BusinessFactory
         );
         $business->setGeolocation(new Point($latLng[0], $latLng[1]));
 
-        // Split address into lines and trim each line
-        $addressParts = array_map(
-            function ($str) {
-                return trim($str);
-            },
-            explode(',', $row['Address'])
-        );
-        // extract final line
-        $postcode = array_pop($addressParts);
-        // move town/area from the front of the postcode to the end of the address
-        $postcodeParts = explode(' ', $postcode);
-        while (count($postcodeParts) > 2) {
-            $addressParts[] = array_shift($postcodeParts);
-        }
-        $business->setPostcode(implode(' ', $postcodeParts));
-        $business->setAddress(implode(', ', $addressParts));
+        $addressParts = $this->splitUKAddress($row['Address']);
+
+        $business->setPostcode($addressParts['postcode']);
+        $business->setAddress($addressParts['address']);
+        $business->setCity($addressParts['city']);
         $business->setDescription($row['Description']);
         $business->setLandline($row['Landline']);
         $business->setMobile($row['Mobile']);
@@ -92,5 +81,31 @@ class BusinessFactory
             $newRow[trim($key)] = trim($value);
         }
         return $newRow;
+    }
+
+    private function splitUKAddress($addressRow)
+    {
+        $arr = explode("," ,  $addressRow);
+        $arr = array_map( function ($item) { return trim($item);}, $arr);
+
+        $last = explode(" " , array_pop($arr));
+        if (count($last) > 2)
+        {
+            $postcode = $last[count($last) - 2] . end($last);
+            $city = implode(" ", array_slice($last, 0, count($last - 2)));
+            $address = implode(", ", $arr);
+        }
+        else
+        {
+            $postcode = implode(" ", $last);
+            $city = array_pop($arr);
+            $address = implode(", ", $arr);
+        }
+
+        return [
+            "address" => $address,
+            "postcode" => $postcode,
+            "city" => $city
+        ];
     }
 }
