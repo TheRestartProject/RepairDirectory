@@ -54,6 +54,8 @@ class ImportFromHttpRequestHandler
      * @return Business
      *
      * @throws EntityNotFoundException
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function handle(ImportFromHttpRequestCommand $command)
     {

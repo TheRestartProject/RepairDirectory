@@ -38,7 +38,6 @@ function onSearch(e) {
 
 function doSearch(query) {
     $.get('/api/business/search', query, ({ searchLocation, businesses }) => {
-        console.log('businesses', businesses);
         clearMap();
         if (searchLocation) {
             map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude});

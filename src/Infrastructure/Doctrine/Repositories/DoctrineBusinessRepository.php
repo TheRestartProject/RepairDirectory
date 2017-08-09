@@ -95,9 +95,9 @@ class DoctrineBusinessRepository implements BusinessRepository
      * It then also checks that these businesses are within the bounding circle.
      * This is done by ST_Distance_Sphere
      *
-     * @param Point $geolocation The location to search by
-     * @param integer $radius The radius, in miles, that Businesses must be within
-     * @param array $criteria An additional set of properties to match
+     * @param Point   $geolocation The location to search by
+     * @param integer $radius      The radius, in miles, that Businesses must be within
+     * @param array   $criteria    An additional set of properties to match
      *
      * @return array
      */
@@ -128,9 +128,15 @@ class DoctrineBusinessRepository implements BusinessRepository
             $rsm
         );
 
-        $query->setParameter('x', $geolocation->getLongitude());
-        $query->setParameter('y', $geolocation->getLatitude());
-        $query->setParameter('radius', $radiusKm);
+        $parameters = array_merge(
+            [
+            'x' => $geolocation->getLongitude(),
+            'y' => $geolocation->getLatitude(),
+            'radius' => $radiusKm
+            ], $criteria
+        );
+
+        $query->setParameters($parameters);
 
         return $query->getResult();
     }
@@ -138,9 +144,9 @@ class DoctrineBusinessRepository implements BusinessRepository
     /**
      * Finds businesses that match an array of [ property => value ].
      *
-     * @param array $criteria
+     * @param array $criteria The [ property => value ] array to match against businesses
      *
-     * @return array
+     * @return array All matching businesses
      */
     public function findBy($criteria)
     {
@@ -148,12 +154,21 @@ class DoctrineBusinessRepository implements BusinessRepository
         return $query->getResult();
     }
 
-    private function queryFromCriteria($criteria) {
-        $qb = $this->businessRepository->createQueryBuilder('b');
-        $qb->select('b');
+    /**
+     * Converts a [ property => value] array to a doctrine query that can be executed.
+     *
+     * @param array $criteria The [ property => value ] array to convert to a query
+     *
+     * @return \Doctrine\ORM\Query
+     */
+    private function queryFromCriteria($criteria) 
+    {
+        $queryBuilder = $this->businessRepository->createQueryBuilder('b');
+        $queryBuilder->select('b');
         foreach ($criteria as $key => $value) {
-            $qb->andWhere("b.$key = '$value'");
+            $queryBuilder->andWhere("b.$key = :$key");
+            $queryBuilder->setParameter($key, $value);
         }
-        return $qb->getQuery();
+        return $queryBuilder->getQuery();
     }
 }

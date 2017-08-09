@@ -46,7 +46,7 @@ interface BusinessRepository
     /**
      * Finds businesses that match an array of [ property => value ].
      * 
-     * @param array $criteria
+     * @param array $criteria The [ property => value ] array to match against businesses
      * 
      * @return array
      */
@@ -55,9 +55,9 @@ interface BusinessRepository
     /**
      * Finds businesses within 5 miles of the provided [lat, lng]
      *
-     * @param Point $geolocation The location to search by
-     * @param integer $radius The radius in miles
-     * @param array $criteria An additional set of properties to match
+     * @param Point   $geolocation The location to search by
+     * @param integer $radius      The radius in miles
+     * @param array   $criteria    An additional set of properties to match
      *
      * @return array
      */

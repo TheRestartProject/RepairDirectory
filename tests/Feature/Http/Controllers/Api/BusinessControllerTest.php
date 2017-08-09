@@ -29,7 +29,8 @@ class BusinessControllerTest extends FeatureTestCase
     {
         $response = $this->get('/api/business/search');
         $response->assertStatus(200);
-        $response->assertJson([
+        $response->assertJson(
+            [
             'searchLocation' => null,
             'businesses' => [
                 [
@@ -42,7 +43,8 @@ class BusinessControllerTest extends FeatureTestCase
                     'uid' => 3
                 ]
             ]
-        ]);
+            ]
+        );
     }
 
     /**
@@ -57,7 +59,8 @@ class BusinessControllerTest extends FeatureTestCase
     {
         $response = $this->get('/api/business/search?category=Computers%20and%20Home%20Office');
         $response->assertStatus(200);
-        $response->assertJson([
+        $response->assertJson(
+            [
             'searchLocation' => null,
             'businesses' => [
                 [
@@ -67,7 +70,8 @@ class BusinessControllerTest extends FeatureTestCase
                     'uid' => 2
                 ]
             ]
-        ]);
+            ]
+        );
     }
 
     /**
@@ -82,7 +86,8 @@ class BusinessControllerTest extends FeatureTestCase
     {
         $response = $this->get('/api/business/search?location=RM7%207JN');
         $response->assertStatus(200);
-        $response->assertJson([
+        $response->assertJson(
+            [
             'searchLocation' => [
                 'latitude' => 51.5847097,
                 'longitude' => 0.1706761
@@ -100,7 +105,8 @@ class BusinessControllerTest extends FeatureTestCase
                     "description" => "Laptop, PC, and Netbook repairs, mobile service."
                 ]
             ]
-        ]);
+            ]
+        );
     }
 
     /**
@@ -115,7 +121,8 @@ class BusinessControllerTest extends FeatureTestCase
     {
         $response = $this->get('/api/business/search?category=Computers%20and%20Home%20Office&location=RM7%207JN');
         $response->assertStatus(200);
-        $response->assertJson([
+        $response->assertJson(
+            [
             'searchLocation' => [
                 'latitude' => 51.5847097,
                 'longitude' => 0.1706761
@@ -125,6 +132,7 @@ class BusinessControllerTest extends FeatureTestCase
                     'uid' => 1
                 ]
             ]
-        ]);
+            ]
+        );
     }
 }

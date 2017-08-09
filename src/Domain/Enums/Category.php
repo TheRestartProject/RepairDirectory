@@ -4,7 +4,17 @@ namespace TheRestartProject\RepairDirectory\Domain\Enums;
 
 use MyCLabs\Enum\Enum;
 
-class Category extends Enum {
+/**
+ * Enum Category
+ *
+ * @category Enum
+ * @package  TheRestartProject\RepairDirectory\Domain\Enums
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
+class Category extends Enum
+{
 
     const COMPUTERS_AND_HOME_OFFICE = "Computers and Home Office";
     const ELECTRONIC_GADGETS = "Electronic gadgets";
