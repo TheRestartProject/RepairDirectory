@@ -90,7 +90,25 @@ class BusinessFactoryTest extends TestCase
     }
 
     /**
-     * Tests the parsing of the 'Authorised repairer' column
+     * Tests the parsing of the 'Address' column when there is a comma between City and Postcode
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function it_can_parse_separated_addresses()
+    {
+        $row = $this->createTestRow();
+        $row['Address'] = '12 Westgate St, Bath, BA1 1EQ';
+        $business = $this->factory->fromCsvRow($row);
+
+        $this->assertEquals('12 Westgate St', $business->getAddress());
+        $this->assertEquals('BA1 1EQ', $business->getPostcode());
+        $this->assertEquals('Bath', $business->getCity());
+    }
+
+    /**
+     * Tests the parsing of the 'Address' column when there is not a comma between City and Postcode
      *
      * @return void
      *
@@ -99,9 +117,8 @@ class BusinessFactoryTest extends TestCase
     public function it_can_parse_unseparated_addresses()
     {
         $row = $this->createTestRow();
-        $row['address'] = '12 Westgate St, Bath BA1 1EQ';
+        $row['Address'] = '12 Westgate St, Bath BA1 1EQ';
         $business = $this->factory->fromCsvRow($row);
-        var_dump($business);
 
         $this->assertEquals('12 Westgate St', $business->getAddress());
         $this->assertEquals('BA1 1EQ', $business->getPostcode());

@@ -53,7 +53,7 @@ interface BusinessRepository
     public function findBy($criteria);
 
     /**
-     * Finds businesses within 5 miles of the provided [lat, lng]
+     * Finds businesses within $radius miles of the provided [lat, lng]
      *
      * @param Point   $geolocation The location to search by
      * @param integer $radius      The radius in miles
