@@ -13,6 +13,9 @@ class BusinessController extends Controller
     public function search(Request $request, BusinessRepository $repository, Geocoder $geocoder)
     {
         $location = $request->input('location');
+        $category = $request->input('category');
+        $radius = $request->input('radius') ?: 5;
+        $criteria = $category ? [ 'category' => $category ] : [];
 
         $businesses = [];
         $searchLocation = null;
@@ -20,10 +23,10 @@ class BusinessController extends Controller
         if ($location) {
             $searchLocation = $geocoder->geocode($location);
             if ($searchLocation) {
-                $businesses = $repository->findByLocation($searchLocation);
+                $businesses = $repository->findByLocation($searchLocation, $radius, $criteria);
             }
         } else {
-            $businesses = $repository->getAll();
+            $businesses = $repository->findBy($criteria);
         }
 
         $businessesAsArrays = array_map(

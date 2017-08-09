@@ -47,6 +47,11 @@ $factory->define(Business::class, function (Faker\Generator $faker, $attributes)
     } else {
         $business->setGeolocation(new Point($faker->randomFloat(), $faker->randomFloat()));
     }
+    if (array_key_exists('category', $attributes)) {
+        $business->setCategory($attributes['category']);
+    } else {
+        $business->setCategory($faker->sentence);
+    }
 
     return $business;
 });
