@@ -54,8 +54,6 @@ class ImportFromHttpRequestHandler
      * @return Business
      *
      * @throws EntityNotFoundException
-     *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function handle(ImportFromHttpRequestCommand $command)
     {
@@ -66,25 +64,44 @@ class ImportFromHttpRequestHandler
         if (!$business) {
             throw new EntityNotFoundException();
         }
-        if (array_key_exists('name', $data)) {
-            $business->setName($data['name']);
-        }
-        if (array_key_exists('description', $data)) {
-            $business->setDescription($data['description']);
-        }
-        if (array_key_exists('address', $data)) {
-            $business->setAddress($data['address']);
-        }
-        if (array_key_exists('postcode', $data)) {
-            $business->setPostcode($data['postcode']);
-        }
-        if (array_key_exists('category', $data)) {
-            $business->setCategory($data['category']);
-        }
+
+        $this->updateValues(
+            $business, $data, [
+            'name',
+            'description',
+            'address',
+            'postcode',
+            'city',
+            'localArea',
+            'mobile',
+            'landline',
+            'website'
+            ]
+        );
+
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
         if ($isCreate) {
             $this->repository->add($business);
         }
         return $business;
+    }
+
+    /**
+     * Update the $business fields from a $data array, using the $fields to index in to the $data and
+     * to select the correct setter on the Business class.
+     *
+     * @param Business $business The business to update
+     * @param array    $data     An [ $key => $value ] array of fields to update
+     * @param array    $fields   An array of field names (strings) that should be updated
+     *
+     * @return void
+     */
+    private function updateValues($business, $data, $fields) 
+    {
+        foreach ($fields as $key) {
+            if (array_key_exists($key, $data)) {
+                $business->{'set' . ucfirst($key)}($data[$key]);
+            }
+        }
     }
 }

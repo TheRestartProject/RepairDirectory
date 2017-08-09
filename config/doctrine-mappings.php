@@ -27,6 +27,10 @@ return [
             'postcode' => [
                 'type' => 'string'
             ],
+            'city' => [
+                'type' => 'string',
+                'nullable' => true
+            ],
             'geolocation' => [
                 'type' => 'point',
                 'nullable' => true
