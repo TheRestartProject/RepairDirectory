@@ -1,9 +1,10 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Domain\Exceptions;
+namespace TheRestartProject\RepairDirectory\Application\Exceptions;
+use Exception;
 
 /**
- * Class EntityNotFoundException
+ * Class ValidationException
  *
  * @category Exception
  * @package  TheRestartProject\RepairDirectory\Domain\Exceptions
@@ -11,8 +12,18 @@ namespace TheRestartProject\RepairDirectory\Domain\Exceptions;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class EntityNotFoundException extends \Exception
+class ValidationException extends Exception
 {
-    protected $message = 'Entity not found';
-    protected $code = 404;
+    private $errors;
+
+    public function __construct($errors)
+    {
+        $this->errors = $errors;
+        $message = implode(', ', array_values($errors));
+        parent::__construct($message);
+    }
+    
+    public function getErrors() {
+        return $this->errors;
+    }
 }

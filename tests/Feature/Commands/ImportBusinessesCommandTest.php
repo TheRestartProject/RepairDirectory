@@ -34,7 +34,8 @@ class ImportBusinessesCommandTest extends FeatureTestCase
         $this->assertDatabaseHas(
             'businesses', [
                 'name' => 'iRepair Centre Bath',
-                'address' => '12 Westgate St, Bath',
+                'address' => '12 Westgate St',
+                'city' => 'Bath',
                 'postcode' => 'BA1 1EQ'
             ]
         );

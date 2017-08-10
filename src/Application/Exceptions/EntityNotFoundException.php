@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Domain\Exceptions;
+namespace TheRestartProject\RepairDirectory\Application\Exceptions;
 
 /**
  * Class EntityNotFoundException

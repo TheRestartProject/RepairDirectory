@@ -116,7 +116,12 @@ class ImportFromHttpRequestTest extends TestCase
      */
     public function it_can_add_a_business_to_the_repository()
     {
-        $data = [];
+        $data = [
+            "name" => "Link Computer Services",
+            "address" => "203 Mawney Road",
+            "postcode" => "RM7 8BX",
+            "description" => "Laptop, PC, and Netbook repairs, mobile service."
+        ];
         $this->setupGeocoder();
 
         $addedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data));
@@ -137,7 +142,10 @@ class ImportFromHttpRequestTest extends TestCase
     public function it_can_update_an_existing_business()
     {
         $data = [
-            'name' => 'New Name'
+            'name' => 'New Name',
+            "address" => "203 Mawney Road",
+            "postcode" => "RM7 8BX",
+            "description" => "Laptop, PC, and Netbook repairs, mobile service."
         ];
         $business = new Business();
         $business->setName('Old Name');

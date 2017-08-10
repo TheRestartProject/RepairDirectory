@@ -13,47 +13,55 @@
             <div class="form-group">
                 <label for="name">Name</label>
                 <input id="name" name="name" class="form-control" value="{{ $business->getName() }}"/>
+                {!! array_key_exists('name', $errors) ? '<small>' . $errors['name'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="address">Address</label>
                 <input id="address" name="address" class="form-control" value="{{ $business->getAddress() }}"/>
+                {!! array_key_exists('address', $errors) ? '<small>' . $errors['address'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="postcode">Postcode</label>
                 <input id="postcode" name="postcode" class="form-control" value="{{ $business->getPostcode() }}"/>
+                {!! array_key_exists('postcode', $errors) ? '<small>' . $errors['postcode'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="city">City</label>
-                <input id="city" name="city" class="form-control">{{ $business->getCity() }}/>
+                <input id="city" name="city" class="form-control" value="{{ $business->getCity() }}"/>
+                {!! array_key_exists('city', $errors) ? '<small>' . $errors['city'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-                <label for="borough">Borough/ Local Area</label>
-                <input id="localArea" name="localArea" class="form-control">{{ $business->getLocalArea() }}>
+                <label for="localArea">Borough/ Local Area</label>
+                <input id="localArea" name="localArea" class="form-control" value="{{ $business->getLocalArea() }}">
+                {!! array_key_exists('localArea', $errors) ? '<small>' . $errors['localArea'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea id="description" name="description" class="form-control">{{ $business->getDescription() }}</textarea>
+                {!! array_key_exists('description', $errors) ? '<small>' . $errors['description'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="landline">Landline</label>
-                <input id="landline" name="landline" class="form-control">{{ $business->getLandline() }}>
+                <input id="landline" name="landline" class="form-control" value="{{ $business->getLandline() }}">
+                {!! array_key_exists('landline', $errors) ? '<small>' . $errors['landline'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="mobile">Mobile</label>
-                <input id="mobile" name="mobile" class="form-control">{{ $business->getMobile() }}>
+                <input id="mobile" name="mobile" class="form-control" value="{{ $business->getMobile() }}">
+                {!! array_key_exists('mobile', $errors) ? '<small>' . $errors['mobile'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="website">Website</label>
-                <input id="website" name="website"
-                          class="form-control">{{ $business->getWebsite() }}>
+                <input id="website" name="website" class="form-control" value="{{ $business->getWebsite() }}">
+                {!! array_key_exists('website', $errors) ? '<small>' . $errors['website'] . '</small>' : '' !!}
             </div>
 
             <div>
@@ -71,6 +79,7 @@
                         </option>
                     @endforeach
                 </select>
+                {!! array_key_exists('category', $errors) ? '<small>' . $errors['category'] . '</small>' : '' !!}
             </div>
         </div>
     </form>
