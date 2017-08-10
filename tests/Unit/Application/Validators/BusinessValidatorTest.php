@@ -79,8 +79,8 @@ class BusinessValidatorTest extends TestCase
      */
     public function it_throws_a_validation_exception_when_fields_are_invalid()
     {
+        $business = $this->createTestBusiness();
         try {
-            $business = $this->createTestBusiness();
             $business->setName('a');
             $business->setLandline('abc');
             $this->validator->validate($business);
@@ -90,6 +90,14 @@ class BusinessValidatorTest extends TestCase
                 'Name invalid: must be between 2 and 255 characters long, ' .
                 'Landline invalid: only numbers allowed', $e->getMessage()
             );
+            self::assertEquals(
+                [
+                    'name' => 'Name invalid: must be between 2 and 255 characters long',
+                    'landline' => 'Landline invalid: only numbers allowed'
+                ],
+                $e->getErrors()
+            );
+            self::assertEquals($business, $e->getBusiness());
         }
     }
 
