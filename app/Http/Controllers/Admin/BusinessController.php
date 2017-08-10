@@ -13,16 +13,9 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
 class BusinessController extends Controller
 {
-    /** @var BusinessRepository */
-    private $repository;
-
-    public function __construct(BusinessRepository $repository) {
-        $this->repository = $repository;
-    }
-
-    public function edit($id = null)
+    public function edit($id = null, BusinessRepository $repository)
     {
-        $business = $id ? $this->repository->get($id) : new Business();
+        $business = $id ? $repository->get($id) : new Business();
         return $this->renderEdit($business, []);
     }
 
