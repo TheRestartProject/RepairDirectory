@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
-use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
+use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
@@ -58,13 +58,11 @@ class ImportFromHttpRequestHandler
      *
      * @return Business
      *
-     * @throws EntityNotFoundException, ValidationException
+     * @throws EntityNotFoundException, BusinessValidationException
      */
     public function handle(ImportFromHttpRequestCommand $command)
     {
         $data = $command->getData();
-
-        $this->validator->validate($data);
 
         $businessUid = $command->getBusinessUid();
         $isCreate = !(boolean) $businessUid;
@@ -89,6 +87,9 @@ class ImportFromHttpRequestHandler
         );
 
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
+
+        $this->validator->validate($business);
+
         if ($isCreate) {
             $this->repository->add($business);
         }

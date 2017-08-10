@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Exceptions;
 use Exception;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 /**
  * Class ValidationException
@@ -14,16 +15,4 @@ use Exception;
  */
 class ValidationException extends Exception
 {
-    private $errors;
-
-    public function __construct($errors)
-    {
-        $this->errors = $errors;
-        $message = implode(', ', array_values($errors));
-        parent::__construct($message);
-    }
-    
-    public function getErrors() {
-        return $this->errors;
-    }
 }

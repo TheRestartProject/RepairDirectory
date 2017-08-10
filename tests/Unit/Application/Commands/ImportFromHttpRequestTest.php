@@ -5,6 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
@@ -168,7 +169,7 @@ class ImportFromHttpRequestTest extends TestCase
      */
     public function setupGeocoder()
     {
-        $this->geocoder->shouldReceive('geocode')->andReturn([0, 0]);
+        $this->geocoder->shouldReceive('geocode')->andReturn(new Point(0, 0));
     }
 
     /**

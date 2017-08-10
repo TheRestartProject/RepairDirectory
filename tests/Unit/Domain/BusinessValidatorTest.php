@@ -2,7 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Domain;
 
-use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
+use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Services\BusinessValidator;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
@@ -28,37 +29,28 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_name_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'a',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service."
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setName('a');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when name too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Name invalid: must be between 2 and 255 characters long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => $this->getRandomString(256),
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service."
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setName($this->getRandomString(256));
+            $this->validator->validate($business);
             self::fail('Did not throw exception when name too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Name invalid: must be between 2 and 255 characters long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service."
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setName('Joaquim');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -73,37 +65,28 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_description_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                'description' => 'abcdefghi'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setDescription('shortdesc');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when description too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Description invalid: must be at least 10 characters long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                'description' => $this->getRandomString(65536)
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setDescription($this->getRandomString(65536));
+            $this->validator->validate($business);
             self::fail('Did not throw exception when description too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Description invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                'description' => 'Some description'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setDescription('Repair all your gadgets!');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -118,37 +101,28 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_address_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'address' => 'a'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setAddress('a');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when address too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Address invalid: must be between 2 and 255 characters long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'address' => $this->getRandomString(256)
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setAddress($this->getRandomString(256));
+            $this->validator->validate($business);
             self::fail('Did not throw exception when address too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Address invalid: must be between 2 and 255 characters long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'address' => '90 Whitehouse Way'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setAddress('22 Fonthill Road');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -163,49 +137,37 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_postcode_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'postcode' => 'abc de'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setPostcode('a b');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when postcode too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Postcode invalid: too short', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'postcode' => 'abce fghi'
-            ]);
-            self::fail('Did not throw exception when postcode too short');
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setPostcode('en22 66pj');
+            $this->validator->validate($business);
+            self::fail('Did not throw exception when postcode too long');
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Postcode invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'postcode' => 'en26pj'
-            ]);
-            self::fail('Did not throw exception when postcode too short');
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setPostcode('en226pj');
+            $this->validator->validate($business);
+            self::fail('Did not throw exception when postcode invalid');
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Postcode invalid: must include a space', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'joaquim',
-                "address" => "203 Mawney Road",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'postcode' => 'en2 6pj'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setPostcode('en2 6pj');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -220,40 +182,28 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_city_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'city' => 'a'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setCity('a');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when city too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('City invalid: too short', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'city' => $this->getRandomString(101)
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setCity($this->getRandomString(101));
+            $this->validator->validate($business);
             self::fail('Did not throw exception when city too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('City invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'city' => 'London'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setCity('London');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -268,40 +218,28 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_local_area_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'localArea' => 'a'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setLocalArea('a');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when localArea too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Local area invalid: too short', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'localArea' => $this->getRandomString(101)
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setLocalArea($this->getRandomString(101));
+            $this->validator->validate($business);
             self::fail('Did not throw exception when localArea too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Local area invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'localArea' => 'Brixton'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setLocalArea('Brixton');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -316,53 +254,37 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_landline_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'landline' => '079hello46'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setLandline('079hello46');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when landline not numeric');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Landline invalid: only numbers allowed', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'landline' => '12345678'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setLandline('12345678');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when landline too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Landline invalid: too short', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'landline' => '123456789012345678901'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setLandline('1234567890123456789012');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when landline too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Landline invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'landline' => '07700123123'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setLandline('07700123123');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -377,53 +299,37 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_mobile_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'mobile' => '079hello46'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setMobile('079hello46');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when mobile not numeric');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Mobile invalid: only numbers allowed', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'mobile' => '12345678'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setMobile('12345678');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when mobile too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Mobile invalid: too short', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'mobile' => '123456789012345678901'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setMobile('123456789012345678901');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when mobile too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Mobile invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'mobile' => '07700123123'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setMobile('07700123123');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -438,53 +344,37 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_website_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'website' => 'o.re'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setWebsite('o.re');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when website too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Website invalid: too short', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'website' => $this->getRandomString(101)
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setWebsite($this->getRandomString(101));
+            $this->validator->validate($business);
             self::fail('Did not throw exception when website too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Website invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'website' => 'joaquimcom'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setWebsite('joaquimcom');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when website invalid');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Website invalid: must include a domain', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'website' => 'joaquim.com'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setWebsite('joaquim.com');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -499,66 +389,46 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_email_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'email' => 'j@o.a'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setEmail('j@o.a');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when email too short');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Email invalid: too short', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'email' => $this->getRandomString(101)
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setEmail($this->getRandomString(101));
+            $this->validator->validate($business);
             self::fail('Did not throw exception when email too long');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Email invalid: too long', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'email' => 'joaquim@com'
-            ]);
-            self::fail('Did not throw exception when website invalid');
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setEmail('joaquim@com');
+            $this->validator->validate($business);
+            self::fail('Did not throw exception when email invalid');
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Email invalid: must include a domain', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'email' => 'joaquim.com'
-            ]);
-            self::fail('Did not throw exception when website invalid');
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setEmail('joaquim.com');
+            $this->validator->validate($business);
+            self::fail('Did not throw exception when email invalid');
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Email invalid: must include a domain', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'email' => 'joaquim@outlandish.com'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setEmail('joaquim@o.re');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
     }
@@ -573,29 +443,35 @@ class BusinessValidatorTest extends TestCase
     public function it_throws_a_validation_exception_when_category_invalid()
     {
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'category' => 'a'
-            ]);
+            $business = $this->createTestBusiness();
+            $business->setCategory('a');
+            $this->validator->validate($business);
             self::fail('Did not throw exception when category unknown');
-        } catch (ValidationException $e) {
+        } catch (BusinessValidationException $e) {
             self::assertEquals('Category invalid: unknown category', $e->getMessage());
         }
 
         try {
-            $this->validator->validate([
-                'name' => 'Link Computer Services',
-                "address" => "203 Mawney Road",
-                "postcode" => "RM7 8BX",
-                "description" => "Laptop, PC, and Netbook repairs, mobile service.",
-                'category' => 'Computers and Home Office'
-            ]);
-        } catch (ValidationException $e) {
+            $business = $this->createTestBusiness();
+            $business->setCategory('Computers and Home Office');
+            $this->validator->validate($business);
+        } catch (BusinessValidationException $e) {
             self::fail('Should not throw exception');
         }
+    }
+
+    private function createTestBusiness() {
+        $business = new Business();
+        $values = [
+            "name" => 'Link Computer Services',
+            "address" => "203 Mawney Road",
+            "postcode" => "RM7 8BX",
+            "description" => "Laptop, PC, and Netbook repairs, mobile service."
+        ];
+        foreach ($values as $key => $value) {
+            $business->{'set' . ucfirst($key)}($value);
+        }
+        return $business;
     }
 
     private function getRandomString($length) {

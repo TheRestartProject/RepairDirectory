@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
-use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
+use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
@@ -22,15 +22,16 @@ class BusinessController extends Controller
 
     public function edit($id = null)
     {
-        return $this->renderEdit($id, []);
+        $business = $id ? $this->repository->get($id) : new Business();
+        return $this->renderEdit($business, []);
     }
 
     public function create(Request $request, CommandBus $commandBus)
     {
         try {
             $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
-        } catch (ValidationException $e) {
-            return $this->renderEdit(null, $e->getErrors());
+        } catch (BusinessValidationException $e) {
+            return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
         return redirect('admin');
     }
@@ -39,15 +40,14 @@ class BusinessController extends Controller
     {
         try {
             $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
-        } catch (ValidationException $e) {
-            return $this->renderEdit($id, $e->getErrors());
+        } catch (BusinessValidationException $e) {
+            return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
         return redirect('admin');
     }
 
-    private function renderEdit($id, $errors) {
-        $business = $id ? $this->repository->get($id) : new Business();
-        $isCreate = $id === null;
+    private function renderEdit(Business $business, $errors) {
+        $isCreate = $business->getUid() === null;
 
         $formAction = $isCreate ? route('admin.business.create') : route('admin.business.update', ['id' => $business->getUid()]);
         $formMethod = $isCreate ? 'post' : 'put';
