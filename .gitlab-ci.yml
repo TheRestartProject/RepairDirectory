@@ -92,12 +92,14 @@ deploy:staging:
   before_script:
     - "apt-get update && apt-get install sshpass"
   script:
-    - "sshpass -f <(printf '%s\n' ${SSH_PASSWORD}) ssh ${SSH_USERNAME}@shell.gridhost.co.uk\" curl -H \"PRIVATE-TOKEN: ${GITLAB_TOKEN}\" https://gitlab.outlandish.com/api/v3/projects/185/jobs/artifacts/master/download?job=build > repairmap.zip"
-    - "sshpass -f <(printf '%s\n' ${SSH_PASSWORD}) ssh ${SSH_USERNAME}@shell.gridhost.co.uk unzip repairmap.zip -d public_html/repairmap"
-    - "sshpass -f <(printf '%s\n' ${SSH_PASSWORD}) ssh ${SSH_USERNAME}@shell.gridhost.co.uk cp -r public_html/repairmap/public public_html/public/map"
-    - "sshpass -f <(printf '%s\n' ${SSH_PASSWORD}) ssh ${SSH_USERNAME}@shell.gridhost.co.uk sed -i 's|/../bootstrap/|/../../repairmap/bootstrap/|' public_html/public/map/index.php"
-    - "sshpass -f <(printf '%s\n' ${SSH_PASSWORD}) ssh ${SSH_USERNAME}@shell.gridhost.co.uk cp -r public_html/repairmap/public/css public_html/public/css"
-    - "sshpass -f <(printf '%s\n' ${SSH_PASSWORD}) ssh ${SSH_USERNAME}@shell.gridhost.co.uk cp -r public_html/repairmap/public/js public_html/public/js"
+    - "echo \"curl -H 'PRIVATE-TOKEN: ${GITLAB_TOKEN}' https://gitlab.outlandish.com/api/v3/projects/185/jobs/artifacts/master/download?job=build > repairmap.zip\" > deploy.sh"
+    - "echo \"unzip repairmap.zip -d public_html/repairmap\" >> deploy.sh"
+    - "echo \"cp -r public_html/repairmap/public public_html/public/map\" >> deploy.sh"
+    - "echo \"sed -i 's|/../bootstrap/|/../../repairmap/bootstrap/|' public_html/public/map/index.php\" >> deploy.sh"
+    - "echo \"public_html/repairmap/public/css public_html/public/css\" >> deploy.sh"
+    - "echo \"public_html/repairmap/public/js public_html/public/js\" >> deploy.sh"
+    - "cat deploy.sh | sshpass -f <(printf '%s\n' \"${SSH_PASSWORD}\") ssh \"${SSH_USERNAME}\"@shell.gridhost.co.uk"
+    - rm deploy.sh
   tags:
     - docker
   only:
