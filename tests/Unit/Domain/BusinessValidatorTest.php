@@ -7,12 +7,32 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Services\BusinessValidator;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
+/**
+ * Test class for the BusinessValidator class
+ *
+ * Checks validations are working correctly
+ *
+ * @category Test
+ * @package  TheRestartProject\RepairDirectory\Tests\Unit\Domain\Services
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://tactician.thephpleague.com/
+ */
 class BusinessValidatorTest extends TestCase
 {
 
-    /** @var BusinessValidator */
+    /**
+     * The validator under test
+     *
+     * @var BusinessValidator
+     */
     private $validator;
 
+    /**
+     * Set up the test by creating a validator
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();
@@ -460,7 +480,13 @@ class BusinessValidatorTest extends TestCase
         }
     }
 
-    private function createTestBusiness() {
+    /**
+     * Returns a fresh and minimally valid business
+     *
+     * @return Business
+     */
+    private function createTestBusiness()
+    {
         $business = new Business();
         $values = [
             "name" => 'Link Computer Services',
@@ -474,10 +500,18 @@ class BusinessValidatorTest extends TestCase
         return $business;
     }
 
-    private function getRandomString($length) {
+    /**
+     * Returns a random string
+     *
+     * @param integer $length How long the string should be
+     *
+     * @return string
+     */
+    private function getRandomString($length)
+    {
         $str = '';
         while ($length > 0) {
-            $str .= chr(rand(65,90));
+            $str .= chr(rand(65, 90));
             $length--;
         }
         return $str;

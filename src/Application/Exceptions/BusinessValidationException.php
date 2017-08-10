@@ -1,6 +1,7 @@
 <?php
 
 namespace TheRestartProject\RepairDirectory\Application\Exceptions;
+
 use Exception;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
@@ -15,16 +16,25 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
  */
 class BusinessValidationException extends Exception
 {
-    /** @var array */
+    /**
+     * The reasons the business is invalid, keyed by field name
+     *
+     * @var array
+     */
     private $errors;
 
-    /** @var Business */
+    /**
+     * The invalid business
+     *
+     * @var Business
+     */
     private $business;
 
     /**
      * BusinessValidationException constructor.
-     * @param string $business
-     * @param array $errors
+     *
+     * @param string $business The business with errors
+     * @param array  $errors   The errors explaining why the business is invalid, keyed by field name
      */
     public function __construct($business, $errors)
     {
@@ -33,12 +43,20 @@ class BusinessValidationException extends Exception
         $message = implode(', ', array_values($errors));
         parent::__construct($message);
     }
-    
-    public function getErrors() {
+
+    /**
+     * Return the reasons the business is invalid
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
         return $this->errors;
     }
 
     /**
+     * Return the invalid business
+     *
      * @return Business
      */
     public function getBusiness()

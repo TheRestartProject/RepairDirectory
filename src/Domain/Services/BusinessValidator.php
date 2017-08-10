@@ -7,9 +7,24 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
-class BusinessValidator {
+/**
+ * Class BusinessValidator
+ *
+ * @category Validator
+ * @package  TheRestartProject\RepairDirectory\Domain\Services
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
+class BusinessValidator
+{
 
-    public function __construct () {
+    /**
+     * BusinessValidator constructor.
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    public function __construct()
+    {
         $this->required = [
             'name',
             'address',
@@ -23,7 +38,7 @@ class BusinessValidator {
                 }
             },
             'description' => function ($description) {
-                if (strlen($description) < 10 ) {
+                if (strlen($description) < 10) {
                     throw new ValidationException('Description invalid: must be at least 10 characters long');
                 }
                 if (strlen($description) > 65535) {
@@ -50,7 +65,7 @@ class BusinessValidator {
                 if (strlen($city) < 2) {
                     throw new ValidationException('City invalid: too short');
                 }
-                if(strlen($city) > 100) {
+                if (strlen($city) > 100) {
                     throw new ValidationException('City invalid: too long');
                 }
             },
@@ -58,7 +73,7 @@ class BusinessValidator {
                 if (strlen($localArea) < 2) {
                     throw new ValidationException('Local area invalid: too short');
                 }
-                if(strlen($localArea) > 100) {
+                if (strlen($localArea) > 100) {
                     throw new ValidationException('Local area invalid: too long');
                 }
             },
@@ -69,10 +84,10 @@ class BusinessValidator {
                         throw new ValidationException('Landline invalid: only numbers allowed');
                     }
                 }
-                if(strlen($landline) < 10) {
+                if (strlen($landline) < 10) {
                     throw new ValidationException('Landline invalid: too short');
                 }
-                if(strlen($landline) > 20) {
+                if (strlen($landline) > 20) {
                     throw new ValidationException('Landline invalid: too long');
                 }
             },
@@ -83,32 +98,32 @@ class BusinessValidator {
                         throw new ValidationException('Mobile invalid: only numbers allowed');
                     }
                 }
-                if(strlen($mobile) < 10) {
+                if (strlen($mobile) < 10) {
                     throw new ValidationException('Mobile invalid: too short');
                 }
-                if(strlen($mobile) > 20) {
+                if (strlen($mobile) > 20) {
                     throw new ValidationException('Mobile invalid: too long');
                 }
             },
             'website' => function ($website) {
-                if(strlen($website) > 100) {
+                if (strlen($website) > 100) {
                     throw new ValidationException('Website invalid: too long');
                 }
-                if(strlen($website) < 5) {
+                if (strlen($website) < 5) {
                     throw new ValidationException('Website invalid: too short');
                 }
-                if(strpos($website, '.') === false) {
+                if (strpos($website, '.') === false) {
                     throw new ValidationException('Website invalid: must include a domain');
                 }
             },
             'email' => function ($email) {
-                if(strlen($email) > 100) {
+                if (strlen($email) > 100) {
                     throw new ValidationException('Email invalid: too long');
                 }
-                if(strlen($email) < 6) {
+                if (strlen($email) < 6) {
                     throw new ValidationException('Email invalid: too short');
                 }
-                if(strpos($email, "@") === false || strpos($email, '.') === false) {
+                if (strpos($email, "@") === false || strpos($email, '.') === false) {
                     throw new ValidationException('Email invalid: must include a domain');
                 }
             },
@@ -121,6 +136,15 @@ class BusinessValidator {
         ];
     }
 
+    /**
+     * Throw a BusinessValidationException if the provided business has any invalid fields.
+     *
+     * @param Business $business The business to validate
+     *
+     * @return void
+     *
+     * @throws BusinessValidationException Thrown if the business is invalid
+     */
     public function validate(Business $business)
     {
         $errors = [];
