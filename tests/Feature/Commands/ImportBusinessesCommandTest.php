@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use TheRestartProject\RepairDirectory\Tests\Feature\FeatureTestCase;
+use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
 
 /**
  * Class ImportBusinessCommandTest

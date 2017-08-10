@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tests\Feature;
+namespace TheRestartProject\RepairDirectory\Tests;
 
 use Illuminate\Support\Facades\Artisan;
 use TheRestartProject\RepairDirectory\Tests\TestCase;

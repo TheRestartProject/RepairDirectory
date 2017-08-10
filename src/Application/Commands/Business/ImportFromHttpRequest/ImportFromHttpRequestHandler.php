@@ -3,12 +3,10 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
-use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
-use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
+use TheRestartProject\RepairDirectory\Application\Validators\BusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Domain\Services\BusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
 /**
