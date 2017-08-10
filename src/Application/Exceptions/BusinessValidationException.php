@@ -33,8 +33,8 @@ class BusinessValidationException extends Exception
     /**
      * BusinessValidationException constructor.
      *
-     * @param string $business The business with errors
-     * @param array  $errors   The errors explaining why the business is invalid, keyed by field name
+     * @param Business $business The business with errors
+     * @param array    $errors   The errors explaining why the business is invalid, keyed by field name
      */
     public function __construct($business, $errors)
     {

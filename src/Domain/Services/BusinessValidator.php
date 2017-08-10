@@ -18,9 +18,23 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
  */
 class BusinessValidator
 {
+    /**
+     * An array of field names that cannot be missing or have a falsey value
+     *
+     * @var array
+     */
+    private $required;
+
+    /**
+     * An array of validation functions keyed by field name. The functions throw ValidationExceptions.
+     *
+     * @var array
+     */
+    private $validators;
 
     /**
      * BusinessValidator constructor.
+     *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function __construct()
