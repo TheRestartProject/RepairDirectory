@@ -98,7 +98,7 @@ deploy:staging:
     - "echo \"sed -i 's|/../bootstrap/|/../../repairmap/bootstrap/|' public_html/public/map/index.php\" >> deploy.sh"
     - "echo \"public_html/repairmap/public/css public_html/public/css\" >> deploy.sh"
     - "echo \"public_html/repairmap/public/js public_html/public/js\" >> deploy.sh"
-    - "cat deploy.sh | sshpass -f <(printf '%s\n' \"${SSH_PASSWORD}\") ssh \"${SSH_USERNAME}\"@shell.gridhost.co.uk"
+    - "cat deploy.sh | sshpass -f <(printf '%s\n' ${SSH_PASSWORD}) ssh ${SSH_USERNAME}@shell.gridhost.co.uk"
     - rm deploy.sh
   tags:
     - docker
