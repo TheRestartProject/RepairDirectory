@@ -27,11 +27,8 @@ class EmailValidator implements Validator
      */
     function validate($email)
     {
-        if (strlen($email) > 100) {
-            throw new ValidationException('Email invalid: too long');
-        }
-        if (strlen($email) < 6) {
-            throw new ValidationException('Email invalid: too short');
+        if (strlen($email) < 6 || strlen($email) > 100) {
+            throw new ValidationException('Email invalid: must be between 6 and 100 characters long');
         }
         if (strpos($email, "@") === false || strpos($email, '.') === false) {
             throw new ValidationException('Email invalid: must include a domain');

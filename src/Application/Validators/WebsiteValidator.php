@@ -27,11 +27,8 @@ class WebsiteValidator implements Validator
      */
     function validate($website)
     {
-        if (strlen($website) > 100) {
-            throw new ValidationException('Website invalid: too long');
-        }
-        if (strlen($website) < 5) {
-            throw new ValidationException('Website invalid: too short');
+        if (strlen($website) < 5 || strlen($website) > 100) {
+            throw new ValidationException('Website invalid: must be between 5 and 100 characters long');
         }
         if (strpos($website, '.') === false) {
             throw new ValidationException('Website invalid: must include a domain');

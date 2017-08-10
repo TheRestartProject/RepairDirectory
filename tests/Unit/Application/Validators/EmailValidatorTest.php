@@ -49,14 +49,14 @@ class EmailValidatorTest extends ValidationTestCase
             $this->validator->validate('j@o.a');
             self::fail('Did not throw exception when email too short');
         } catch (ValidationException $e) {
-            self::assertEquals('Email invalid: too short', $e->getMessage());
+            self::assertEquals('Email invalid: must be between 6 and 100 characters long', $e->getMessage());
         }
 
         try {
             $this->validator->validate($this->getRandomString(101));
             self::fail('Did not throw exception when email too long');
         } catch (ValidationException $e) {
-            self::assertEquals('Email invalid: too long', $e->getMessage());
+            self::assertEquals('Email invalid: must be between 6 and 100 characters long', $e->getMessage());
         }
 
         try {
