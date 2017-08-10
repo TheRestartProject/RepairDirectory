@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-group">
-                <label for="localArea">Borough/ Local Area</label>
+                <label for="localArea">Borough / Local Area</label>
                 <input id="localArea" name="localArea" class="form-control" value="{{ $business->getLocalArea() }}">
                 {!! array_key_exists('localArea', $errors) ? '<small>' . $errors['localArea'] . '</small>' : '' !!}
             </div>
