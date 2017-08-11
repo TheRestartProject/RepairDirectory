@@ -7,7 +7,8 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException
 /**
  * Interface Validator
  *
- * Simply enforces that a validate method exists on all implementing classes.
+ * Simply enforces that a validate method exists on all implementing classes. This method
+ * should throw a ValidationException or return void.
  *
  * @category Validator
  * @package  TheRestartProject\RepairDirectory\Application\Validators

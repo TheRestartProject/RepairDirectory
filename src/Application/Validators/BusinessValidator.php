@@ -7,7 +7,10 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 /**
- * Class BusinessValidator
+ * Class BusinessValidator.
+ *
+ * Validates instances of the Business class according to business logic. The validate function either
+ * throws a BusinessValidationException or returns void.
  *
  * @category Validator
  * @package  TheRestartProject\RepairDirectory\Application\Validators
@@ -18,14 +21,16 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 class BusinessValidator implements Validator
 {
     /**
-     * An array of field names that cannot be missing or have a falsey value
+     * An array of fields that cannot be missing or have a falsey value in the Business
+     * E.G. [ 'name', 'address' ]
      *
      * @var array
      */
     private $required;
 
     /**
-     * An array of Validators keyed by field name. The validators throw ValidationExceptions.
+     * An array of Validators keyed by field name. If a field has an invalid value, the matching validator will throw
+     * a ValidationException when its validate method is called with this value.
      *
      * @var array
      */

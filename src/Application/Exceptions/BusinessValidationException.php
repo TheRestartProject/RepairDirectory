@@ -2,7 +2,6 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Exceptions;
 
-use Exception;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 /**
@@ -14,7 +13,7 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class BusinessValidationException extends Exception
+class BusinessValidationException extends ValidationException
 {
     /**
      * The reasons the business is invalid, keyed by field name
