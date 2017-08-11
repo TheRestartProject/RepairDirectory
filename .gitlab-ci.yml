@@ -34,6 +34,8 @@ build:
     expire_in: 1 hour
 
 test:static-analysis:
+  dependencies:
+    - build
   stage: test
   allow_failure: true
   script:
@@ -45,6 +47,8 @@ test:static-analysis:
   - /^feature-.*$/
 
 test:unittests:
+  dependencies:
+    - build
   stage: test
   script:
   - php composer.phar run-script test:unit
@@ -55,6 +59,8 @@ test:unittests:
   - /^feature-.*$/
 
 deploy:heroku:
+  dependencies:
+    - build
   image: ruby:2.2
   stage: deploy
   tags:
@@ -71,6 +77,8 @@ deploy:heroku:
     - master
 
 cleanup:
+  dependencies:
+    - build
   stage: cleanup
   script:
   - php composer.phar install --no-dev
