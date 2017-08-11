@@ -27,7 +27,7 @@ abstract class FeatureTestCase extends TestCase
     public function setUp()
     {
         parent::setUp();
-        Artisan::call('doctrine:migrations:migrate');
+        Artisan::call('doctrine:migrations:refresh');
         Artisan::call('db:seed');
     }
 

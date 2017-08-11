@@ -25,7 +25,7 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_without_location()
     {
-        $response = $this->get('/api/business/search');
+        $response = $this->get(route('business.search'));
         $response->assertStatus(200);
         $response->assertJson(
             [
@@ -55,7 +55,9 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_with_category()
     {
-        $response = $this->get('/api/business/search?category=Computers%20and%20Home%20Office');
+        $response = $this->get(route('business.search', [
+            'category' => 'Computers and Home Office'
+        ]));
         $response->assertStatus(200);
         $response->assertJson(
             [
@@ -82,7 +84,9 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_with_location()
     {
-        $response = $this->get('/api/business/search?location=RM7%207JN');
+        $response = $this->get(route('business.search', [
+            'location' => 'RM7 7JN'
+        ]));
         $response->assertStatus(200);
         $response->assertJson(
             [
@@ -92,15 +96,15 @@ class BusinessControllerTest extends FeatureTestCase
             ],
             'businesses' => [
                 [
-                    "uid" => 1,
-                    "name" => "Link Computer Services",
-                    "address" => "203 Mawney Road",
-                    "postcode" => "RM7 8BX",
-                    "geolocation" => [
-                        "latitude" => 51.583626,
-                        "longitude" => 0.163757
+                    'uid' => 1,
+                    'name' => 'Link Computer Services',
+                    'address' => '203 Mawney Road',
+                    'postcode' => 'RM7 8BX',
+                    'geolocation' => [
+                        'latitude' => 51.583626,
+                        'longitude' => 0.163757
                     ],
-                    "description" => "Laptop, PC, and Netbook repairs, mobile service."
+                    'description' => 'Laptop, PC, and Netbook repairs, mobile service.'
                 ]
             ]
             ]
@@ -117,7 +121,10 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_with_category_and_location()
     {
-        $response = $this->get('/api/business/search?category=Computers%20and%20Home%20Office&location=RM7%207JN');
+        $response = $this->get(route('business.search', [
+            'category' => 'Computers and Home Office',
+            'location' => 'RM7 7JN'
+        ]));
         $response->assertStatus(200);
         $response->assertJson(
             [
