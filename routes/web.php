@@ -14,24 +14,17 @@
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 
 Route::get('/', function () {
-    return redirect('/map');
+    return view('map', [ 'categories' => Category::values() ]);
 });
 
-Route::prefix('map')->group(function () {
+Route::prefix('admin')
+    ->namespace('Admin')
+    ->group(function () {
+        Route::get('/', 'AdminController@index')->name('admin.index');
 
-    Route::get('/', function () {
-        return view('map', [ 'categories' => Category::values() ]);
+        Route::get('business/{id?}', 'BusinessController@edit')->name('admin.business.edit');
+        Route::post('business', 'BusinessController@create')->name('admin.business.create');
+        Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
     });
-
-    Route::prefix('admin')
-        ->namespace('Admin')
-        ->group(function () {
-            Route::get('/', 'AdminController@index')->name('admin.index');
-
-            Route::get('business/{id?}', 'BusinessController@edit')->name('admin.business.edit');
-            Route::post('business', 'BusinessController@create')->name('admin.business.create');
-            Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
-        });
-});
 
 
