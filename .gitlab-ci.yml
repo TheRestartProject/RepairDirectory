@@ -54,7 +54,7 @@ test:unittests:
   - master
   - /^feature-.*$/
 
-deploy:staging:
+deploy:heroku:
   image: ruby:2.2
   stage: deploy
   tags:
@@ -75,6 +75,7 @@ cleanup:
   script:
   - php composer.phar install --no-dev
   - rm -rf .git
+  - rm .env
   tags:
   - docker
   only:
@@ -85,27 +86,23 @@ cleanup:
     name: "${CI_BUILD_REF_NAME}"
     expire_in: 1 day
 
-deploy:staging:
-  dependencies:
-    - cleanup
-  stage: deploy
-  before_script:
-    - "apt-get update && apt-get install sshpass"
-  script:
-    - "echo \"ls\" > deploy.sh"
-#    - "echo \"curl -H 'PRIVATE-TOKEN: ${GITLAB_TOKEN}' https://gitlab.outlandish.com/api/v3/projects/185/jobs/artifacts/master/download?job=build > repairmap.zip\" > deploy.sh"
-#    - "echo \"unzip repairmap.zip -d public_html/repairmap\" >> deploy.sh"
-#    - "echo \"cp -r public_html/repairmap/public public_html/public/map\" >> deploy.sh"
-#    - "echo \"sed -i 's|/../bootstrap/|/../../repairmap/bootstrap/|' public_html/public/map/index.php\" >> deploy.sh"
-#    - "echo \"public_html/repairmap/public/css public_html/public/css\" >> deploy.sh"
-#    - "echo \"public_html/repairmap/public/js public_html/public/js\" >> deploy.sh"
-    - "sshpass -e ssh -ttv \"${SSH_USERNAME}@shell.gridhost.co.uk\""
-    - rm deploy.sh
-  tags:
-    - docker
-  only:
-    - master
-    - new-deploy-process
+#deploy:staging:
+#  dependencies:
+#    - cleanup
+#  stage: deploy
+#  before_script:
+#    - "apt-get update && apt-get install sshpass"
+#  script:
+#    - 'sed -i "s|APP_URL=.*|APP_URL=http://community-staging.therestartproject.org|" .env'
+#    - 'sed -i "s|APP_DEBUG=.*|APP_DEBUG=true|" .env'
+#    - 'sed -i "s|APP_ENV=.*|APP_ENV=production|" .env'
+#    - 'sed -i "s|DB_HOST=.*|DB_HOST=${}|".env'
+#    - 'sed -i "s|DB_HOST=.*|DB_HOST=${}|".env'
+#  tags:
+#    - docker
+#  only:
+#    - master
+#    - new-deploy-process
 
 # deploy:production:
 #   dependencies:
