@@ -3,6 +3,7 @@ image: tetraweb/php:7.1
 stages:
   - build
   - test
+  - cleanup
   - deploy
 
 build:
@@ -33,10 +34,10 @@ build:
     expire_in: 1 hour
 
 test:static-analysis:
+  dependencies:
+    - build
   stage: test
   allow_failure: true
-  before_script:
-  - "apt-get update && apt-get install zip unzip -y"
   script:
   - php composer.phar run-script code
   tags:
@@ -46,9 +47,9 @@ test:static-analysis:
   - /^feature-.*$/
 
 test:unittests:
+  dependencies:
+    - build
   stage: test
-  before_script:
-  - "apt-get update && apt-get install zip unzip -y"
   script:
   - php composer.phar run-script test:unit
   tags:
@@ -57,7 +58,9 @@ test:unittests:
   - master
   - /^feature-.*$/
 
-deploy:staging:
+deploy:heroku:
+  dependencies:
+    - build
   image: ruby:2.2
   stage: deploy
   tags:
@@ -72,24 +75,42 @@ deploy:staging:
     url: https://restartproject.herokuapp.com/
   only:
     - master
-    
-# deploy:staging:
-#   dependencies:
-#   - build
-#   stage: deploy
-#   script:
-#   - php composer.phar install --no-dev
-#   - rm composer.phar
-#   - rm -rf .git
-#   tags:
-#   - docker
-#   only:
-#   - master
-#   artifacts:
-#     paths:
-#     - ./
-#     name: "${CI_BUILD_REF_NAME}"
-#     expire_in: 1 day
+
+cleanup:
+  dependencies:
+    - build
+  stage: cleanup
+  script:
+  - php composer.phar install --no-dev
+  - rm -rf .git
+  - rm .env
+  tags:
+  - docker
+  only:
+  - master
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 day
+
+#deploy:staging:
+#  dependencies:
+#    - cleanup
+#  stage: deploy
+#  before_script:
+#    - "apt-get update && apt-get install sshpass"
+#  script:
+#    - 'sed -i "s|APP_URL=.*|APP_URL=http://community-staging.therestartproject.org|" .env'
+#    - 'sed -i "s|APP_DEBUG=.*|APP_DEBUG=true|" .env'
+#    - 'sed -i "s|APP_ENV=.*|APP_ENV=production|" .env'
+#    - 'sed -i "s|DB_HOST=.*|DB_HOST=${}|".env'
+#    - 'sed -i "s|DB_HOST=.*|DB_HOST=${}|".env'
+#  tags:
+#    - docker
+#  only:
+#    - master
+#    - new-deploy-process
 
 # deploy:production:
 #   dependencies:
