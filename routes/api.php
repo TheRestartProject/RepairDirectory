@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix('map')->group(function() {
+Route::prefix('map/api')->group(function() {
     Route::namespace('Api')
         ->group(function () {
             Route::get('/business/search', 'BusinessController@search')->name('business.search');
