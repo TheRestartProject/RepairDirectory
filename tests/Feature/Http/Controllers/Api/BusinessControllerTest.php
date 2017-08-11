@@ -2,9 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
-use TheRestartProject\RepairDirectory\Domain\Models\Point;
-use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Tests\Feature\FeatureTestCase;
+use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
 
 /**
  * Api\BusinessController Test

@@ -4,7 +4,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin
 
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Tests\Feature\FeatureTestCase;
+use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
 
 /**
  * Admin\BusinessController Test
@@ -75,7 +75,9 @@ class BusinessControllerTest extends FeatureTestCase
         $response = $this->put(
             '/admin/business/1', [
                 'name' => 'This is a new name',
-                'description' => 'This is a new description.'
+                'description' => 'This is a new description.',
+                'address' => '12 Westgate St, Bath',
+                'postcode' => 'BA1 1EQ'
             ]
         );
         $response->assertStatus(302);

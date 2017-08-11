@@ -5,6 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
@@ -116,7 +117,12 @@ class ImportFromHttpRequestTest extends TestCase
      */
     public function it_can_add_a_business_to_the_repository()
     {
-        $data = [];
+        $data = [
+            "name" => "Link Computer Services",
+            "address" => "203 Mawney Road",
+            "postcode" => "RM7 8BX",
+            "description" => "Laptop, PC, and Netbook repairs, mobile service."
+        ];
         $this->setupGeocoder();
 
         $addedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data));
@@ -137,7 +143,10 @@ class ImportFromHttpRequestTest extends TestCase
     public function it_can_update_an_existing_business()
     {
         $data = [
-            'name' => 'New Name'
+            'name' => 'New Name',
+            "address" => "203 Mawney Road",
+            "postcode" => "RM7 8BX",
+            "description" => "Laptop, PC, and Netbook repairs, mobile service."
         ];
         $business = new Business();
         $business->setName('Old Name');
@@ -160,7 +169,7 @@ class ImportFromHttpRequestTest extends TestCase
      */
     public function setupGeocoder()
     {
-        $this->geocoder->shouldReceive('geocode')->andReturn([0, 0]);
+        $this->geocoder->shouldReceive('geocode')->andReturn(new Point(0, 0));
     }
 
     /**

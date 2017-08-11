@@ -603,7 +603,7 @@ class Business
     public function toArray()
     {
         $array = get_object_vars($this);
-        $array['geolocation'] = $this->getGeolocation()->toArray();
+        $array['geolocation'] = $this->getGeolocation() ? $this->getGeolocation()->toArray() : null;
         return $array;
     }
 

@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use TheRestartProject\RepairDirectory\Tests\Feature\FeatureTestCase;
+use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
 
 /**
  * Class ImportBusinessCommandTest
@@ -34,7 +34,8 @@ class ImportBusinessesCommandTest extends FeatureTestCase
         $this->assertDatabaseHas(
             'businesses', [
                 'name' => 'iRepair Centre Bath',
-                'address' => '12 Westgate St, Bath',
+                'address' => '12 Westgate St',
+                'city' => 'Bath',
                 'postcode' => 'BA1 1EQ'
             ]
         );

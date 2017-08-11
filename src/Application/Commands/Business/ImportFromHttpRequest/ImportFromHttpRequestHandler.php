@@ -3,8 +3,8 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
-use TheRestartProject\RepairDirectory\Domain\Enums\Category;
-use TheRestartProject\RepairDirectory\Domain\Exceptions\EntityNotFoundException;
+use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
+use TheRestartProject\RepairDirectory\Application\Validators\BusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
@@ -33,6 +33,8 @@ class ImportFromHttpRequestHandler
      * @var Geocoder
      */
     private $geocoder;
+    
+    private $validator;
 
     /**
      * Creates the handler for the ImportBusinessFromCsvRowCommand
@@ -44,6 +46,7 @@ class ImportFromHttpRequestHandler
     {
         $this->repository = $repository;
         $this->geocoder = $geocoder;
+        $this->validator = new BusinessValidator();
     }
 
     /**
@@ -53,13 +56,15 @@ class ImportFromHttpRequestHandler
      *
      * @return Business
      *
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException, BusinessValidationException
      */
     public function handle(ImportFromHttpRequestCommand $command)
     {
         $data = $command->getData();
+
         $businessUid = $command->getBusinessUid();
         $isCreate = !(boolean) $businessUid;
+        
         $business = $isCreate ? new Business() : $this->repository->get($businessUid);
         if (!$business) {
             throw new EntityNotFoundException();
@@ -80,6 +85,9 @@ class ImportFromHttpRequestHandler
         );
 
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
+
+        $this->validator->validate($business);
+
         if ($isCreate) {
             $this->repository->add($business);
         }
