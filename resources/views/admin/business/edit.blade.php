@@ -81,6 +81,39 @@
                 </select>
                 {!! array_key_exists('category', $errors) ? '<small>' . $errors['category'] . '</small>' : '' !!}
             </div>
+
+            <div class="form-group">
+                <label for="">Review Source</label>
+                <select name="reviewSource" id="reviewSource" class="form-control">
+                    <option value="google">Google Map Search</option>
+                    <option value="trustpilot">Trustpilot</option>
+                    <option value="facebook">Facebook Reviews</option>
+                    <option value="yell">Yell</option>
+                    <option value="checkatrade">Checkatrade</option>
+                    <option value="freeindex">Freeindex</option>
+                </select>
+                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="">Number of Source Reviews</label>
+                <input id="sourceReviewNumber" name="sourceReviewNumber" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="">Average Source Score</label>
+                <input id="averageSourceScore" name="averageSourceScore" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="">Warranty Offered</label>
+                <input type="radio" name="warrantyOffered" id="warrantyOffered" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="">warranty Details</label>
+                <textarea name="warrantyDetails" id="warrantyDetails" cols="30" rows="10" class="form-control"></textarea>
+            </div>
         </div>
     </form>
 @endsection
