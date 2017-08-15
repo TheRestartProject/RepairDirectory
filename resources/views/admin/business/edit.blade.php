@@ -82,6 +82,18 @@
                 {!! array_key_exists('category', $errors) ? '<small>' . $errors['category'] . '</small>' : '' !!}
             </div>
 
+
+        </div>
+
+        <div class="col-xs-12 col-md-4">
+
+            <div class="form-group">
+                <label for="positiveReviewScores">Positive Review Scores</label>
+                <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
+                <input id="positiveReviewPc" name="positiveReviewPc" class="form-control" value={{$business->getPositiveReviewPc()}}>
+                <span>percent</span>
+            </div>
+
             <div class="form-group">
                 <label for="">Review Source</label>
                 <select name="reviewSource" id="reviewSource" class="form-control">
@@ -102,18 +114,19 @@
 
             <div class="form-group">
                 <label for="">Average Source Score</label>
-                <input id="averageSourceScore" name="averageSourceScore" class="form-control">
+                <input id="averageSourceScore" name="averageSourceScoreRange" class="form-control">
             </div>
 
             <div class="form-group">
                 <label for="">Warranty Offered</label>
-                <input type="radio" name="warrantyOffered" id="warrantyOffered" class="form-control">
+                <input type="checkbox" name="warrantyOffered" value="" id="warrantyOffered" class="form-control">
             </div>
 
             <div class="form-group">
                 <label for="">warranty Details</label>
                 <textarea name="warrantyDetails" id="warrantyDetails" cols="30" rows="10" class="form-control"></textarea>
             </div>
+
         </div>
     </form>
 @endsection
