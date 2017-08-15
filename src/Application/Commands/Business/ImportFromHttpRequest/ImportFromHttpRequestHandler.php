@@ -80,7 +80,10 @@ class ImportFromHttpRequestHandler
             'localArea',
             'mobile',
             'landline',
-            'website'
+            'website',
+            'warranty',
+            'positiveReviewPc',
+            'offersWarranty'
             ]
         );
 

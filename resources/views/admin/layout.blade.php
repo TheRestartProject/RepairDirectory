@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="/css/map/app.css">
     <title>Repair Directory Admin</title>
+    <script src="/js/map/admin.js"></script>
 </head>
 <body>
 <div class="container">

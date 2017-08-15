@@ -149,6 +149,13 @@ class Business
     private $warranty;
 
     /**
+     * Whether a warranty is offered or not
+     *
+     * @var bool
+     */
+    private $offersWarranty;
+
+    /**
      * Repair pricing information
      *
      * @var string
@@ -505,6 +512,28 @@ class Business
     public function setWarranty($warranty)
     {
         $this->warranty = $warranty;
+    }
+
+    /**
+     * Return whether this business provides warranty
+     *
+     * @return bool
+     */
+    public function getOffersWarranty()
+    {
+        return $this->offersWarranty;
+    }
+
+    /**
+     * Set whether this business provides warranty or not
+     *
+     * @param string $warranty The value to set
+     *
+     * @return void
+     */
+    public function setOffersWarranty($offersWarranty)
+    {
+        $this->offersWarranty = $offersWarranty;
     }
 
     /**

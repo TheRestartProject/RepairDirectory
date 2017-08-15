@@ -8,8 +8,13 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-@import "node_modules/font-awesome/scss/font-awesome";
+// Admin
+@import "admin";
 
+.header__link {
+  float: right;
+  margin-top: 3rem;
+}@import "node_modules/font-awesome/scss/font-awesome";
 // Fonts
 @import "fonts";
 

@@ -90,12 +90,13 @@
             <div class="form-group">
                 <label for="positiveReviewScores">Positive Review Scores</label>
                 <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
-                <input id="positiveReviewPc" name="positiveReviewPc" class="form-control" value={{$business->getPositiveReviewPc()}}>
+                <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control" value={{$business->getPositiveReviewPc()}}>
                 <span>percent</span>
+                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-                <label for="">Review Source</label>
+                <label for="">Review Source  (not yet functional)</label>
                 <select name="reviewSource" id="reviewSource" class="form-control">
                     <option value="google">Google Map Search</option>
                     <option value="trustpilot">Trustpilot</option>
@@ -108,23 +109,25 @@
             </div>
 
             <div class="form-group">
-                <label for="">Number of Source Reviews</label>
+                <label for="">Number of Source Reviews (not yet functional)</label>
                 <input id="sourceReviewNumber" name="sourceReviewNumber" class="form-control">
+                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-                <label for="">Average Source Score</label>
+                <label for="">Average Source Score (not yet functional)</label>
                 <input id="averageSourceScore" name="averageSourceScoreRange" class="form-control">
+                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="">Warranty Offered</label>
-                <input type="checkbox" name="warrantyOffered" value="" id="warrantyOffered" class="form-control">
-            </div>
+                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}            </div>
 
             <div class="form-group">
                 <label for="">warranty Details</label>
-                <textarea name="warrantyDetails" id="warrantyDetails" cols="30" rows="10" class="form-control"></textarea>
+                <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{$business->getWarranty()}}</textarea>
+                {!! array_key_exists('warranty', $errors) ? '<small>' . $errors['warranty'] . '</small>' : '' !!}
             </div>
 
         </div>
