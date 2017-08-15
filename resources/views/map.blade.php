@@ -5,7 +5,7 @@
     <div class="row no-gutter">
         <div class="col-xs-12 col-sm-3 sidebar">
             <div class="sidebar__logo">
-                <img src="/images/logo.png">
+                <img src="/images/map/logo.png">
             </div>
             <div class="sidebar__content">
                 <h3 class="sidebar__header">Restart repair directory</h3>
