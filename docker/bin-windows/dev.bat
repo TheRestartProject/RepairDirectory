@@ -4,6 +4,8 @@ IF "%1"=="start" (
     docker-compose up -d restart-project.local db.restart-project.local
     cd ..
     docker\bin-windows\composer.bat install
+    docker\bin-windows\yarn.bat
+    docker\bin-windows\npm.bat install
     docker\bin-windows\artisan.bat doctrine:migrations:migrate
 
 ) ELSE IF "%1"=="reports" (
