@@ -94,6 +94,7 @@ function scrollToRepairer(business) {
 
 function showRepairer(business) {
     map.setCenter({lat: business.geolocation.latitude, lng: business.geolocation.longitude});
+    map.setZoom(15);
 
     $businessPopup.html(`
         <div class="business-popup__heading">
