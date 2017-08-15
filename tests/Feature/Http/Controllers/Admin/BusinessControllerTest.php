@@ -28,7 +28,7 @@ class BusinessControllerTest extends FeatureTestCase
     public function test_create()
     {
         $response = $this->post(
-            '/admin/business', [
+            route('admin.business.create'), [
                 'name' => 'iRepair Centre Bath',
                 'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
                 'address' => '12 Westgate St, Bath',
@@ -73,7 +73,7 @@ class BusinessControllerTest extends FeatureTestCase
     public function test_update()
     {
         $response = $this->put(
-            '/admin/business/1', [
+            route('admin.business.update', ['id' => 1]), [
                 'name' => 'This is a new name',
                 'description' => 'This is a new description.',
                 'address' => '12 Westgate St, Bath',
