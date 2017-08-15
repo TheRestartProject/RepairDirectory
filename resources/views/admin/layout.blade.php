@@ -7,13 +7,13 @@
 
     <link rel="stylesheet" type="text/css" href="/css/map/app.css">
     <title>Repair Directory Admin</title>
-    <script src="/js/map/admin.js"></script>
 </head>
 <body>
 <div class="container">
     <a href='/' class="header__link btn btn-primary">Home</a>
     <h1><a href="{{ route('admin.index') }}">Repair Directory Admin</a></h1>
     @yield('content')
+    <script src="/js/map/admin.js"></script>
 </div>
 </body>
 </html>
