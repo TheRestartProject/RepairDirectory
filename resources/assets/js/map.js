@@ -4,6 +4,7 @@ const {hideElement, showElement} = require('./util');
 let map;
 let markers = [];
 let $businessPopup;
+let $businessListContainer;
 
 $(document).ready(() => {
     // add form handler
@@ -19,6 +20,7 @@ $(document).ready(() => {
        }
     });
     $businessPopup = $('#business-popup');
+    $businessListContainer = $('#business-list-container');
 });
 
 function initMap() {
@@ -32,8 +34,6 @@ function initMap() {
     map.addListener('click', function () {
         hideRepairer();
     });
-
-    doSearch();
 }
 
 function onSearch(e) {
@@ -54,7 +54,11 @@ function doSearch(query) {
         if (searchLocation) {
             map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude});
         }
+        showElement($businessListContainer);
         businesses.forEach(addRepairer);
+        $businessListContainer
+            .find('.business-list-container__result-count')
+            .text(businesses.length + ((businesses.length === 1) ? ' result ' : ' results ') + 'in your area');
     });
 }
 

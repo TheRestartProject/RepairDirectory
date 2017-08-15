@@ -44,7 +44,8 @@
                     </div>
                 </form>
                 <div id="map-mobile"></div>
-                <div class="row no-gutter">
+                <div id="business-list-container" class="row no-gutter hidden">
+                    <p class="business-list-container__result-count"></p>
                     <ul class="business-list col-xs-12"></ul>
                 </div>
             </div>
