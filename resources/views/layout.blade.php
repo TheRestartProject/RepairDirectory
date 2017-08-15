@@ -11,9 +11,7 @@
     <title>Repair Directory</title>
 </head>
 <body>
-<div class="container">
-    <a href='{{ route('admin.index') }}' class="header__link btn btn-primary">Admin</a>
-    <h1>Repair Directory</h1>
+<div>
     @yield('content')
     @include('footer')
 </div>
