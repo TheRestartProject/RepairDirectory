@@ -1,0 +1,52 @@
+#map-desktop-container {
+  height: 100%;
+}
+
+#map-desktop {
+  height: 100vh;
+  position: relative;
+}
+
+#map-mobile {
+  height: 300px;
+}
+
+@media(min-width:768px) {
+  #map-mobile {
+    display: none;
+  }
+}
+
+@media(max-width:767px) {
+  #map-desktop-container {
+    display: none;
+  }
+}
+
+#business-popup {
+  position: absolute;
+  top: 20%;
+  left: 33%;
+  width: 33%;
+  margin-left: 10px; /* to align with the map pin */
+  background-color: white;
+}
+
+.business-popup__heading {
+  color: white;
+  background-color: #0094a7;
+  padding: 1rem;
+
+  > h2 {
+    margin-top: 0;
+    font-family: "PatuaOne", serif;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.business-popup__details {
+  padding: 1rem;
+}

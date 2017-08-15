@@ -8,15 +8,35 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-.header__link {
-  float: right;
-  margin-top: 3rem;
+@import "node_modules/font-awesome/scss/font-awesome";
+
+// Fonts
+@import "fonts";
+
+// Components
+@import "sidebar";
+@import "map";
+
+// Global
+.row.no-gutter {
+  margin-left: 0;
+  margin-right: 0;
+
+  > [class*='col-'] {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
 
-.map__container {
-  height: 500px;
-}
-
-#map {
-  height: 100%;
+/* Display a font awesome icon on the left, and the business information on the right */
+.business-detail {
+  .fa {
+    color: #0094a7;
+    float: left;
+    margin-top: 3px;
+  }
+  :last-child {
+    margin-left: 1rem;
+    word-wrap: break-word;
+  }
 }

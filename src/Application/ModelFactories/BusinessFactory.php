@@ -48,10 +48,18 @@ class BusinessFactory
         $business->setAddress($addressParts['address']);
         $business->setCity($addressParts['city']);
         $business->setDescription($row['Description']);
-        $business->setLandline($row['Landline']);
-        $business->setMobile($row['Mobile']);
-        $business->setWebsite($row['Website']);
-        $business->setEmail($row['Email']);
+        if ($this->isTruthy($row['Landline'])) {
+            $business->setLandline($row['Landline']);
+        }
+        if ($this->isTruthy($row['Mobile'])) {
+            $business->setMobile($row['Mobile']);
+        }
+        if ($this->isTruthy($row['Website'])) {
+            $business->setWebsite($row['Website']);
+        }
+        if ($this->isTruthy($row['Email'])) {
+            $business->setEmail($row['Email']);
+        }
         $business->setLocalArea($row['Borough']);
         $business->setCategory($row['Category']);
         $business->setProductsRepaired(explode(',', $row['Products repaired']));
@@ -81,6 +89,18 @@ class BusinessFactory
             $newRow[trim($key)] = trim($value);
         }
         return $newRow;
+    }
+
+    /**
+     * Returns 'true' if $value is not empty and is not equal to 'no' or 'none'
+     *
+     * @param string $value The value to test
+     *
+     * @return bool
+     */
+    private function isTruthy($value) {
+        $value = strtolower($value);
+        return $value && $value !== 'no' && $value !== 'none';
     }
 
     /**

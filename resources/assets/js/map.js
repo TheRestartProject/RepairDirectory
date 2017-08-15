@@ -3,17 +3,18 @@ const {hideElement, showElement} = require('./util');
 
 let map;
 let markers = [];
-let $businessDetails, $businessDetailsPlaceholder;
+let $businessPopup;
 
 $(document).ready(() => {
     $('#search').submit(onSearch);
-    $businessDetails = $('#business-details');
-    $businessDetailsPlaceholder = $('#business-details-placeholder');
+    $businessPopup = $('#business-popup');
 });
 
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 11,
+    const isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
+
+    map = new google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
+        zoom: 13,
         center: {lat: 51.5715356, lng: 0.1332412}
     });
 
@@ -47,10 +48,12 @@ function doSearch(query) {
 }
 
 function clearMap() {
+    hideRepairer();
     markers.forEach(marker => {
         marker.setMap(null);
     });
     markers = [];
+    $('.business-list__item').remove();
 }
 
 function addRepairer(business) {
@@ -60,30 +63,98 @@ function addRepairer(business) {
         title: business.name
     });
     marker.addListener('click', function () {
+        scrollToRepairer(business);
         showRepairer(business);
     });
     markers.push(marker);
+
+    const $business = $(`
+        <li role="button" class="business-list__item" id="business-${business.uid}">
+            <h2>${business.name}</h2>
+            <p>${business.description}</p>
+            ${formatContactDetails(business)}            
+        </li>
+    `);
+
+    $business.click(() => {
+        showRepairer(business);
+    });
+
+    $('.business-list').append($business);
+}
+
+function scrollToRepairer(business) {
+    const $sidebar = $('.sidebar');
+    const $business = $sidebar.find('#business-' + business.uid);
+    console.log('scrolling to', $business.offset().top - $sidebar.offset().top + $sidebar.scrollTop());
+    $sidebar.scrollTop(
+        $business.offset().top - $sidebar.offset().top + $sidebar.scrollTop() - 100
+    );
 }
 
 function showRepairer(business) {
-    hideElement($businessDetailsPlaceholder);
+    map.setCenter({lat: business.geolocation.latitude, lng: business.geolocation.longitude});
 
-    $businessDetails.html(
-        `
-        <h2>${business.name}</h2>
-        <p>${business.description}</p>
-        ${business.address.split(',').join('<br/>')}
-        <br/>
-        ${business.postcode}
-        `
-    );
+    $businessPopup.html(`
+        <div class="business-popup__heading">
+            <h2>${business.name}</h2>
+            <p>${business.description}</p>
+        </div>
+        <div class="business-popup__details">
+            ${formatContactDetails(business)}            
+        </div>
+    `);
 
-    showElement($businessDetails);
+    showElement($businessPopup);
+
+    $('.business-list__item').each(function () {
+        const $item = $(this);
+        if ($item.attr('id') === 'business-' + business.uid) {
+            $item.removeClass('business-list__item--inactive');
+        } else {
+            $item.addClass('business-list__item--inactive')
+        }
+    })
 }
 
 function hideRepairer() {
-    hideElement($businessDetails);
-    showElement($businessDetailsPlaceholder);
+    hideElement($businessPopup);
+    $('.business-list__item').each(function () {
+        const $item = $(this);
+        $item.removeClass('business-list__item--inactive')
+    })
+}
+
+function formatContactDetails(business) {
+    let markup = '';
+
+    if (business.website) {
+        markup += `
+        <p class="business-detail">
+            <span class="fa fa-globe"></span>
+            <a href="${business.website}">${business.website}</a>
+        </p>`
+    }
+
+    if (business.landline || business.mobile) {
+        markup += `
+        <p class="business-detail">
+            <span class="fa fa-phone"></span>
+            <span>${business.landline || business.mobile}</span>
+        </p>`
+    }
+
+    const completeAddress = [business.address, business.city, business.postcode]
+        .filter(Boolean)
+        .join(', ');
+
+    markup += `
+    <p class="business-detail">
+        <span class="fa fa-map-marker"></span>
+        <span>${completeAddress}</span>
+    </p>`;
+
+    return markup;
 }
 
 module.exports = {initMap};
