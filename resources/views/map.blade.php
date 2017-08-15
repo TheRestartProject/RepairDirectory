@@ -14,8 +14,9 @@
                     <div class="row no-gutter">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label for="location">Postcode</label>
-                                <input id="location" name="location" class="form-control sidebar__input">
+                                <label for="location">Your location</label>
+                                <input id="location" name="location" class="form-control sidebar__input"
+                                placeholder="E.G. Postcode">
                             </div>
                         </div>
                     </div>
@@ -37,7 +38,7 @@
                     <div class="row no-gutter">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <button class="btn btn-primary sidebar__button">Search</button>
+                                <button id="submit" class="btn btn-primary sidebar__button" disabled>Search</button>
                             </div>
                         </div>
                     </div>

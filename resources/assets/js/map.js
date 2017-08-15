@@ -6,7 +6,18 @@ let markers = [];
 let $businessPopup;
 
 $(document).ready(() => {
+    // add form handler
     $('#search').submit(onSearch);
+
+    // enable/disable search button
+    $('#location').keyup(function () {
+       const $location = $(this);
+       if ($location.val()) {
+           $('#submit').removeAttr('disabled');
+       } else {
+           $('#submit').attr('disabled', '');
+       }
+    });
     $businessPopup = $('#business-popup');
 });
 
@@ -86,10 +97,7 @@ function addRepairer(business) {
 function scrollToRepairer(business) {
     const $sidebar = $('.sidebar');
     const $business = $sidebar.find('#business-' + business.uid);
-    console.log('scrolling to', $business.offset().top - $sidebar.offset().top + $sidebar.scrollTop());
-    $sidebar.scrollTop(
-        $business.offset().top - $sidebar.offset().top + $sidebar.scrollTop() - 100
-    );
+    $sidebar.animate(({ scrollTop: $business.offset().top - $sidebar.offset().top + $sidebar.scrollTop() - 100 }));
 }
 
 function showRepairer(business) {
