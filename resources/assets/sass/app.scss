@@ -8,6 +8,8 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+@import "node_modules/font-awesome/scss/font-awesome";
+
 // Fonts
 @import "fonts";
 
@@ -23,5 +25,18 @@
   > [class*='col-'] {
     padding-right: 0;
     padding-left: 0;
+  }
+}
+
+/* Display a font awesome icon on the left, and the business information on the right */
+.business-detail {
+  .fa {
+    color: #0094a7;
+    float: left;
+    margin-top: 3px;
+  }
+  :last-child {
+    margin-left: 1rem;
+    word-wrap: break-word;
   }
 }

@@ -21,20 +21,24 @@
 }
 
 .sidebar__content {
-  padding: 1rem;
   color: white;
 }
 
 .sidebar__header {
-  margin-top: 0;
+  margin: 1rem;
   font-family: "PatuaOne", serif;
   letter-spacing: 0.5px;
 }
 
 .sidebar__copy {
+  margin: 0 1rem 1rem 10px;
   font-family: "PatuaOne", serif;
   font-size: 1.75rem;
   letter-spacing: 0.5px;
+}
+
+.sidebar__search {
+  margin: 0 1rem;
 }
 
 .sidebar__input,.sidebar__select {
@@ -63,4 +67,35 @@
   width: 100%;
   border-radius: 0;
   @include button-variant(white, #f9a33f, #958751);
+}
+
+.business-list {
+  color: black;
+  background-color: #606060;
+  list-style: none;
+  margin-bottom: 0;
+  padding-bottom: 1rem;
+}
+
+.business-list__item {
+  margin: 1rem 1rem 0 1rem;
+  padding: 1rem;
+  background-color: white;
+
+  &:hover {
+    background-color: #eee;
+  }
+
+  > h2 {
+    color: #606060;
+    margin-top: 0;
+    font-family: "PatuaOne", serif;
+  }
+
+  &.business-list__item--inactive {
+    background-color: #707070;
+    a,.fa {
+      color: black;
+    }
+  }
 }

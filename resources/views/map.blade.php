@@ -10,7 +10,7 @@
             <div class="sidebar__content">
                 <h3 class="sidebar__header">Restart repair directory</h3>
                 <p class="sidebar__copy">Find a local business to repair your stuff.</p>
-                <form id="search">
+                <form id="search" class="sidebar__search">
                     <div class="row no-gutter">
                         <div class="col-xs-12">
                             <div class="form-group">
@@ -42,13 +42,15 @@
                         </div>
                     </div>
                 </form>
+                <div id="map-mobile"></div>
                 <div class="row no-gutter">
-                    <div id="business-details" class="col-xs-12 hidden"></div>
+                    <ul class="business-list col-xs-12"></ul>
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-9 map">
-            <div id="map"></div>
+        <div id="map-desktop-container" class="col-xs-12 col-sm-9">
+            <div id="map-desktop"></div>
+            <div id="business-popup" class="hidden"></div>
         </div>
     </div>
 
