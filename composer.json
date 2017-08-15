@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "guzzlehttp/guzzle": "~6.0",
         "laracasts/utilities": "^2.1",
         "laravel-doctrine/migrations": "1.0.*",
         "laravel-doctrine/orm": "^1.3",
