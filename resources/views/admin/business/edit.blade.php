@@ -78,7 +78,7 @@
         <div class="col-xs-12 col-md-4">
             <div class="form-group">
                 <label for="categories">Categories</label>
-                <select id="categories" name="categories[]" class="form-control" multiple>
+                <select id="categories" name="categories[]" class="form-control" multiple style="height:600px">
                     @foreach($categories as $category)
                         <option value="{{ $category }}"
                                 {{ in_array($category->getValue(), $business->getCategories()) ? "selected" : "" }}>
