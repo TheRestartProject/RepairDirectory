@@ -149,6 +149,14 @@ function formatContactDetails(business) {
         </p>`
     }
 
+    if (business.email) {
+        markup += `
+        <p class="business-detail">
+            <span class="fa fa-envelope-o"></span>
+            <a href="mailto:${business.email}">${business.email}</a>
+        </p>`
+    }
+
     if (business.landline || business.mobile) {
         markup += `
         <p class="business-detail">
