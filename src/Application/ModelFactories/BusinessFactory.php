@@ -62,7 +62,12 @@ class BusinessFactory
             $business->setEmail($row['Email']);
         }
         $business->setLocalArea($row['Borough']);
-        $business->setCategories([$row['Category']]);
+
+        $categories = array_map(function ($category) {
+            return trim($category);
+        }, explode(',', $row['Category']));
+
+        $business->setCategories($categories);
         $business->setProductsRepaired(explode(',', $row['Products repaired']));
         $business->setAuthorised($row['Authorised repairer'] === 'Yes');
         $business->setQualifications($row['Qualifications']);
