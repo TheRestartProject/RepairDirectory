@@ -89,9 +89,9 @@
 
             <div class="form-group">
                 <label for="positiveReviewScores">Positive Review Scores</label>
-                <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
-                <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control" value={{$business->getPositiveReviewPc()}}>
-                <span>percent</span>
+                <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" class="slider" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
+                <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control slider-input" value={{$business->getPositiveReviewPc()}}>
+                <span>%</span>
                 {!! array_key_exists('positiveReviewPc', $errors) ? '<small>' . $errors['positiveReviewPc'] . '</small>' : '' !!}
             </div>
 
