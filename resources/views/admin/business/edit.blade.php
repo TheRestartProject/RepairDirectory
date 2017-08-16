@@ -110,22 +110,22 @@
 
             <div class="form-group">
                 <label for="">Number of Source Reviews (not yet functional)</label>
-                <input id="sourceReviewNumber" name="sourceReviewNumber" class="form-control">
-                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
+                <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
+                {!! array_key_exists('numberOfReviews', $errors) ? '<small>' . $errors['numberOfReviews'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
                 <label for="">Average Source Score (not yet functional)</label>
-                <input id="averageSourceScore" name="averageSourceScoreRange" class="form-control">
-                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
-            </div>
+                <input id="averageScore" name="averageScore" class="form-control" value="{{$business->getAverageScore()}}">
+                {!! array_key_exists('averageScore', $errors) ? '<small>' . $errors['averageScore'] . '</small>' : '' !!}            </div>
 
             <div class="form-group">
                 <label for="">Warranty Offered</label>
-                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}            </div>
-
+                 <input type="checkbox" name="warrantyOffered" id="warantyOffered" class="form-control" value="{{$business->getWarrantyOffered()}}" >
+                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
+            </div>
             <div class="form-group">
-                <label for="">warranty Details</label>
+                <label for="">Warranty Details</label>
                 <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{$business->getWarranty()}}</textarea>
                 {!! array_key_exists('warranty', $errors) ? '<small>' . $errors['warranty'] . '</small>' : '' !!}
             </div>

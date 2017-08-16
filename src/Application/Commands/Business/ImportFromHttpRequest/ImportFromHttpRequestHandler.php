@@ -82,8 +82,11 @@ class ImportFromHttpRequestHandler
             'landline',
             'website',
             'warranty',
+            'warrantyOffered',
             'positiveReviewPc',
-            'offersWarranty'
+            'reviewSource',
+            'averageScore',
+            'numberOfReviews'
             ]
         );
 
