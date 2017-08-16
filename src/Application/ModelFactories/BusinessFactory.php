@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\ModelFactories;
 
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 
@@ -66,8 +67,8 @@ class BusinessFactory
         $business->setAuthorised($row['Authorised repairer'] === 'Yes');
         $business->setQualifications($row['Qualifications']);
 
-        $reviews = [$row['Independent review link'], $row['Other review link']];
-        $business->setReviews(array_filter($reviews));
+        $reviewUrl = $row['Independent review link'];
+        $business->setReviewSource(ReviewSource::derive($reviewUrl));
 
         $business->setPositiveReviewPc((int) $row['Positive review %']);
         $business->setWarranty($row['Warranty offered']);

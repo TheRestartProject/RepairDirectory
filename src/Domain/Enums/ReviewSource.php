@@ -21,4 +21,27 @@ class ReviewSource extends Enum
     const YELL = "Yell";
     const CHECKATRADE = "Checkatrade";
     const FREEINDEX = "Freeindex";
+
+    public static function derive($reviewUrl) {
+        $reviewUrl = strtolower($reviewUrl);
+        if (strpos($reviewUrl, 'google.co') !== false) {
+            return self::GOOGLE;
+        }
+        if (strpos($reviewUrl, 'trustpilot.co') !== false) {
+            return self::TRUSTPILOT;
+        }
+        if (strpos($reviewUrl, 'facebook.co') !== false) {
+            return self::FACEBOOK;
+        }
+        if (strpos($reviewUrl, 'yell.co') !== false) {
+            return self::YELL;
+        }
+        if (strpos($reviewUrl, 'checkatrade.co') !== false) {
+            return self::CHECKATRADE;
+        }
+        if (strpos($reviewUrl, 'freeindex.co') !== false) {
+            return self::FREEINDEX;
+        }
+        return null;
+    }
 }
