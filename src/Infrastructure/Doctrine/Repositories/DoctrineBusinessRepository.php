@@ -47,7 +47,6 @@ class DoctrineBusinessRepository implements BusinessRepository
 
     /**
      * Register a new business with the entity manager.
-     * Should be persisted with the DoctrinePersister service.
      *
      * @param Business $business The Business to add
      *
