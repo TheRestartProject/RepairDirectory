@@ -88,7 +88,7 @@
         <div class="col-xs-12 col-md-4">
 
             <div class="form-group">
-                <label for="positiveReviewScores">Positive Review Scores</label>
+                <label for="positiveReviewPcRange">Positive Review Scores</label>
                 <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" class="slider" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
                 <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control slider-input" value={{$business->getPositiveReviewPc()}}>
                 <span>%</span>
@@ -108,12 +108,13 @@
             </div>
 
             <div class="form-group">
-                <label for="numberOfReviews">Number of Reviews</label>                <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
+                <label for="numberOfReviews">Number of Reviews</label>
+                <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
                 {!! array_key_exists('numberOfReviews', $errors) ? '<small>' . $errors['numberOfReviews'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-                <label for="">Average Score</label>
+                <label for="averageScore">Average Score</label>
                 <input id="averageScore" name="averageScore" class="form-control" value="{{$business->getAverageScore()}}">
                 {!! array_key_exists('averageScore', $errors) ? '<small>' . $errors['averageScore'] . '</small>' : '' !!}
             </div>
@@ -121,7 +122,9 @@
             <div class="form-group">
                 <label for="warrantyOffered">Warranty Offered</label>
                 <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->getWarrantyOffered() ? 'checked' : ''}} value="Yes" >
-                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}            </div>
+                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
+            </div>
+            
             <div class="form-group">
                 <label for="warranty">Warranty Details</label>
                 <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{$business->getWarranty()}}</textarea>
