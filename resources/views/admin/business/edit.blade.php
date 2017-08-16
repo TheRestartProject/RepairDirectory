@@ -92,11 +92,11 @@
                 <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
                 <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control" value={{$business->getPositiveReviewPc()}}>
                 <span>percent</span>
-                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
+                {!! array_key_exists('positiveReviewPc', $errors) ? '<small>' . $errors['positiveReviewPc'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-                <label for="">Review Source</label>
+                <label for="reviewSource">Review Source</label>
                 <select id="reviewSource" name="reviewSource" class="form-control">
                     @foreach($reviewSources as $source)
                         <option value="{{ $source }}" {{ $business->getReviewSource() == $source ? "selected" : "" }}>
@@ -108,24 +108,22 @@
             </div>
 
             <div class="form-group">
-
-                <label for="">Number of Source Reviews</label>
-                <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
+                <label for="numberOfReviews">Number of Reviews</label>                <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
                 {!! array_key_exists('numberOfReviews', $errors) ? '<small>' . $errors['numberOfReviews'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-
-                <label for="">Average Source Score</label>
+                <label for="">Average Score</label>
                 <input id="averageScore" name="averageScore" class="form-control" value="{{$business->getAverageScore()}}">
-                {!! array_key_exists('averageScore', $errors) ? '<small>' . $errors['averageScore'] . '</small>' : '' !!}            </div>
+                {!! array_key_exists('averageScore', $errors) ? '<small>' . $errors['averageScore'] . '</small>' : '' !!}
+            </div>
 
             <div class="form-group">
-                <label for="">Warranty Offered</label>
-                <input type="checkbox" name="warrantyOffered" id="warantyOffered" class="form-control" value="{{$business->getWarrantyOffered()}}" >                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
-            </div>
+                <label for="warrantyOffered">Warranty Offered</label>
+                <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->getWarrantyOffered() ? 'checked' : ''}} value="Yes" >
+                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}            </div>
             <div class="form-group">
-                <label for="">Warranty Details</label>
+                <label for="warranty">Warranty Details</label>
                 <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{$business->getWarranty()}}</textarea>
                 {!! array_key_exists('warranty', $errors) ? '<small>' . $errors['warranty'] . '</small>' : '' !!}
             </div>
