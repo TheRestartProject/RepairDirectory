@@ -96,33 +96,33 @@
             </div>
 
             <div class="form-group">
-                <label for="">Review Source  (not yet functional)</label>
-                <select name="reviewSource" id="reviewSource" class="form-control">
-                    <option value="google">Google Map Search</option>
-                    <option value="trustpilot">Trustpilot</option>
-                    <option value="facebook">Facebook Reviews</option>
-                    <option value="yell">Yell</option>
-                    <option value="checkatrade">Checkatrade</option>
-                    <option value="freeindex">Freeindex</option>
+                <label for="">Review Source</label>
+                <select id="reviewSource" name="reviewSource" class="form-control">
+                    @foreach($reviewSources as $source)
+                        <option value="{{ $source }}" {{ $business->getReviewSource() == $source ? "selected" : "" }}>
+                            {{ $source }}
+                        </option>
+                    @endforeach
                 </select>
                 {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-                <label for="">Number of Source Reviews (not yet functional)</label>
+
+                <label for="">Number of Source Reviews</label>
                 <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
                 {!! array_key_exists('numberOfReviews', $errors) ? '<small>' . $errors['numberOfReviews'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
-                <label for="">Average Source Score (not yet functional)</label>
+
+                <label for="">Average Source Score</label>
                 <input id="averageScore" name="averageScore" class="form-control" value="{{$business->getAverageScore()}}">
                 {!! array_key_exists('averageScore', $errors) ? '<small>' . $errors['averageScore'] . '</small>' : '' !!}            </div>
 
             <div class="form-group">
                 <label for="">Warranty Offered</label>
-                 <input type="checkbox" name="warrantyOffered" id="warantyOffered" class="form-control" value="{{$business->getWarrantyOffered()}}" >
-                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
+                <input type="checkbox" name="warrantyOffered" id="warantyOffered" class="form-control" value="{{$business->getWarrantyOffered()}}" >                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
             </div>
             <div class="form-group">
                 <label for="">Warranty Details</label>

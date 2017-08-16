@@ -8,6 +8,7 @@ use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
@@ -47,6 +48,7 @@ class BusinessController extends Controller
 
         return view('admin.business.edit', [
             'categories' => Category::values(),
+            'reviewSources' =>ReviewSource::values(),
             'business' => $business,
             'isCreate' => $isCreate,
             'formAction' => $formAction,

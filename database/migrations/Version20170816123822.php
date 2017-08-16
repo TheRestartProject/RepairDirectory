@@ -5,7 +5,7 @@ namespace Database\Migrations;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema as Schema;
 
-class Version20170816105856 extends AbstractMigration
+class Version20170816123822 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -14,7 +14,7 @@ class Version20170816105856 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE businesses ADD review_source VARCHAR(255) DEFAULT NULL, ADD average_score TINYINT(1) DEFAULT NULL, ADD number_of_reviews INT DEFAULT NULL, ADD warranty_offered TINYINT(1) DEFAULT NULL, DROP reviews');
+        $this->addSql('ALTER TABLE businesses ADD review_source VARCHAR(255) DEFAULT NULL, ADD average_score DOUBLE PRECISION DEFAULT NULL, ADD number_of_reviews INT DEFAULT NULL, ADD warranty_offered TINYINT(1) DEFAULT NULL, DROP reviews');
     }
 
     /**

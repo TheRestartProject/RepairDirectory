@@ -585,7 +585,7 @@ class Business
     /**
      * Set whether this business provides warranty or not
      *
-     * @param string $warrantyOffered The value to set
+     * @param bool $warrantyOffered The value to set
      *
      * @return void
      */

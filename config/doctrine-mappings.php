@@ -82,7 +82,7 @@ return [
                 'nullable' => true
             ],
             'averageScore' => [
-                'type' => 'boolean',
+                'type' => 'float',
                 'nullable' => true
             ],
             'numberOfReviews' => [
