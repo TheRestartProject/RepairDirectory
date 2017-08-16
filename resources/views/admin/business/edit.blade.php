@@ -125,7 +125,7 @@
 
             <div class="form-group">
                 <label for="warrantyOffered">Warranty Offered</label>
-                <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->getWarrantyOffered() ? 'checked' : ''}} value="Yes" >
+                <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->isWarrantyOffered() ? 'checked' : ''}} value="Yes" >
                 {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
             </div>
             

@@ -96,7 +96,7 @@ class ImportFromHttpRequestHandler
         foreach ($data as $key => $value) {
             $setter = 'set' . ucfirst($key);
             if (method_exists($business, $setter)) {
-                $business->{$setter}($data[$key]);
+                $business->{$setter}($value);
             }
         }
     }

@@ -30,18 +30,18 @@ class BusinessControllerTest extends FeatureTestCase
         $response->assertStatus(200);
         $response->assertJson(
             [
-            'searchLocation' => null,
-            'businesses' => [
-                [
-                    'uid' => 1
-                ],
-                [
-                    'uid' => 2
-                ],
-                [
-                    'uid' => 3
+                'searchLocation' => null,
+                'businesses' => [
+                    [
+                        'uid' => 1
+                    ],
+                    [
+                        'uid' => 2
+                    ],
+                    [
+                        'uid' => 3
+                    ]
                 ]
-            ]
             ]
         );
     }
@@ -56,21 +56,25 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_with_category()
     {
-        $response = $this->get(route('business.search', [
-            'categories' => [Category::DESKTOP, Category::LAPTOP]
-        ]));
+        $response = $this->get(
+            route(
+                'business.search', [
+                    'categories' => [Category::DESKTOP, Category::LAPTOP]
+                ]
+            )
+        );
         $response->assertStatus(200);
         $response->assertJson(
             [
-            'searchLocation' => null,
-            'businesses' => [
-                [
-                    'uid' => 1
-                ],
-                [
-                    'uid' => 2
+                'searchLocation' => null,
+                'businesses' => [
+                    [
+                        'uid' => 1
+                    ],
+                    [
+                        'uid' => 2
+                    ]
                 ]
-            ]
             ]
         );
     }
@@ -85,29 +89,33 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_with_location()
     {
-        $response = $this->get(route('business.search', [
-            'location' => 'RM7 7JN'
-        ]));
+        $response = $this->get(
+            route(
+                'business.search', [
+                    'location' => 'RM7 7JN'
+                ]
+            )
+        );
         $response->assertStatus(200);
         $response->assertJson(
             [
-            'searchLocation' => [
-                'latitude' => 51.5847097,
-                'longitude' => 0.1706761
-            ],
-            'businesses' => [
-                [
-                    'uid' => 1,
-                    'name' => 'Link Computer Services',
-                    'address' => '203 Mawney Road',
-                    'postcode' => 'RM7 8BX',
-                    'geolocation' => [
-                        'latitude' => 51.583626,
-                        'longitude' => 0.163757
-                    ],
-                    'description' => 'Laptop, PC, and Netbook repairs, mobile service.'
+                'searchLocation' => [
+                    'latitude' => 51.5847097,
+                    'longitude' => 0.1706761
+                ],
+                'businesses' => [
+                    [
+                        'uid' => 1,
+                        'name' => 'Link Computer Services',
+                        'address' => '203 Mawney Road',
+                        'postcode' => 'RM7 8BX',
+                        'geolocation' => [
+                            'latitude' => 51.583626,
+                            'longitude' => 0.163757
+                        ],
+                        'description' => 'Laptop, PC, and Netbook repairs, mobile service.'
+                    ]
                 ]
-            ]
             ]
         );
     }
@@ -122,22 +130,26 @@ class BusinessControllerTest extends FeatureTestCase
      */
     public function test_search_with_category_and_location()
     {
-        $response = $this->get(route('business.search', [
-            'categories' => [Category::DESKTOP],
-            'location' => 'RM7 7JN'
-        ]));
+        $response = $this->get(
+            route(
+                'business.search', [
+                    'categories' => [Category::DESKTOP],
+                    'location' => 'RM7 7JN'
+                ]
+            )
+        );
         $response->assertStatus(200);
         $response->assertJson(
             [
-            'searchLocation' => [
-                'latitude' => 51.5847097,
-                'longitude' => 0.1706761
-            ],
-            'businesses' => [
-                [
-                    'uid' => 1
+                'searchLocation' => [
+                    'latitude' => 51.5847097,
+                    'longitude' => 0.1706761
+                ],
+                'businesses' => [
+                    [
+                        'uid' => 1
+                    ]
                 ]
-            ]
             ]
         );
     }

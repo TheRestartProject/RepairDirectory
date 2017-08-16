@@ -10,6 +10,8 @@ namespace TheRestartProject\RepairDirectory\Domain\Models;
  * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Business
 {
@@ -135,21 +137,22 @@ class Business
     private $positiveReviewPc;
 
     /**
-     * the source of the review data provided - i.e. Google, yelp, ...
+     * The source of the review data provided - i.e. Google, yelp, ...
+     * Valid sources are enumerated in Enums\ReviewSources
      *
      * @var string
      */
     private $reviewSource;
 
     /**
-     * the average score of the selected source
+     * The average score of the selected source
      *
      * @var float
      */
     private $averageScore;
 
     /**
-     * number of reviews at the given source
+     * Number of reviews at the given source
      *
      * @var int
      */
@@ -577,7 +580,7 @@ class Business
      *
      * @return bool
      */
-    public function getWarrantyOffered()
+    public function isWarrantyOffered()
     {
         return $this->warrantyOffered;
     }

@@ -29,7 +29,7 @@ class CategoriesValidator implements Validator
      */
     function validate($categories)
     {
-        foreach($categories as $category) {
+        foreach ($categories as $category) {
             $foundCategory = Category::search($category);
             if (!$foundCategory) {
                 throw new ValidationException('Category invalid: unknown category');

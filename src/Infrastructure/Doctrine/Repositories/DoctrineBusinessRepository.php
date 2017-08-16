@@ -108,7 +108,7 @@ class DoctrineBusinessRepository implements BusinessRepository
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
 
-        $sql = "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
+        $sql = "SELECT *, AsText(b.geolocation) AS geolocation FROM businesses b WHERE 
                   MBRContains(
                     LineString(
                       Point(:x - :radius / (69 * COS(RADIANS(:y))), :y - :radius / 69),
@@ -119,7 +119,7 @@ class DoctrineBusinessRepository implements BusinessRepository
                   AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000";
 
         $radiusKm = $radius * 1.60934;
-        $parameters =  [
+        $parameters = [
             'x' => $geolocation->getLongitude(),
             'y' => $geolocation->getLatitude(),
             'radius' => $radiusKm
@@ -178,19 +178,33 @@ class DoctrineBusinessRepository implements BusinessRepository
                     $queryBuilder->orWhere("b.$key LIKE :${key}_$i");
                     $queryBuilder->setParameter("${key}_$i", "%$item%");
                 }
-            } else {
-                $queryBuilder->andWhere("b.$key = :$key");
-                $queryBuilder->setParameter($key, $value);
+                continue;
             }
+
+            $queryBuilder->andWhere("b.$key = :$key");
+            $queryBuilder->setParameter($key, $value);
         }
         return $queryBuilder->getQuery();
     }
 
-    private function getParametersFromDoctrineQuery(Query $query) {
+    /**
+     * Converts the parameters in a doctrine Query (as returned by queryFromCriteria)
+     * into a [ key => value ] array.
+     *
+     * @param Query $query The query to extract parameters from
+     *
+     * @return array
+     */
+    private function getParametersFromDoctrineQuery(Query $query)
+    {
         $parameters = [];
         $doctrineParameters = $query->getParameters()->toArray();
         foreach ($doctrineParameters as $doctrineParameter) {
-            /** @var Parameter $doctrineParameter */
+            /**
+             * A parameter to add to the $parameters array
+             *
+             * @var Parameter $doctrineParameter
+             */
             $parameters[$doctrineParameter->getName()] = $doctrineParameter->getValue();
         }
         return $parameters;
