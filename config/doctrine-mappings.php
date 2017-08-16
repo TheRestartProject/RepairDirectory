@@ -73,16 +73,28 @@ return [
                 'type' => 'string',
                 'nullable' => true
             ],
-            'reviews' => [
-                'type' => 'array',
+            'positiveReviewPc' => [
+                'type' => 'integer',
                 'nullable' => true
             ],
-            'positiveReviewPc' => [
+            'reviewSource' => [
+                'type' => 'string',
+                'nullable' => true
+            ],
+            'averageScore' => [
+                'type' => 'float',
+                'nullable' => true
+            ],
+            'numberOfReviews' => [
                 'type' => 'integer',
                 'nullable' => true
             ],
             'warranty' => [
                 'type' => 'text',
+                'nullable' => true
+            ],
+            'warrantyOffered' => [
+                'type' => 'boolean',
                 'nullable' => true
             ],
             'pricingInformation' => [

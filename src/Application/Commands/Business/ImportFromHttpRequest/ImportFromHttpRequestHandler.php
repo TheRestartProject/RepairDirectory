@@ -70,19 +70,9 @@ class ImportFromHttpRequestHandler
             throw new EntityNotFoundException();
         }
 
-        $this->updateValues(
-            $business, $data, [
-            'name',
-            'description',
-            'address',
-            'postcode',
-            'city',
-            'localArea',
-            'mobile',
-            'landline',
-            'website'
-            ]
-        );
+        $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';
+
+        $this->updateValues($business, $data);
 
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
 
@@ -104,11 +94,12 @@ class ImportFromHttpRequestHandler
      *
      * @return void
      */
-    private function updateValues($business, $data, $fields) 
+    private function updateValues($business, $data)
     {
-        foreach ($fields as $key) {
-            if (array_key_exists($key, $data)) {
-                $business->{'set' . ucfirst($key)}($data[$key]);
+        foreach ($data as $key => $value) {
+            $setter = 'set' . ucfirst($key);
+            if (method_exists($business, $setter)) {
+                $business->{$setter}($data[$key]);
             }
         }
     }

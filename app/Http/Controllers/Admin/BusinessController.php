@@ -8,6 +8,7 @@ use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
@@ -26,7 +27,7 @@ class BusinessController extends Controller
         } catch (BusinessValidationException $e) {
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
-        return redirect('admin');
+        return redirect('map/admin');
     }
 
     public function update($id, Request $request, CommandBus $commandBus)
@@ -36,7 +37,7 @@ class BusinessController extends Controller
         } catch (BusinessValidationException $e) {
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
-        return redirect('admin');
+        return redirect('map/admin');
     }
 
     private function renderEdit(Business $business, $errors) {
@@ -47,6 +48,7 @@ class BusinessController extends Controller
 
         return view('admin.business.edit', [
             'categories' => Category::values(),
+            'reviewSources' =>ReviewSource::values(),
             'business' => $business,
             'isCreate' => $isCreate,
             'formAction' => $formAction,

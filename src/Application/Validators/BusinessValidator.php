@@ -58,7 +58,13 @@ class BusinessValidator implements Validator
             'mobile' => new PhoneNumberValidator('Mobile'),
             'website' => new WebsiteValidator(),
             'email' => new EmailValidator(),
-            'category' => new CategoryValidator()
+            'category' => new CategoryValidator(),
+            'reviewSource' => new ReviewSourceValidator(),
+            'positiveReviewPc' => new NumberRangeValidator("Positive Review Scores", 0, 100, false),
+            'numberOfReviews' => new NumberRangeValidator("Number of Reviews", 0, 65535, false),
+            'averageScore' => new NumberRangeValidator("Average Score", 0, 5, true),
+            'warrantyOffered' => new BooleanValidator(),
+            'warranty' => new StringLengthValidator('Warranty Details', 10, 65535)
         ];
     }
 

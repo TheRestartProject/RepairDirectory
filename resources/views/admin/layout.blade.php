@@ -13,6 +13,7 @@
     <a href='/' class="header__link btn btn-primary">Home</a>
     <h1><a href="{{ route('admin.index') }}">Repair Directory Admin</a></h1>
     @yield('content')
+    <script src="/js/map/admin.js"></script>
 </div>
 </body>
 </html>

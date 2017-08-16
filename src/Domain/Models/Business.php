@@ -128,13 +128,6 @@ class Business
     private $qualifications;
 
     /**
-     * List of links to reviews of the Business
-     *
-     * @var array
-     */
-    private $reviews;
-
-    /**
      * Percentage of reviews that are positive
      *
      * @var integer
@@ -142,11 +135,39 @@ class Business
     private $positiveReviewPc;
 
     /**
+     * the source of the review data provided - i.e. Google, yelp, ...
+     *
+     * @var string
+     */
+    private $reviewSource;
+
+    /**
+     * the average score of the selected source
+     *
+     * @var float
+     */
+    private $averageScore;
+
+    /**
+     * number of reviews at the given source
+     *
+     * @var int
+     */
+    private $numberOfReviews;
+
+    /**
      * Description of warranty available
      *
      * @var string
      */
     private $warranty;
+
+    /**
+     * Whether a warranty is offered or not
+     *
+     * @var bool
+     */
+    private $warrantyOffered;
 
     /**
      * Repair pricing information
@@ -442,28 +463,6 @@ class Business
     }
 
     /**
-     * Return a list of links to reviews of this business
-     *
-     * @return array
-     */
-    public function getReviews()
-    {
-        return $this->reviews;
-    }
-
-    /**
-     * Set the list of reviews of this business
-     *
-     * @param array $reviews The value to set
-     *
-     * @return void
-     */
-    public function setReviews($reviews)
-    {
-        $this->reviews = $reviews;
-    }
-
-    /**
      * Return the percentage of reviews of this business that are positive
      *
      * @return int
@@ -486,6 +485,72 @@ class Business
     }
 
     /**
+     * Returns the source of the review data
+     *
+     * @return string
+     */
+    public function getReviewSource()
+    {
+        return $this->reviewSource;
+    }
+
+    /**
+     * Set the source of the review data
+     *
+     * @param string $reviewSource The value to set
+     *
+     * @return void
+     */
+    public function setReviewSource($reviewSource)
+    {
+        $this->reviewSource = $reviewSource;
+    }
+
+    /**
+     * Returns the average Score
+     *
+     * @return float
+     */
+    public function getAverageScore()
+    {
+        return $this->averageScore;
+    }
+
+    /**
+     * Set the average Score
+     *
+     * @param float $averageScore The value to set
+     *
+     * @return void
+     */
+    public function setAverageScore($averageScore)
+    {
+        $this->averageScore = $averageScore;
+    }
+
+    /**
+     * Returns the number of reviews
+     *
+     * @return int
+     */
+    public function getNumberOfReviews()
+    {
+        return $this->numberOfReviews;
+    }
+
+    /**
+     * Set the number of reviews
+     *
+     * @param int $numberOfReviews The value to set
+     *
+     * @return void
+     */
+    public function setNumberOfReviews($numberOfReviews)
+    {
+        $this->numberOfReviews = $numberOfReviews;
+    }
+
+    /**
      * Return this business's warranty information
      *
      * @return string
@@ -505,6 +570,28 @@ class Business
     public function setWarranty($warranty)
     {
         $this->warranty = $warranty;
+    }
+
+    /**
+     * Return whether this business provides warranty
+     *
+     * @return bool
+     */
+    public function getWarrantyOffered()
+    {
+        return $this->warrantyOffered;
+    }
+
+    /**
+     * Set whether this business provides warranty or not
+     *
+     * @param bool $warrantyOffered The value to set
+     *
+     * @return void
+     */
+    public function setWarrantyOffered($warrantyOffered)
+    {
+        $this->warrantyOffered = $warrantyOffered;
     }
 
     /**

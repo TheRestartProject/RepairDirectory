@@ -64,6 +64,12 @@
                 {!! array_key_exists('website', $errors) ? '<small>' . $errors['website'] . '</small>' : '' !!}
             </div>
 
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" name="email" class="form-control" value="{{ $business->getEmail() }}">
+                {!! array_key_exists('email', $errors) ? '<small>' . $errors['email'] . '</small>' : '' !!}
+            </div>
+
             <div>
                 <button class="btn btn-success">Save</button>
             </div>
@@ -80,6 +86,52 @@
                     @endforeach
                 </select>
                 {!! array_key_exists('category', $errors) ? '<small>' . $errors['category'] . '</small>' : '' !!}
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-4">
+            <div class="form-group">
+                <label for="positiveReviewPcRange">Positive Review Percentage</label>
+                <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" class="slider" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
+                <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control slider-input" value={{$business->getPositiveReviewPc()}}>
+                <span>%</span>
+                {!! array_key_exists('positiveReviewPc', $errors) ? '<small>' . $errors['positiveReviewPc'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="reviewSource">Review Source</label>
+                <select id="reviewSource" name="reviewSource" class="form-control">
+                    @foreach($reviewSources as $source)
+                        <option value="{{ $source }}" {{ $business->getReviewSource() == $source ? "selected" : "" }}>
+                            {{ $source }}
+                        </option>
+                    @endforeach
+                </select>
+                {!! array_key_exists('reviewSource', $errors) ? '<small>' . $errors['reviewSource'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="numberOfReviews">Number of Reviews</label>
+                <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
+                {!! array_key_exists('numberOfReviews', $errors) ? '<small>' . $errors['numberOfReviews'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="averageScore">Average Score</label>
+                <input id="averageScore" name="averageScore" class="form-control" value="{{$business->getAverageScore()}}">
+                {!! array_key_exists('averageScore', $errors) ? '<small>' . $errors['averageScore'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="warrantyOffered">Warranty Offered</label>
+                <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->getWarrantyOffered() ? 'checked' : ''}} value="Yes" >
+                {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
+            </div>
+            
+            <div class="form-group">
+                <label for="warranty">Warranty Details</label>
+                <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{$business->getWarranty()}}</textarea>
+                {!! array_key_exists('warranty', $errors) ? '<small>' . $errors['warranty'] . '</small>' : '' !!}
             </div>
         </div>
     </form>
