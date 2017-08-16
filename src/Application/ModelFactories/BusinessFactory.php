@@ -72,6 +72,7 @@ class BusinessFactory
 
         $business->setPositiveReviewPc((int) $row['Positive review %']);
         $business->setWarranty($row['Warranty offered']);
+        $business->setWarrantyOffered((boolean) $business->getWarranty());
         $business->setPricingInformation($row['Pricing information']);
         return $business;
     }

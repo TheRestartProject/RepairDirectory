@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\ModelFactories;
 
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
@@ -63,11 +64,8 @@ class BusinessFactoryTest extends TestCase
         $this->assertEquals(false, $business->isAuthorised());
         $this->assertEquals('BTEC', $business->getQualifications());
         $this->assertEquals(
-            [
-                'https://www.google.com/maps/place/iRepair+Centre+Bath/@51.3813993,-2.363582,17z/',
-                'https://www.yell.com/biz/irepair-centre-bath-7943040/'
-            ],
-            $business->getReviews()
+            ReviewSource::GOOGLE,
+            $business->getReviewSource()
         );
         $this->assertEquals(92, $business->getPositiveReviewPc());
         $this->assertEquals('None', $business->getWarranty());

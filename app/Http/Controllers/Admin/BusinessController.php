@@ -27,7 +27,7 @@ class BusinessController extends Controller
         } catch (BusinessValidationException $e) {
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
-        return redirect('admin');
+        return redirect('map/admin');
     }
 
     public function update($id, Request $request, CommandBus $commandBus)
@@ -37,7 +37,7 @@ class BusinessController extends Controller
         } catch (BusinessValidationException $e) {
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
-        return redirect('admin');
+        return redirect('map/admin');
     }
 
     private function renderEdit(Business $business, $errors) {
