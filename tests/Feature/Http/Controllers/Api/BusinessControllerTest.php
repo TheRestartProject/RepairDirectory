@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
+use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
 
 /**
@@ -56,7 +57,7 @@ class BusinessControllerTest extends FeatureTestCase
     public function test_search_with_category()
     {
         $response = $this->get(route('business.search', [
-            'category' => 'Computers and Home Office'
+            'categories' => [Category::DESKTOP, Category::LAPTOP]
         ]));
         $response->assertStatus(200);
         $response->assertJson(
@@ -122,7 +123,7 @@ class BusinessControllerTest extends FeatureTestCase
     public function test_search_with_category_and_location()
     {
         $response = $this->get(route('business.search', [
-            'category' => 'Computers and Home Office',
+            'categories' => [Category::DESKTOP],
             'location' => 'RM7 7JN'
         ]));
         $response->assertStatus(200);

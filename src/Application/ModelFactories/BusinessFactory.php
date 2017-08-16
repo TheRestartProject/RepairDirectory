@@ -62,7 +62,7 @@ class BusinessFactory
             $business->setEmail($row['Email']);
         }
         $business->setLocalArea($row['Borough']);
-        $business->setCategory($row['Category']);
+        $business->setCategories([$row['Category']]);
         $business->setProductsRepaired(explode(',', $row['Products repaired']));
         $business->setAuthorised($row['Authorised repairer'] === 'Yes');
         $business->setQualifications($row['Qualifications']);

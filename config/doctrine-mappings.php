@@ -58,9 +58,8 @@ return [
                 'type' => 'string',
                 'nullable' => true
             ],
-            'category' => [
-                'type' => 'string',
-                'nullable' => true
+            'categories' => [
+                'type' => 'array'
             ],
             'productsRepaired' => [
                 'type' => 'array',

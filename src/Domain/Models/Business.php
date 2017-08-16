@@ -100,11 +100,11 @@ class Business
     private $localArea;
 
     /**
-     * Category of business, e.g. 'Computer repairs'
+     * Categories of products repaired by the business, e.g. ['Desktop computer', 'Laptop']
      *
-     * @var string
+     * @var array
      */
-    private $category;
+    private $categories = [];
 
     /**
      * List of products repaired, e.g. ['Computers', 'Laptops']
@@ -375,25 +375,25 @@ class Business
     }
 
     /**
-     * Return the category of business
+     * Return the categories of product repaired by the Business
      *
-     * @return string
+     * @return array
      */
-    public function getCategory()
+    public function getCategories()
     {
-        return $this->category;
+        return $this->categories;
     }
 
     /**
-     * Set the category of Business
+     * Set the categories of product repaired by the Business
      *
-     * @param string $category The value to set
+     * @param array $categories The value to set
      *
      * @return void
      */
-    public function setCategory($category)
+    public function setCategories($categories)
     {
-        $this->category = $category;
+        $this->categories = $categories;
     }
 
     /**

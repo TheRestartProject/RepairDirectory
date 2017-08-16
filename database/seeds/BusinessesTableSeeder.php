@@ -20,7 +20,7 @@ class BusinessesTableSeeder extends Seeder
             'address' => '203 Mawney Road',
             'postcode' => 'RM7 8BX',
             'geolocation' => new Point(51.583626,0.163757),
-            'category' => Category::COMPUTERS_AND_HOME_OFFICE
+            'categories' => [Category::DESKTOP]
         ]);
 
         entity(Business::class)->create([
@@ -29,7 +29,7 @@ class BusinessesTableSeeder extends Seeder
             'address' => '7 Cranbrook Road, Ilford',
             'postcode' => 'IG1 4DU',
             'geolocation' => new Point(51.5589297,-0.1090134),
-            'category' => Category::COMPUTERS_AND_HOME_OFFICE
+            'categories' => [Category::DESKTOP]
         ]);
 
         entity(Business::class)->create();

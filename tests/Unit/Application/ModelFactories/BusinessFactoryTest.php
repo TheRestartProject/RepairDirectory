@@ -59,7 +59,7 @@ class BusinessFactoryTest extends TestCase
         $this->assertEquals('01225 427538', $business->getLandline());
         $this->assertEquals('07700 900220', $business->getMobile());
         $this->assertEquals('http://irepaircentrebath.co.uk', $business->getWebsite());
-        $this->assertEquals('Electronic gadgets', $business->getCategory());
+        $this->assertEquals(['Electronic gadgets'], $business->getCategories());
         $this->assertEquals(['Phones'], $business->getProductsRepaired());
         $this->assertEquals(false, $business->isAuthorised());
         $this->assertEquals('BTEC', $business->getQualifications());

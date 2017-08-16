@@ -77,15 +77,16 @@
 
         <div class="col-xs-12 col-md-4">
             <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" class="form-control">
+                <label for="categories">Categories</label>
+                <select id="categories" name="categories[]" class="form-control" multiple>
                     @foreach($categories as $category)
-                        <option value="{{ $category }}" {{ $business->getCategory() == $category ? "selected" : "" }}>
+                        <option value="{{ $category }}"
+                                {{ in_array($category->getValue(), $business->getCategories()) ? "selected" : "" }}>
                             {{ $category }}
                         </option>
                     @endforeach
                 </select>
-                {!! array_key_exists('category', $errors) ? '<small>' . $errors['category'] . '</small>' : '' !!}
+                {!! array_key_exists('categories', $errors) ? '<small>' . $errors['categories'] . '</small>' : '' !!}
             </div>
         </div>
 

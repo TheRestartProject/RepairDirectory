@@ -41,7 +41,7 @@ function onSearch(e) {
 
     const query = {
         location: $('[name="location"]').val(),
-        category: $('[name="category"]').val(),
+        categories: $('[name="categories"]').val(),
         radius: 5
     };
 
