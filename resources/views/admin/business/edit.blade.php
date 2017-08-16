@@ -77,15 +77,16 @@
 
         <div class="col-xs-12 col-md-4">
             <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" class="form-control">
+                <label for="categories">Categories</label>
+                <select id="categories" name="categories[]" class="form-control" multiple style="height:600px">
                     @foreach($categories as $category)
-                        <option value="{{ $category }}" {{ $business->getCategory() == $category ? "selected" : "" }}>
+                        <option value="{{ $category }}"
+                                {{ in_array($category->getValue(), $business->getCategories()) ? "selected" : "" }}>
                             {{ $category }}
                         </option>
                     @endforeach
                 </select>
-                {!! array_key_exists('category', $errors) ? '<small>' . $errors['category'] . '</small>' : '' !!}
+                {!! array_key_exists('categories', $errors) ? '<small>' . $errors['categories'] . '</small>' : '' !!}
             </div>
         </div>
 
@@ -124,7 +125,7 @@
 
             <div class="form-group">
                 <label for="warrantyOffered">Warranty Offered</label>
-                <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->getWarrantyOffered() ? 'checked' : ''}} value="Yes" >
+                <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->isWarrantyOffered() ? 'checked' : ''}} value="Yes" >
                 {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
             </div>
             

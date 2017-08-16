@@ -28,10 +28,9 @@ class BooleanValidator implements Validator
      *
      * @throws ValidationException
      */
-
     function validate($value)
     {
-        if( !is_bool($value)){
+        if (!is_bool($value)) {
             throw new ValidationException("Warranty Offered invalid: must be either true or false!");
         }
     }

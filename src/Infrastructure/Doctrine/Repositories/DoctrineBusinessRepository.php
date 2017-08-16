@@ -4,6 +4,8 @@ namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
@@ -106,7 +108,7 @@ class DoctrineBusinessRepository implements BusinessRepository
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
 
-        $sql = "SELECT *, AsText(b.geolocation) as geolocation FROM businesses b WHERE 
+        $sql = "SELECT *, AsText(b.geolocation) AS geolocation FROM businesses b WHERE 
                   MBRContains(
                     LineString(
                       Point(:x - :radius / (69 * COS(RADIANS(:y))), :y - :radius / 69),
@@ -116,26 +118,29 @@ class DoctrineBusinessRepository implements BusinessRepository
                   )
                   AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000";
 
+        $radiusKm = $radius * 1.60934;
+        $parameters = [
+            'x' => $geolocation->getLongitude(),
+            'y' => $geolocation->getLatitude(),
+            'radius' => $radiusKm
+        ];
+
         if (count($criteria)) {
-            $additionalSQL = $this->queryFromCriteria($criteria)->getDQL();
-            $where = substr($additionalSQL, strpos($additionalSQL, 'WHERE') + 6);
-            $sql .= " AND $where";
+            $dqlQuery = $this->queryFromCriteria($criteria);
+
+            $additionalSQL = $dqlQuery->getDQL();
+            $additionalParameters = $this->getParametersFromDoctrineQuery($dqlQuery);
+
+            $additionalWhere = substr($additionalSQL, strpos($additionalSQL, 'WHERE') + 6);
+            $sql .= " AND $additionalWhere";
+
+            $parameters = array_merge($parameters, $additionalParameters);
         }
 
-        $radiusKm = $radius * 1.60934;
         $query = $this->entityManager->createNativeQuery(
             $sql,
             $rsm
         );
-
-        $parameters = array_merge(
-            [
-            'x' => $geolocation->getLongitude(),
-            'y' => $geolocation->getLatitude(),
-            'radius' => $radiusKm
-            ], $criteria
-        );
-
         $query->setParameters($parameters);
 
         return $query->getResult();
@@ -159,16 +164,49 @@ class DoctrineBusinessRepository implements BusinessRepository
      *
      * @param array $criteria The [ property => value ] array to convert to a query
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
-    private function queryFromCriteria($criteria) 
+    private function queryFromCriteria($criteria)
     {
         $queryBuilder = $this->businessRepository->createQueryBuilder('b');
         $queryBuilder->select('b');
         foreach ($criteria as $key => $value) {
+            if (is_array($value)) {
+                // business should be returned if any of its categories match any of the query categories
+                // so we use `orWhere()`
+                foreach ($value as $i => $item) {
+                    $queryBuilder->orWhere("b.$key LIKE :${key}_$i");
+                    $queryBuilder->setParameter("${key}_$i", "%$item%");
+                }
+                continue;
+            }
+
             $queryBuilder->andWhere("b.$key = :$key");
             $queryBuilder->setParameter($key, $value);
         }
         return $queryBuilder->getQuery();
+    }
+
+    /**
+     * Converts the parameters in a doctrine Query (as returned by queryFromCriteria)
+     * into a [ key => value ] array.
+     *
+     * @param Query $query The query to extract parameters from
+     *
+     * @return array
+     */
+    private function getParametersFromDoctrineQuery(Query $query)
+    {
+        $parameters = [];
+        $doctrineParameters = $query->getParameters()->toArray();
+        foreach ($doctrineParameters as $doctrineParameter) {
+            /**
+             * A parameter to add to the $parameters array
+             *
+             * @var Parameter $doctrineParameter
+             */
+            $parameters[$doctrineParameter->getName()] = $doctrineParameter->getValue();
+        }
+        return $parameters;
     }
 }

@@ -9,7 +9,7 @@ use MyCLabs\Enum\Enum;
  *
  * @category Enum
  * @package  TheRestartProject\RepairDirectory\Domain\Enums
- * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @author   Paul Fauth-Mayer <paul@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
@@ -22,7 +22,16 @@ class ReviewSource extends Enum
     const CHECKATRADE = "Checkatrade";
     const FREEINDEX = "Freeindex";
 
-    public static function derive($reviewUrl) {
+    /**
+     * Return a ReviewSource value based on a URL.
+     * Simply checks if the domain of the URL matches any of the sources.
+     *
+     * @param string $reviewUrl The URL to derive the source from
+     *
+     * @return null|string
+     */
+    public static function derive($reviewUrl)
+    {
         $reviewUrl = strtolower($reviewUrl);
         if (strpos($reviewUrl, 'google.co') !== false) {
             return self::GOOGLE;

@@ -10,6 +10,8 @@ namespace TheRestartProject\RepairDirectory\Domain\Models;
  * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Business
 {
@@ -100,11 +102,11 @@ class Business
     private $localArea;
 
     /**
-     * Category of business, e.g. 'Computer repairs'
+     * Categories of products repaired by the business, e.g. ['Desktop computer', 'Laptop']
      *
-     * @var string
+     * @var array
      */
-    private $category;
+    private $categories = [];
 
     /**
      * List of products repaired, e.g. ['Computers', 'Laptops']
@@ -135,21 +137,22 @@ class Business
     private $positiveReviewPc;
 
     /**
-     * the source of the review data provided - i.e. Google, yelp, ...
+     * The source of the review data provided - i.e. Google, yelp, ...
+     * Valid sources are enumerated in Enums\ReviewSources
      *
      * @var string
      */
     private $reviewSource;
 
     /**
-     * the average score of the selected source
+     * The average score of the selected source
      *
      * @var float
      */
     private $averageScore;
 
     /**
-     * number of reviews at the given source
+     * Number of reviews at the given source
      *
      * @var int
      */
@@ -375,25 +378,25 @@ class Business
     }
 
     /**
-     * Return the category of business
+     * Return the categories of product repaired by the Business
      *
-     * @return string
+     * @return array
      */
-    public function getCategory()
+    public function getCategories()
     {
-        return $this->category;
+        return $this->categories;
     }
 
     /**
-     * Set the category of Business
+     * Set the categories of product repaired by the Business
      *
-     * @param string $category The value to set
+     * @param array $categories The value to set
      *
      * @return void
      */
-    public function setCategory($category)
+    public function setCategories($categories)
     {
-        $this->category = $category;
+        $this->categories = $categories;
     }
 
     /**
@@ -577,7 +580,7 @@ class Business
      *
      * @return bool
      */
-    public function getWarrantyOffered()
+    public function isWarrantyOffered()
     {
         return $this->warrantyOffered;
     }

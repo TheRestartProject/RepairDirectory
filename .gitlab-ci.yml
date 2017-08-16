@@ -75,6 +75,7 @@ deploy:heroku:
     url: https://restartproject.herokuapp.com/
   only:
     - master
+    - feature-8-multi-select
 
 cleanup:
   dependencies:

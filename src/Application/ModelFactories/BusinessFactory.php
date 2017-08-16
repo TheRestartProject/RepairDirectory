@@ -27,6 +27,8 @@ class BusinessFactory
      * @param array $row An associative array containing the row data
      *
      * @return Business
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function fromCsvRow($row)
     {
@@ -37,7 +39,7 @@ class BusinessFactory
 
         $latLng = array_map(
             function ($str) {
-                return (float) $str;
+                return (float)$str;
             },
             explode(',', $row['Geolocation'])
         );
@@ -62,17 +64,27 @@ class BusinessFactory
             $business->setEmail($row['Email']);
         }
         $business->setLocalArea($row['Borough']);
-        $business->setCategory($row['Category']);
+
+        $categories = array_map(
+            function ($category) {
+                return trim($category);
+            }, explode(',', $row['Category'])
+        );
+
+        $business->setCategories($categories);
         $business->setProductsRepaired(explode(',', $row['Products repaired']));
         $business->setAuthorised($row['Authorised repairer'] === 'Yes');
         $business->setQualifications($row['Qualifications']);
 
         $reviewUrl = $row['Independent review link'];
-        $business->setReviewSource(ReviewSource::derive($reviewUrl));
+        $reviewSource = ReviewSource::derive($reviewUrl);
+        if ($reviewSource) {
+            $business->setReviewSource($reviewSource);
+        }
 
-        $business->setPositiveReviewPc((int) $row['Positive review %']);
+        $business->setPositiveReviewPc((int)$row['Positive review %']);
         $business->setWarranty($row['Warranty offered']);
-        $business->setWarrantyOffered((boolean) $business->getWarranty());
+        $business->setWarrantyOffered((boolean)$business->getWarranty());
         $business->setPricingInformation($row['Pricing information']);
         return $business;
     }
@@ -100,7 +112,8 @@ class BusinessFactory
      *
      * @return bool
      */
-    private function isTruthy($value) {
+    private function isTruthy($value)
+    {
         $value = strtolower($value);
         return $value && $value !== 'no' && $value !== 'none';
     }
@@ -115,12 +128,12 @@ class BusinessFactory
      * ]
      *
      * @param string $addressRow The address to parse
-     * 
+     *
      * @return array
      */
     private function splitUKAddress($addressRow)
     {
-        $addressLines = explode(",",  $addressRow);
+        $addressLines = explode(",", $addressRow);
         $addressLines = array_map(
             function ($item) {
                 return trim($item);
