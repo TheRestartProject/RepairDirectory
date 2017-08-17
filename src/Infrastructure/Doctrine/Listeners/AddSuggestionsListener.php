@@ -4,9 +4,9 @@ namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Listeners;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\OnFlushEventArgs;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
-use TheRestartProject\RepairDirectory\Domain\Repositories\SuggestionRepository;
 
 /**
  * Created by PhpStorm.
@@ -19,52 +19,64 @@ class AddSuggestionsListener
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $this->handle($args);
-    }
-
-    public function preUpdate(LifecycleEventArgs $args)
-    {
-        $this->handle($args);
-    }
-
-    private function handle(LifecycleEventArgs $args)
-    {
         $entity = $args->getObject();
-        $entityManager = $args->getObjectManager();
-        $suggestionRepository = $entityManager->getRepository(Suggestion::class);
-
         if ($entity instanceof Business) {
-            $suggestions = $suggestionRepository->findAll();
+            $this->handle($entity, $args->getEntityManager());
+        }
+    }
 
-            foreach ($entity->getProductsRepaired() as $productRepaired) {
-                $suggestion = new Suggestion();
-                $suggestion->setField('productsRepaired');
-                $suggestion->setValue($productRepaired);
-                $this->addSuggestion($suggestion, $suggestions, $entityManager);
-            }
-
-            foreach ($entity->getAuthorisedBrands() as $authorisedBrand) {
-                $suggestion = new Suggestion();
-                $suggestion->setField('authorisedBrands');
-                $suggestion->setValue($authorisedBrand);
-                $this->addSuggestion($suggestion, $suggestions, $entityManager);
+    public function onFlush(OnFlushEventArgs $args)
+    {
+        $em = $args->getEntityManager();
+        $unitOFWork = $em->getUnitOfWork();
+        foreach ($unitOFWork->getScheduledEntityUpdates() as $keyEntity => $entity) {
+            if ($entity instanceof Business) {
+                $suggestions = $this->handle($entity, $args->getEntityManager());
+                $classMetadata = $em->getClassMetadata(Suggestion::class);
+                foreach ($suggestions as $suggestion) {
+                    $unitOFWork->computeChangeSet($classMetadata, $suggestion);
+                }
             }
         }
     }
 
     /**
+     * @param Business $business
+     * @param $entityManager
+     *
+     * @return Suggestion[]
+     */
+    private function handle(Business $business, $entityManager)
+    {
+        $newSuggestions = [];
+        foreach ($business->getProductsRepaired() as $productRepaired) {
+            $suggestion = new Suggestion();
+            $suggestion->setField('productsRepaired');
+            $suggestion->setValue($productRepaired);
+            $this->addSuggestion($suggestion, $newSuggestions, $entityManager);
+        }
+
+        foreach ($business->getAuthorisedBrands() as $authorisedBrand) {
+            $suggestion = new Suggestion();
+            $suggestion->setField('authorisedBrands');
+            $suggestion->setValue($authorisedBrand);
+            $this->addSuggestion($suggestion, $newSuggestions, $entityManager);
+        }
+        return $newSuggestions;
+    }
+
+    /**
      * @param Suggestion    $suggestion
-     * @param Suggestion[]  $existingSuggestions
+     * @param Suggestion[]  $newSuggestions
      * @param ObjectManager $entityManager
      */
-    private function addSuggestion($suggestion, $existingSuggestions, $entityManager)
+    private function addSuggestion($suggestion, &$newSuggestions, $entityManager)
     {
-        $found = array_filter($existingSuggestions, function (Suggestion $existingSuggestion) use ($suggestion) {
-            return $existingSuggestion->getField() === $suggestion->getField() &&
-            strtolower($existingSuggestion->getValue()) === strtolower($suggestion->getValue());
-        });
-        if (empty($found)) {
+        $repository = $entityManager->getRepository(Suggestion::class);
+        $existing = $repository->findBy([ 'field' => $suggestion->getField(), 'value' => $suggestion->getValue() ]);
+        if (empty($existing)) {
             $entityManager->persist($suggestion);
+            $newSuggestions[] = $suggestion;
         }
     }
 

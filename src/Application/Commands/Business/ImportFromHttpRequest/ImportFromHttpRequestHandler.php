@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
+use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Application\Validators\BusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
@@ -88,22 +89,12 @@ class ImportFromHttpRequestHandler
     private function transformRequestData($data) {
         $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';
         if (array_key_exists('productsRepaired', $data)) {
-            $data['productsRepaired'] = $this->stringToArray($data['productsRepaired']);
+            $data['productsRepaired'] = StringUtil::stringToArray($data['productsRepaired']);
         }
         if (array_key_exists('authorisedBrands', $data)) {
-            $data['authorisedBrands'] = $this->stringToArray($data['authorisedBrands']);
+            $data['authorisedBrands'] = StringUtil::stringToArray($data['authorisedBrands']);
         }
         return $data;
-    }
-    
-    private function stringToArray($string) {
-        return array_values(
-            array_filter(
-                array_map(function ($string) {
-                    return trim($string);
-                }, explode(',', $string))
-            )
-        );
     }
 
     /**

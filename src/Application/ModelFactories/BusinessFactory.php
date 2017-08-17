@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\ModelFactories;
 
+use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Domain\Enums\Cluster;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
@@ -72,9 +73,7 @@ class BusinessFactory
         } catch (UnexpectedValueException $e) {
         }
 
-        $business->setProductsRepaired(array_map(function ($str) {
-            return trim($str);
-        }, explode(',', $row['Products repaired'])));
+        $business->setProductsRepaired(StringUtil::stringToArray($row['Products repaired']));
 
         $business->setQualifications($row['Qualifications']);
 

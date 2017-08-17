@@ -50,7 +50,7 @@ return [
             'events'        => [
                 'listeners'   => [
                     Doctrine\ORM\Events::prePersist => 'TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Listeners\AddSuggestionsListener',
-                    Doctrine\ORM\Events::preUpdate => 'TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Listeners\AddSuggestionsListener'
+                    Doctrine\ORM\Events::onFlush => 'TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Listeners\AddSuggestionsListener'
                 ],
                 'subscribers' => []
             ],

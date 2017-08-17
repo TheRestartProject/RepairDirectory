@@ -7,70 +7,120 @@ const $ = require('jquery');
  * @param field
  */
 function combobox ($el, field) {
-    const initialItems = $el.val().split(',');
+    // do nothing if the element isn't present
+    if ($el.length === 0) {
+        return;
+    }
 
-    // the combobox gives suggestions for the last item in the comma-separated list
-    let activeItem = initialItems[ initialItems.length - 1 ].trim();
+    // don't submit the value of $el. instead submit the value of a hidden element that stores all selected items
+    const name = $el.attr('name');
+    $el.attr('name', '');
 
-    // create the element where suggestions will be shown, and add it to the parent element
-    const $results = $('<ul class="combobox__results"></ul>');
-    $el.parent().append($results);
+    const $hidden = $(`<input type="hidden" name="${name}">`);
+    const $selected = $('<ul class="combobox__selected"></ul>');
+    const $suggestions = $('<ul class="combobox__results"></ul>');
+
+    $hidden.insertBefore($el);
+    $selected.insertBefore($el);
+    $suggestions.insertAfter($el);
+
+    const initialItems = _stringToArray($el.val());
+    initialItems.forEach(item => {
+        _addToSelected(item, $selected, $hidden);
+    });
+    $el.val('');
+
 
     // clear the results when the element loses focus
     $el.blur(function () {
         // setTimeout to allow list items to be clicked
-        setTimeout(() => $results.empty(), 300);
+        setTimeout(() => $suggestions.empty(), 300);
     });
 
     // prevent form submit when enter is pressed
     $el.keydown(function (e) {
         if (e.which === 13) {
             e.preventDefault();
+            _addToSelected($el.val(), $selected, $hidden);
+            $el.val('');
             return false;
         }
     });
 
     // when a key is released, query the API for suggestions
     $el.keyup(function () {
-        const items = $el.val().split(',');
-        const lastItem = items[ items.length - 1 ].trim();
+        const prefix = $el.val();
 
-        if (lastItem === activeItem) {
-            // this happens when the user isn't changing the last item in the list. we don't know which item to get
-            // suggestions for, so just return
-            return;
-        }
-
-        activeItem = lastItem;
-
-        if (activeItem) {
-            // get suggestions for the last item
-            $.get('/map/api/suggestion/search', { prefix: activeItem, field }, function (suggestions) {
+        if (prefix) {
+            // get suggestions
+            $.get('/map/api/suggestion/search', { prefix, field }, function (suggestions) {
                 // remove previous suggestions
-                $results.empty();
-                // add each suggestion as an <li>
-                suggestions.forEach((suggestion) => {
+                $suggestions.empty();
+                // add each suggestion as a <li>
+                suggestions.forEach(suggestion => {
                     const $suggestion = $(`<li role="button">${suggestion}</li>`);
-                    // when the item is clicked, replace the last element in the comma separated list with the item's value
-                    // and then clear the suggestions list
-                    $suggestion.click(function () {
-                        const currentItems = $el.val().split(',').map(item => item.trim());
-                        currentItems.pop();
-                        currentItems.push(suggestion);
-                        $el.val(currentItems.join(', '));
-                        $results.empty();
-                    });
+                    $suggestions.append($suggestion);
 
-                    $results.append($suggestion);
+                    // when the item is clicked, add it to the selected items
+                    // and then clear the suggestions list and the input
+                    $suggestion.click(function () {
+                        _addToSelected(suggestion, $selected, $hidden);
+                        $suggestions.empty();
+                        $el.val('');
+                    });
                 });
             });
         } else {
             // if the current item is the empty string, remove the suggestions
-            $results.empty();
+            $suggestions.empty();
         }
 
         return false;
     })
+}
+
+/**
+ * Add the item to the $selected list and to the value of the $hidden field
+ *
+ * @param item
+ * @param $selected
+ * @param $hidden
+ * @private
+ */
+function _addToSelected(item, $selected, $hidden) {
+    const $item = $(`<li><span>${item}</span></li>`);
+    const $delete = $('<button class="fa fa-times btn btn-default"></button>');
+    $delete.click(function (e) {
+        e.preventDefault();
+        _removeSelectedItem(item, $item, $hidden);
+        return false;
+    });
+    $item.append($delete);
+    $selected.append($item);
+    const currentItems = _stringToArray($hidden.val());
+    currentItems.push(item);
+    $hidden.val(currentItems.join(','));
+}
+
+/**
+ * Undo _addToSelected. Requires the item and the $item jquery element that was created
+ * when _addToSelected was called.
+ *
+ * @param item
+ * @param $item
+ * @param $hidden
+ * @private
+ */
+function _removeSelectedItem(item, $item, $hidden) {
+    const selectedItems = _stringToArray($hidden.val());
+    const index = selectedItems.indexOf(item);
+    selectedItems.splice(index, 1);
+    $hidden.val(selectedItems.join(','));
+    $item.remove();
+}
+
+function _stringToArray(val) {
+    return val.split(',').map(item => item.trim()).filter(Boolean);
 }
 
 module.exports = combobox;

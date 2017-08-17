@@ -26,11 +26,25 @@
   width: 100%;
 }
 
-.combobox__results {
+.combobox__results,.combobox__selected {
   list-style: none;
   padding: 0 1rem;
   margin: 0;
+}
 
+.combobox__selected {
+  > li {
+    display: inline-block;
+    margin: 0.25rem;
+  }
+
+  .btn {
+    margin-left: 3px;
+    padding: 2px 5px;
+  }
+}
+
+.combobox__results {
   > li {
     &:hover {
       background-color: #eee;
