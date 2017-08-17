@@ -19,7 +19,7 @@ interface BusinessRepository
 {
 
     /**
-     * Add a Business to the repository. Make permanent using the Persister service.
+     * Add a Business to the repository.
      *
      * @param Business $business The Business to add
      *

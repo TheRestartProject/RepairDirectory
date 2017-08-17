@@ -182,7 +182,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\CommandBusServiceProvider::class,
         App\Providers\BusinessServiceProvider::class,
-        App\Providers\GeocoderServiceProvider::class
+        App\Providers\GeocoderServiceProvider::class,
+        App\Providers\SuggestionServiceProvider::class
 
     ],
 

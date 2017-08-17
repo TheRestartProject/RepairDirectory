@@ -108,5 +108,31 @@ return [
                 'nullable' => true
             ]
         ]
+    ],
+    'TheRestartProject\RepairDirectory\Domain\Models\Suggestion' => [
+        'type'   => 'entity',
+        'table'  => 'suggestions',
+        'id'     => [
+            'uid' => [
+                'type'     => 'integer',
+                'generator' => [
+                    'strategy' => 'auto'
+                ]
+            ],
+        ],
+        'uniqueConstraints' => [
+            [
+                'name' => 'suggestion_unique_idx',
+                'columns' => ['field', 'value']
+            ]
+        ],
+        'fields' => [
+            'field' => [
+                'type' => 'string'
+            ],
+            'value' => [
+                'type' => 'string'
+            ]
+        ]
     ]
 ];

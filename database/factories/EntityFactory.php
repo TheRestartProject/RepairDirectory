@@ -2,6 +2,7 @@
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
+use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,4 +55,23 @@ $factory->define(Business::class, function (Faker\Generator $faker, $attributes)
     }
 
     return $business;
+});
+
+/** @var LaravelDoctrine\ORM\Testing\Factory $factory */
+$factory->define(Suggestion::class, function (Faker\Generator $faker, $attributes) {
+    $suggestion = new Suggestion();
+
+    if (array_key_exists('field', $attributes)) {
+        $suggestion->setField($attributes['field']);
+    } else {
+        $suggestion->setField($faker->word);
+    }
+
+    if (array_key_exists('value', $attributes)) {
+        $suggestion->setValue($attributes['value']);
+    } else {
+        $suggestion->setValue($faker->word);
+    }
+
+    return $suggestion;
 });
