@@ -6,4 +6,12 @@ function hideElement($el) {
     $el.addClass('hidden');
 }
 
-module.exports = { showElement, hideElement };
+function enableElement($el) {
+    $el.removeAttr('disabled');
+}
+
+function disableElement($el) {
+    $el.attr('disabled', '');
+}
+
+module.exports = { showElement, hideElement, enableElement, disableElement };

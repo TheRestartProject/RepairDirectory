@@ -1,26 +1,29 @@
 const $ = require('jquery');
-const {hideElement, showElement} = require('./util');
+const {hideElement, showElement, enableElement, disableElement} = require('./util');
 
 let map;
 let markers = [];
 let $businessPopup;
 let $businessListContainer;
+let $searchButton;
 
 $(document).ready(() => {
+    $businessPopup = $('#business-popup');
+    $businessListContainer = $('#business-list-container');
+    $searchButton = $('#submit');
+
     // add form handler
     $('#search').submit(onSearch);
 
     // enable/disable search button
     $('#location').keyup(function () {
-       const $location = $(this);
-       if ($location.val()) {
-           $('#submit').removeAttr('disabled');
-       } else {
-           $('#submit').attr('disabled', '');
-       }
+        const $location = $(this);
+        if ($location.val()) {
+            enableElement($searchButton);
+        } else {
+            disableElement($searchButton);
+        }
     });
-    $businessPopup = $('#business-popup');
-    $businessListContainer = $('#business-list-container');
 });
 
 function initMap() {
@@ -49,11 +52,13 @@ function onSearch(e) {
 }
 
 function doSearch(query) {
+    disableElement($searchButton);
     $.get('/map/api/business/search', query, ({ searchLocation, businesses }) => {
         clearMap();
         if (searchLocation) {
             map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude});
         }
+        enableElement($searchButton);
         showElement($businessListContainer);
         businesses.forEach(addRepairer);
         $businessListContainer
