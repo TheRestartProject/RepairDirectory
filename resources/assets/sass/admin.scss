@@ -25,3 +25,16 @@
 #submit {
   width: 100%;
 }
+
+.combobox__results {
+  list-style: none;
+  padding: 0 1rem;
+  margin: 0;
+
+  > li {
+    &:hover {
+      background-color: #eee;
+    }
+    border-bottom: 1px solid #ddd;
+  }
+}
