@@ -24,24 +24,35 @@ IF "%1"=="documentation" (
 
 ) ELSE IF "%1"=="coverage" (
 
-    docker\bin-windows\xdebug.bat vendor/bin/phpunit --testsuite=Unit --coverage-html reports/codecoverage
+    cd docker
+    docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing fixometer_db_testing
+    docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm xdebug php vendor/bin/phpunit --testsuite=Unit --testsuite=Feature --coverage-html reports/codecoverage
+    docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing fixometer_db_testing
+    cd ..
 
 ) ELSE IF "%1"=="unit" (
 
-    docker\bin-windows\php.bat vendor/bin/phpunit --testsuite=Unit
+    cd docker
+    docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Unit
+    cd ..
 
 ) ELSE IF "%1"=="feature" (
 
-     docker\bin-windows\php.bat vendor/bin/phpunit --testsuite=Feature
+     cd docker
+     docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing fixometer_db_testing
+     docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Feature
+     docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing fixometer_db_testing
+     cd ..
 
 ) ELSE IF "%1"=="browser" (
 
       cd docker
-      docker-compose -f docker-compose.yml -f docker-compose.dusk.yml up -d restart-project.local
-      docker-compose -f docker-compose.yml -f docker-compose.dusk.yml run --rm  dusk
-      docker-compose -f docker-compose.yml -f docker-compose.dusk.yml stop selenium
+      docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d restart-project.local
+      docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm  dusk
+      docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop selenium
+      docker-compose -f docker-compose.yml up -d restart-project.local
       cd ..
-      docker\bin-windows\dev.bat start
+      docker/bin/dev start
 
 ) ELSE (
 

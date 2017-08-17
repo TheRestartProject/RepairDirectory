@@ -20,14 +20,23 @@ case "$1" in
         docker/bin/composer run-script stan
         ;;
 
+    'coverage')
+        cd docker
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm xdebug php vendor/bin/phpunit --testsuite=Unit --testsuite=Feature --coverage-html reports/codecoverage
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing
+        cd ..
+        ;;
     'unit')
         cd docker
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm xdebug php vendor/bin/phpunit --testsuite=Unit --coverage-html reports/codecoverage
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Unit
         cd ..
         ;;
     'feature')
         cd docker
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing
         docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Feature
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing
         cd ..
         ;;
     'browser')

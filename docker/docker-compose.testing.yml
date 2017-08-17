@@ -2,23 +2,33 @@ version: '2'
 
 services:
 
-  database:
+  database_testing:
+    image: mysql:5.7
     environment:
-      - MYSQL_DATABASE=restartproject_testing
+      - MYSQL_ROOT_PASSWORD=restartproject
+      - MYSQL_DATABASE=restartproject
+      - MYSQL_USER=restartproject
+      - MYSQL_PASSWORD=restartproject
+    volumes:
+      - ./database/default/testing:/var/lib/mysql
+    networks:
+      - restartproject
+    restart: always
 
   restart-project.local:
     environment:
       - APP_ENV=testing
+      - DB_HOST=database_testing
 
   selenium:
     image: selenium/standalone-chrome
-    container_name: restartproject_selenium
     networks:
       - restartproject
 
-  php:
+  xdebug:
     environment:
       - APP_ENV=testing
+      - DB_HOST=database_testing
 
   dusk:
     depends_on:
@@ -28,12 +38,12 @@ services:
       - mail.restart-project.local
     build: ./php
     image: restartproject_php
-    container_name: restartproject_php
     volumes:
       - ../:/app
     env_file: php/application.env
     environment:
       - APP_ENV=testing
+      - DB_HOST=database_testing
     command: ["php", "artisan", "dusk"]
     networks:
       - restartproject
@@ -41,6 +51,7 @@ services:
   composer:
     environment:
       - APP_ENV=testing
+      - DB_HOST=database_testing
 
 networks:
   proxy-tier:

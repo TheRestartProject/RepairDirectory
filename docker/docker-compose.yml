@@ -4,9 +4,8 @@ services:
 
   database:
     image: mysql:5.7
-    container_name: restartproject_database
     volumes:
-      - ./database:/var/lib/mysql
+      - ./database/default/local:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=restartproject
       - MYSQL_DATABASE=restartproject
@@ -20,12 +19,11 @@ services:
     depends_on:
       - database
     image: phpmyadmin/phpmyadmin:latest
-    container_name: restartproject_phpmyadmin
     environment:
       - MYSQL_ROOT_PASSWORD=restartproject
       - MYSQL_USER=restartproject
       - MYSQL_PASSWORD=restartproject
-      - PMA_HOSTS=database
+      - PMA_HOSTS=database,fixometer_db
       - VIRTUAL_HOST=db.restart-project.local
     networks:
       - proxy-tier
@@ -35,7 +33,6 @@ services:
   # local dev email server
   mail.restart-project.local:
     image: djfarrelly/maildev:1.0.0-rc2
-    container_name: restartproject_maildev
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
     environment:
       - VIRTUAL_HOST=mail.restart-project.local
@@ -48,7 +45,6 @@ services:
 
   cc.restart-project.local:
     image: nginx
-    container_name: restartproject_codecoverage
     volumes:
       - ../reports/codecoverage:/usr/share/nginx/html:ro
     environment:
@@ -63,7 +59,6 @@ services:
 
   docs.restart-project.local:
     image: nginx
-    container_name: restartproject_docs
     volumes:
       - ../reports/docs:/usr/share/nginx/html:ro
     environment:
@@ -82,7 +77,6 @@ services:
       - mail.restart-project.local
     build: ./php
     image: restartproject_php
-    container_name: restartproject_web
     volumes:
       - ../:/app
     working_dir: "/app/public"
@@ -104,7 +98,6 @@ services:
       - mail.restart-project.local
     build: ./php
     image: restartproject_php
-    container_name: restartproject_php
     volumes:
       - ../:/app
     env_file:
@@ -116,7 +109,6 @@ services:
   node:
     build: ./node
     image: restartproject_node
-    container_name: restartproject_node
     volumes:
       - ../:/app
     command: ["node", "--version"]
@@ -129,10 +121,11 @@ services:
       - mail.restart-project.local
     build: ./xdebug
     image: restartproject_xdebug
-    container_name: restartproject_xdebug
     working_dir: /app
     volumes:
       - ../:/app
+    env_file:
+      - ./php/application.env
     environment:
       - XDEBUG_CONFIG="idekey=PHPSTORM"
     command: ["php", "--version"]
@@ -145,7 +138,6 @@ services:
       - mail.restart-project.local
     build: ./composer
     image: restartproject_composer
-    container_name: restartproject_composer
     volumes:
       - ../:/app
     env_file:
