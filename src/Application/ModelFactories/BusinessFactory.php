@@ -2,10 +2,11 @@
 
 namespace TheRestartProject\RepairDirectory\Application\ModelFactories;
 
-use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\Cluster;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
+use UnexpectedValueException;
 
 /**
  * Class BusinessFactory
@@ -65,13 +66,12 @@ class BusinessFactory
         }
         $business->setLocalArea($row['Borough']);
 
-        $categories = array_map(
-            function ($category) {
-                return trim($category);
-            }, explode(',', $row['Category'])
-        );
+        try {
+            $cluster = new Cluster($row['Category']);
+            $business->setCategories($cluster->getCategories());
+        } catch (UnexpectedValueException $e) {
+        }
 
-        $business->setCategories($categories);
         $business->setProductsRepaired(explode(',', $row['Products repaired']));
         $business->setAuthorised($row['Authorised repairer'] === 'Yes');
         $business->setQualifications($row['Qualifications']);
