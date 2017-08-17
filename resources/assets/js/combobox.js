@@ -89,7 +89,7 @@ function combobox ($el, field) {
  */
 function _addToSelected(item, $selected, $hidden) {
     const $item = $(`<li><span>${item}</span></li>`);
-    const $delete = $('<button class="fa fa-times btn btn-default"></button>');
+    const $delete = $('<button title="delete" class="fa fa-times btn btn-default"></button>');
     $delete.click(function (e) {
         e.preventDefault();
         _removeSelectedItem(item, $item, $hidden);
