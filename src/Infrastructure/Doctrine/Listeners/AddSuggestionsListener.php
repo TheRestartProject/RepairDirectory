@@ -25,6 +25,11 @@ class AddSuggestionsListener
         }
     }
 
+    /**
+     * See https://stackoverflow.com/questions/30734814/persisting-other-entities-inside-preupdate-of-doctrine-entity-listener
+     *
+     * @param OnFlushEventArgs $args
+     */
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getEntityManager();

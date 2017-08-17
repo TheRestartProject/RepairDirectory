@@ -59,7 +59,7 @@ class BusinessControllerTest extends FeatureTestCase
 
         $businessRepository = $this->app->make(BusinessRepository::class);
 
-        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->get(4)->getGeolocation());
+        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->findById(4)->getGeolocation());
     }
 
     /**
