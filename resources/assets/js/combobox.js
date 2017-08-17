@@ -35,14 +35,14 @@ function combobox ($el, field) {
         const items = $el.val().split(',');
         const lastItem = items[ items.length - 1 ].trim();
 
-        // the user isn't changing the last item in the list so we don't know which item to get suggestions for
         if (lastItem === activeItem) {
+            // this happens when the user isn't changing the last item in the list. we don't know which item to get
+            // suggestions for, so just return
             return;
         }
 
         activeItem = lastItem;
 
-        // get the last item in the comma-separated list
         if (activeItem) {
             // get suggestions for the last item
             $.get('/map/api/suggestion/search', { prefix: activeItem, field }, function (suggestions) {

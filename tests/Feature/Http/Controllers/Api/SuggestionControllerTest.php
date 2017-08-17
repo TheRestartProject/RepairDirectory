@@ -48,40 +48,4 @@ class SuggestionControllerTest extends FeatureTestCase
             ]
         );
     }
-
-    /**
-     * Asserts that the SuggestionController->add adds a new Suggestion to the database
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function test_search_with_category()
-    {
-        $response = $this->post(route('suggestion.add'));
-        $response->assertStatus(400);
-
-        $response = $this->post(route('suggestion.add'), [
-            'field' => 'foo'
-        ]);
-        $response->assertStatus(400);
-
-        $response = $this->post(route('suggestion.add'), [
-            'value' => 'foo'
-        ]);
-        $response->assertStatus(400);
-
-        $response = $this->post(route('suggestion.add'), [
-            'field' => 'test',
-            'value' => 'games'
-        ]);
-        $response->assertStatus(200);
-
-        $this->assertDatabaseHas(
-            'suggestions', [
-                'field' => 'test',
-                'value' => 'games'
-            ]
-        );
-    }
 }

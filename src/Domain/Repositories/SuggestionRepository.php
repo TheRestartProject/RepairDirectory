@@ -34,4 +34,6 @@ interface SuggestionRepository
      * @return array
      */
     public function find($field, $prefix);
+
+    public function findAll();
 }

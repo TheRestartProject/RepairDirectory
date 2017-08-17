@@ -15,6 +15,6 @@ $sliderValue.blur(function () {
 const $productsRepaired = $('#productsRepaired');
 const $authorisedBrands = $('#authorisedBrands');
 
-combobox($productsRepaired, 'product');
-combobox($authorisedBrands, 'brand');
+combobox($productsRepaired, 'productsRepaired');
+combobox($authorisedBrands, 'authorisedBrands');
 

@@ -16,7 +16,7 @@ class BusinessController extends Controller
 {
     public function edit($id = null, BusinessRepository $repository)
     {
-        $business = $id ? $repository->get($id) : new Business();
+        $business = $id ? $repository->findById($id) : new Business();
         return $this->renderEdit($business, []);
     }
 

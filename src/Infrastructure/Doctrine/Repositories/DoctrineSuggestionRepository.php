@@ -74,4 +74,8 @@ class DoctrineSuggestionRepository implements SuggestionRepository
             ->getQuery()
             ->getResult();
     }
+    
+    public function findAll() {
+        return $this->suggestionRepository->findAll();
+    }
 }

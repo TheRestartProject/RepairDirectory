@@ -65,11 +65,10 @@ class ImportFromHttpRequestHandler
         $businessUid = $command->getBusinessUid();
         $isCreate = !(boolean) $businessUid;
         
-        $business = $isCreate ? new Business() : $this->repository->get($businessUid);
+        $business = $isCreate ? new Business() : $this->repository->findById($businessUid);
         if (!$business) {
             throw new EntityNotFoundException();
         }
-
 
         $data = $this->transformRequestData($data);
 
@@ -82,6 +81,7 @@ class ImportFromHttpRequestHandler
         if ($isCreate) {
             $this->repository->add($business);
         }
+        
         return $business;
     }
 
@@ -95,7 +95,7 @@ class ImportFromHttpRequestHandler
         }
         return $data;
     }
-
+    
     private function stringToArray($string) {
         return array_values(
             array_filter(

@@ -72,7 +72,10 @@ class BusinessFactory
         } catch (UnexpectedValueException $e) {
         }
 
-        $business->setProductsRepaired(explode(',', $row['Products repaired']));
+        $business->setProductsRepaired(array_map(function ($str) {
+            return trim($str);
+        }, explode(',', $row['Products repaired'])));
+
         $business->setQualifications($row['Qualifications']);
 
         $reviewUrl = $row['Independent review link'];

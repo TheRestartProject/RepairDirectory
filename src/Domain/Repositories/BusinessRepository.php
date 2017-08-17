@@ -32,7 +32,7 @@ interface BusinessRepository
      *
      * @return array
      */
-    public function getAll();
+    public function findAll();
 
     /**
      * Finds the business or returns null
@@ -41,7 +41,7 @@ interface BusinessRepository
      *
      * @return Business|null
      */
-    public function get($uid);
+    public function findById($uid);
 
     /**
      * Finds businesses that match an array of [ property => value ].

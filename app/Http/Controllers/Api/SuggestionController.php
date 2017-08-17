@@ -31,18 +31,4 @@ class SuggestionController extends Controller
 
         return $values;
     }
-
-    public function add(Request $request, CommandBus $commandBus)
-    {
-        $field = $request->input('field');
-        $value = $request->input('value');
-
-        if (!$field || !$value) {
-            return response('You must include a field and a value', 400);
-        }
-
-        $commandBus->handle(new AddSuggestionCommand($field, $value));
-
-        return response('', 200);
-    }
 }

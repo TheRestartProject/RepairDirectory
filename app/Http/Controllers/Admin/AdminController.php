@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function index(BusinessRepository $repository)
     {
-        $businesses = $repository->getAll();
+        $businesses = $repository->findAll();
         return view('admin.index', compact('businesses'));
     }
 }

@@ -113,7 +113,7 @@ class DoctrineBusinessRepositoryTest extends TestCase
     public function it_can_retrieve_all_businesses()
     {
         $this->entityRepository->shouldReceive('findAll');
-        $this->doctrineBusinessRepository->getAll();
+        $this->doctrineBusinessRepository->findAll();
         $this->entityRepository
             ->shouldHaveReceived('findAll')
             ->once();
