@@ -74,6 +74,10 @@
             "php artisan config:clear",
             "vendor/bin/phpunit --testsuite=Unit"
         ],
+        "test:integration": [
+            "php artisan config:clear",
+            "vendor/bin/phpunit --testsuite=Integration"
+        ],
         "test:feature": [
             "php artisan config:clear",
             "vendor/bin/phpunit --testsuite=Feature"

@@ -28,12 +28,10 @@ interface SuggestionRepository
     /**
      * Finds suggestions that are for the given field and start with the given prefix.
      * 
-     * @param string $field The field that the suggestions should be fore
+     * @param string $field  The field that the suggestions should be fore
      * @param string $prefix All returned suggestions should have values that start with this prefix
      * 
      * @return array
      */
     public function find($field, $prefix);
-
-    public function findAll();
 }

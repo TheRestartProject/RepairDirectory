@@ -5,13 +5,14 @@ namespace TheRestartProject\RepairDirectory\Domain\Models;
 /**
  * Class Business
  *
- * @category Class
+ * @category Model
  * @package  TheRestartProject\RepairDirectory\Domain\Models
  * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Business
 {
@@ -703,7 +704,9 @@ class Business
     /**
      * Set the brands this business is authorised to repair
      * 
-     * @param array $authorisedBrands
+     * @param array $authorisedBrands The array to set
+     *
+     * @return void
      */
     public function setAuthorisedBrands($authorisedBrands)
     {
@@ -711,6 +714,8 @@ class Business
     }
 
     /**
+     * Get the business's community endorsement
+     * 
      * @return string
      */
     public function getCommunityEndorsement()
@@ -719,7 +724,11 @@ class Business
     }
 
     /**
-     * @param string $communityEndorsement
+     * Set a short community endorsement of the business
+     * 
+     * @param string $communityEndorsement The value to set
+     *
+     * @return void
      */
     public function setCommunityEndorsement($communityEndorsement)
     {
@@ -727,6 +736,8 @@ class Business
     }
 
     /**
+     * Get miscellaneous notes on the business
+     * 
      * @return string
      */
     public function getNotes()
@@ -735,7 +746,11 @@ class Business
     }
 
     /**
-     * @param string $notes
+     * Set miscellaneous notes for the business
+     * 
+     * @param string $notes The value to set
+     *
+     * @return void
      */
     public function setNotes($notes)
     {

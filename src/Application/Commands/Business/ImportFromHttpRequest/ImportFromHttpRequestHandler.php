@@ -86,7 +86,17 @@ class ImportFromHttpRequestHandler
         return $business;
     }
 
-    private function transformRequestData($data) {
+    /**
+     * Transforms the request data, converting the type of each value to that of the corresponding Business field.
+     *
+     * @param array $data The HTTP Request data
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    private function transformRequestData($data) 
+    {
         $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';
         if (array_key_exists('productsRepaired', $data)) {
             $data['productsRepaired'] = StringUtil::stringToArray($data['productsRepaired']);
