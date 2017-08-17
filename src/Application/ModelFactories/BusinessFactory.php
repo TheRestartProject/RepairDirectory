@@ -73,7 +73,6 @@ class BusinessFactory
         }
 
         $business->setProductsRepaired(explode(',', $row['Products repaired']));
-        $business->setAuthorised($row['Authorised repairer'] === 'Yes');
         $business->setQualifications($row['Qualifications']);
 
         $reviewUrl = $row['Independent review link'];

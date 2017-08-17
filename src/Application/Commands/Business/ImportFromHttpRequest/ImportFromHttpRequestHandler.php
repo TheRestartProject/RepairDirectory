@@ -70,7 +70,10 @@ class ImportFromHttpRequestHandler
             throw new EntityNotFoundException();
         }
 
-        $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';        $this->updateValues($business, $data);
+
+        $data = $this->transformRequestData($data);
+
+        $this->updateValues($business, $data);
 
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
 
@@ -82,9 +85,29 @@ class ImportFromHttpRequestHandler
         return $business;
     }
 
+    private function transformRequestData($data) {
+        $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';
+        if (array_key_exists('productsRepaired', $data)) {
+            $data['productsRepaired'] = $this->stringToArray($data['productsRepaired']);
+        }
+        if (array_key_exists('authorisedBrands', $data)) {
+            $data['authorisedBrands'] = $this->stringToArray($data['authorisedBrands']);
+        }
+        return $data;
+    }
+
+    private function stringToArray($string) {
+        return array_values(
+            array_filter(
+                array_map(function ($string) {
+                    return trim($string);
+                }, explode(',', $string))
+            )
+        );
+    }
+
     /**
-     * Update the $business fields from a $data array, using the $fields to index in to the $data and
-     * to select the correct setter on the Business class.
+     * Update the $business fields from a $data array
      *
      * @param Business $business The business to update
      * @param array    $data     An [ $key => $value ] array of fields to update

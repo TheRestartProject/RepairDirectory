@@ -62,11 +62,18 @@ return [
                 'type' => 'array'
             ],
             'productsRepaired' => [
-                'type' => 'array',
+                'type' => 'array'
+            ],
+            'authorisedBrands' => [
+                'type' => 'array'
+            ],
+            'communityEndorsement' => [
+                'type' => 'string',
                 'nullable' => true
             ],
-            'authorised' => [
-                'type' => 'boolean'
+            'notes' => [
+                'type' => 'string',
+                'nullable' => true
             ],
             'qualifications' => [
                 'type' => 'string',

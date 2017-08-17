@@ -69,16 +69,12 @@
                 <input id="email" name="email" class="form-control" value="{{ $business->getEmail() }}">
                 {!! array_key_exists('email', $errors) ? '<small>' . $errors['email'] . '</small>' : '' !!}
             </div>
-
-            <div>
-                <button class="btn btn-success">Save</button>
-            </div>
         </div>
 
         <div class="col-xs-12 col-md-4">
             <div class="form-group">
                 <label for="categories">Categories</label>
-                <select id="categories" name="categories[]" class="form-control" multiple style="height:600px">
+                <select id="categories" name="categories[]" class="form-control" multiple>
                     @foreach($categories as $category)
                         <option value="{{ $category }}"
                                 {{ in_array($category->getValue(), $business->getCategories()) ? "selected" : "" }}>
@@ -87,6 +83,32 @@
                     @endforeach
                 </select>
                 {!! array_key_exists('categories', $errors) ? '<small>' . $errors['categories'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="productsRepaired">Products Repaired</label>
+                <input id="productsRepaired" name="productsRepaired" class="form-control"
+                       value="{{ implode(', ', $business->getProductsRepaired()) }}">
+                {!! array_key_exists('productsRepaired', $errors) ? '<small>' . $errors['productsRepaired'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="authorisedBrands">Authorised Brands</label>
+                <input id="authorisedBrands" name="authorisedBrands" class="form-control"
+                       value="{{ implode(', ', $business->getAuthorisedBrands()) }}">
+                {!! array_key_exists('authorisedBrands', $errors) ? '<small>' . $errors['authorisedBrands'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="qualifications">Qualifications</label>
+                <textarea id="qualifications" name="qualifications" class="form-control">{{ $business->getQualifications() }}</textarea>
+                {!! array_key_exists('qualifications', $errors) ? '<small>' . $errors['qualifications'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Notes</label>
+                <textarea id="notes" name="notes" class="form-control">{{ $business->getNotes() }}</textarea>
+                {!! array_key_exists('notes', $errors) ? '<small>' . $errors['notes'] . '</small>' : '' !!}
             </div>
         </div>
 
@@ -133,6 +155,10 @@
                 <label for="warranty">Warranty Details</label>
                 <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{$business->getWarranty()}}</textarea>
                 {!! array_key_exists('warranty', $errors) ? '<small>' . $errors['warranty'] . '</small>' : '' !!}
+            </div>
+
+            <div>
+                <button id="submit" class="btn btn-success">Save</button>
             </div>
         </div>
     </form>

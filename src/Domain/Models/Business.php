@@ -113,14 +113,15 @@ class Business
      *
      * @var array
      */
-    private $productsRepaired;
+    private $productsRepaired = [];
 
     /**
-     * Has this Business been verified by an admin?
+     * List of brands that the repairer is officially authorised to repair.
+     * E.g. ['Apple', 'Samsung']
      *
-     * @var boolean
+     * @var array
      */
-    private $authorised = false;
+    private $authorisedBrands = [];
 
     /**
      * Official qualifications that the Business has
@@ -128,6 +129,20 @@ class Business
      * @var string
      */
     private $qualifications;
+
+    /**
+     * Text detailing any community endorsement the Business has
+     *
+     * @var string
+     */
+    private $communityEndorsement;
+
+    /**
+     * Miscellaneous motes
+     *
+     * @var string
+     */
+    private $notes;
 
     /**
      * Percentage of reviews that are positive
@@ -422,28 +437,6 @@ class Business
     }
 
     /**
-     * Return true if this business has been authorised by The Restart Project
-     *
-     * @return bool
-     */
-    public function isAuthorised()
-    {
-        return $this->authorised;
-    }
-
-    /**
-     * Set whether this business has been authorised by The Restart Project
-     *
-     * @param bool $authorised The value to set
-     *
-     * @return void
-     */
-    public function setAuthorised($authorised)
-    {
-        $this->authorised = $authorised;
-    }
-
-    /**
      * Return the qualifications held by this business
      *
      * @return string
@@ -695,6 +688,58 @@ class Business
         $array = get_object_vars($this);
         $array['geolocation'] = $this->getGeolocation() ? $this->getGeolocation()->toArray() : null;
         return $array;
+    }
+
+    /**
+     * Return the brands this business is authorised to repair
+     * 
+     * @return array
+     */
+    public function getAuthorisedBrands()
+    {
+        return $this->authorisedBrands;
+    }
+
+    /**
+     * Set the brands this business is authorised to repair
+     * 
+     * @param array $authorisedBrands
+     */
+    public function setAuthorisedBrands($authorisedBrands)
+    {
+        $this->authorisedBrands = $authorisedBrands;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommunityEndorsement()
+    {
+        return $this->communityEndorsement;
+    }
+
+    /**
+     * @param string $communityEndorsement
+     */
+    public function setCommunityEndorsement($communityEndorsement)
+    {
+        $this->communityEndorsement = $communityEndorsement;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * @param string $notes
+     */
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
     }
 
 }
