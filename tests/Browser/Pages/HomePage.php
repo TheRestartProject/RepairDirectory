@@ -15,6 +15,9 @@ use Laravel\Dusk\Browser;
  */
 class HomePage extends Page
 {
+    const NO_RESULTS = '0 results in your area';
+
+
     /**
      * Get the URL for the page.
      *
@@ -34,7 +37,7 @@ class HomePage extends Page
      */
     public function assert(Browser $browser)
     {
-        $browser->text('Laravel');
+        $browser->assertRouteIs('map');
     }
 
     /**
@@ -45,7 +48,16 @@ class HomePage extends Page
     public function elements()
     {
         return [
-            '@element' => '#selector',
+            '@searchByLocation' => 'input[name=location]',
+            '@filterByCategory' => 'input[name=category]',
+            '@submitButton' => 'button#submit',
+            '@businessList' => '#business-list-container > ul',
+            '@businesses' => '#business-list-container > ul > li',
         ];
+    }
+
+    public function assertNoResults(Browser $browser)
+    {
+        $browser->assertSee(self::NO_RESULTS);
     }
 }
