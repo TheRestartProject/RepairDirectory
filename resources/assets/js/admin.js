@@ -1,6 +1,8 @@
 const $ = require('jquery');
-var $slider = $("#positiveReviewPcRange");
-var $sliderValue = $("#positiveReviewPc");
+const combobox = require('./combobox');
+
+const $slider = $("#positiveReviewPcRange");
+const $sliderValue = $("#positiveReviewPc");
 
 $slider.change(function () {
     $sliderValue.val($slider.val());
@@ -9,3 +11,10 @@ $slider.change(function () {
 $sliderValue.blur(function () {
     $slider.val($sliderValue.val());
 });
+
+const $productsRepaired = $('#productsRepaired');
+const $authorisedBrands = $('#authorisedBrands');
+
+combobox($productsRepaired, 'productsRepaired');
+combobox($authorisedBrands, 'authorisedBrands');
+

@@ -4,7 +4,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin
 
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
+use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
  * Admin\BusinessController Test
@@ -15,7 +15,7 @@ use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class BusinessControllerTest extends FeatureTestCase
+class BusinessControllerTest extends IntegrationTestCase
 {
     /**
      * Asserts that the BusinessController->create function creates a new Business
@@ -59,7 +59,7 @@ class BusinessControllerTest extends FeatureTestCase
 
         $businessRepository = $this->app->make(BusinessRepository::class);
 
-        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->get(4)->getGeolocation());
+        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->findById(4)->getGeolocation());
     }
 
     /**

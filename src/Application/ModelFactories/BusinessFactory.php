@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\ModelFactories;
 
+use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Domain\Enums\Cluster;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
@@ -72,8 +73,8 @@ class BusinessFactory
         } catch (UnexpectedValueException $e) {
         }
 
-        $business->setProductsRepaired(explode(',', $row['Products repaired']));
-        $business->setAuthorised($row['Authorised repairer'] === 'Yes');
+        $business->setProductsRepaired(StringUtil::stringToArray($row['Products repaired']));
+
         $business->setQualifications($row['Qualifications']);
 
         $reviewUrl = $row['Independent review link'];

@@ -152,11 +152,11 @@ class ImportFromHttpRequestTest extends TestCase
         $business->setName('Old Name');
 
         $this->setupGeocoder();
-        $this->repository->shouldReceive('get')->with(1)->andReturn($business);
+        $this->repository->shouldReceive('findById')->with(1)->andReturn($business);
 
         $updatedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data, 1));
 
-        $this->repository->shouldHaveReceived('get')->with(1);
+        $this->repository->shouldHaveReceived('findById')->with(1);
         $this->repository->shouldNotHaveReceived('add');
         self::assertInstanceOf(Business::class, $updatedBusiness);
         self::assertEquals('New Name', $business->getName());

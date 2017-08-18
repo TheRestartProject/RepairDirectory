@@ -74,7 +74,7 @@ class BusinessFactoryTest extends TestCase
             ], $business->getCategories()
         );
         $this->assertEquals(['Phones'], $business->getProductsRepaired());
-        $this->assertEquals(false, $business->isAuthorised());
+        $this->assertEquals([], $business->getAuthorisedBrands());
         $this->assertEquals('BTEC', $business->getQualifications());
         $this->assertEquals(
             ReviewSource::GOOGLE,
@@ -83,21 +83,6 @@ class BusinessFactoryTest extends TestCase
         $this->assertEquals(92, $business->getPositiveReviewPc());
         $this->assertEquals('None', $business->getWarranty());
         $this->assertEquals('Varied', $business->getPricingInformation());
-    }
-
-    /**
-     * Tests the parsing of the 'Authorised repairer' column
-     *
-     * @return void
-     *
-     * @test
-     */
-    public function it_can_parse_the_authorised_repairer_column()
-    {
-        $row = $this->createTestRow();
-        $row['Authorised repairer'] = 'Yes';
-        $business = $this->factory->fromCsvRow($row);
-        $this->assertEquals(true, $business->isAuthorised());
     }
 
     /**

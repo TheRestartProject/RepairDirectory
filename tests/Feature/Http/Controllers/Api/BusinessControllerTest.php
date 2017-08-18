@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
-use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
+use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
  * Api\BusinessController Test
@@ -14,7 +14,7 @@ use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class BusinessControllerTest extends FeatureTestCase
+class BusinessControllerTest extends IntegrationTestCase
 {
     /**
      * Asserts that the BusinessController->search returns all businesses

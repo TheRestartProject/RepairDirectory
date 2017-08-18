@@ -16,5 +16,7 @@ Route::prefix('api')
     ->namespace('Api')
     ->group(function () {
         Route::get('business/search', 'BusinessController@search')->name('business.search');
+        Route::get('suggestion/search', 'SuggestionController@search')->name('suggestion.search');
+        Route::post('suggestion/add', 'SuggestionController@add')->name('suggestion.add');
     });
 

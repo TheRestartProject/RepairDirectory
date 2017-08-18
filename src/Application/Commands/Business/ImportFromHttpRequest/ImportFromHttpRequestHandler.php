@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
+use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Application\Validators\BusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
@@ -65,12 +66,14 @@ class ImportFromHttpRequestHandler
         $businessUid = $command->getBusinessUid();
         $isCreate = !(boolean) $businessUid;
         
-        $business = $isCreate ? new Business() : $this->repository->get($businessUid);
+        $business = $isCreate ? new Business() : $this->repository->findById($businessUid);
         if (!$business) {
             throw new EntityNotFoundException();
         }
 
-        $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';        $this->updateValues($business, $data);
+        $data = $this->transformRequestData($data);
+
+        $this->updateValues($business, $data);
 
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
 
@@ -79,12 +82,33 @@ class ImportFromHttpRequestHandler
         if ($isCreate) {
             $this->repository->add($business);
         }
+        
         return $business;
     }
 
     /**
-     * Update the $business fields from a $data array, using the $fields to index in to the $data and
-     * to select the correct setter on the Business class.
+     * Transforms the request data, converting the type of each value to that of the corresponding Business field.
+     *
+     * @param array $data The HTTP Request data
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    private function transformRequestData($data) 
+    {
+        $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';
+        if (array_key_exists('productsRepaired', $data)) {
+            $data['productsRepaired'] = StringUtil::stringToArray($data['productsRepaired']);
+        }
+        if (array_key_exists('authorisedBrands', $data)) {
+            $data['authorisedBrands'] = StringUtil::stringToArray($data['authorisedBrands']);
+        }
+        return $data;
+    }
+
+    /**
+     * Update the $business fields from a $data array
      *
      * @param Business $business The business to update
      * @param array    $data     An [ $key => $value ] array of fields to update

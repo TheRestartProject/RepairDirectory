@@ -62,11 +62,18 @@ return [
                 'type' => 'array'
             ],
             'productsRepaired' => [
-                'type' => 'array',
+                'type' => 'array'
+            ],
+            'authorisedBrands' => [
+                'type' => 'array'
+            ],
+            'communityEndorsement' => [
+                'type' => 'string',
                 'nullable' => true
             ],
-            'authorised' => [
-                'type' => 'boolean'
+            'notes' => [
+                'type' => 'string',
+                'nullable' => true
             ],
             'qualifications' => [
                 'type' => 'string',
@@ -99,6 +106,32 @@ return [
             'pricingInformation' => [
                 'type' => 'text',
                 'nullable' => true
+            ]
+        ]
+    ],
+    'TheRestartProject\RepairDirectory\Domain\Models\Suggestion' => [
+        'type'   => 'entity',
+        'table'  => 'suggestions',
+        'id'     => [
+            'uid' => [
+                'type'     => 'integer',
+                'generator' => [
+                    'strategy' => 'auto'
+                ]
+            ],
+        ],
+        'uniqueConstraints' => [
+            [
+                'name' => 'suggestion_unique_idx',
+                'columns' => ['field', 'value']
+            ]
+        ],
+        'fields' => [
+            'field' => [
+                'type' => 'string'
+            ],
+            'value' => [
+                'type' => 'string'
             ]
         ]
     ]

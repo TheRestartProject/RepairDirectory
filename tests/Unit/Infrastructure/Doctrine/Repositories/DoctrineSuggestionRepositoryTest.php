@@ -4,14 +4,16 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Doctrine\R
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Mockery;
 use Mockery\MockInterface;
-use TheRestartProject\RepairDirectory\Domain\Models\Business;
-use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineBusinessRepository;
+use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
+use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineSuggestionRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**
- * Class DoctrineBusinessRepositoryTest
+ * Class DoctrineSuggestionRepositoryTest
  *
  * @category Class
  * @package  TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Repositories
@@ -19,7 +21,7 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class DoctrineBusinessRepositoryTest extends TestCase
+class DoctrineSuggestionRepositoryTest extends TestCase
 {
     /**
      * Mock EntityManager
@@ -38,9 +40,9 @@ class DoctrineBusinessRepositoryTest extends TestCase
     /**
      * The repository to test
      *
-     * @var DoctrineBusinessRepository
+     * @var DoctrineSuggestionRepository
      */
-    private $doctrineBusinessRepository;
+    private $doctrineSuggestionRepository;
 
     /**
      * Set up the mocks for the test
@@ -62,8 +64,8 @@ class DoctrineBusinessRepositoryTest extends TestCase
         $this->entityManager->shouldReceive('getRepository')
             ->andReturn($this->entityRepository);
 
-        $this->doctrineBusinessRepository
-            = new DoctrineBusinessRepository($entityManager);
+        $this->doctrineSuggestionRepository
+            = new DoctrineSuggestionRepository($entityManager);
     }
 
     /**
@@ -81,41 +83,25 @@ class DoctrineBusinessRepositoryTest extends TestCase
          * @var EntityManager $entityManager
          */
         $entityManager = Mockery::spy(EntityManager::class);
-        $repository = new DoctrineBusinessRepository($entityManager);
-        self::assertInstanceOf(DoctrineBusinessRepository::class, $repository);
+        $repository = new DoctrineSuggestionRepository($entityManager);
+        self::assertInstanceOf(DoctrineSuggestionRepository::class, $repository);
     }
 
     /**
-     * Test that the repository can have a business added to it
+     * Test that the repository can have a suggestion added to it
      *
      * @test
      *
      * @return void
      */
-    public function it_can_add_a_business()
+    public function it_can_add_a_suggestion()
     {
-        $business = new Business();
+        $suggestion = new Suggestion();
         $this->entityManager->shouldReceive('persist');
-        $this->doctrineBusinessRepository->add($business);
+        $this->doctrineSuggestionRepository->add($suggestion);
         $this->entityManager
             ->shouldHaveReceived('persist')
             ->once()
-            ->with($business);
-    }
-
-    /**
-     * Test that all businesses can be retrieved from the business.
-     *
-     * @test
-     *
-     * @return void
-     */
-    public function it_can_retrieve_all_businesses()
-    {
-        $this->entityRepository->shouldReceive('findAll');
-        $this->doctrineBusinessRepository->findAll();
-        $this->entityRepository
-            ->shouldHaveReceived('findAll')
-            ->once();
+            ->with($suggestion);
     }
 }

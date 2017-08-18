@@ -19,7 +19,7 @@ interface BusinessRepository
 {
 
     /**
-     * Add a Business to the repository. Make permanent using the Persister service.
+     * Add a Business to the repository.
      *
      * @param Business $business The Business to add
      *
@@ -32,7 +32,7 @@ interface BusinessRepository
      *
      * @return array
      */
-    public function getAll();
+    public function findAll();
 
     /**
      * Finds the business or returns null
@@ -41,7 +41,7 @@ interface BusinessRepository
      *
      * @return Business|null
      */
-    public function get($uid);
+    public function findById($uid);
 
     /**
      * Finds businesses that match an array of [ property => value ].

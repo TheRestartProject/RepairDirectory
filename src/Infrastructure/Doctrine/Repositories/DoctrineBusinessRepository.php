@@ -49,7 +49,6 @@ class DoctrineBusinessRepository implements BusinessRepository
 
     /**
      * Register a new business with the entity manager.
-     * Should be persisted with the DoctrinePersister service.
      *
      * @param Business $business The Business to add
      *
@@ -65,7 +64,7 @@ class DoctrineBusinessRepository implements BusinessRepository
      *
      * @return array
      */
-    public function getAll()
+    public function findAll()
     {
         return $this->businessRepository->findAll();
     }
@@ -77,7 +76,7 @@ class DoctrineBusinessRepository implements BusinessRepository
      *
      * @return Business|null
      */
-    public function get($uid)
+    public function findById($uid)
     {
         /**
          * The business to update

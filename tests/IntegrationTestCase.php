@@ -16,7 +16,7 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-abstract class FeatureTestCase extends TestCase
+abstract class IntegrationTestCase extends TestCase
 {
 
     /**

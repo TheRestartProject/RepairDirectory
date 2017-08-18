@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
+use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
  * Class ImportBusinessCommandTest
@@ -14,7 +14,7 @@ use TheRestartProject\RepairDirectory\Tests\FeatureTestCase;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class ImportBusinessesCommandTest extends FeatureTestCase
+class ImportBusinessesCommandTest extends IntegrationTestCase
 {
     /**
      * Test that the businesses have been created
