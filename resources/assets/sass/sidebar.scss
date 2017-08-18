@@ -100,10 +100,17 @@
     font-family: "PatuaOne", serif;
   }
 
-  &.business-list__item--inactive {
-    background-color: #707070;
-    a,.fa {
-      color: black;
-    }
+  .business-details__description,.business-details__average-score {
+    display: none;
+  }
+}
+
+.business-list__item.business-list__item--inactive {
+  background-color: #707070;
+  a,li,.fa {
+    color: black;
+  }
+  h2 {
+    color: #333;
   }
 }

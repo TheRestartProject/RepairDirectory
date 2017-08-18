@@ -14,13 +14,16 @@
 .header__link {
   float: right;
   margin-top: 3rem;
-}@import "node_modules/font-awesome/scss/font-awesome";
+}
+
+@import "node_modules/font-awesome/scss/font-awesome";
 // Fonts
 @import "fonts";
 
 // Components
 @import "sidebar";
 @import "map";
+@import "business";
 
 // Global
 .row.no-gutter {
@@ -30,20 +33,5 @@
   > [class*='col-'] {
     padding-right: 0;
     padding-left: 0;
-  }
-}
-
-/* Display a font awesome icon on the left, and the business information on the right */
-.business-detail {
-  .fa {
-    color: #0094a7;
-    float: left;
-    margin-top: 3px;
-    width: 15px;
-    text-align: center;
-  }
-  :last-child {
-    margin-left: 1rem;
-    word-wrap: break-word;
   }
 }

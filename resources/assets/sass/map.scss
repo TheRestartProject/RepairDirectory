@@ -25,10 +25,9 @@
 
 #business-popup {
   position: absolute;
-  top: 20%;
-  left: 33%;
+  top: 1rem;
+  right: 1rem;
   width: 33%;
-  margin-left: 10px; /* to align with the map pin */
   background-color: white;
 }
 
@@ -47,6 +46,12 @@
   }
 }
 
+.business-popup__heading .business-details__positive-review-percentage > h2 {
+  color: white;
+  font-size: 2rem;
+  margin-right: 0.25rem;
+}
+
 .business-popup__details {
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
 }
