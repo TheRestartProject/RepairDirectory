@@ -2,3 +2,10 @@
 !bin/
 !bin/*
 database/
+/fixometer_db/
+!/database/fixometer/local/.gitkeep
+!/database/fixometer/production/.gitkeep
+!/database/fixometer/testing/.gitkeep
+!/database/default/local/.gitkeep
+!/database/default/production/.gitkeep
+!/database/default/testing/.gitkeep
