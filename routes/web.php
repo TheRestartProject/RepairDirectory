@@ -15,7 +15,7 @@ use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 
 Route::get('/', function () {
     return view('map', [ 'categories' => Category::values() ]);
-});
+})->name('map');
 
 Route::prefix('admin')
     ->namespace('Admin')
