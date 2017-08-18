@@ -23,8 +23,8 @@
                     <div class="row no-gutter">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label for="categories">Categories</label>
-                                <select id="categories" name="categories" class="form-control sidebar__select" multiple>
+                                <label for="category">Category</label>
+                                <select id="category" name="category" class="form-control sidebar__select">
                                     <option value="" selected>All</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category }}">
