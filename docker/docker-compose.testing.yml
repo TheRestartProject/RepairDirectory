@@ -30,6 +30,11 @@ services:
       - APP_ENV=testing
       - DB_HOST=database_testing
 
+  php:
+    environment:
+      - APP_ENV=testing
+      - DB_HOST=database_testing
+
   dusk:
     depends_on:
       - database
