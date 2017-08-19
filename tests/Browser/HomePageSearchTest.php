@@ -32,8 +32,6 @@ class HomePageSearchTest extends DuskTestCase
      * When I search in an area with no results
      * Then I should see a message telling me that there were 0 results nearby
      *
-     * @test
-     *
      * @return void
      */
     public function if_search_for_a_location_with_no_repair_shops_there_should_be_no_results()
