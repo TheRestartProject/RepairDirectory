@@ -15,10 +15,12 @@ class LoginPageTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(new LoginPage())
+                ->assertMissing('.alert.alert-danger')
                 ->type('email', 'test@user.com')
                 ->type('password', 'password')
+                ->press('button')
                 ->assertRouteIs('login')
-                ->assertVisible('.error');
+                ->assertVisible('.alert.alert-danger');
         });
     }
 }
