@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
     {
         entity(User::class)->create([
             'email' => 'matt@outlandish.com',
-            'password' => bcrypt('password')
         ]);
     }
 }

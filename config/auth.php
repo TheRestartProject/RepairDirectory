@@ -1,5 +1,7 @@
 <?php
 
+use TheRestartProject\RepairDirectory\Domain\Models\User;
+
 return [
 
     /*
@@ -66,8 +68,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
+            'driver' => 'doctrine',
+            'model' => User::class,
         ],
 
         // 'users' => [

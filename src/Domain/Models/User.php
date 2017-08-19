@@ -109,7 +109,7 @@ class User implements Authenticatable
      */
     public function getAuthPassword()
     {
-        return $this->getRememberToken();
+        return $this->getPassword();
     }
 
     /**
