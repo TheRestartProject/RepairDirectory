@@ -2,6 +2,9 @@
 namespace TheRestartProject\RepairMap\Tests\Browser;
 
 
+use Illuminate\Auth\SessionGuard;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use PDepend\Util\Log;
 use TheRestartProject\RepairDirectory\Domain\Models\User;
@@ -44,7 +47,6 @@ class LoginPageTest extends DuskTestCase
     }
 
     /**
-     * @test
      */
     public function i_can_log_into_an_account_with_the_correct_password()
     {
@@ -55,6 +57,23 @@ class LoginPageTest extends DuskTestCase
                 ->type('password', 'secret')
                 ->press('button')
                 ->assertLoginSucceededAs($user);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function i_can_have_my_login_session_extended_with_the_remember_me_checkbox()
+    {
+        $user = entity(User::class)->create();
+        $this->browse(function (Browser $browser) use ($user) {
+            /** @var SessionGuard $guard */
+            $guard = Auth::guard();
+            $guard->logout();
+            $browser->visit(new LoginPage())
+                ->check('remember')
+                ->press('button')
+                ->assertHasCookie($guard->getRecallerName());
         });
     }
 }
