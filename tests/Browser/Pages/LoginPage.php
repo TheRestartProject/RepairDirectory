@@ -29,4 +29,10 @@ class LoginPage extends Page
     {
         $browser->assertRouteIs('login');
     }
+
+    public function assertLoginFailed(Browser $browser)
+    {
+        $browser->assertRouteIs('login')
+            ->assertVisible('.alert.alert-danger');
+    }
 }

@@ -4,6 +4,7 @@ use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
+use TheRestartProject\RepairDirectory\Domain\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,4 +95,14 @@ $factory->define(Suggestion::class, function (Faker\Generator $faker, $attribute
     }
 
     return $suggestion;
+});
+
+/** @var LaravelDoctrine\ORM\Testing\Factory $factory */
+$factory->define(User::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('secret'),
+    ];
 });
