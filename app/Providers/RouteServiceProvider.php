@@ -58,10 +58,19 @@ class RouteServiceProvider extends ServiceProvider
             return redirect('/map');
         });
 
-        Route::prefix('map')
-             ->middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+        Route::namespace($this->namespace)
+            ->group(function () {
+                Route::namespace('Auth')
+                    ->group(function () {
+                        Route::get('/login', 'LoginController@showLoginForm')->name('login');
+                    });
+
+                Route::prefix('map')
+                    ->middleware('web')
+                    ->group(base_path('routes/web.php'));
+            });
+
+
     }
 
     /**
