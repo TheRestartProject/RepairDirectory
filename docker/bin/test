@@ -42,7 +42,7 @@ case "$1" in
     'browser')
         cd docker
         docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d restart-project.local database_testing
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm  dusk
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm  dusk php artisan dusk "${@:2}"
         docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop selenium
         docker-compose -f docker-compose.yml up -d restart-project.local
         cd ..

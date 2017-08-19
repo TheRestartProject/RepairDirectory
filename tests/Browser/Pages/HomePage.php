@@ -25,7 +25,7 @@ class HomePage extends Page
      */
     public function url()
     {
-        return '/';
+        return '/map';
     }
 
     /**
