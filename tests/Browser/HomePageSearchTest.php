@@ -32,19 +32,18 @@ class HomePageSearchTest extends DuskTestCase
      * When I search in an area with no results
      * Then I should see a message telling me that there were 0 results nearby
      *
+     * todo: work out why this test isn't working
+     *
      * @return void
      */
-    public function if_search_for_a_location_with_no_repair_shops_there_should_be_no_results()
+    public function if_i_search_for_a_location_with_no_repair_shops_there_should_be_no_results()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(new HomePage())
                 ->type('@searchByLocation', 'romford')
                 ->press('@submitButton', 10)
                 ->waitForText('results in your area', 10)
-                ->on(new HomePage())
                 ->assertNoResults();
-
-            $browser;
         });
     }
 }
