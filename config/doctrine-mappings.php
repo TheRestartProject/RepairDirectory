@@ -138,5 +138,31 @@ return [
                 'type' => 'string'
             ]
         ]
+    ],
+    'TheRestartProject\RepairDirectory\Domain\Models\User' => [
+        'type'   => 'entity',
+        'table'  => 'user',
+        'id'     => [
+            'uid' => [
+                'type'     => 'integer',
+                'generator' => [
+                    'strategy' => 'auto'
+                ]
+            ],
+        ],
+        'uniqueConstraints' => [
+            [
+                'name' => 'user_unique_idx',
+                'columns' => ['email']
+            ]
+        ],
+        'fields' => [
+            'email' => [
+                'type' => 'string'
+            ],
+            'password' => [
+                'type' => 'string'
+            ]
+        ]
     ]
 ];
