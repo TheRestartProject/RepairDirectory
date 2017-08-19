@@ -8,6 +8,7 @@
     </div>
 @endif
 <form method="post" action="{{ route('login') }}">
+    {{ csrf_field() }}
     <input name="email" placeholder="Email" />
     <input type="password" name="password" placeholder="Password" />
     <button>Login</button>
