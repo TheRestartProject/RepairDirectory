@@ -9,7 +9,9 @@
 namespace TheRestartProject\RepairDirectory\Domain\Models;
 
 
-class User
+use Illuminate\Contracts\Auth\Authenticatable;
+
+class User implements Authenticatable
 {
     /**
      * Unique Id for the user
@@ -80,4 +82,64 @@ class User
         $this->uid = $uid;
     }
 
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'uid';
+    }
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->getUid();
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->getRememberToken();
+    }
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return '';
+    }
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setRememberToken($value)
+    {
+        //do nothing
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName()
+    {
+        return 'remember';
+    }
 }

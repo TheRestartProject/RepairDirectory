@@ -35,4 +35,10 @@ class LoginPage extends Page
         $browser->assertRouteIs('login')
             ->assertVisible('.alert.alert-danger');
     }
+
+    public function assertLoginSucceededAs(Browser $browser, $user)
+    {
+        $browser->assertRouteIs('map')
+            ->assertAuthenticatedAs($user);
+    }
 }

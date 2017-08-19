@@ -42,4 +42,20 @@ class LoginPageTest extends DuskTestCase
                 ->assertLoginFailed();
         });
     }
+
+    /**
+     * @test
+     */
+    public function i_can_log_into_an_account_with_the_correct_password()
+    {
+        $password = 'correctpassword';
+        $user = entity(User::class)->create(['password' => bcrypt($password)]);
+        $this->browse(function (Browser $browser) use ($user, $password) {
+            $browser->visit(new LoginPage())
+                ->type('email', $user->getEmail())
+                ->type('password', $password)
+                ->press('button')
+                ->assertLoginSucceededAs($user);
+        });
+    }
 }
