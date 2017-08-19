@@ -3,10 +3,8 @@ namespace TheRestartProject\RepairMap\Tests\Browser;
 
 
 use Illuminate\Auth\SessionGuard;
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
-use PDepend\Util\Log;
 use TheRestartProject\RepairDirectory\Domain\Models\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
