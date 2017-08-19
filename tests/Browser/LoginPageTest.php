@@ -3,11 +3,14 @@ namespace TheRestartProject\RepairMap\Tests\Browser;
 
 
 use Laravel\Dusk\Browser;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\LoginPage;
 
 class LoginPageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     /**
      * @test
      */

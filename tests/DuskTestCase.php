@@ -5,6 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 
 /**
  * Class DuskTestCase
@@ -40,4 +41,17 @@ abstract class DuskTestCase extends BaseTestCase
             'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()
         );
     }
+
+    protected function setUpTraits()
+    {
+        $uses = parent::setUpTraits();
+
+        if (isset($uses[DatabaseMigrations::class])) {
+            $this->runDatabaseMigrations();
+        }
+
+        return $uses;
+    }
+
+
 }
