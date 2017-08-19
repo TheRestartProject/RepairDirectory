@@ -60,4 +60,14 @@ class HomePage extends Page
     {
         $browser->assertSee(self::NO_RESULTS);
     }
+
+    public function assertLocationInputExists(Browser $browser)
+    {
+        $browser->assertSee('Your location');
+    }
+
+    public function assertCategoryInputExists(Browser $browser)
+    {
+        $browser->assertSee('Categories');
+    }
 }

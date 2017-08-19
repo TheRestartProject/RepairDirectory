@@ -22,7 +22,7 @@ class HomePageSearchTest extends DuskTestCase
             $browser->visit(new HomePage())
                     ->assertRouteIs('map')
                     ->assertSee('Your location')
-                    ->assertSee('Category');
+                    ->assertSee('Categories');
         });
     }
 
