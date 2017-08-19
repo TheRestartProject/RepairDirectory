@@ -141,7 +141,7 @@ return [
     ],
     'TheRestartProject\RepairDirectory\Domain\Models\User' => [
         'type'   => 'entity',
-        'table'  => 'user',
+        'table'  => 'users',
         'id'     => [
             'uid' => [
                 'type'     => 'integer',
