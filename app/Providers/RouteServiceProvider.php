@@ -59,6 +59,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::namespace($this->namespace)
+            ->middleware('web')
             ->group(function () {
                 Route::namespace('Auth')
                     ->group(function () {
@@ -66,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider
                     });
 
                 Route::prefix('map')
-                    ->middleware('web')
+
                     ->group(base_path('routes/web.php'));
             });
 
