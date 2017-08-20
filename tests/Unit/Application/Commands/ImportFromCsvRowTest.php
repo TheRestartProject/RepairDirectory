@@ -4,7 +4,9 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow\ImportFromCsvRowHandler;
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
@@ -36,13 +38,6 @@ class ImportFromCsvRowTest extends TestCase
     private $repository;
 
     /**
-     * The mocked factory
-     *
-     * @var m\MockInterface
-     */
-    private $factory;
-
-    /**
      * Setups the the handler under test for each test
      *
      * @return void
@@ -50,7 +45,6 @@ class ImportFromCsvRowTest extends TestCase
     public function setUp()
     {
         $this->repository = m::spy(BusinessRepository::class);
-        $this->factory = m::mock(BusinessFactory::class);
 
         /**
          * Cast mock to BusinessRepository
@@ -59,16 +53,8 @@ class ImportFromCsvRowTest extends TestCase
          */
         $repository = $this->repository;
 
-        /**
-         * Cast mock to BusinessFactory
-         *
-         * @var BusinessFactory $factory
-         */
-        $factory = $this->factory;
-
         $this->handler = new ImportFromCsvRowHandler(
-            $repository,
-            $factory
+            $repository
         );
     }
 
@@ -91,14 +77,7 @@ class ImportFromCsvRowTest extends TestCase
          */
         $repository = m::spy(BusinessRepository::class);
 
-        /**
-         * Cast mock to BusinessFactory
-         *
-         * @var BusinessFactory $factory
-         */
-        $factory = m::mock(BusinessFactory::class);
-
-        $handler = new ImportFromCsvRowHandler($repository, $factory);
+        $handler = new ImportFromCsvRowHandler($repository);
         self::assertInstanceOf(ImportFromCsvRowHandler::class, $handler);
     }
 
@@ -115,26 +94,46 @@ class ImportFromCsvRowTest extends TestCase
      */
     public function it_can_add_a_business_to_the_repository()
     {
-        $csvRow = [];
-        $this->setupFactory($csvRow);
+        $csvRow = $this->createTestRow();
 
-        $addedBusiness = $this->handler->handle(new ImportFromCsvRowCommand($csvRow));
+        $business = $this->handler->handle(new ImportFromCsvRowCommand($csvRow));
 
-        $this->assertBusinessAdded($addedBusiness);
-        self::assertInstanceOf(Business::class, $addedBusiness);
-    }
-
-    /**
-     * Sets up the factory to turn a CSV row into a Business
-     *
-     * @param array $csvRow the array that represents a CSV row
-     *
-     * @return void
-     */
-    public function setupFactory(array $csvRow)
-    {
-        $business = new Business();
-        $this->factory->shouldReceive('fromCsvRow')->with($csvRow)->andReturn($business);
+        $this->assertBusinessAdded($business);
+        self::assertInstanceOf(Business::class, $business);
+        $this->assertEquals(new Point(51.3813993, -2.363582), $business->getGeolocation());
+        $this->assertEquals('iRepair Centre Bath', $business->getName());
+        $this->assertEquals('Bath\'s iRepair Centre. Fix all your broken devices.', $business->getDescription());
+        $this->assertEquals('12 Westgate St', $business->getAddress());
+        $this->assertEquals('BA1 1EQ', $business->getPostcode());
+        $this->assertEquals('Bath', $business->getCity());
+        $this->assertEquals('Bath', $business->getLocalArea());
+        $this->assertEquals('01225 427538', $business->getLandline());
+        $this->assertEquals('07700 900220', $business->getMobile());
+        $this->assertEquals('http://irepaircentrebath.co.uk', $business->getWebsite());
+        $this->assertEquals(
+            [
+                'Apple iPhone',
+                'Apple iPad',
+                'Digital Camera',
+                'Video Camera',
+                'Handheld entertainment device',
+                'Headphones',
+                'Mobile/Smartphone',
+                'PC Accessory',
+                'Portable radio',
+                'Tablet'
+            ], $business->getCategories()
+        );
+        $this->assertEquals(['Phones'], $business->getProductsRepaired());
+        $this->assertEquals([], $business->getAuthorisedBrands());
+        $this->assertEquals('BTEC', $business->getQualifications());
+        $this->assertEquals(
+            ReviewSource::GOOGLE,
+            $business->getReviewSource()
+        );
+        $this->assertEquals(92, $business->getPositiveReviewPc());
+        $this->assertEquals('None', $business->getWarranty());
+        $this->assertEquals('Varied', $business->getPricingInformation());
     }
 
     /**
@@ -148,5 +147,34 @@ class ImportFromCsvRowTest extends TestCase
     {
         $this->repository->shouldHaveReceived('add')
             ->with($business);
+    }
+
+    /**
+     * Return a row with the structure expected from the CSV parser and data files
+     *
+     * @return array
+     */
+    private function createTestRow()
+    {
+        return [
+            'Geolocation' => '51.3813993,-2.363582',
+            'Name' => 'iRepair Centre Bath',
+            'Description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
+            'Address' => '12 Westgate St, Bath, BA1 1EQ',
+            'Borough' => 'Bath',
+            'Landline' => '01225 427538',
+            'Mobile' => '07700 900220',
+            'Website' => 'http://irepaircentrebath.co.uk',
+            'Email' => '',
+            'Category' => 'Electronic gadgets',
+            'Products repaired' => 'Phones',
+            'Authorised repairer' => 'No',
+            'Qualifications' => 'BTEC',
+            'Independent review link' => 'https://www.google.com/maps/place/iRepair+Centre+Bath/@51.3813993,-2.363582,17z/',
+            'Other review link' => 'https://www.yell.com/biz/irepair-centre-bath-7943040/',
+            'Positive review %' => '92',
+            'Warranty offered' => 'None',
+            'Pricing information' => 'Varied'
+        ];
     }
 }

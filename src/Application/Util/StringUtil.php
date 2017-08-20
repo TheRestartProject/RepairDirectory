@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\Util;
 
 /**
- * Handles the StringUtil to import a Business
+ * Class StringUtil. Functions that operate on strings.
  *
  * @category Util
  * @package  TheRestartProject\RepairDirectory\Application\Util\StringUtil
