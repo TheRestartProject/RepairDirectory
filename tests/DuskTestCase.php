@@ -5,6 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use TheRestartProject\RepairDirectory\Testing\ClearFileSession;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 
 /**
@@ -55,6 +56,10 @@ abstract class DuskTestCase extends BaseTestCase
 
         if (isset($uses[DatabaseMigrations::class])) {
             $this->runDatabaseMigrations();
+        }
+
+        if (isset($uses[ClearFileSession::class])) {
+            $this->runFileSessionClearance();
         }
 
         return $uses;

@@ -2,6 +2,9 @@ version: '2'
 
 services:
 
+  ############################
+  ######## Databases #########
+  ############################
   database:
     image: mysql:5.7
     volumes:
@@ -15,6 +18,19 @@ services:
       - restartproject
     restart: always
 
+  database_testing:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=restartproject
+      - MYSQL_DATABASE=restartproject
+      - MYSQL_USER=restartproject
+      - MYSQL_PASSWORD=restartproject
+    volumes:
+      - ./database/default/testing:/var/lib/mysql
+    networks:
+      - restartproject
+    restart: always
+
   db.restart-project.local:
     depends_on:
       - database
@@ -23,14 +39,17 @@ services:
       - MYSQL_ROOT_PASSWORD=restartproject
       - MYSQL_USER=restartproject
       - MYSQL_PASSWORD=restartproject
-      - PMA_HOSTS=database,fixometer_db
+      - PMA_HOSTS=database,fixometer_db,database_testing
       - VIRTUAL_HOST=db.restart-project.local
     networks:
       - proxy-tier
       - restartproject
     restart: always
 
-  # local dev email server
+  ############################
+  ####### Email Server #######
+  ############################
+
   mail.restart-project.local:
     image: djfarrelly/maildev:1.0.0-rc2
     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
@@ -42,6 +61,10 @@ services:
       - proxy-tier
       - restartproject
     restart: always
+
+  ############################
+  ######### Reports ##########
+  ############################
 
   cc.restart-project.local:
     image: nginx
@@ -71,6 +94,10 @@ services:
       - proxy-tier
     restart: always
 
+  ############################
+  ####### Web Servers ########
+  ############################
+
   restart-project.local:
     depends_on:
       - database
@@ -91,6 +118,34 @@ services:
       - proxy-tier
       - restartproject
     restart: always
+
+  test.restart-project.local:
+    depends_on:
+      - database_testing
+      - mail.restart-project.local
+    build: ./php
+    image: restartproject_php
+    volumes:
+      - ../:/app
+    working_dir: "/app/public"
+    env_file:
+      - ./php/application.env
+    environment:
+      - APP_ENV=testing
+      - DB_HOST=database_testing
+      - APP_URL=http://test.restart-project.local
+      - VIRTUAL_HOST=test.restart-project.local
+      - LETSENCRYPT_HOST=restart-project.local
+      - LETSENCRYPT_EMAIL=admin@restart-project.local
+    command: ["php", "-S", "0.0.0.0:80", "server.php"]
+    networks:
+      - proxy-tier
+      - restartproject
+    restart: always
+
+  ############################
+  ########## Tools ###########
+  ############################
 
   php:
     depends_on:
@@ -143,6 +198,30 @@ services:
     env_file:
       - ./php/application.env
     command: ["install"]
+    networks:
+      - restartproject
+
+  selenium:
+    image: selenium/standalone-chrome
+    networks:
+      - restartproject
+
+  dusk:
+    depends_on:
+      - database_testing
+      - test.restart-project.local
+      - selenium
+      - mail.restart-project.local
+    build: ./php
+    image: restartproject_php
+    volumes:
+      - ../:/app
+    env_file: php/application.env
+    environment:
+      - APP_ENV=testing
+      - DB_HOST=database_testing
+      - APP_URL=http://test.restart-project.local
+    command: ["php", "artisan", "dusk"]
     networks:
       - restartproject
 

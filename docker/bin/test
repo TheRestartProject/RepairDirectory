@@ -22,29 +22,25 @@ case "$1" in
 
     'coverage')
         cd docker
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing
+        docker-compose -f docker-compose.yml up -d database_testing
         docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm xdebug php vendor/bin/phpunit --testsuite=Unit --testsuite=Feature --coverage-html reports/codecoverage
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing
         cd ..
         ;;
     'unit')
         cd docker
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Unit
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Unit "${@:2}"
         cd ..
         ;;
     'feature')
         cd docker
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Feature
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing
+        docker-compose -f docker-compose.yml up -d database_testing
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Feature "${@:2}"
         cd ..
         ;;
     'browser')
         cd docker
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d restart-project.local database_testing
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm  dusk php artisan dusk "${@:2}"
-        docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop selenium
-        docker-compose -f docker-compose.yml up -d restart-project.local
+        docker-compose -f docker-compose.yml up -d test.restart-project.local database_testing
+        docker-compose -f docker-compose.yml run --rm  dusk php artisan dusk "${@:2}"
         cd ..
         ;;
     *)
