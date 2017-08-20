@@ -1,15 +1,22 @@
 <?php
 namespace TheRestartProject\RepairMap\Tests\Browser\Auth;
 
-
 use Illuminate\Auth\SessionGuard;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use TheRestartProject\RepairDirectory\Domain\Models\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\LoginPage;
 
+/**
+ * Test class for the Login functionality
+ *
+ * @category Tests
+ * @package  TheRestartProject\RepairDirectory\Tests\Browser\Pages
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     https://laravel.com/docs/5.4/dusk
+ */
 class LoginPageTest extends DuskTestCase
 {
     use DatabaseMigrations;
@@ -95,7 +102,7 @@ class LoginPageTest extends DuskTestCase
      *
      * @test
      *
-     * @return void
+     * @re
      */
     public function i_can_have_my_login_session_extended_with_the_remember_me_checkbox()
     {
