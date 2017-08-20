@@ -11,7 +11,8 @@ namespace TheRestartProject\RepairDirectory\Application\Util;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class AddressUtil {
+class AddressUtil
+{
 
     /**
      * Parse a string representing an address into a keyed array with the structure:
@@ -26,7 +27,8 @@ class AddressUtil {
      *
      * @return array
      */
-    public static function parseUKAddress($addressStr) {
+    public static function parseUKAddress($addressStr)
+    {
         $addressLines = explode(",", $addressStr);
         $addressLines = array_map(
             function ($item) {

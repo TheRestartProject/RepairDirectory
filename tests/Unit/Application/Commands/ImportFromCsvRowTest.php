@@ -38,13 +38,6 @@ class ImportFromCsvRowTest extends TestCase
     private $repository;
 
     /**
-     * The mocked factory
-     *
-     * @var m\MockInterface
-     */
-    private $factory;
-
-    /**
      * Setups the the handler under test for each test
      *
      * @return void

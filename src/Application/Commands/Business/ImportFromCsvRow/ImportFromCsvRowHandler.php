@@ -3,7 +3,6 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
 
 
-use Faker\Provider\Address;
 use TheRestartProject\RepairDirectory\Application\Util\AddressUtil;
 use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Domain\Enums\Cluster;
@@ -11,7 +10,6 @@ use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
 use UnexpectedValueException;
 
 /**
@@ -31,13 +29,6 @@ class ImportFromCsvRowHandler
      * @var BusinessRepository
      */
     private $repository;
-
-    /**
-     * The factory to create the business with
-     *
-     * @var BusinessFactory
-     */
-    private $factory;
 
     /**
      * Creates the handler for the ImportBusinessFromCsvRowCommand
