@@ -15,63 +15,98 @@ class LoginPageTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
+     * I cannot log into an account that doesn't exist
+     *
+     * Given no account exists
+     * When I log in with credentials
+     * Then my login attempt should have failed
+     *
      * @test
+     *
+     * @return void
      */
-    public function i_cannot_login_to_an_account_that_doesnt_exist()
+    public function i_cannot_login_into_an_account_that_doesnt_exist()
     {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(new LoginPage())
-                ->assertMissing('.alert.alert-danger')
-                ->type('email', 'test@user.com')
-                ->type('password', 'password')
-                ->press('button')
-                ->assertLoginFailed();
-        });
+        $this->browse(
+            function (Browser $browser) {
+                $browser->visit(new LoginPage())
+                    ->assertMissing('.alert.alert-danger')
+                    ->loginWithForm('test@user.com', 'wrongpassword')
+                    ->assertLoginFailed();
+            }
+        );
     }
 
     /**
+     * I cannot log into an existing account with the wrong password
+     *
+     * Given an account exists
+     * When I log in with the correct email address
+     * But I use the wrong password
+     * Then my login attempt should have failed
+     *
      * @test
+     *
+     * @return void
      */
     public function i_cannot_login_to_an_existing_account_with_the_wrong_password()
     {
         $user = entity(User::class)->create();
-        $this->browse(function (Browser $browser) use ($user) {
-            $browser->visit(new LoginPage())
-                ->type('email', $user->getEmail())
-                ->type('password', 'wrongpassword')
-                ->press('button')
-                ->assertLoginFailed();
-        });
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $browser->visit(new LoginPage())
+                    ->loginWithForm($user->getEmail(), 'wrongpassword')
+                    ->assertLoginFailed();
+            }
+        );
     }
 
     /**
+     * I can log into an account with the correct password
+     *
+     * Given an account exists
+     * When I log in with the correct credentials
+     * Then I should successfuly be logged in
+     *
+     * @test
+     *
+     * @return void
      */
     public function i_can_log_into_an_account_with_the_correct_password()
     {
         $user = entity(User::class)->create();
-        $this->browse(function (Browser $browser) use ($user) {
-            $browser->visit(new LoginPage())
-                ->type('email', $user->getEmail())
-                ->type('password', 'secret')
-                ->press('button')
-                ->assertLoginSucceededAs($user);
-        });
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $browser->visit(new LoginPage())
+                    ->loginWithForm($user->getEmail())
+                    ->assertLoginSucceededAs($user);
+            }
+        );
     }
 
     /**
+     * I can have my login session extended with a remember token
+     *
+     * Given an account exists
+     * When I log in with the correct credentials
+     *  And I check the remember me box
+     * Then I should be successfully logged in
+     *  And I should have a remember token
+     *
      * @test
+     *
+     * @return void
      */
     public function i_can_have_my_login_session_extended_with_the_remember_me_checkbox()
     {
         $user = entity(User::class)->create();
-        $this->browse(function (Browser $browser) use ($user) {
-            /** @var SessionGuard $guard */
-            $guard = Auth::guard();
-            $guard->logout();
-            $browser->visit(new LoginPage())
-                ->check('remember')
-                ->press('button')
-                ->assertHasCookie($guard->getRecallerName());
-        });
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                /** @var SessionGuard $guard */
+                $browser->visit(new LoginPage())
+                    ->loginWithForm($user->getEmail(), 'secret', true)
+                    ->assertHasCookie($guard->getRecallerName());
+            }
+        );
     }
 }

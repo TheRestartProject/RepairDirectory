@@ -79,13 +79,19 @@ class LoginPage extends Page
      * @param Browser $browser  The browser object to run tests with
      * @param string  $email    The email address to login with
      * @param string  $password The password to login with (default: secret)
+     * @param bool    $remember Whether to tick the remember me checkbox
      *
      * @return $this
      */
-    public function login(Browser $browser, $email, $password = 'secret')
+    public function loginWithForm(Browser $browser, $email, $password = 'secret', $remember = false)
     {
         $browser->type('email', $email)
             ->type('password', $password);
+        if ($remember) {
+            $browser->check('remember');
+        }
+
+        $browser->press('button');
 
         return $this;
     }
