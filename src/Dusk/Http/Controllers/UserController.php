@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Dusk\Http\Controllers;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -63,7 +64,7 @@ class UserController
      * @param string $userId The user id to login with
      * @param string $guard  The name of the guard or null
      *
-     * @return Response
+     * @return void
      */
     public function login($userId, $guard = null)
     {
@@ -81,7 +82,7 @@ class UserController
      *
      * @param string $guard The name of the guard or null
      *
-     * @return Response
+     * @return void
      */
     public function logout($guard = null)
     {

@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Auth;
 
+use Illuminate\Auth\Events;
 use Illuminate\Auth\GuardHelpers;
 use RuntimeException;
 use Illuminate\Support\Str;
@@ -24,10 +25,19 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
+ *
+ * @SuppressWarnings(PHPMD)
  */
 class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
 {
     use GuardHelpers, Macroable;
+
+    /**
+     * The currently authenticated user.
+     *
+     * @var \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    protected $user;
 
     /**
      * The name of the Guard. Typically "session".
@@ -69,7 +79,7 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * The request instance.
      *
-     * @var \Symfony\Component\HttpFoundation\Request
+     * @var \Symfony\Component\HttpFoundation\Request|null
      */
     protected $request;
 
@@ -97,18 +107,19 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Create a new authentication guard.
      *
-     * @param  string                                    $name     name of the guard
-     * @param  \Illuminate\Contracts\Auth\UserProvider   $provider The service that provides the user
-     * @param  \Illuminate\Contracts\Session\Session     $session  The session provider
-     * @param  \Symfony\Component\HttpFoundation\Request $request  The request
+     * @param string                                    $name     name of the guard
+     * @param \Illuminate\Contracts\Auth\UserProvider   $provider The service that provides the user
+     * @param \Illuminate\Contracts\Session\Session     $session  The session provider
+     * @param \Symfony\Component\HttpFoundation\Request $request  The request
      *
      * @return $this
      */
-    public function __construct($name,
-                                UserProvider $provider,
-                                Session $session,
-                                Request $request = null)
-    {
+    public function __construct(
+        $name,
+        UserProvider $provider,
+        Session $session,
+        Request $request = null
+    ) {
         $this->name = $name;
         $this->session = $session;
         $this->request = $request;
@@ -129,7 +140,7 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
         // If we've already retrieved the user for the current request we can just
         // return it back immediately. We do not want to fetch the user data on
         // every call to this method because that would be tremendously slow.
-        if (! is_null($this->user)) {
+        if (null !== $this->user) {
             return $this->user;
         }
 
@@ -140,7 +151,7 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
         // request, and if one exists, attempt to retrieve the user using that.
         $user = null;
 
-        if (! is_null($id)) {
+        if (null !== $id) {
             if ($user = $this->provider->retrieveById($id)) {
                 $this->fireAuthenticatedEvent($user);
             }
@@ -151,7 +162,7 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
         // the application. Once we have a user we can return it to the caller.
         $recaller = $this->recaller();
 
-        if (is_null($user) && ! is_null($recaller)) {
+        if (null === $user && null !== $recaller) {
             $user = $this->userFromRecaller($recaller);
 
             if ($user) {
@@ -167,7 +178,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Pull a user from the repository by its "remember me" cookie token.
      *
-     * @param  \Illuminate\Auth\Recaller  $recaller
+     * @param \Illuminate\Auth\Recaller $recaller The remember me cookie token
+     *
      * @return mixed
      */
     protected function userFromRecaller($recaller)
@@ -181,9 +193,9 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
         // the application. Once we have a user we can return it to the caller.
         $this->recallAttempted = true;
 
-        $this->viaRemember = ! is_null($user = $this->provider->retrieveByToken(
+        $this->viaRemember = null !== $user = $this->provider->retrieveByToken(
             $recaller->id(), $recaller->token()
-        ));
+        );
 
         return $user;
     }
@@ -195,7 +207,7 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
      */
     protected function recaller()
     {
-        if (is_null($this->request)) {
+        if (null === $this->request) {
             return;
         }
 
@@ -223,7 +235,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Log a user into the application without sessions or cookies.
      *
-     * @param  array  $credentials
+     * @param array $credentials The credentials to log in with
+     *
      * @return bool
      */
     public function once(array $credentials = [])
@@ -242,12 +255,13 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Log the given user ID into the application without sessions or cookies.
      *
-     * @param  mixed  $id
+     * @param mixed $id The id of the user to log in as
+     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|false
      */
     public function onceUsingId($id)
     {
-        if (! is_null($user = $this->provider->retrieveById($id))) {
+        if (null !== $user = $this->provider->retrieveById($id)) {
             $this->setUser($user);
 
             return $user;
@@ -259,7 +273,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Validate a user's credentials.
      *
-     * @param  array  $credentials
+     * @param array $credentials The credentials to validate
+     *
      * @return bool
      */
     public function validate(array $credentials = [])
@@ -272,8 +287,9 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Attempt to authenticate using HTTP Basic Auth.
      *
-     * @param  string  $field
-     * @param  array  $extraConditions
+     * @param string $field           The field that is used to find the user with
+     * @param array  $extraConditions Any extra conditions to find the user with
+     *
      * @return \Symfony\Component\HttpFoundation\Response|null
      */
     public function basic($field = 'email', $extraConditions = [])
@@ -295,8 +311,9 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Perform a stateless HTTP Basic login attempt.
      *
-     * @param  string  $field
-     * @param  array  $extraConditions
+     * @param string $field           The field that is used to find the user with
+     * @param array  $extraConditions Any extra conditions to find the user with
+     *
      * @return \Symfony\Component\HttpFoundation\Response|null
      */
     public function onceBasic($field = 'email', $extraConditions = [])
@@ -311,9 +328,10 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Attempt to authenticate using basic authentication.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
-     * @param  string  $field
-     * @param  array  $extraConditions
+     * @param \Symfony\Component\HttpFoundation\Request $request         The Request object
+     * @param string                                    $field           The field to find the user with
+     * @param array                                     $extraConditions Any extra conditions to find the user with
+     *
      * @return bool
      */
     protected function attemptBasic(Request $request, $field, $extraConditions = [])
@@ -322,16 +340,19 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
             return false;
         }
 
-        return $this->attempt(array_merge(
-            $this->basicCredentials($request, $field), $extraConditions
-        ));
+        return $this->attempt(
+            array_merge(
+                $this->basicCredentials($request, $field), $extraConditions
+            )
+        );
     }
 
     /**
      * Get the credential array for a HTTP Basic request.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
-     * @param  string  $field
+     * @param \Symfony\Component\HttpFoundation\Request $request The Request object
+     * @param string                                    $field   The field to find the user with
+     *
      * @return array
      */
     protected function basicCredentials(Request $request, $field)
@@ -352,8 +373,9 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Attempt to authenticate a user using the given credentials.
      *
-     * @param  array  $credentials
-     * @param  bool   $remember
+     * @param array $credentials The credentials to login with
+     * @param bool  $remember    The remember token value or false
+     *
      * @return bool
      */
     public function attempt(array $credentials = [], $remember = false)
@@ -382,25 +404,29 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Determine if the user matches the credentials.
      *
-     * @param  mixed  $user
-     * @param  array  $credentials
+     * @param mixed $user        The user to check the credentials against
+     * @param array $credentials The credentials to check
+     *
      * @return bool
      */
     protected function hasValidCredentials($user, $credentials)
     {
-        return ! is_null($user) && $this->provider->validateCredentials($user, $credentials);
+        return null !== $user && $this->provider->validateCredentials($user, $credentials);
     }
 
     /**
      * Log the given user ID into the application.
      *
-     * @param  mixed  $id
-     * @param  bool   $remember
+     * @param mixed $id       The id of the user to log in with
+     * @param bool  $remember The remember token or false
+     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|false
      */
     public function loginUsingId($id, $remember = false)
     {
-        if (! is_null($user = $this->provider->retrieveById($id))) {
+        $user = $this->provider->retrieveById($id);
+
+        if (null !== $user) {
             $this->login($user, $remember);
 
             return $user;
@@ -412,8 +438,9 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Log a user into the application.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  bool  $remember
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user     The user to log in with
+     * @param bool                                       $remember The remember me token or false
+     *
      * @return void
      */
     public function login(AuthenticatableContract $user, $remember = false)
@@ -440,7 +467,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Update the session with the given ID.
      *
-     * @param  string  $id
+     * @param string $id Update a session with the given id
+     *
      * @return void
      */
     protected function updateSession($id)
@@ -453,7 +481,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Create a new "remember me" token for the user if one doesn't already exist.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user The User to set a remember me token on
+     *
      * @return void
      */
     protected function ensureRememberTokenIsSet(AuthenticatableContract $user)
@@ -466,20 +495,24 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Queue the recaller cookie into the cookie jar.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user Add the remember me token to the cookies
+     *
      * @return void
      */
     protected function queueRecallerCookie(AuthenticatableContract $user)
     {
-        $this->getCookieJar()->queue($this->createRecaller(
-            $user->getAuthIdentifier().'|'.$user->getRememberToken()
-        ));
+        $this->getCookieJar()->queue(
+            $this->createRecaller(
+                $user->getAuthIdentifier().'|'.$user->getRememberToken()
+            )
+        );
     }
 
     /**
      * Create a "remember me" cookie for a given ID.
      *
-     * @param  string  $value
+     * @param string $value Create a remember me token on a cookie
+     *
      * @return \Symfony\Component\HttpFoundation\Cookie
      */
     protected function createRecaller($value)
@@ -501,11 +534,11 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
         // listening for anytime a user signs out of this application manually.
         $this->clearUserDataFromStorage();
 
-        if (! is_null($this->user)) {
+        if (null !== $user) {
             $this->cycleRememberToken($user);
         }
 
-        if (isset($this->events)) {
+        if (isset($this->events) && null !== $user) {
             $this->events->dispatch(new Events\Logout($user));
         }
 
@@ -526,16 +559,19 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     {
         $this->session->remove($this->getName());
 
-        if (! is_null($this->recaller())) {
-            $this->getCookieJar()->queue($this->getCookieJar()
-                ->forget($this->getRecallerName()));
+        if (null !== $this->recaller()) {
+            $this->getCookieJar()->queue(
+                $this->getCookieJar()
+                    ->forget($this->getRecallerName())
+            );
         }
     }
 
     /**
      * Refresh the "remember me" token for the user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user The user to cycle the remember me token for
+     *
      * @return void
      */
     protected function cycleRememberToken(AuthenticatableContract $user)
@@ -548,7 +584,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Register an authentication attempt event listener.
      *
-     * @param  mixed  $callback
+     * @param mixed $callback The callback to call when the attempting event is called
+     *
      * @return void
      */
     public function attempting($callback)
@@ -561,24 +598,28 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Fire the attempt event with the arguments.
      *
-     * @param  array  $credentials
-     * @param  bool  $remember
+     * @param array $credentials The credentials that are being logged in with
+     * @param bool  $remember    The remember token or false
+     *
      * @return void
      */
     protected function fireAttemptEvent(array $credentials, $remember = false)
     {
         if (isset($this->events)) {
-            $this->events->dispatch(new Events\Attempting(
-                $credentials, $remember
-            ));
+            $this->events->dispatch(
+                new Events\Attempting(
+                    $credentials, $remember
+                )
+            );
         }
     }
 
     /**
      * Fire the login event if the dispatcher is set.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  bool  $remember
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user     The user to fire the login event for
+     * @param bool                                       $remember The remember me token or false
+     *
      * @return void
      */
     protected function fireLoginEvent($user, $remember = false)
@@ -591,7 +632,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Fire the authenticated event if the dispatcher is set.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user The user to fire the authenticated event for
+     *
      * @return void
      */
     protected function fireAuthenticatedEvent($user)
@@ -604,8 +646,9 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Fire the failed authentication attempt event with the given arguments.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|null  $user
-     * @param  array  $credentials
+     * @param \Illuminate\Contracts\Auth\Authenticatable|null $user        The user to fire the failed event for
+     * @param array                                           $credentials The credentials that caused the failure
+     *
      * @return void
      */
     protected function fireFailedEvent($user, array $credentials)
@@ -674,7 +717,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Set the cookie creator instance used by the guard.
      *
-     * @param  \Illuminate\Contracts\Cookie\QueueingFactory  $cookie
+     * @param \Illuminate\Contracts\Cookie\QueueingFactory $cookie The cookie creator
+     *
      * @return void
      */
     public function setCookieJar(CookieJar $cookie)
@@ -695,7 +739,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Set the event dispatcher instance.
      *
-     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @param \Illuminate\Contracts\Events\Dispatcher $events The event dispatcher
+     *
      * @return void
      */
     public function setDispatcher(Dispatcher $events)
@@ -706,7 +751,7 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Get the session store used by the guard.
      *
-     * @return \Illuminate\Session\Store
+     * @return \Illuminate\Contracts\Session\Session
      */
     public function getSession()
     {
@@ -726,7 +771,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Set the user provider used by the guard.
      *
-     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
+     * @param \Illuminate\Contracts\Auth\UserProvider $provider The user provider
+     *
      * @return void
      */
     public function setProvider(UserProvider $provider)
@@ -747,7 +793,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Set the current user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user The current user
+     *
      * @return $this
      */
     public function setUser(AuthenticatableContract $user)
@@ -774,7 +821,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Set the current request instance.
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param \Symfony\Component\HttpFoundation\Request $request The request object
+     *
      * @return $this
      */
     public function setRequest(Request $request)
@@ -785,6 +833,8 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     }
 
     /**
+     * Get the user id from the session
+     *
      * @return mixed
      */
     protected function getUserIdFromSession()

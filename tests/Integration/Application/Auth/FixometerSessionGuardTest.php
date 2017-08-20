@@ -97,10 +97,8 @@ class FixometerSessionGuardTest extends IntegrationTestCase
      */
     protected function assertLoggedInAs(Authenticatable $user)
     {
-        $loggedInUser = $this->guard()->user();
-
-        self::assertInstanceOf(Authenticatable::class, $loggedInUser);
-        self::assertEquals($user->getAuthIdentifier(), $loggedInUser->getAuthIdentifier());
+        self::assertInstanceOf(Authenticatable::class, $this->guard()->user());
+        self::assertEquals($user->getAuthIdentifier(), $this->guard()->id());
 
         return $this;
     }

@@ -16,6 +16,8 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
  * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
+ *
+ * @method runDatabaseMigrations
  */
 abstract class IntegrationTestCase extends TestCase
 {
