@@ -31,6 +31,12 @@ case "$1" in
         docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Unit "${@:2}"
         cd ..
         ;;
+    'integration')
+        cd docker
+        docker-compose -f docker-compose.yml up -d database_testing
+        docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Integration "${@:2}"
+        cd ..
+        ;;
     'feature')
         cd docker
         docker-compose -f docker-compose.yml up -d database_testing

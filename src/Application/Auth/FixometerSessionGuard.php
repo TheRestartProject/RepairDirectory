@@ -123,7 +123,7 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
             return $this->user;
         }
 
-        $id = $this->session->get($this->getName());
+        $id = $this->getUserIdFromSession();
 
         // First we will try to load the user using the identifier in the session if
         // one exists. Otherwise we will check for a "remember me" cookie in this
@@ -772,5 +772,13 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
         $this->request = $request;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getUserIdFromSession()
+    {
+        return $this->session->get($this->getName());
     }
 }

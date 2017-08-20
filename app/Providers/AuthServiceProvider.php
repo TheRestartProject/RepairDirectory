@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionGuard;
 
