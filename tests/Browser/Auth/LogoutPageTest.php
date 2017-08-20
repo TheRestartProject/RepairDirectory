@@ -1,5 +1,5 @@
 <?php
-namespace TheRestartProject\RepairMap\Tests\Browser\Auth;
+namespace TheRestartProject\RepairDirectory\Tests\Browser\Auth;
 
 use Laravel\Dusk\Browser;
 use TheRestartProject\RepairDirectory\Domain\Models\User;

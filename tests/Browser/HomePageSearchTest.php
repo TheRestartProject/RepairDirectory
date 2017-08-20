@@ -56,7 +56,7 @@ class HomePageSearchTest extends DuskTestCase
             function (Browser $browser) {
                 $browser->visit(new HomePage())
                     ->type('@searchByLocation', 'romford')
-                    ->press('@submitButton', 10)
+                    ->press('@submitButton')
                     ->waitForText('results in your area', 10)
                     ->assertNoResults();
             }

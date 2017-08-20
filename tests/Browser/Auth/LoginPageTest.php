@@ -1,7 +1,8 @@
 <?php
-namespace TheRestartProject\RepairMap\Tests\Browser\Auth;
+namespace TheRestartProject\RepairDirectory\Tests\Browser\Auth;
 
 use Illuminate\Auth\SessionGuard;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use TheRestartProject\RepairDirectory\Domain\Models\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;

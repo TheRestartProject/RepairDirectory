@@ -15,6 +15,8 @@ use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk
+ *
+ * @method runDatabaseMigrations
  */
 abstract class DuskTestCase extends BaseTestCase
 {

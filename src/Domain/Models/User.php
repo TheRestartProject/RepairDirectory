@@ -39,9 +39,9 @@ class User implements Authenticatable
     /**
      * The remember token, or null if none is set
      *
-     * @var null|string
+     * @var string
      */
-    private $remember;
+    private $remember = '';
 
     /**
      * Get the email address for the user
