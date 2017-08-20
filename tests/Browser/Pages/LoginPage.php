@@ -2,9 +2,18 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Browser\Pages;
 
-
+use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Dusk\Browser;
 
+/**
+ * Represents the Login page as an object to assert behaviours against.
+ *
+ * @category Tests
+ * @package  TheRestartProject\RepairDirectory\Tests\Browser\Pages
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     https://laravel.com/docs/5.4/dusk
+ */
 class LoginPage extends Page
 {
 
@@ -30,6 +39,16 @@ class LoginPage extends Page
         $browser->assertRouteIs('login');
     }
 
+    /**
+     * Assert that a login failed.
+     *
+     * If a login fails, the user should be redirected back to the login page,
+     * and an error message should show.
+     *
+     * @param Browser $browser The browser to run tests with
+     *
+     * @return $this
+     */
     public function assertLoginFailed(Browser $browser)
     {
         $browser->assertRouteIs('login')
@@ -38,6 +57,14 @@ class LoginPage extends Page
         return $this;
     }
 
+    /**
+     * Asserts that the login succeeded and the given user is authenticated
+     *
+     * @param Browser         $browser The browser object to run tests with
+     * @param Authenticatable $user    The user to check is authenticated
+     *
+     * @return $this
+     */
     public function assertLoginSucceededAs(Browser $browser, $user)
     {
         $browser->assertRouteIs('map')
@@ -46,10 +73,19 @@ class LoginPage extends Page
         return $this;
     }
 
+    /**
+     * Logs in the user with the given email address and password
+     *
+     * @param Browser $browser  The browser object to run tests with
+     * @param string  $email    The email address to login with
+     * @param string  $password The password to login with (default: secret)
+     *
+     * @return $this
+     */
     public function login(Browser $browser, $email, $password = 'secret')
     {
         $browser->type('email', $email)
-        ->type('password', $password);
+            ->type('password', $password);
 
         return $this;
     }

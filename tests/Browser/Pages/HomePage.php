@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Browser\Pages;
 use Laravel\Dusk\Browser;
 
 /**
- * Class HomePage
+ * Represents the Home page as an object to assert behaviours against.
  *
  * @category Tests
  * @package  TheRestartProject\RepairDirectory\Tests\Browser\Pages
