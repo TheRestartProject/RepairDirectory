@@ -56,18 +56,55 @@ class HomePage extends Page
         ];
     }
 
+    /**
+     * Asserts that there are no results on the page after a search
+     *
+     * When searching on the map, and there are no results, there should be
+     * a message that tells the user that there are no results. This method
+     * checks that this message is visible.
+     *
+     * @param Browser $browser The browser object to work with
+     *
+     * @return $this
+     */
     public function assertNoResults(Browser $browser)
     {
         $browser->assertSee(self::NO_RESULTS);
+
+        return $this;
     }
 
+    /**
+     * Asserts that the location input exists
+     *
+     * When on the map page, there should be an input box that allows the user to search
+     * for a location to show businesses close to that location.
+     *
+     * @param Browser $browser The browser object to work with
+     *
+     * @return $this
+     */
     public function assertLocationInputExists(Browser $browser)
     {
         $browser->assertSee('Your location');
+
+        return $this;
     }
 
+    /**
+     * Asserts that the category input exists
+     *
+     * On the map page a user can choose one or more categories to filter
+     * the list of businesses by. This asserts that this field exists.
+     *
+     * @param Browser $browser The browser object to work with
+     *
+     * @return $this
+     */
     public function assertCategoryInputExists(Browser $browser)
     {
         $browser->assertSee('Categories');
+
+        return $this;
     }
 }
