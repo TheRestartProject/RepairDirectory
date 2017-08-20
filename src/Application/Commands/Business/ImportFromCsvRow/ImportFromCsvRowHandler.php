@@ -3,9 +3,16 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
 
 
+use Faker\Provider\Address;
+use TheRestartProject\RepairDirectory\Application\Util\AddressUtil;
+use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
+use TheRestartProject\RepairDirectory\Domain\Enums\Cluster;
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Application\ModelFactories\BusinessFactory;
+use UnexpectedValueException;
 
 /**
  * Handles the ImportFromCsvRowCommand to import a Business
@@ -36,12 +43,10 @@ class ImportFromCsvRowHandler
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
      * @param BusinessRepository $repository An implementation of the BusinessRepository
-     * @param BusinessFactory    $factory    Factory class to construct businesses
      */
-    public function __construct(BusinessRepository $repository, BusinessFactory $factory)
+    public function __construct(BusinessRepository $repository)
     {
         $this->repository = $repository;
-        $this->factory = $factory;
     }
 
     /**
@@ -53,8 +58,107 @@ class ImportFromCsvRowHandler
      */
     public function handle(ImportFromCsvRowCommand $command)
     {
-        $business = $this->factory->fromCsvRow($command->getRow());
+        $business = $this->fromCsvRow($command->getRow());
         $this->repository->add($business);
         return $business;
+    }
+
+    /**
+     * Creates a Business from a CSV row that has been parsed
+     * into an associative array.
+     *
+     * The keys of the array are the CSV column headers.
+     *
+     * @param array $row An associative array containing the row data
+     *
+     * @return Business
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    private function fromCsvRow($row)
+    {
+        $row = $this->trimKeysAndValues($row);
+
+        $business = new Business();
+        $business->setName($row['Name']);
+
+        $latLng = array_map(
+            function ($str) {
+                return (float)$str;
+            },
+            explode(',', $row['Geolocation'])
+        );
+        $business->setGeolocation(new Point($latLng[0], $latLng[1]));
+
+        $addressParts = AddressUtil::parseUKAddress($row['Address']);
+
+        $business->setPostcode($addressParts['postcode']);
+        $business->setAddress($addressParts['address']);
+        $business->setCity($addressParts['city']);
+        $business->setDescription($row['Description']);
+        if ($this->isTruthy($row['Landline'])) {
+            $business->setLandline($row['Landline']);
+        }
+        if ($this->isTruthy($row['Mobile'])) {
+            $business->setMobile($row['Mobile']);
+        }
+        if ($this->isTruthy($row['Website'])) {
+            $business->setWebsite($row['Website']);
+        }
+        if ($this->isTruthy($row['Email'])) {
+            $business->setEmail($row['Email']);
+        }
+        $business->setLocalArea($row['Borough']);
+
+        try {
+            $cluster = new Cluster($row['Category']);
+            $business->setCategories($cluster->getCategories());
+        } catch (UnexpectedValueException $e) {
+        }
+
+        $business->setProductsRepaired(StringUtil::stringToArray($row['Products repaired']));
+
+        $business->setQualifications($row['Qualifications']);
+
+        $reviewUrl = $row['Independent review link'];
+        $reviewSource = ReviewSource::derive($reviewUrl);
+        if ($reviewSource) {
+            $business->setReviewSource($reviewSource);
+        }
+
+        $business->setPositiveReviewPc((int)$row['Positive review %']);
+        $business->setWarranty($row['Warranty offered']);
+        $business->setWarrantyOffered((boolean)$business->getWarranty());
+        $business->setPricingInformation($row['Pricing information']);
+        return $business;
+    }
+
+    /**
+     * Normalise the data in the row by trimming its keys and values
+     *
+     * @param array $row An associative array parsed from a row of CSV data
+     *
+     * @return array
+     */
+    private function trimKeysAndValues($row)
+    {
+        $newRow = [];
+        foreach ($row as $key => $value) {
+            $newRow[trim($key)] = trim($value);
+        }
+        return $newRow;
+    }
+
+    /**
+     * Returns 'true' if $value is not empty and is not equal to 'no' or 'none'
+     *
+     * @param string $value The value to test
+     *
+     * @return bool
+     */
+    private function isTruthy($value)
+    {
+        $value = strtolower($value);
+        return $value && $value !== 'no' && $value !== 'none';
     }
 }
