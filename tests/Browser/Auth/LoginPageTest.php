@@ -58,7 +58,13 @@ class LoginPageTest extends DuskTestCase
      */
     public function i_cannot_login_to_an_existing_account_with_the_wrong_password()
     {
+        /**
+         * A user object that exists in the database
+         *
+         * @var User $user
+         */
         $user = entity(User::class)->create();
+
         $this->browse(
             function (Browser $browser) use ($user) {
                 $browser->visit(new LoginPage())
@@ -81,7 +87,13 @@ class LoginPageTest extends DuskTestCase
      */
     public function i_can_log_into_an_account_with_the_correct_password()
     {
+        /**
+         * A user object that exists in the database
+         *
+         * @var User $user
+         */
         $user = entity(User::class)->create();
+
         $this->browse(
             function (Browser $browser) use ($user) {
                 $browser->visit(new LoginPage())
@@ -102,14 +114,25 @@ class LoginPageTest extends DuskTestCase
      *
      * @test
      *
-     * @re
+     * @return void
      */
     public function i_can_have_my_login_session_extended_with_the_remember_me_checkbox()
     {
+        /**
+         * A user object that exists in the database
+         *
+         * @var User $user
+         */
         $user = entity(User::class)->create();
+
         $this->browse(
             function (Browser $browser) use ($user) {
-                /** @var SessionGuard $guard */
+                /**
+                 * The SessionGuard being tested
+                 *
+                 * @var SessionGuard $guard
+                 */
+                $guard = Auth::guard();
                 $browser->visit(new LoginPage())
                     ->loginWithForm($user->getEmail(), 'secret', true)
                     ->assertHasCookie($guard->getRecallerName());

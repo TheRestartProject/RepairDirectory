@@ -42,6 +42,11 @@ abstract class DuskTestCase extends BaseTestCase
         );
     }
 
+    /**
+     * Boot the testing helper traits.
+     *
+     * @return array
+     */
     protected function setUpTraits()
     {
         $uses = parent::setUpTraits();
