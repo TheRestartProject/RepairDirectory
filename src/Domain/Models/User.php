@@ -1,16 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: matt
- * Date: 19/08/17
- * Time: 12:24
- */
 
 namespace TheRestartProject\RepairDirectory\Domain\Models;
 
-
 use Illuminate\Contracts\Auth\Authenticatable;
 
+/**
+ * The user who can be logged into the application
+ *
+ * @category Entity
+ * @package  TheRestartProject\RepairDirectory\Domain\Models
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     https://laravel.com/docs/5.4/dusk
+ */
 class User implements Authenticatable
 {
     /**
@@ -35,6 +37,15 @@ class User implements Authenticatable
     private $password;
 
     /**
+     * The remember token, or null if none is set
+     *
+     * @var null|string
+     */
+    private $remember;
+
+    /**
+     * Get the email address for the user
+     *
      * @return string
      */
     public function getEmail()
@@ -43,7 +54,11 @@ class User implements Authenticatable
     }
 
     /**
-     * @param string $email
+     * Set the email address for the user
+     *
+     * @param string $email The email address
+     *
+     * @return void;
      */
     public function setEmail($email)
     {
@@ -51,6 +66,8 @@ class User implements Authenticatable
     }
 
     /**
+     * Get the hashed password for the user
+     *
      * @return string
      */
     public function getPassword()
@@ -59,7 +76,11 @@ class User implements Authenticatable
     }
 
     /**
-     * @param string $password
+     * Set the hashed password for the user
+     *
+     * @param string $password The hashed password
+     *
+     * @return void
      */
     public function setPassword($password)
     {
@@ -67,6 +88,8 @@ class User implements Authenticatable
     }
 
     /**
+     * Gets the id for the user
+     *
      * @return int
      */
     public function getUid()
@@ -75,7 +98,11 @@ class User implements Authenticatable
     }
 
     /**
-     * @param int $uid
+     * Sets the id for the user
+     *
+     * @param int $uid the unique identifier for the user
+     *
+     * @return void
      */
     public function setUid($uid)
     {
@@ -119,18 +146,19 @@ class User implements Authenticatable
      */
     public function getRememberToken()
     {
-        return '';
+        return $this->remember;
     }
 
     /**
      * Set the token value for the "remember me" session.
      *
-     * @param  string $value
+     * @param string $value The remember token
+     *
      * @return void
      */
     public function setRememberToken($value)
     {
-        //do nothing
+        $this->remember = $value;
     }
 
     /**
