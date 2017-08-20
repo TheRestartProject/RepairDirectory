@@ -16,6 +16,15 @@ use Illuminate\Contracts\Auth\SupportsBasicAuth;
 use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
+/**
+ * Entity to represent the Fixometer Session table
+ *
+ * @category Entity
+ * @package  TheRestartProject\RepairDirectory\Domain\Models
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
 {
     use GuardHelpers, Macroable;
@@ -88,11 +97,12 @@ class FixometerSessionGuard implements StatefulGuard, SupportsBasicAuth
     /**
      * Create a new authentication guard.
      *
-     * @param  string  $name
-     * @param  \Illuminate\Contracts\Auth\UserProvider  $provider
-     * @param  \Illuminate\Contracts\Session\Session  $session
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
-     * @return void
+     * @param  string                                    $name     name of the guard
+     * @param  \Illuminate\Contracts\Auth\UserProvider   $provider The service that provides the user
+     * @param  \Illuminate\Contracts\Session\Session     $session  The session provider
+     * @param  \Symfony\Component\HttpFoundation\Request $request  The request
+     *
+     * @return $this
      */
     public function __construct($name,
                                 UserProvider $provider,
