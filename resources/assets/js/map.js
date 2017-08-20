@@ -90,7 +90,7 @@ function addRepairer(business) {
 
     const $business = $(`
         <li role="button" class="business-list__item" id="business-${business.uid}">
-            ${formatBusinessHeader(business)}
+            ${formatBusinessHeader(business, true)}
             ${formatBusinessDetails(business)}            
         </li>
     `);
@@ -141,10 +141,10 @@ function hideRepairer() {
     })
 }
 
-function formatBusinessHeader(business) {
+function formatBusinessHeader(business, compact = false) {
     let markup = '';
     markup += `<h2>${business.name}</h2>`;
-    if (business.averageScore) {
+    if (business.averageScore && !compact) {
         markup += `
             <div class="business-details__average-score">
                 <h2>${business.averageScore} / 5</h2>
@@ -160,8 +160,9 @@ function formatBusinessHeader(business) {
             </div>
         `;
     }
-    
-    markup += `<p class="business-details__description">${business.description}</p>`;
+    if (!compact) {
+        markup += `<p class="business-details__description">${business.description}</p>`;
+    }
     return markup;
 }
 
