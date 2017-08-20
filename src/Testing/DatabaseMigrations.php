@@ -4,6 +4,15 @@ namespace TheRestartProject\RepairDirectory\Testing;
 
 use Illuminate\Contracts\Console\Kernel;
 
+/**
+ * A helpful trait that performs database migrations after every test
+ *
+ * @category Entity
+ * @package  TheRestartProject\RepairDirectory\Domain\Models
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     https://laravel.com/docs/5.4/dusk
+ */
 trait DatabaseMigrations
 {
 
@@ -18,8 +27,10 @@ trait DatabaseMigrations
 
         $this->app[Kernel::class]->setArtisan(null);
 
-        $this->beforeApplicationDestroyed(function () {
-            $this->artisan('doctrine:migrations:reset');
-        });
+        $this->beforeApplicationDestroyed(
+            function () {
+                $this->artisan('doctrine:migrations:reset');
+            }
+        );
     }
 }
