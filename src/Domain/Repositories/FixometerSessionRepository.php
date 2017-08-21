@@ -20,5 +20,5 @@ interface FixometerSessionRepository
      *
      * @return mixed
      */
-    public function findBySession($session);
+    public function findOneBySession($session);
 }

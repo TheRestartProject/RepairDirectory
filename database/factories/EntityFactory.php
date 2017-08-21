@@ -2,6 +2,7 @@
 
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
 use TheRestartProject\RepairDirectory\Domain\Models\User;
@@ -104,5 +105,17 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
+    ];
+});
+
+/** @var LaravelDoctrine\ORM\Testing\Factory $factory */
+$factory->define(FixometerSession::class, function (Faker\Generator $faker) {
+    $createdAt = $faker->dateTimeBetween('-10 days');
+
+    return [
+        'session' => $faker->unique()->lexify('?????????????'),
+        'user' => $faker->randomDigitNotNull,
+        'createdAt' => $createdAt,
+        'modifiedAt' => $createdAt
     ];
 });
