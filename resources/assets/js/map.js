@@ -90,9 +90,8 @@ function addRepairer(business) {
 
     const $business = $(`
         <li role="button" class="business-list__item" id="business-${business.uid}">
-            <h2>${business.name}</h2>
-            <p>${business.description}</p>
-            ${formatContactDetails(business)}            
+            ${formatBusinessHeader(business, true)}
+            ${formatBusinessDetails(business)}            
         </li>
     `);
 
@@ -115,11 +114,10 @@ function showRepairer(business) {
 
     $businessPopup.html(`
         <div class="business-popup__heading">
-            <h2>${business.name}</h2>
-            <p>${business.description}</p>
+            ${formatBusinessHeader(business)}
         </div>
         <div class="business-popup__details">
-            ${formatContactDetails(business)}            
+            ${formatBusinessDetails(business)}            
         </div>
     `);
 
@@ -143,8 +141,40 @@ function hideRepairer() {
     })
 }
 
-function formatContactDetails(business) {
+function formatBusinessHeader(business, compact = false) {
     let markup = '';
+    markup += `<h2>${business.name}</h2>`;
+    if (business.averageScore && !compact) {
+        markup += `
+            <div class="business-details__average-score">
+                <h2>${business.averageScore} / 5</h2>
+                <span>stars</span>
+            </div>
+        `;
+    }
+    if (business.positiveReviewPc) {
+        markup += `
+            <div class="business-details__positive-review-percentage">
+                <h2>${business.positiveReviewPc}%</h2>
+                <span>positive reviews</span>
+            </div>
+        `;
+    }
+    if (!compact) {
+        markup += `<p class="business-details__description">${business.description}</p>`;
+    }
+    return markup;
+}
+
+function formatBusinessDetails(business) {
+    let markup = '';
+
+    let $categories = $('<ul class="business-details__categories"></ul>');
+    business.categories.forEach(category => {
+        $categories.append(`<li>${category}</li>`);
+    });
+
+    markup += $categories[0].outerHTML;
 
     if (business.website) {
         markup += `

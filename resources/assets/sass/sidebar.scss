@@ -99,11 +99,14 @@
     margin-top: 0;
     font-family: "PatuaOne", serif;
   }
+}
 
-  &.business-list__item--inactive {
-    background-color: #707070;
-    a,.fa {
-      color: black;
-    }
+.business-list__item.business-list__item--inactive {
+  background-color: #707070;
+  a,li,.fa {
+    color: black;
+  }
+  h2 {
+    color: #333;
   }
 }
