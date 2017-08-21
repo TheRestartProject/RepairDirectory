@@ -18,10 +18,10 @@ use Illuminate\Contracts\Cookie\QueueingFactory as CookieJar;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
 /**
- * Entity to represent the Fixometer Session table
+ * Implementation of the StatefulGuard that uses the FixometerSession
  *
- * @category Entity
- * @package  TheRestartProject\RepairDirectory\Domain\Models
+ * @category Auth
+ * @package  TheRestartProject\RepairDirectory\Application\Auth
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/

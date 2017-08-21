@@ -164,5 +164,39 @@ return [
                 'type' => 'string'
             ]
         ]
+    ],
+    'TheRestartProject\RepairDirectory\Domain\Models\FixometerSession' => [
+        'type'   => 'entity',
+        'table'  => 'sessions',
+        'id'     => [
+            'idsession' => [
+                'type'     => 'integer',
+                'generator' => [
+                    'strategy' => 'auto'
+                ]
+            ],
+        ],
+        'uniqueConstraints' => [
+            [
+                'name' => 'session_unique_idx',
+                'columns' => ['session']
+            ]
+        ],
+        'fields' => [
+            'session' => [
+                'type' => 'string'
+            ],
+            'user' => [
+                'type' => 'integer'
+            ],
+            'createdAt' => [
+                'type' => 'datetime',
+                'column' => 'created_at'
+            ],
+            'modifiedAt' => [
+                'type' => 'datetime',
+                'column' => 'modified_at'
+            ]
+        ]
     ]
 ];
