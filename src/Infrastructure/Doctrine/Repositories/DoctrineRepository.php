@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityRepository;
  * Abstract class that can be used for repositories that should work with Doctrine ORM
  *
  * @category Repository
- * @package  TheRestartProject\RepairDirectory\Application\Auth
+ * @package  TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
@@ -22,6 +22,7 @@ abstract class DoctrineRepository
      * @var EntityManager
      */
     protected $entityManager;
+
     /**
      * The Doctrine Repository for businesses
      *
@@ -30,7 +31,7 @@ abstract class DoctrineRepository
     protected $repository;
 
     /**
-     * DoctrineBusinessRepository constructor.
+     * Constructs the DoctrineRepository
      *
      * @param EntityManager $entityManager The Doctrine Entity Manager (autowired)
      */

@@ -2,14 +2,20 @@
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
 
-
-use Doctrine\Common\Collections\Criteria;
 use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
 use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
 
+/**
+ * Implementation of the FixometerSessionRepository for doctrine
+ *
+ * @category Repository
+ * @package  TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class DoctrineFixometerSessionRepository extends DoctrineRepository implements FixometerSessionRepository
 {
-
     /**
      * Find a FixometerSession by its session token
      *

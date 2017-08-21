@@ -2,6 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Domain\Repositories;
 
+use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
+
 /**
  * Implementation of the StatefulGuard that uses the FixometerSession
  *
@@ -18,7 +20,7 @@ interface FixometerSessionRepository
      *
      * @param string $session The random string that represents a session
      *
-     * @return mixed
+     * @return FixometerSession|null
      */
     public function findOneBySession($session);
 }
