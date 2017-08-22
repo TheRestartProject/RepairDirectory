@@ -71,7 +71,7 @@ class HomePageTest extends DuskTestCase
             $user = $users->first();
             $browser->visit(new HomePage())
                 ->select('@userSelector', $user->getUid())
-                ->click('@loginButton')
+                ->press('@loginButton', 5)
                 ->assertRouteIs('map')
                 ->assertAuthenticatedAs($user);
         });

@@ -10,7 +10,10 @@
         <div class="row">
             <div class="col-xs-12">
                 <form id="login-as-user" method="POST" action="{{ route('login') }}">
-                    <select>
+
+                    {{ csrf_field() }}
+
+                    <select name="user_id">
                         @foreach($users as $user)
                             <option value="{{ $user->getUid() }}">{{ $user->getEmail() }}</option>
                         @endforeach
