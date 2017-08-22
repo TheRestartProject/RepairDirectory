@@ -23,7 +23,7 @@
   }
 }
 
-#business-popup {
+.business-popup {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -31,27 +31,28 @@
   background-color: white;
 }
 
-.business-popup__heading {
+.business-popup__close {
+  float: right;
+  border: 0;
+  border-radius: 0;
+}
+
+.business-popup .business__heading {
   color: white;
   background-color: #0094a7;
   padding: 1rem;
-
-  > h2 {
-    margin-top: 0;
-    font-family: "PatuaOne", serif;
-  }
 
   > :last-child {
     margin-bottom: 0;
   }
 }
 
-.business-popup__heading .business-details__positive-review-percentage > h2 {
+.business-popup .business__positive-review-percentage > h2 {
   color: white;
   font-size: 2rem;
   margin-right: 0.25rem;
 }
 
-.business-popup__details {
+.business-popup .business__details {
   padding: 0 1rem 1rem 1rem;
 }

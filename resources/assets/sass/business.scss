@@ -1,4 +1,11 @@
-.business-details__average-score {
+.business__heading {
+  > h2 {
+    font-family: "PatuaOne", serif;
+    margin-top: 0;
+  }
+}
+
+.business__average-score {
   margin-bottom: 1rem;
   > span {
     font-family: "PatuaOne", serif;
@@ -7,7 +14,7 @@
   }
 }
 
-.business-details__positive-review-percentage,.business-details__average-score {
+.business__positive-review-percentage,.business__average-score {
   > h2 {
     display: inline-block;
     font-family: "PatuaOne", serif;
@@ -16,11 +23,11 @@
   }
 }
 
-.business-details__description {
+.business__description {
   margin: 1rem 0;
 }
 
-.business-details__categories {
+.business__categories {
   list-style: none;
   margin: 1rem 0;
   padding: 0;
