@@ -101,4 +101,23 @@ class HomePageTest extends DuskTestCase
                 ->assertDontSee('Login As');
         });
     }
+
+    /**
+     * Tests that a logged in user can logout
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_logout_if_i_am_logged_in()
+    {
+        $user = entity(User::class, 1)->create();
+
+        $this->browse(function(Browser $browser) use ($user) {
+            $browser->loginAs($user->getUid())
+                ->visit(new HomePage())
+                ->press('@logoutButton')
+                ->assertSee('Login As');
+        });
+    }
 }

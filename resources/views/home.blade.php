@@ -10,18 +10,20 @@
         <div class="row">
             <div class="col-xs-12">
                 @if($loggedInUser === null)
-                <form id="login-as-user" method="POST" action="{{ route('login') }}">
+                    <form id="login-as-user" method="POST" action="{{ route('login') }}">
 
-                    {{ csrf_field() }}
+                        {{ csrf_field() }}
 
-                    <select name="user_id">
-                        @foreach($users as $user)
-                            <option value="{{ $user->getUid() }}">{{ $user->getEmail() }}</option>
-                        @endforeach
-                    </select>
+                        <select name="user_id">
+                            @foreach($users as $user)
+                                <option value="{{ $user->getUid() }}">{{ $user->getEmail() }}</option>
+                            @endforeach
+                        </select>
 
-                    <button class="btn-primary">Login As</button>
-                </form>
+                        <button id="login" class="btn-primary">Login As</button>
+                    </form>
+                @else
+                    <a id="logout" href="{{ route('logout') }}" class="btn btn-primary">Log out</a>
                 @endif
             </div>
         </div>
