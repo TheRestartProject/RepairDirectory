@@ -12,7 +12,6 @@
             <th>Address</th>
             <th>Postcode</th>
             <th>Description</th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -28,3 +27,9 @@
         </tbody>
     </table>
 @endsection
+
+@push('scripts')
+    <script defer>
+        jQuery('table').DataTable();
+    </script>
+@endpush
