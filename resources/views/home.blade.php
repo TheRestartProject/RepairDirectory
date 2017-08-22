@@ -9,6 +9,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12">
+                @if($loggedInUser === null)
                 <form id="login-as-user" method="POST" action="{{ route('login') }}">
 
                     {{ csrf_field() }}
@@ -21,6 +22,7 @@
 
                     <button class="btn-primary">Login As</button>
                 </form>
+                @endif
             </div>
         </div>
     </div>

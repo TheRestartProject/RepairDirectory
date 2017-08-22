@@ -21,6 +21,13 @@ class HomePageTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
+    public function setUp()
+    {
+        return parent::setUp();
+        $this->app('session')->flush();
+    }
+
+
     /**
      * Tests that a user can visit the homepage
      *
@@ -74,6 +81,24 @@ class HomePageTest extends DuskTestCase
                 ->press('@loginButton', 5)
                 ->assertRouteIs('map')
                 ->assertAuthenticatedAs($user);
+        });
+    }
+
+    /**
+     * Tests that when a user login they don't see the login form
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_cannot_log_in_if_i_am_already_logged_in()
+    {
+        $user = entity(User::class, 1)->create();
+
+        $this->browse(function(Browser $browser) use ($user) {
+            $browser->loginAs($user->getUid())
+                ->visit(new HomePage())
+                ->assertDontSee('Login As');
         });
     }
 }

@@ -4,7 +4,8 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
 
 Route::get('/', function (UserRepository $repository) {
     $users = $repository->findAll();
-    return view('home', compact('users'));
+    $loggedInUser = Auth::user();
+    return view('home', compact('users', 'loggedInUser'));
 })->name('home');
 
 Route::namespace('Auth')
