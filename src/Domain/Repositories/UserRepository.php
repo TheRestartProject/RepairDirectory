@@ -21,4 +21,13 @@ interface UserRepository
      * @return User[]
      */
     public function findAll();
+
+    /**
+     * Find a single user or return null
+     *
+     * @param int $id The unique id for the user
+     *
+     * @return User|null
+     */
+    public function find($id);
 }

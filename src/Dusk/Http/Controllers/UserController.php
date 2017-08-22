@@ -5,6 +5,7 @@ namespace TheRestartProject\RepairDirectory\Dusk\Http\Controllers;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
 
 /**
  * User Controller for when using Dusk and needing to login a user
@@ -20,20 +21,20 @@ class UserController
     /**
      * The entity manager
      *
-     * @var EntityManagerInterface
+     * @var UserRepository
      */
-    private $entityManager;
+    private $repository;
 
     /**
      * Creates a new UserController
      *
-     * @param EntityManagerInterface $entityManager The doctrine entity manager
+     * @param UserRepository $repository The user repository
      *
      * @return UserController
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(UserRepository $repository)
     {
-        $this->entityManager = $entityManager;
+        $this->repository = $repository;
     }
 
 
@@ -68,11 +69,7 @@ class UserController
      */
     public function login($userId, $guard = null)
     {
-        $model = $this->modelForGuard(
-            $guard = $guard ?: config('auth.defaults.guard')
-        );
-
-        $user = $this->entityManager->getRepository($model)->find($userId);
+        $user = $this->repository->find($userId);
 
         Auth::guard($guard)->login($user);
     }
