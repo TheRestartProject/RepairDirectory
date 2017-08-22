@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Browser;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use TheRestartProject\RepairDirectory\Tests\Browser\Pages\HomePage;
+use TheRestartProject\RepairDirectory\Tests\Browser\Pages\MapPage;
 
 /**
  * Test class for the Search functionality on the map page
@@ -33,7 +33,7 @@ class MapSearchTest extends DuskTestCase
     {
         $this->browse(
             function (Browser $browser) {
-                $browser->visit(new HomePage())
+                $browser->visit(new MapPage())
                     ->assertSee('Your location')
                     ->assertSee('Categories');
             }
@@ -54,7 +54,7 @@ class MapSearchTest extends DuskTestCase
     {
         $this->browse(
             function (Browser $browser) {
-                $browser->visit(new HomePage())
+                $browser->visit(new MapPage())
                     ->type('@searchByLocation', 'romford')
                     ->press('@submitButton')
                     ->waitForText('results in your area', 10)

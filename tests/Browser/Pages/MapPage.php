@@ -13,7 +13,7 @@ use Laravel\Dusk\Browser;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk
  */
-class HomePage extends Page
+class MapPage extends Page
 {
     const NO_RESULTS = '0 results in your area';
 
