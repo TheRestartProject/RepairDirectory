@@ -26,6 +26,7 @@ Route::prefix('admin')
         Route::get('business/{id?}', 'BusinessController@edit')->name('admin.business.edit');
         Route::post('business', 'BusinessController@create')->name('admin.business.create');
         Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
+        // TODO: CONTINUE // Route::put('business/scrape-review', );
     });
 
 

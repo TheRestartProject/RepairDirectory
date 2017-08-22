@@ -18,3 +18,9 @@ const $authorisedBrands = $('#authorisedBrands');
 combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 
+reviewSourceUrlEl = $("#reviewSourceUrl");
+console.log(reviewSourceUrlEl);
+reviewSourceUrlEl.keyup(function () {
+        console.log("right proper logging")
+    }
+);
