@@ -2,6 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Domain\Models;
 
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
+
 /**
  * Class Business
  *
@@ -194,6 +196,14 @@ class Business
      * @var string
      */
     private $pricingInformation;
+
+
+    /**
+     * The publishing status of the business
+     *
+     * @var string
+     */
+    private $publishingStatus = PublishingStatus::DRAFT;
 
     /**
      * Return the business's unique id
@@ -611,6 +621,28 @@ class Business
     public function setPricingInformation($pricingInformation)
     {
         $this->pricingInformation = $pricingInformation;
+    }
+
+    /**
+     * Get this business's publishing status
+     *
+     * @return string
+     */
+    public function getPublishingStatus()
+    {
+        return $this->publishingStatus;
+    }
+
+    /**
+     * Set this business's publishinh status
+     *
+     * @param string $pricingInformation The value to set
+     *
+     * @return void
+     */
+    public function setPublishingStatus($publishingStatus)
+    {
+        $this->publishingStatus = $publishingStatus;
     }
 
     /**
