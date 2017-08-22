@@ -11,6 +11,7 @@ use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 
 /**
  * Class HomePageTest
+ *
  * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Browser
  * @author   Matthew Kendon <matt@outlandish.com>
