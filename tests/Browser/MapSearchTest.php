@@ -16,7 +16,7 @@ use TheRestartProject\RepairDirectory\Tests\Browser\Pages\HomePage;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk
  */
-class HomePageSearchTest extends DuskTestCase
+class MapSearchTest extends DuskTestCase
 {
     /**
      * Assert that when I visit the homepage I can go there
