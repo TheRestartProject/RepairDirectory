@@ -3,10 +3,10 @@
 namespace TheRestartProject\RepairDirectory\Application\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
-use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 
 /**
- * Class ReviewSourceValidator
+ * Class PublishingStatusValidator
  *
  * @category Validator
  * @package  TheRestartProject\RepairDirectory\Application\Validators
@@ -14,13 +14,13 @@ use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class ReviewSourceValidator implements Validator
+class PublishingStatusValidator implements Validator
 {
 
     /**
-     * Throw an exception if the provided string isn't present in the ReviewSource enum
+     * Throw an exception if the provided string isn't present in the PublishingStatus enum
      *
-     * @param string $source The value to validate
+     * @param string $status The value to validate
      *
      * @return void
      *
@@ -28,10 +28,10 @@ class ReviewSourceValidator implements Validator
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    function validate($source)
+    function validate($status)
     {
-        $foundSource = ReviewSource::search($source);
-        if (!$foundSource) {
+        $foundStatus = PublishingStatus::search($status);
+        if (!$foundStatus) {
             throw new ValidationException('Category invalid: unknown category');
         }
     }

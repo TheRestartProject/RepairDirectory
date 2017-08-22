@@ -106,6 +106,10 @@ return [
             'pricingInformation' => [
                 'type' => 'text',
                 'nullable' => true
+            ],
+            'publishingStatus' => [
+                'type' => 'string',
+                'nullable' => false
             ]
         ]
     ],

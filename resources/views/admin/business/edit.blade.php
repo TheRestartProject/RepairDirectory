@@ -157,9 +157,22 @@
                 {!! array_key_exists('warranty', $errors) ? '<small>' . $errors['warranty'] . '</small>' : '' !!}
             </div>
 
+            <div class="form-group">
+                <label for="publishingStatus">Publishing Status</label>
+                <select id="publishingStatus" name="publishingStatus" class="form-control">
+                    @foreach($publishingStatuses as $status)
+                        <option value="{{ $status }}" {{ $business->getPublishingStatus() == $status ? "selected" : "" }}>
+                            {{ $status }}
+                        </option>
+                    @endforeach
+                </select>
+                {!! array_key_exists('publishingStatus', $errors) ? '<small>' . $errors['publishingStatus'] . '</small>' : '' !!}
+            </div>
+
             <div>
                 <button id="submit" class="btn btn-success">Save</button>
             </div>
+            {!! array_key_exists('business', $errors) ? '<small>' . $errors['business'] . '</small>' : '' !!}
         </div>
     </form>
 @endsection

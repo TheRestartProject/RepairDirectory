@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Application\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 /**
@@ -67,7 +68,9 @@ class BusinessValidator implements Validator
             'numberOfReviews' => new NumberRangeValidator("Number of Reviews", 0, 65535, false),
             'averageScore' => new NumberRangeValidator("Average Score", 0, 5, true),
             'warrantyOffered' => new BooleanValidator(),
-            'warranty' => new StringLengthValidator('Warranty Details', 10, 65535)        ];
+            'warranty' => new StringLengthValidator('Warranty Details', 10, 65535),
+            'publishingStatus' => new PublishingStatusValidator()
+        ];
     }
 
     /**
@@ -88,6 +91,21 @@ class BusinessValidator implements Validator
             if (!array_key_exists($field, $businessArr) || !$businessArr[$field]) {
                 $errors[$field] = $field . ' is required';
             }
+        }
+
+        // Combined Validators
+
+        // PublishingStatus + PositiveReviewPc
+        if($business->getPublishingStatus() === PublishingStatus::PUBLISHED && $business->getPositiveReviewPc() < 80)
+        {
+            $errors['publishingStatus'] = 'Can\'t publish a business with a positive review percentage of under 80%';
+        }
+        // PublishingStatus + WarrantyOffered
+        if($business->getPublishingStatus() === PublishingStatus::PUBLISHED && !$business->isWarrantyOffered())
+        {
+            $errors['publishingStatus'] = array_key_exists ('publishingStatus', $errors)
+                                        ? $errors['publishingStatus'] . '.<br/> Can\'t publish a business that doesn\'t offer warranty.'
+                                        : 'Can\'t publish a business that doesn\'t offer warranty.';
         }
 
         foreach ($this->validators as $field => $validator) {
