@@ -1,6 +1,6 @@
 <?php
 Route::get('/', function () {
-    return [];
+    return view('home');
 })->name('home');
 
 Route::namespace('Auth')

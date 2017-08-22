@@ -36,4 +36,16 @@ class HomePage extends Page
     {
         $browser->assertRouteIs('home');
     }
+
+    /**
+     * Get the element shortcuts for the page.
+     *
+     * @return array
+     */
+    public function elements()
+    {
+        return [
+            '@mapButton' => 'a#map',
+        ];
+    }
 }

@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Browser;
 
 use Laravel\Dusk\Browser;
+use TheRestartProject\RepairDirectory\Tests\Browser\Pages\HomePage;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 
 /**
@@ -25,7 +26,23 @@ class HomePageTest extends DuskTestCase
     public function i_can_visit_the_homepage()
     {
         $this->browse(function(Browser $browser) {
-            $browser->visit(new Pages\HomePage());
+            $browser->visit(new HomePage());
+        });
+    }
+
+    /**
+     * Tests that the user can click on a button and be taken to the map page
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_visit_the_map_from_the_homepage()
+    {
+        $this->browse(function(Browser $browser) {
+            $browser->visit(new HomePage())
+                ->click('@mapButton')
+                ->assertRouteIs('map');
         });
     }
 }
