@@ -39,7 +39,7 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'fixometer',
+            'driver' => 'session',
             'provider' => 'users',
         ],
 
