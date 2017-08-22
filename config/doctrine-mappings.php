@@ -145,6 +145,7 @@ return [
         'id'     => [
             'uid' => [
                 'type'     => 'integer',
+                'column' => 'idusers',
                 'generator' => [
                     'strategy' => 'auto'
                 ]
@@ -152,7 +153,7 @@ return [
         ],
         'uniqueConstraints' => [
             [
-                'name' => 'user_unique_idx',
+                'name' => 'email_UNIQUE',
                 'columns' => ['email']
             ]
         ],
@@ -161,7 +162,31 @@ return [
                 'type' => 'string'
             ],
             'password' => [
+                'type' => 'string',
+                'length' => 60
+            ],
+            'name' => [
                 'type' => 'string'
+            ],
+            'recovery' => [
+                'type' => 'string',
+                'length' => 45,
+                'nullable' => true
+            ],
+            'recoveryExpires' => [
+                'type' => 'datetime',
+                'column' => 'recovery_expires',
+                'nullable' => true
+            ],
+            'createdAt' => [
+                'type' => 'datetime',
+                'column' => 'created_at',
+                'nullable' => true
+            ],
+            'modifiedAt' => [
+                'type' => 'datetime',
+                'column' => 'modified_at',
+                'nullable' => true
             ]
         ]
     ],

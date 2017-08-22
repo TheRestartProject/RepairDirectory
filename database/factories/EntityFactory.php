@@ -102,10 +102,20 @@ $factory->define(Suggestion::class, function (Faker\Generator $faker, $attribute
 $factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
 
-    return [
+    $createdAt = $faker->dateTimeBetween('-10 days');
+
+    $user = [
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
+        'name' => $faker->firstName,
+        'role' => User::GUEST,
+        'recovery' => null,
+        'recoveryExpires' => null,
+        'createdAt' => $createdAt,
+        'modifiedAt' => $createdAt
     ];
+
+    return $user;
 });
 
 /** @var LaravelDoctrine\ORM\Testing\Factory $factory */

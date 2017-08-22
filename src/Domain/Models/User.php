@@ -16,6 +16,15 @@ use Illuminate\Contracts\Auth\Authenticatable;
 class User implements Authenticatable
 {
     /**
+     * The role Ids
+     */
+    const ROOT = 1;
+    const ADMINISTRATOR = 2;
+    const HOST = 3;
+    const RESTARTER = 4;
+    const GUEST = 5;
+
+    /**
      * Unique Id for the user
      *
      * @var integer
@@ -37,11 +46,46 @@ class User implements Authenticatable
     private $password;
 
     /**
+     * The name of the user
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
+     * The role for the user
+     *
+     * @var integer
+     */
+    private $role;
+
+    /**
      * The remember token, or null if none is set
      *
      * @var string
      */
-    private $remember = '';
+    private $recovery = '';
+
+    /**
+     * The the time when the recovery token expires
+     *
+     * @var \DateTime
+     */
+    private $recoveryExpires = '';
+
+    /**
+     * The the time when the user was originally created
+     *
+     * @var \DateTime
+     */
+    private $createdAt = '';
+
+    /**
+     * The the time when the user was last modified
+     *
+     * @var \DateTime
+     */
+    private $modifiedAt = '';
 
     /**
      * Get the email address for the user
@@ -110,6 +154,138 @@ class User implements Authenticatable
     }
 
     /**
+     * Get the name of the user
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the name of this user
+     *
+     * @param string $name The name of the user
+     *
+     * @return void
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Get the id of the role for this user
+     *
+     * @return int
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the id of the role for this user
+     *
+     * @param int $role The role id
+     *
+     * @return void
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * Get the recovery token for the user
+     *
+     * @return string
+     */
+    public function getRecovery()
+    {
+        return $this->recovery;
+    }
+
+    /**
+     * Set the recovery token for the user
+     *
+     * @param string $recovery The recovery token
+     *
+     * @return void
+     */
+    public function setRecovery($recovery)
+    {
+        $this->recovery = $recovery;
+    }
+
+    /**
+     * Get the time that the recovery token should expire
+     *
+     * @return \DateTime
+     */
+    public function getRecoveryExpires()
+    {
+        return $this->recoveryExpires;
+    }
+
+    /**
+     * Set the time that the recovery token should expire
+     *
+     * @param \DateTime $recoveryExpires The time that the recovery token expires
+     *
+     * @return void
+     */
+    public function setRecoveryExpires($recoveryExpires)
+    {
+        $this->recoveryExpires = $recoveryExpires;
+    }
+
+    /**
+     * Get the time that the user was created
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the time that the user was created
+     *
+     * @param \DateTime $createdAt The time that the user was created
+     *
+     * @return void
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Get the time that the user was last modified
+     *
+     * @return \DateTime
+     */
+    public function getModifiedAt()
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * Set the time that the user was last modified
+     *
+     * @param \DateTime $modifiedAt The time that the user was last modified
+     *
+     * @return void
+     */
+    public function setModifiedAt($modifiedAt)
+    {
+        $this->modifiedAt = $modifiedAt;
+    }
+
+    /**
      * Get the name of the unique identifier for the user.
      *
      * @return string
@@ -146,7 +322,7 @@ class User implements Authenticatable
      */
     public function getRememberToken()
     {
-        return $this->remember;
+        return $this->recovery;
     }
 
     /**
@@ -158,7 +334,7 @@ class User implements Authenticatable
      */
     public function setRememberToken($value)
     {
-        $this->remember = $value;
+        $this->recovery = $value;
     }
 
     /**
@@ -168,6 +344,6 @@ class User implements Authenticatable
      */
     public function getRememberTokenName()
     {
-        return 'remember';
+        return 'recovery';
     }
 }
