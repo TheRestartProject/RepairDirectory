@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <a href='/' class="header__link btn btn-primary">Home</a>
+    <a href='/map' class="header__link btn btn-primary">Go to the Map</a>
     <h1><a href="{{ route('admin.index') }}">Repair Directory Admin</a></h1>
     @yield('content')
     <script src="/js/map/admin.js"></script>

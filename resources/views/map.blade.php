@@ -52,7 +52,10 @@
         </div>
         <div id="map-desktop-container" class="col-xs-12 col-sm-9">
             <div id="map-desktop"></div>
-            <div id="business-popup" class="hidden"></div>
+            <div id="business-popup" class="business-popup hidden">
+                <button id="business-popup-close" type="button" class="btn btn-default fa fa-times business-popup__close"></button>
+                <div class="business-popup__content"></div>
+            </div>
         </div>
     </div>
 

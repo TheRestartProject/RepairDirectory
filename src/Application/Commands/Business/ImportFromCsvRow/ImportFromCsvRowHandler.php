@@ -118,7 +118,9 @@ class ImportFromCsvRowHandler
         }
 
         $business->setPositiveReviewPc((int)$row['Positive review %']);
-        $business->setWarranty($row['Warranty offered']);
+        if ($this->isTruthy($row['Warranty offered'])) {
+            $business->setWarranty($row['Warranty offered']);
+        }
         $business->setWarrantyOffered((boolean)$business->getWarranty());
         $business->setPricingInformation($row['Pricing information']);
         return $business;
@@ -150,6 +152,6 @@ class ImportFromCsvRowHandler
     private function isTruthy($value)
     {
         $value = strtolower($value);
-        return $value && $value !== 'no' && $value !== 'none';
+        return $value && $value !== 'no' && $value !== 'none' && $value !== 'no data';
     }
 }

@@ -106,6 +106,12 @@
             </div>
 
             <div class="form-group">
+                <label for="communityEndorsement">Community Endorsement</label>
+                <textarea id="communityEndorsement" name="communityEndorsement" class="form-control">{{ $business->getCommunityEndorsement() }}</textarea>
+                {!! array_key_exists('communityEndorsement', $errors) ? '<small>' . $errors['communityEndorsement'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
                 <label for="notes">Notes</label>
                 <textarea id="notes" name="notes" class="form-control">{{ $business->getNotes() }}</textarea>
                 {!! array_key_exists('notes', $errors) ? '<small>' . $errors['notes'] . '</small>' : '' !!}
