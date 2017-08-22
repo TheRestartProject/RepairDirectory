@@ -2,8 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Dusk\Http\Controllers;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Http\Response;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
 
@@ -19,7 +18,7 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
 class UserController
 {
     /**
-     * The entity manager
+     * The user repository
      *
      * @var UserRepository
      */
@@ -47,7 +46,7 @@ class UserController
      */
     public function user($guard = null)
     {
-        $user = Auth::guard($guard)->user();
+        $user = $this->guard($guard)->user();
 
         if (! $user) {
             return [];
@@ -71,7 +70,7 @@ class UserController
     {
         $user = $this->repository->find($userId);
 
-        Auth::guard($guard)->login($user);
+        $this->guard($guard)->login($user);
     }
 
     /**
@@ -83,7 +82,7 @@ class UserController
      */
     public function logout($guard = null)
     {
-        Auth::guard($guard ?: config('auth.defaults.guard'))->logout();
+        $this->guard($guard)->logout();
     }
 
     /**
@@ -98,5 +97,17 @@ class UserController
         $provider = config("auth.guards.{$guard}.provider");
 
         return config("auth.providers.{$provider}.model");
+    }
+
+    /**
+     * Returns the specified guard or default if no guard specified
+     *
+     * @param null|string $guard The name of the guard to get
+     *
+     * @return StatefulGuard
+     */
+    protected function guard($guard = null)
+    {
+        return Auth::guard($guard ?: config('auth.defaults.guard'));
     }
 }
