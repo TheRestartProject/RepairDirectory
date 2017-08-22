@@ -18,6 +18,7 @@ Route::get('/', function () {
 })->name('map');
 
 Route::prefix('admin')
+    ->middleware('auth')
     ->namespace('Admin')
     ->group(function () {
         Route::get('/', 'AdminController@index')->name('admin.index');
