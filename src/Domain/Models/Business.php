@@ -634,7 +634,7 @@ class Business
     }
 
     /**
-     * Set this business's publishinh status
+     * Set this business's publishing status
      *
      * @param string $pricingInformation The value to set
      *

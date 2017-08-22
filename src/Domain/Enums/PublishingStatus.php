@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Domain\Enums;
 use MyCLabs\Enum\Enum;
 
 /**
- * Enum Category
+ * Enum PublishingStatus
  *
  * @category Enum
  * @package  TheRestartProject\RepairDirectory\Domain\Enums

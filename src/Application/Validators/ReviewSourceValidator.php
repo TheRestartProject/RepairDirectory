@@ -6,7 +6,7 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 
 /**
- * Class CategoryValidator
+ * Class ReviewSourceValidator
  *
  * @category Validator
  * @package  TheRestartProject\RepairDirectory\Application\Validators

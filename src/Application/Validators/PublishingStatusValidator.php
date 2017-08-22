@@ -6,7 +6,7 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 
 /**
- * Class CategoryValidator
+ * Class PublishingStatusValidator
  *
  * @category Validator
  * @package  TheRestartProject\RepairDirectory\Application\Validators

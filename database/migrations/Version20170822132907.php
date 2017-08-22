@@ -14,7 +14,7 @@ class Version20170822132907 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE businesses ADD publishing_status VARCHAR(32) NOT NULL DEFAULT "DRAFT"');
+        $this->addSql('ALTER TABLE businesses ADD publishing_status VARCHAR(32) NOT NULL DEFAULT "Draft"');
     }
 
     /**

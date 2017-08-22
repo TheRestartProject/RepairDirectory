@@ -93,6 +93,21 @@ class BusinessValidator implements Validator
             }
         }
 
+        // Combined Validators
+
+        // PublishingStatus + PositiveReviewPc
+        if($business->getPublishingStatus() === PublishingStatus::PUBLISHED && $business->getPositiveReviewPc() < 80)
+        {
+            $errors['publishingStatus'] = 'Can\'t publish a business with a positive review percentage of under 80%';
+        }
+        // PublishingStatus + WarrantyOffered
+        if($business->getPublishingStatus() === PublishingStatus::PUBLISHED && !$business->isWarrantyOffered())
+        {
+            $errors['publishingStatus'] = array_key_exists ('publishingStatus', $errors)
+                                        ? $errors['publishingStatus'] . '.<br/> Can\'t publish a business that doesn\'t offer warranty.'
+                                        : 'Can\'t publish a business that doesn\'t offer warranty.';
+        }
+
         foreach ($this->validators as $field => $validator) {
             if (array_key_exists($field, $businessArr)) {
                 $value = $businessArr[$field];

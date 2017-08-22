@@ -172,6 +172,7 @@
             <div>
                 <button id="submit" class="btn btn-success">Save</button>
             </div>
+            {!! array_key_exists('business', $errors) ? '<small>' . $errors['business'] . '</small>' : '' !!}
         </div>
     </form>
 @endsection
