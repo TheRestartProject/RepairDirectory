@@ -2,7 +2,10 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Browser;
 
+use Illuminate\Support\Collection;
 use Laravel\Dusk\Browser;
+use TheRestartProject\RepairDirectory\Domain\Models\User;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\HomePage;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 
@@ -16,6 +19,8 @@ use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
  */
 class HomePageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     /**
      * Tests that a user can visit the homepage
      *
@@ -43,6 +48,32 @@ class HomePageTest extends DuskTestCase
             $browser->visit(new HomePage())
                 ->click('@mapButton')
                 ->assertRouteIs('map');
+        });
+    }
+
+    /**
+     * Tests that the visitor can log in without a password to an existing user
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_log_in_as_a_user_without_knowing_the_password()
+    {
+        /**
+         * A collection of created users in the database
+         *
+         * @var Collection|User[] $users
+         */
+        $users = entity(User::class, 3)->create();
+
+        $this->browse(function(Browser $browser) use ($users) {
+            $user = $users->first();
+            $browser->visit(new HomePage())
+                ->select('@userSelector', $user->getUid())
+                ->click('@loginButton')
+                ->assertRouteIs('map')
+                ->assertAuthenticatedAs($user);
         });
     }
 }

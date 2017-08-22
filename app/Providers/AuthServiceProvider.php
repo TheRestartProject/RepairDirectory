@@ -6,6 +6,8 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionGuard;
+use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -36,5 +38,16 @@ class AuthServiceProvider extends ServiceProvider
                 $app->make(Session::class)
             );
         });
+    }
+
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton(UserRepository::class, DoctrineUserRepository::class);
     }
 }

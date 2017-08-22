@@ -1,6 +1,10 @@
 <?php
-Route::get('/', function () {
-    return view('home');
+
+use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+
+Route::get('/', function (UserRepository $repository) {
+    $users = $repository->findAll();
+    return view('home', compact('users'));
 })->name('home');
 
 Route::namespace('Auth')

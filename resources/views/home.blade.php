@@ -1,10 +1,24 @@
 @extends('layout')
 
 @section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <a id="map" href="{{ route('map') }}" class="btn btn-primary">Go to map</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form id="login-as-user" method="POST" action="{{ route('login') }}">
+                    <select>
+                        @foreach($users as $user)
+                            <option value="{{ $user->getUid() }}">{{ $user->getEmail() }}</option>
+                        @endforeach
+                    </select>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <a id="map" href="{{ route('map') }}" class="btn btn-primary">Go to map</a>
+                    <button class="btn-primary">Login As</button>
+                </form>
+            </div>
         </div>
     </div>
 

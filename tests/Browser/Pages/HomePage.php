@@ -46,6 +46,8 @@ class HomePage extends Page
     {
         return [
             '@mapButton' => 'a#map',
+            '@userSelector' => 'form#login-as-user select',
+            '@loginButton' => 'form#login-as-user button',
         ];
     }
 }
