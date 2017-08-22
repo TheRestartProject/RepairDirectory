@@ -93,7 +93,7 @@ class HomePageTest extends DuskTestCase
      */
     public function i_cannot_log_in_if_i_am_already_logged_in()
     {
-        $user = entity(User::class, 1)->create();
+        $user = entity(User::class)->create();
 
         $this->browse(function(Browser $browser) use ($user) {
             $browser->loginAs($user->getUid())
@@ -111,7 +111,7 @@ class HomePageTest extends DuskTestCase
      */
     public function i_can_logout_if_i_am_logged_in()
     {
-        $user = entity(User::class, 1)->create();
+        $user = entity(User::class)->create();
 
         $this->browse(function(Browser $browser) use ($user) {
             $browser->loginAs($user->getUid())
