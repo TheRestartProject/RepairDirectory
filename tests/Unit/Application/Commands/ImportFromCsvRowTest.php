@@ -132,7 +132,8 @@ class ImportFromCsvRowTest extends TestCase
             $business->getReviewSource()
         );
         $this->assertEquals(92, $business->getPositiveReviewPc());
-        $this->assertEquals('None', $business->getWarranty());
+        $this->assertEquals('3 years', $business->getWarranty());
+        $this->assertTrue($business->isWarrantyOffered());
         $this->assertEquals('Varied', $business->getPricingInformation());
     }
 
@@ -173,7 +174,7 @@ class ImportFromCsvRowTest extends TestCase
             'Independent review link' => 'https://www.google.com/maps/place/iRepair+Centre+Bath/@51.3813993,-2.363582,17z/',
             'Other review link' => 'https://www.yell.com/biz/irepair-centre-bath-7943040/',
             'Positive review %' => '92',
-            'Warranty offered' => 'None',
+            'Warranty offered' => '3 years',
             'Pricing information' => 'Varied'
         ];
     }
