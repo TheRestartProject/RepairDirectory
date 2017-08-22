@@ -1,4 +1,4 @@
-const $ = require('jquery');
+const $ = jQuery = require('jquery');
 const combobox = require('./combobox');
 
 const $slider = $("#positiveReviewPcRange");
