@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -47,6 +47,21 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'fixometer' => [
+            'driver' => 'mysql',
+            'host' => env('FIXOMETER_DB_HOST', '127.0.0.1'),
+            'port' => env('FIXOMETER_DB_PORT', '3306'),
+            'database' => env('FIXOMETER_DB_DATABASE', 'forge'),
+            'username' => env('FIXOMETER_DB_USERNAME', 'forge'),
+            'password' => env('FIXOMETER_DB_PASSWORD', ''),
+            'unix_socket' => env('FIXOMETER_DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
