@@ -22,7 +22,9 @@ class BusinessesTableSeeder extends Seeder
             'postcode' => 'RM7 8BX',
             'geolocation' => new Point(51.583626,0.163757),
             'categories' => [Category::DESKTOP],
-            'publishingStatus' => PublishingStatus::PUBLISHED
+            'positiveReviewPc' => 82,
+            'publishingStatus' => PublishingStatus::PUBLISHED,
+            'warranty' => '3 year warranty'
         ]);
 
         entity(Business::class)->create([
@@ -32,11 +34,24 @@ class BusinessesTableSeeder extends Seeder
             'postcode' => 'IG1 4DU',
             'geolocation' => new Point(51.5589297,-0.1090134),
             'categories' => [Category::DESKTOP],
-            'publishingStatus' => PublishingStatus::PUBLISHED
+            'positiveReviewPc' => 81,
+            'publishingStatus' => PublishingStatus::PUBLISHED,
+            'warranty' => 'Yes'
         ]);
 
         entity(Business::class)->create([
-            'publishingStatus' => PublishingStatus::PUBLISHED
+            'positiveReviewPc' => 83,
+            'publishingStatus' => PublishingStatus::PUBLISHED,
+            'warranty' => 'Yes'
+        ]);
+
+        entity(Business::class)->create([
+            'positiveReviewPc' => 83,
+            'warranty' => 'Yes'
+        ]);
+
+        entity(Business::class)->create([
+            'warranty' => 'Yes'
         ]);
 
         entity(Business::class)->create();

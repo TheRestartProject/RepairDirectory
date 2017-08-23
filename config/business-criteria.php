@@ -1,5 +1,7 @@
 <?php
 
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
+
 return [
     'public' => [
         [
@@ -26,6 +28,11 @@ return [
             'field' => 'positiveReviewPc',
             'operator' => '>=',
             'value' => '80'
+        ],
+        [
+            'field' => 'publishingStatus',
+            'operator' => '=',
+            'value' => PublishingStatus::PUBLISHED
         ]
     ]
 ];
