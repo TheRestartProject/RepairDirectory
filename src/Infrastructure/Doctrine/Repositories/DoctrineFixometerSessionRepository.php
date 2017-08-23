@@ -49,4 +49,28 @@ class DoctrineFixometerSessionRepository extends DoctrineRepository implements F
     {
         return FixometerSession::class;
     }
+
+    /**
+     * Remove a session
+     *
+     * @param FixometerSession $session The Session to remove
+     *
+     * @return void
+     */
+    public function remove(FixometerSession $session)
+    {
+        $this->entityManager->remove($session);
+    }
+
+    /**
+     * Find a session by its Id
+     *
+     * @param int $id The Unique id for the session
+     *
+     * @return FixometerSession|null
+     */
+    public function find($id)
+    {
+        return $this->repository->find($id);
+    }
 }

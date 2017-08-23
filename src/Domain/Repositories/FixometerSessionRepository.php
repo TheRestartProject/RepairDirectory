@@ -24,7 +24,6 @@ interface FixometerSessionRepository
      */
     public function findOneBySession($session);
 
-
     /**
      * Add a new session
      *
@@ -33,4 +32,23 @@ interface FixometerSessionRepository
      * @return void
      */
     public function add(FixometerSession $session);
+
+    /**
+     * Remove a session
+     *
+     * @param FixometerSession $session The Session to remove
+     *
+     * @return void
+     */
+    public function remove(FixometerSession $session);
+
+    /**
+     * Find a session by its Id
+     *
+     * @param int $id The Unique id for the session
+     *
+     * @return FixometerSession|null
+     */
+    public function find($id);
+
 }

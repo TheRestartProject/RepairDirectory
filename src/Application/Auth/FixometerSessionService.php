@@ -207,8 +207,6 @@ class FixometerSessionService implements Session
                     null
                 )
             );
-
-//            dd(Cookie::getQueuedCookies());
         }
 
     }
@@ -237,7 +235,7 @@ class FixometerSessionService implements Session
 
         $token = $this->getId();
 
-        if (emtpy($token)) {
+        if (empty($token)) {
             return null;
         }
 
@@ -248,11 +246,13 @@ class FixometerSessionService implements Session
         /**
          * @var FixometerSession $session
          */
-        $session = $this->repository->findByToken($token);
+        $session = $this->repository->findOneBySession($token);
 
-        $command = new DeleteFixometerSessionCommand($session->getUid());
+        $command = new DeleteFixometerSessionCommand($session->getIdsession());
 
         $this->bus->handle($command);
+
+        Cookie::forget('PHPSESSID');
 
         return $session->getUser();
     }
