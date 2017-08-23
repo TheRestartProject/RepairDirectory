@@ -19,6 +19,7 @@
         "league/tactician-doctrine": "^1.1",
         "league/tactician-logger": "^0.10.0",
         "myclabs/php-enum": "^1.5",
+        "skagarwal/google-places-api": "^1.1",
         "toin0u/geocoder-laravel": "^1.1"
     },
     "require-dev": {

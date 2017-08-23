@@ -19,8 +19,9 @@ combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 
 reviewSourceUrlEl = $("#reviewSourceUrl");
-console.log(reviewSourceUrlEl);
 reviewSourceUrlEl.keyup(function () {
-        console.log("right proper logging")
+        console.log("He's a right proper logger")
+        //TODO: make a request to review-scraping with the proper parameters
+        console.log('%c right proper', 'font-size: 0.5rem;');
     }
 );

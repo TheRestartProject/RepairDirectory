@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use League\Flysystem\Exception;
 use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
@@ -12,6 +13,7 @@ use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use SKAgarwal\GoogleApi\PlacesApi;
 
 class BusinessController extends Controller
 {
@@ -39,6 +41,19 @@ class BusinessController extends Controller
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
         return redirect('map/admin');
+    }
+
+    public function scrapeReview()
+    {
+        $query = "";
+        $response = GooglePlaces::textSearch($query, $params = []);
+
+        try {
+
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+
     }
 
     private function renderEdit(Business $business, $errors) {
