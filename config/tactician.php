@@ -4,6 +4,7 @@ use TheRestartProject\RepairDirectory\Application\Auth\DeleteFixometerSessionCom
 use TheRestartProject\RepairDirectory\Application\Auth\DeleteFixometerSessionHandler;
 use TheRestartProject\RepairDirectory\Application\Auth\UpdateFixometerSessionCommand;
 use TheRestartProject\RepairDirectory\Application\Auth\UpdateFixometerSessionHandler;
+use TheRestartProject\RepairDirectory\Application\CommandBus\Middleware\TransactionMiddleware;
 use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
 use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 use \TheRestartProject\RepairDirectory\Application\Commands\Suggestion\AddSuggestion;
@@ -19,7 +20,7 @@ return [
     ],
     'middleware' => [
         \League\Tactician\Logger\LoggerMiddleware::class,
-        \League\Tactician\Doctrine\ORM\TransactionMiddleware::class,
+        TransactionMiddleware::class,
         \League\Tactician\Handler\CommandHandlerMiddleware::class
     ]
 ];

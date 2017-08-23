@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Auth;
 
+use TheRestartProject\RepairDirectory\Application\CommandBus\Middleware\NonDefaultConnectionCommand;
 
 /**
  * Class UpdateFixometerSessionCommand
@@ -12,7 +13,7 @@ namespace TheRestartProject\RepairDirectory\Application\Auth;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class UpdateFixometerSessionCommand
+class UpdateFixometerSessionCommand implements NonDefaultConnectionCommand
 {
     /**
      * The token for the session
@@ -58,6 +59,16 @@ class UpdateFixometerSessionCommand
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Returns the Doctrine connection to use for the TransactionMiddleware
+     *
+     * @return string
+     */
+    public function getConnectionName()
+    {
+        return 'fixometer';
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Auth;
 
+use TheRestartProject\RepairDirectory\Application\CommandBus\Middleware\NonDefaultConnectionCommand;
 
 /**
  * Class DeleteFixometerSessionCommand
@@ -12,7 +13,7 @@ namespace TheRestartProject\RepairDirectory\Application\Auth;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://outlandish.com
  */
-class DeleteFixometerSessionCommand
+class DeleteFixometerSessionCommand implements NonDefaultConnectionCommand
 {
     /**
      * The unique id of the session
@@ -39,5 +40,15 @@ class DeleteFixometerSessionCommand
     public function getSessionId()
     {
         return $this->sessionId;
+    }
+
+    /**
+     * Returns the Doctrine connection to use for the TransactionMiddleware
+     *
+     * @return string
+     */
+    public function getConnectionName()
+    {
+        return 'fixometer';
     }
 }

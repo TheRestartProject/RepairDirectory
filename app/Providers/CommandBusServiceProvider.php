@@ -6,7 +6,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use League\Tactician\CommandBus;
 use League\Tactician\Container\ContainerLocator;
-use League\Tactician\Doctrine\ORM\TransactionMiddleware;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 use League\Tactician\Handler\CommandNameExtractor\CommandNameExtractor;
@@ -17,6 +16,7 @@ use League\Tactician\Logger\Formatter\ClassNameFormatter;
 use League\Tactician\Logger\Formatter\Formatter;
 use League\Tactician\Logger\LoggerMiddleware;
 use TheRestartProject\RepairDirectory\Application\CommandBus\LaravelContainerAdapter;
+use TheRestartProject\RepairDirectory\Application\CommandBus\Middleware\TransactionMiddleware;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
