@@ -7,19 +7,31 @@ use Doctrine\ORM\EntityManagerInterface;
 use League\Tactician\Middleware;
 use Throwable;
 
-
 /**
- * Wraps command execution inside a Doctrine ORM transaction
+ * Provides multi-connection support doctrine orm
+ *
+ * This middleware sits in the CommandBus and ensures that every command takes place
+ * within its own transaction.
+ *
+ * @category Middleware
+ * @package  TheRestartProject\RepairDirectory\Application\CommandBus\Middleware
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
  */
 class TransactionMiddleware implements Middleware
 {
     /**
+     * The manager registry from the Doctrine ORM
+     *
      * @var ManagerRegistry
      */
     private $managerRegistry;
 
     /**
-     * @param ManagerRegistry $managerRegistry
+     * Constructs the middleware
+     *
+     * @param ManagerRegistry $managerRegistry Used to run the transactions
      */
     public function __construct(ManagerRegistry $managerRegistry)
     {
@@ -29,8 +41,8 @@ class TransactionMiddleware implements Middleware
     /**
      * Executes the given command and optionally returns a value
      *
-     * @param object $command
-     * @param callable $next
+     * @param mixed    $command The the command to be handled
+     * @param callable $next    The next callback
      *
      * @return mixed
      *
@@ -43,6 +55,11 @@ class TransactionMiddleware implements Middleware
             $command->getConnectionName() :
             $this->managerRegistry->getDefaultManagerName();
 
+        /**
+         * The entity manager for a given connection name
+         *
+         * @var EntityManagerInterface $entityManager
+         */
         $entityManager = $this->managerRegistry->getManager($connectionName);
 
         $entityManager->beginTransaction();
@@ -52,7 +69,7 @@ class TransactionMiddleware implements Middleware
 
             $entityManager->flush();
             $entityManager->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollbackTransaction($entityManager);
 
             throw $e;
@@ -68,7 +85,9 @@ class TransactionMiddleware implements Middleware
     /**
      * Rollback the current transaction and close the entity manager when possible.
      *
-     * @param EntityManagerInterface $entityManager
+     * @param EntityManagerInterface $entityManager The entity manager that will rollback the transaction
+     *
+     * @return void
      */
     protected function rollbackTransaction(EntityManagerInterface $entityManager)
     {

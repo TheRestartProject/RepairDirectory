@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Tests;
 
 use Illuminate\Support\Facades\Artisan;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**
@@ -18,6 +19,7 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
  * @link     http://www.outlandish.com/
  *
  * @method runDatabaseMigrations
+ * @method runFixometerDatabaseMigrations
  */
 abstract class IntegrationTestCase extends TestCase
 {
@@ -43,6 +45,10 @@ abstract class IntegrationTestCase extends TestCase
 
         if (isset($uses[DatabaseMigrations::class])) {
             $this->runDatabaseMigrations();
+        }
+
+        if (isset($uses[FixometerDatabaseMigrations::class])) {
+            $this->runFixometerDatabaseMigrations();
         }
 
         return $uses;

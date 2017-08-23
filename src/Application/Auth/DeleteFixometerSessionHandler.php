@@ -38,6 +38,8 @@ class DeleteFixometerSessionHandler
      * Handle the command
      *
      * @param DeleteFixometerSessionCommand $command The command to handle
+     *
+     * @return void
      */
     public function handle(DeleteFixometerSessionCommand $command)
     {

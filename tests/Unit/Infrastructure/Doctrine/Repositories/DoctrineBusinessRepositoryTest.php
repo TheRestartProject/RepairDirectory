@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Doctrine\Repositories;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Mockery;
@@ -24,14 +25,14 @@ class DoctrineBusinessRepositoryTest extends TestCase
     /**
      * Mock EntityManager
      *
-     * @var MockInterface
+     * @var MockInterface|EntityManager
      */
     private $entityManager;
 
     /**
      * A mocked version of the entity repository used for querying.
      *
-     * @var MockInterface
+     * @var MockInterface|EntityRepository
      */
     private $entityRepository;
 
@@ -41,6 +42,13 @@ class DoctrineBusinessRepositoryTest extends TestCase
      * @var DoctrineBusinessRepository
      */
     private $doctrineBusinessRepository;
+
+    /**
+     * The manager registry for doctrine orm
+     *
+     * @var MockInterface|ManagerRegistry
+     */
+    private $managerRegistry;
 
     /**
      * Set up the mocks for the test
@@ -53,17 +61,19 @@ class DoctrineBusinessRepositoryTest extends TestCase
         $this->entityManager = Mockery::mock(EntityManager::class);
         $this->entityRepository = Mockery::mock(EntityRepository::class);
 
-        /**
-         * Cast mock to EntityManager.
-         *
-         * @var EntityManager $entityManager
-         */
-        $entityManager = $this->entityManager;
         $this->entityManager->shouldReceive('getRepository')
             ->andReturn($this->entityRepository);
 
-        $this->doctrineBusinessRepository
-            = new DoctrineBusinessRepository($entityManager);
+        $this->managerRegistry = Mockery::mock(ManagerRegistry::class);
+        $this->managerRegistry->shouldReceive('getManagerForClass')->andReturn($this->entityManager);
+
+        /**
+         * Cast mock to ManagerRegistry.
+         *
+         * @var ManagerRegistry $managerRegistry
+         */
+        $managerRegistry = $this->managerRegistry;
+        $this->doctrineBusinessRepository = new DoctrineBusinessRepository($managerRegistry);
     }
 
     /**
@@ -76,12 +86,13 @@ class DoctrineBusinessRepositoryTest extends TestCase
     public function it_can_be_instantiated()
     {
         /**
-         * Cast to EntityManager to squash type hint errors.
+         * Cast to ManagerRegistry to squash type hint errors.
          *
-         * @var EntityManager $entityManager
+         * @var ManagerRegistry $managerRegistry
          */
-        $entityManager = Mockery::spy(EntityManager::class);
-        $repository = new DoctrineBusinessRepository($entityManager);
+        $managerRegistry = $this->managerRegistry;
+        $repository = new DoctrineBusinessRepository($managerRegistry);
+
         self::assertInstanceOf(DoctrineBusinessRepository::class, $repository);
     }
 

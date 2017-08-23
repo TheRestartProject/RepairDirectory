@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Dusk\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
@@ -61,13 +62,18 @@ class UserController
     /**
      * Login using the given user ID / email.
      *
-     * @param string $userId The user id to login with
+     * @param int    $userId The user id to login with
      * @param string $guard  The name of the guard or null
      *
      * @return void
      */
     public function login($userId, $guard = null)
     {
+        /**
+         * The Authenticable User
+         *
+         * @var Authenticatable $user
+         */
         $user = $this->repository->find($userId);
 
         $this->guard($guard)->login($user);

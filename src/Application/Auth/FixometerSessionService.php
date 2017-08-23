@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\Auth;
 
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
@@ -52,23 +53,33 @@ class FixometerSessionService implements Session
     private $repository;
 
     /**
+     * The cookie jar for dealing with cookies
+     *
+     * @var CookieJar
+     */
+    private $cookieJar;
+
+    /**
      * Constructs the Fixometer Session Service
      *
      * @param string                     $name       The name of the session
      * @param CommandBus                 $bus        The command bus for executing commands
      * @param FixometerSessionRepository $repository The repository for fixometer sessions
+     * @param CookieJar                  $cookieJar  The cookie jar
      * @param Request|null               $request    The request object or null
      */
     public function __construct(
         $name,
         CommandBus $bus,
         FixometerSessionRepository $repository,
+        CookieJar $cookieJar,
         Request $request = null
     ) {
         $this->name = $name;
         $this->request = $request;
         $this->bus = $bus;
         $this->repository = $repository;
+        $this->cookieJar = $cookieJar;
     }
 
     /**
@@ -214,15 +225,8 @@ class FixometerSessionService implements Session
         }
 
         if ($tokenIsNew) {
-            Cookie::queue(
-                Cookie::make(
-                    $this->getName(),
-                    $token,
-                    3600,
-                    null,
-                    null
-                )
-            );
+            $cookie = $this->cookieJar->make($this->getName(), $token, 3600);
+            $this->cookieJar->queue($cookie);
         }
 
     }
@@ -271,7 +275,7 @@ class FixometerSessionService implements Session
 
         $this->bus->handle($command);
 
-        Cookie::forget($this->getName());
+        $this->cookieJar->forget($this->getName());
 
         return $session->getUser();
     }
@@ -357,7 +361,7 @@ class FixometerSessionService implements Session
      */
     public function getHandler()
     {
-        return null;
+        return new \SessionHandler();
     }
 
     /**

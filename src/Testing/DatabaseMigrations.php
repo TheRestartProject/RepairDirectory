@@ -7,7 +7,7 @@ use Illuminate\Contracts\Console\Kernel;
 /**
  * A helpful trait that performs database migrations after every test
  *
- * @category Entity
+ * @category Trait
  * @package  TheRestartProject\RepairDirectory\Domain\Models
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html

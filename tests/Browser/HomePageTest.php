@@ -29,8 +29,9 @@ class HomePageTest extends DuskTestCase
      */
     public function setUp()
     {
-        return parent::setUp();
-        $this->app('session')->flush();
+        parent::setUp();
+        $this->app->make('session')->flush();
+
     }
 
 
@@ -89,7 +90,7 @@ class HomePageTest extends DuskTestCase
                 $user = $users->first();
                 $browser->visit(new HomePage())
                     ->select('@userSelector', $user->getUid())
-                    ->press('@loginButton', 5)
+                    ->press('@loginButton')
                     ->assertRouteIs('map')
                     ->assertAuthenticatedAs($user);
             }

@@ -58,6 +58,7 @@ class DoctrineUserRepository extends DoctrineRepository implements UserRepositor
     public function hasUserById($uid)
     {
         $user = $this->find($uid);
+        dd($user);
 
         return $user !== null;
     }

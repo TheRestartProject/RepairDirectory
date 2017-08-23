@@ -2,12 +2,14 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Auth;
 
+use Illuminate\Cookie\CookieJar;
 use Illuminate\Support\Str;
 use League\Tactician\CommandBus;
 use Mockery as m;
 use Hamcrest\Matchers as h;
 use Illuminate\Http\Request;
 use Psy\Command\Command;
+use Symfony\Component\HttpFoundation\Cookie;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionService;
 use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
@@ -47,6 +49,13 @@ class FixometerSessionServiceTest extends TestCase
     protected $repository;
 
     /**
+     * The mocked cookie jar
+     *
+     * @var CookieJar|m\MockInterface
+     */
+    protected $cookieJar;
+
+    /**
      * Sets up the test environment
      *
      * @return void
@@ -56,6 +65,7 @@ class FixometerSessionServiceTest extends TestCase
         parent::setUp();
         $this->request = m::mock(Request::class);
         $this->bus = m::spy(CommandBus::class);
+        $this->cookieJar = m::mock(CookieJar::class);
         $this->repository = m::spy(FixometerSessionRepository::class);
     }
 
@@ -138,6 +148,7 @@ class FixometerSessionServiceTest extends TestCase
     public function it_will_update_the_session_with_a_new_random_token_if_there_is_no_existing_session()
     {
         $session = $this->sessionGetsIdAndReturns('')
+            ->createsAndQueuesACookie()
             ->createSession();
 
         $session->put('user', 1);
@@ -167,6 +178,13 @@ class FixometerSessionServiceTest extends TestCase
         $repository = $this->repository;
 
         /**
+         * The repository
+         *
+         * @var CookieJar
+         */
+        $cookieJar = $this->cookieJar;
+
+        /**
          * The request
          *
          * @var Request
@@ -178,6 +196,7 @@ class FixometerSessionServiceTest extends TestCase
             self::SESSION_NAME,
             $bus,
             $repository,
+            $cookieJar,
             $request
         );
     }
@@ -194,6 +213,20 @@ class FixometerSessionServiceTest extends TestCase
         $this->request->shouldReceive('cookie')
             ->with(self::SESSION_NAME, '')
             ->andReturn($token);
+
+        return $this;
+    }
+
+    /**
+     * Sets up the CookieJar to create and queue a cookie
+     *
+     * @return $this
+     */
+    protected function createsAndQueuesACookie()
+    {
+        $cookie = m::mock(Cookie::class);
+        $this->cookieJar->shouldReceive('make')->andReturn($cookie);
+        $this->cookieJar->shouldReceive('queue')->with($cookie);
 
         return $this;
     }

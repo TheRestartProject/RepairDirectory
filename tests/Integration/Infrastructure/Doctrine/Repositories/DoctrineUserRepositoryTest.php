@@ -7,6 +7,7 @@ use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -20,7 +21,7 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class DoctrineUserRepositoryTest extends IntegrationTestCase
 {
-    use DatabaseMigrations;
+    use FixometerDatabaseMigrations;
 
     /**
      * The repository under test
@@ -39,7 +40,6 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
         parent::setUp();
         $this->repository = new DoctrineUserRepository(
             $this->app->make(ManagerRegistry::class)
-                ->getManagerForClass(User::class)
         );
     }
 
@@ -125,7 +125,7 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
      */
     public function it_returns_false_if_no_user_exists_with_that_id()
     {
-        $result = $this->repository->hasUserById(1);
+        $result = $this->repository->hasUserById(10);
 
         self::assertFalse($result);
     }
@@ -137,7 +137,7 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function it_returns_user_if_a_user_exists_with_that_id()
+    public function it_returns_true_if_a_user_exists_with_that_id()
     {
         /**
          * The created user
