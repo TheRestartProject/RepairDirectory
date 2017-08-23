@@ -57,7 +57,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->app->singleton(FixometerSessionService::class, function($app) {
             return new FixometerSessionService(
                 'PHPSESSID',
-                $app->make(CommandBus::class)
+                $app->make(CommandBus::class),
+                $app->make(FixometerSessionRepository::class)
             );
         });
     }

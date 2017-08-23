@@ -35,22 +35,29 @@ class FixometerSessionService implements Session
      * @var CommandBus
      */
     private $bus;
+    /**
+     * @var FixometerSessionRepository
+     */
+    private $repository;
 
     /**
      * Constructs the Fixometer Session Service
      *
-     * @param string       $name    The name of the session
-     * @param CommandBus   $bus     The command bus for executing commands
-     * @param Request|null $request The request object or null
+     * @param string                     $name The name of the session
+     * @param CommandBus                 $bus The command bus for executing commands
+     * @param FixometerSessionRepository $repository
+     * @param Request|null               $request The request object or null
      */
     public function __construct(
         $name,
         CommandBus $bus,
+        FixometerSessionRepository $repository,
         Request $request = null
     ) {
         $this->name = $name;
         $this->request = $request;
         $this->bus = $bus;
+        $this->repository = $repository;
     }
 
     /**
@@ -145,7 +152,19 @@ class FixometerSessionService implements Session
      */
     public function get($key, $default = null)
     {
-        // TODO: Implement get() method.
+        if ($key !== 'user') {
+            return $default;
+        }
+
+        $token = $this->getId();
+
+        $session = $this->repository->findOneBySession($token);
+
+        if ($session === null) {
+            return $default;
+        }
+
+        return $session->getUser();
     }
 
     /**
@@ -185,9 +204,11 @@ class FixometerSessionService implements Session
                     $token,
                     3600,
                     null,
-                    config('app.url')
+                    null
                 )
             );
+
+//            dd(Cookie::getQueuedCookies());
         }
 
     }
