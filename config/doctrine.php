@@ -134,7 +134,10 @@ return [
             | http://symfony.com/doc/current/cookbook/doctrine/dbal.html#registering-custom-mapping-types-in-the-schematool
             |--------------------------------------------------------------------------
             */
-            'mapping_types' => []
+
+            'mapping_types' => [
+                'point' => 'point'
+            ]
         ]
     ],
     /*

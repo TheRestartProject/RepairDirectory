@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b53a43abc55af87bfe8171f035708cc1",
+    "content-hash": "db96c424751c5d7a8113970939a571d5",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1197,25 +1197,25 @@
         },
         {
             "name": "laravel-doctrine/migrations",
-            "version": "1.0.5",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-doctrine/migrations.git",
-                "reference": "2f7268cc0edd191f8b362dddf180db24896299d1"
+                "reference": "e39fb353ff374f45fd8c715a6b0b159f7cd7b2e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-doctrine/migrations/zipball/2f7268cc0edd191f8b362dddf180db24896299d1",
-                "reference": "2f7268cc0edd191f8b362dddf180db24896299d1",
+                "url": "https://api.github.com/repos/laravel-doctrine/migrations/zipball/e39fb353ff374f45fd8c715a6b0b159f7cd7b2e7",
+                "reference": "e39fb353ff374f45fd8c715a6b0b159f7cd7b2e7",
                 "shasum": ""
             },
             "require": {
                 "doctrine/migrations": "~1.1",
+                "illuminate/config": "~5.1",
                 "illuminate/console": "~5.1",
                 "illuminate/contracts": "~5.1",
-                "illuminate/support": "~5.1",
                 "laravel-doctrine/orm": "~1.0",
-                "php": ">=5.5.0"
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
@@ -1246,7 +1246,7 @@
                 "migrations",
                 "orm"
             ],
-            "time": "2015-12-17T09:06:21+00:00"
+            "time": "2017-04-03T16:00:02+00:00"
         },
         {
             "name": "laravel-doctrine/orm",
