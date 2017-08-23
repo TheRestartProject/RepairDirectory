@@ -23,15 +23,16 @@
             </div>
 
             <div class="form-group">
-                <label for="postcode">Postcode</label>
-                <input id="postcode" name="postcode" class="form-control" value="{{ $business->getPostcode() }}"/>
-                {!! array_key_exists('postcode', $errors) ? '<small>' . $errors['postcode'] . '</small>' : '' !!}
-            </div>
-
-            <div class="form-group">
                 <label for="city">City</label>
                 <input id="city" name="city" class="form-control" value="{{ $business->getCity() }}"/>
                 {!! array_key_exists('city', $errors) ? '<small>' . $errors['city'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="postcode">Postcode</label>
+                <input id="postcode" name="postcode" class="form-control" value="{{ $business->getPostcode() }}"/>
+                {!! array_key_exists('postcode', $errors) ? '<small>' . $errors['postcode'] . '</small>' : '' !!}
+                {!! array_key_exists('geolocation', $errors) ? '<small>' . $errors['geolocation'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
