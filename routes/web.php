@@ -22,11 +22,10 @@ Route::prefix('admin')
     ->namespace('Admin')
     ->group(function () {
         Route::get('/', 'AdminController@index')->name('admin.index');
-
+        Route::get('business/scrape-review', 'BusinessController@scrapeReview')->name('admin.business.scrape-review');
         Route::get('business/{id?}', 'BusinessController@edit')->name('admin.business.edit');
         Route::post('business', 'BusinessController@create')->name('admin.business.create');
         Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
-        Route::post('business/scrape-review', 'BusinessController@scrapeReview')->name('admin.business.scrape-review');
     });
 
 

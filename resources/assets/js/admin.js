@@ -18,10 +18,11 @@ const $authorisedBrands = $('#authorisedBrands');
 combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 
-reviewSourceUrlEl = $("#reviewSourceUrl");
-reviewSourceUrlEl.keyup(function () {
-        console.log("He's a right proper logger")
-        //TODO: make a request to review-scraping with the proper parameters
+const $reviewSourceUrl = $("#reviewSourceUrl");
+$reviewSourceUrl.keyup(function () {
+        console.log("He's a right proper logger");
         console.log('%c right proper', 'font-size: 0.5rem;');
+
+        $.get("/map/admin/scrape-review", {"reviewSourceUrl" : $reviewSourceUrl.val()})
     }
 );

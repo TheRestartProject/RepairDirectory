@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use League\Flysystem\Exception;
 use League\Tactician\CommandBus;
+use SKAgarwal\GoogleApi\PlacesApi;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
@@ -13,7 +14,6 @@ use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use SKAgarwal\GoogleApi\PlacesApi;
 
 class BusinessController extends Controller
 {
@@ -43,16 +43,12 @@ class BusinessController extends Controller
         return redirect('map/admin');
     }
 
-    public function scrapeReview()
+    public function scrapeReview(PlacesApi $googlePlaces, Request $request)
     {
-        $query = "";
-        $response = GooglePlaces::textSearch($query, $params = []);
+        $url = $request->input("reviewSourceUrl");
+        $query = $this->getLongLatFromUrl($url);
+        $response = $googlePlaces->textSearch($query);
 
-        try {
-
-        } catch (Exception $e) {
-            var_dump($e);
-        }
 
     }
 
@@ -73,4 +69,27 @@ class BusinessController extends Controller
             'errors' => $errors
         ]);
     }
+
+    private function getLongLatFromUrl($url)
+    {
+        $path = parse_url($url)['path'];
+        $data = explode('data=', $path)[1];
+
+        $dataElements = explode('!',$data);
+
+        $latitude = null;
+        $longitude = null;
+
+        foreach($dataElements as $data) {
+            if (strpos($data, '3d') === 0) {
+                $latitude = substr($data, 2);
+            }
+            if (strpos($data, '4d') === 0) {
+                $longitude = substr($data, 2);
+            }
+        }
+
+        return ["long" => $longitude, "lat" => $latitude];
+    }
+
 }
