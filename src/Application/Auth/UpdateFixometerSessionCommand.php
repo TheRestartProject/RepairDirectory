@@ -5,9 +5,12 @@ namespace TheRestartProject\RepairDirectory\Application\Auth;
 
 /**
  * Class UpdateFixometerSessionCommand
+ *
  * @category Command
  * @package  TheRestartProject\RepairDirectory\Application\Auth
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
  */
 class UpdateFixometerSessionCommand
 {

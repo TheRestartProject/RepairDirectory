@@ -16,6 +16,8 @@ use Mockery as m;
  * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Unit\Application\Auth
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class UpdateFixometerSessionHandlerTest extends TestCase
 {
@@ -33,6 +35,11 @@ class UpdateFixometerSessionHandlerTest extends TestCase
      */
     protected $userRepository;
 
+    /**
+     * Sets up the test environment
+     *
+     * @return void
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -56,8 +63,8 @@ class UpdateFixometerSessionHandlerTest extends TestCase
 
         $handler = $this->userExists($userId)
             ->returnsNoSession($token)
-            ->addsNewSession($token, $userId)
-            ->handler($command);
+            ->addsNewSession()
+            ->handler();
 
         $handler->handle($command);
     }
@@ -69,9 +76,23 @@ class UpdateFixometerSessionHandlerTest extends TestCase
      */
     protected function handler()
     {
+        /**
+         * The session repository
+         *
+         * @var FixometerSessionRepository $sessionRepository
+         */
+        $sessionRepository = $this->sessionRepository;
+
+        /**
+         * The user repository
+         *
+         * @var UserRepository $userRepository
+         */
+        $userRepository = $this->userRepository;
+
         return new UpdateFixometerSessionHandler(
-            $this->sessionRepository,
-            $this->userRepository
+            $sessionRepository,
+            $userRepository
         );
     }
 
@@ -94,6 +115,7 @@ class UpdateFixometerSessionHandlerTest extends TestCase
      * Sets up the Session Repository
      *
      * @param string $token The token to search the session on
+     *
      * @return $this
      */
     protected function returnsNoSession($token)
@@ -104,7 +126,12 @@ class UpdateFixometerSessionHandlerTest extends TestCase
         return $this;
     }
 
-    protected function addsNewSession($token, $userId)
+    /**
+     * Sets up the mock to accept the add method
+     *
+     * @return $this
+     */
+    protected function addsNewSession()
     {
         $this->sessionRepository->shouldReceive('add');
 

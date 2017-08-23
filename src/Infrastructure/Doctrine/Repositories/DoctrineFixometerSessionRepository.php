@@ -65,12 +65,12 @@ class DoctrineFixometerSessionRepository extends DoctrineRepository implements F
     /**
      * Find a session by its Id
      *
-     * @param int $id The Unique id for the session
+     * @param int $uid The Unique id for the session
      *
      * @return FixometerSession|null
      */
-    public function find($id)
+    public function find($uid)
     {
-        return $this->repository->find($id);
+        return $this->repository->find($uid);
     }
 }

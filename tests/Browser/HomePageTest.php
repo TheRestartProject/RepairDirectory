@@ -22,6 +22,11 @@ class HomePageTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * Sets up the enviroment
+     *
+     * @return void
+     */
     public function setUp()
     {
         return parent::setUp();
@@ -38,9 +43,11 @@ class HomePageTest extends DuskTestCase
      */
     public function i_can_visit_the_homepage()
     {
-        $this->browse(function(Browser $browser) {
-            $browser->visit(new HomePage());
-        });
+        $this->browse(
+            function (Browser $browser) {
+                $browser->visit(new HomePage());
+            }
+        );
     }
 
     /**
@@ -52,11 +59,13 @@ class HomePageTest extends DuskTestCase
      */
     public function i_can_visit_the_map_from_the_homepage()
     {
-        $this->browse(function(Browser $browser) {
-            $browser->visit(new HomePage())
-                ->click('@mapButton')
-                ->assertRouteIs('map');
-        });
+        $this->browse(
+            function (Browser $browser) {
+                $browser->visit(new HomePage())
+                    ->click('@mapButton')
+                    ->assertRouteIs('map');
+            }
+        );
     }
 
     /**
@@ -75,14 +84,16 @@ class HomePageTest extends DuskTestCase
          */
         $users = entity(User::class, 3)->create();
 
-        $this->browse(function(Browser $browser) use ($users) {
-            $user = $users->first();
-            $browser->visit(new HomePage())
-                ->select('@userSelector', $user->getUid())
-                ->press('@loginButton', 5)
-                ->assertRouteIs('map')
-                ->assertAuthenticatedAs($user);
-        });
+        $this->browse(
+            function (Browser $browser) use ($users) {
+                $user = $users->first();
+                $browser->visit(new HomePage())
+                    ->select('@userSelector', $user->getUid())
+                    ->press('@loginButton', 5)
+                    ->assertRouteIs('map')
+                    ->assertAuthenticatedAs($user);
+            }
+        );
     }
 
     /**
@@ -96,11 +107,13 @@ class HomePageTest extends DuskTestCase
     {
         $user = entity(User::class)->create();
 
-        $this->browse(function(Browser $browser) use ($user) {
-            $browser->loginAs($user->getUid())
-                ->visit(new HomePage())
-                ->assertDontSee('Login As');
-        });
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $browser->loginAs($user->getUid())
+                    ->visit(new HomePage())
+                    ->assertDontSee('Login As');
+            }
+        );
     }
 
     /**
@@ -114,11 +127,13 @@ class HomePageTest extends DuskTestCase
     {
         $user = entity(User::class)->create();
 
-        $this->browse(function(Browser $browser) use ($user) {
-            $browser->loginAs($user->getUid())
-                ->visit(new HomePage())
-                ->press('@logoutButton')
-                ->assertSee('Login As');
-        });
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $browser->loginAs($user->getUid())
+                    ->visit(new HomePage())
+                    ->press('@logoutButton')
+                    ->assertSee('Login As');
+            }
+        );
     }
 }

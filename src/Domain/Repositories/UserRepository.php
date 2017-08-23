@@ -25,9 +25,19 @@ interface UserRepository
     /**
      * Find a single user or return null
      *
-     * @param int $id The unique id for the user
+     * @param int $uid The unique id for the user
      *
      * @return User|null
      */
-    public function find($id);
+    public function find($uid);
+
+
+    /**
+     * Returns true if the user exists
+     *
+     * @param int $uid The unique id for the user
+     *
+     * @return bool
+     */
+    public function hasUserById($uid);
 }

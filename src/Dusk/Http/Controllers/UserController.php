@@ -108,6 +108,6 @@ class UserController
      */
     protected function guard($guard = null)
     {
-        return Auth::guard($guard ?: config('auth.defaults.guard'));
+        return auth()->guard($guard ?: config('auth.defaults.guard'));
     }
 }

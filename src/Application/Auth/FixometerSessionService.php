@@ -18,6 +18,8 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionReposi
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
+ *
+ * @SuppressWarnings(PHPMD)
  */
 class FixometerSessionService implements Session
 {
@@ -27,15 +29,24 @@ class FixometerSessionService implements Session
      * @var string
      */
     private $name;
+
     /**
+     * The request object
+     *
      * @var Request|null
      */
     private $request;
+
     /**
+     * The CommandBus object
+     *
      * @var CommandBus
      */
     private $bus;
+
     /**
+     * FixometerSession Repository
+     *
      * @var FixometerSessionRepository
      */
     private $repository;
@@ -43,10 +54,10 @@ class FixometerSessionService implements Session
     /**
      * Constructs the Fixometer Session Service
      *
-     * @param string                     $name The name of the session
-     * @param CommandBus                 $bus The command bus for executing commands
-     * @param FixometerSessionRepository $repository
-     * @param Request|null               $request The request object or null
+     * @param string                     $name       The name of the session
+     * @param CommandBus                 $bus        The command bus for executing commands
+     * @param FixometerSessionRepository $repository The repository for fixometer sessions
+     * @param Request|null               $request    The request object or null
      */
     public function __construct(
         $name,
@@ -83,7 +94,8 @@ class FixometerSessionService implements Session
     /**
      * Set the session ID.
      *
-     * @param  string $id
+     * @param string $id The token of the session
+     *
      * @return void
      */
     public function setId($id)
@@ -124,7 +136,8 @@ class FixometerSessionService implements Session
     /**
      * Checks if a key exists.
      *
-     * @param  string|array $key
+     * @param string|array $key The key to that might exist
+     *
      * @return bool
      */
     public function exists($key)
@@ -135,7 +148,8 @@ class FixometerSessionService implements Session
     /**
      * Checks if an a key is present and not null.
      *
-     * @param  string|array $key
+     * @param string|array $key The key that might exist
+     *
      * @return bool
      */
     public function has($key)
@@ -146,8 +160,9 @@ class FixometerSessionService implements Session
     /**
      * Get an item from the session.
      *
-     * @param  string $key
-     * @param  mixed $default
+     * @param string $key     The key to get from the session
+     * @param mixed  $default The default value if none exists
+     *
      * @return mixed
      */
     public function get($key, $default = null)
@@ -170,8 +185,9 @@ class FixometerSessionService implements Session
     /**
      * Put a key / value pair or array of key / value pairs in the session.
      *
-     * @param  string|array $key
-     * @param  mixed $value
+     * @param string|array $key   The key
+     * @param mixed        $value The value
+     *
      * @return void
      */
     public function put($key, $value = null)
@@ -224,7 +240,8 @@ class FixometerSessionService implements Session
     /**
      * Remove an item from the session, returning its value.
      *
-     * @param  string $key
+     * @param string $key The key to remove
+     *
      * @return mixed
      */
     public function remove($key)
@@ -244,6 +261,8 @@ class FixometerSessionService implements Session
         //the session
 
         /**
+         * The FixometerSession from the database
+         *
          * @var FixometerSession $session
          */
         $session = $this->repository->findOneBySession($token);
@@ -252,7 +271,7 @@ class FixometerSessionService implements Session
 
         $this->bus->handle($command);
 
-        Cookie::forget('PHPSESSID');
+        Cookie::forget($this->getName());
 
         return $session->getUser();
     }
@@ -260,12 +279,21 @@ class FixometerSessionService implements Session
     /**
      * Remove one or many items from the session.
      *
-     * @param  string|array $keys
+     * @param string|array $keys The keys to remove
+     *
      * @return void
      */
     public function forget($keys)
     {
-        // TODO: Implement forget() method.
+        if (is_array($keys)) {
+            foreach ($keys as $key) {
+                $this->remove($key);
+            }
+
+            return;
+        }
+
+        $this->remove($keys);
     }
 
     /**
@@ -275,13 +303,14 @@ class FixometerSessionService implements Session
      */
     public function flush()
     {
-        // TODO: Implement flush() method.
+        $this->remove('user');
     }
 
     /**
      * Generate a new session ID for the session.
      *
-     * @param  bool $destroy
+     * @param bool $destroy Whether to destroy the session first
+     *
      * @return bool
      */
     public function migrate($destroy = false)
@@ -296,7 +325,7 @@ class FixometerSessionService implements Session
      */
     public function isStarted()
     {
-        // TODO: Implement isStarted() method.
+        return true;
     }
 
     /**
@@ -306,18 +335,19 @@ class FixometerSessionService implements Session
      */
     public function previousUrl()
     {
-        // TODO: Implement previousUrl() method.
+        return null;
     }
 
     /**
      * Set the "previous" URL in the session.
      *
-     * @param  string $url
+     * @param string $url The url to set
+     *
      * @return void
      */
     public function setPreviousUrl($url)
     {
-        // TODO: Implement setPreviousUrl() method.
+        //do nothing
     }
 
     /**
@@ -327,7 +357,7 @@ class FixometerSessionService implements Session
      */
     public function getHandler()
     {
-        // TODO: Implement getHandler() method.
+        return null;
     }
 
     /**
@@ -337,18 +367,19 @@ class FixometerSessionService implements Session
      */
     public function handlerNeedsRequest()
     {
-        // TODO: Implement handlerNeedsRequest() method.
+        return false;
     }
 
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request The request object
+     *
      * @return void
      */
     public function setRequestOnHandler($request)
     {
-        // TODO: Implement setRequestOnHandler() method.
+        $this->request = $request;
     }
 
     /**

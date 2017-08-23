@@ -10,9 +10,12 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
 
 /**
  * Class UpdateFixometerSessionHandler
+ *
  * @category Handler
  * @package  TheRestartProject\RepairDirectory\Application\Auth
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class UpdateFixometerSessionHandler
 {
@@ -33,8 +36,8 @@ class UpdateFixometerSessionHandler
     /**
      * UpdateFixometerSessionHandler constructor.
      *
-     * @param FixometerSessionRepository $sessionRepository
-     * @param UserRepository             $userRepository
+     * @param FixometerSessionRepository $sessionRepository The session repository
+     * @param UserRepository             $userRepository    The user repository
      */
     public function __construct(
         FixometerSessionRepository $sessionRepository,
@@ -45,9 +48,18 @@ class UpdateFixometerSessionHandler
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * Updates the Fixometer Session with the user id
+     *
+     * @param UpdateFixometerSessionCommand $command The command to update
+     *
+     * @throws NotFoundException
+     *
+     * @return void
+     */
     public function handle(UpdateFixometerSessionCommand $command)
     {
-        $now = Carbon::now();
+        $now = new Carbon('now');
         $userId = $command->getUserId();
         $token = $command->getToken();
 

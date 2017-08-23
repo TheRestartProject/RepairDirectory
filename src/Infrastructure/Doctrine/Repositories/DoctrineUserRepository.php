@@ -7,6 +7,7 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
 
 /**
  * Class DoctrineUserRepository
+ *
  * @category Repository
  * @package  TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories
  * @author   Matthew Kendon <matt@outlandish.com>
@@ -38,24 +39,25 @@ class DoctrineUserRepository extends DoctrineRepository implements UserRepositor
     /**
      * Find a single user or return null
      *
-     * @param int $id The unique id for the user
+     * @param int $uid The unique id for the user
      *
      * @return User|null
      */
-    public function find($id)
+    public function find($uid)
     {
-        return $this->repository->find($id);
+        return $this->repository->find($uid);
     }
 
     /**
      * Returns true if the user exists
      *
-     * @param int $id The unique id for the user
+     * @param int $uid The unique id for the user
+     *
      * @return bool
      */
-    public function hasUserById($id)
+    public function hasUserById($uid)
     {
-        $user = $this->find($id);
+        $user = $this->find($uid);
 
         return $user !== null;
     }

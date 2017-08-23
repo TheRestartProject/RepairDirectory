@@ -7,15 +7,19 @@ use League\Tactician\CommandBus;
 use Mockery as m;
 use Hamcrest\Matchers as h;
 use Illuminate\Http\Request;
+use Psy\Command\Command;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionService;
+use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**
  * Tests for the FixometerSessionService
  *
- * @category
+ * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Unit\Application\Auth
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class FixometerSessionServiceTest extends TestCase
 {
@@ -35,11 +39,24 @@ class FixometerSessionServiceTest extends TestCase
      */
     protected $bus;
 
+    /**
+     * The mocked Repository
+     *
+     * @var FixometerSessionRepository|m\MockInterface
+     */
+    protected $repository;
+
+    /**
+     * Sets up the test environment
+     *
+     * @return void
+     */
     protected function setUp()
     {
         parent::setUp();
         $this->request = m::mock(Request::class);
         $this->bus = m::spy(CommandBus::class);
+        $this->repository = m::spy(FixometerSessionRepository::class);
     }
 
 
@@ -70,9 +87,9 @@ class FixometerSessionServiceTest extends TestCase
 
         $session = $this->createSession();
 
-        $id = $session->getId();
+        $uid = $session->getId();
 
-        self::assertSame('', $id);
+        self::assertSame('', $uid);
     }
 
     /**
@@ -90,9 +107,9 @@ class FixometerSessionServiceTest extends TestCase
 
         $session = $this->createSession();
 
-        $id = $session->getId();
+        $uid = $session->getId();
 
-        self::assertEquals($token, $id);
+        self::assertEquals($token, $uid);
     }
 
     /**
@@ -135,10 +152,33 @@ class FixometerSessionServiceTest extends TestCase
      */
     protected function createSession()
     {
+        /**
+         * The command bus
+         *
+         * @var CommandBus
+         */
+        $bus = $this->bus;
+
+        /**
+         * The repository
+         *
+         * @var FixometerSessionRepository
+         */
+        $repository = $this->repository;
+
+        /**
+         * The request
+         *
+         * @var Request
+         */
+        $request = $this->request;
+
+
         return new FixometerSessionService(
             self::SESSION_NAME,
-            $this->bus,
-            $this->request
+            $bus,
+            $repository,
+            $request
         );
     }
 

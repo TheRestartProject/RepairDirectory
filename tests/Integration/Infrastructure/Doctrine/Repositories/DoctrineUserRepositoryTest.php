@@ -15,6 +15,8 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Integration\Infrastructure\Doctrine\Repositories
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     https://laravel.com/docs/5.4/
  */
 class DoctrineUserRepositoryTest extends IntegrationTestCase
 {
@@ -114,6 +116,13 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
         self::assertEquals($user->getUid(), $foundUser->getUid());
     }
 
+    /**
+     * Tests that it returns false if there is no user
+     *
+     * @test
+     *
+     * @return void
+     */
     public function it_returns_false_if_no_user_exists_with_that_id()
     {
         $result = $this->repository->hasUserById(1);
