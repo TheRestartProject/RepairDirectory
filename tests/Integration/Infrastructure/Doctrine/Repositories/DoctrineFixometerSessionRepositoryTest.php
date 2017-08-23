@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Illuminate\Support\Str;
 use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
-use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -20,7 +20,7 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class DoctrineFixometerSessionRepositoryTest extends IntegrationTestCase
 {
-    use DatabaseMigrations;
+    use FixometerDatabaseMigrations;
 
     /**
      * The repository under test
@@ -39,7 +39,6 @@ class DoctrineFixometerSessionRepositoryTest extends IntegrationTestCase
         parent::setUp();
         $this->repository = new DoctrineFixometerSessionRepository(
             $this->app->make(ManagerRegistry::class)
-                ->getManagerForClass(FixometerSession::class)
         );
     }
 

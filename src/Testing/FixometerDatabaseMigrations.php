@@ -1,12 +1,8 @@
 <?php
 
 namespace TheRestartProject\RepairDirectory\Testing;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Database\Connectors\ConnectionFactory;
-use LaravelDoctrine\ORM\Configuration\Connections\Connection;
-use LaravelDoctrine\ORM\Configuration\Connections\ConnectionManager;
-use League\Flysystem\File;
+
+use Illuminate\Contracts\Console\Kernel;
 
 /**
  * A helpful trait that performs database migrations after every test
@@ -27,59 +23,15 @@ trait FixometerDatabaseMigrations
      */
     public function runFixometerDatabaseMigrations()
     {
-        /**
-         * @var ConnectionFactory $factory
-         */
-        $factory = $this->app->make(ConnectionFactory::class);
+        $this->artisan('doctrine:migrations:refresh', ['--connection' => 'fixometer']);
 
-        $factory->
+        $this->app[Kernel::class]->setArtisan(null);
 
         $this->beforeApplicationDestroyed(
-            function () use ($manager) {
-                $statement = $manager->getConnection()->query('drop table IF EXISTS sessions; drop table IF EXISTS users;');
-                $statement->execute();
+            function () {
+                $this->artisan('doctrine:migrations:reset', ['--connection'=> 'fixometer']);
             }
         );
     }
 
-    protected function getQuery()
-    {
-        return "drop table IF EXISTS sessions;
-            drop table IF EXISTS users;
-            
-            create table sessions
-            (
-              idsessions int auto_increment
-                primary key,
-              session varchar(255) not null,
-              user int not null,
-              created_at timestamp null,
-              modified_at timestamp default CURRENT_TIMESTAMP not null,
-              constraint session_UNIQUE
-              unique (session)
-            )
-            ;
-            
-            create index idxSessionsUsers
-              on sessions (user)
-            ;
-            
-            create table users
-            (
-              idusers int auto_increment
-                primary key,
-              email varchar(255) not null,
-              password varchar(60) not null,
-              name varchar(255) not null,
-              role int default '3' not null,
-              recovery varchar(45) null,
-              recovery_expires timestamp null,
-              created_at timestamp null,
-              modified_at timestamp default CURRENT_TIMESTAMP not null,
-              constraint email_UNIQUE
-              unique (email)
-            )
-            ;
-          ";
-    }
 }
