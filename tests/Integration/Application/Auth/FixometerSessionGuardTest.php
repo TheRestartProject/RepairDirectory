@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Integration\Application\Auth;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionGuard;
-use TheRestartProject\RepairDirectory\Domain\Models\User;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 

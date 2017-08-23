@@ -1,6 +1,6 @@
 <?php
 
-use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 
 Route::get('/', function (UserRepository $repository) {
     $users = $repository->findAll();

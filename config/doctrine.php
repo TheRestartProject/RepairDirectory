@@ -83,11 +83,11 @@ return [
         ],
         'fixometer' => [
             'dev'           => env('APP_DEBUG'),
-            'meta'          => env('DOCTRINE_METADATA', 'config'),
-            'mapping_file'  => 'doctrine-mappings_fixometer',
+            'meta'          => 'config',
+            'mapping_file'  => 'doctrine-mappings-fixometer',
             'connection'    => 'fixometer',
             'namespaces'    => [
-                'TheRestartProject\\RepairDirectory\\Domain\\Models'
+                'TheRestartProject\\Fixometer\\Domain\\Entities'
             ],
             'paths'         => [
                 base_path('config')
@@ -108,10 +108,7 @@ return [
             |
             */
             'events'        => [
-                'listeners'   => [
-                    Doctrine\ORM\Events::prePersist => 'TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Listeners\AddSuggestionsListener',
-                    Doctrine\ORM\Events::onFlush => 'TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Listeners\AddSuggestionsListener'
-                ],
+                'listeners'   => [],
                 'subscribers' => []
             ],
             'filters'       => [],
@@ -137,9 +134,7 @@ return [
             | http://symfony.com/doc/current/cookbook/doctrine/dbal.html#registering-custom-mapping-types-in-the-schematool
             |--------------------------------------------------------------------------
             */
-            'mapping_types' => [
-                'point' => 'point'
-            ]
+            'mapping_types' => []
         ]
     ],
     /*

@@ -3,8 +3,8 @@
 namespace TheRestartProject\RepairDirectory\Tests\Integration\Infrastructure\Doctrine\Repositories;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use TheRestartProject\RepairDirectory\Domain\Models\User;
-use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\Fixometer\Domain\Entities\User;
+use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
@@ -101,7 +101,7 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
         /**
          * The created user
          *
-         * @var User $user
+         * @var \TheRestartProject\Fixometer\Domain\Entities\User $user
          */
         $user = entity(User::class)->create();
 

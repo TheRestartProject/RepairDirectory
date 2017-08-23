@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use League\Tactician\CommandBus;
-use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
-use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
+use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
+use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
 
 /**
  * Fixometer Session Service that can be used to interact with the session table
@@ -263,7 +263,7 @@ class FixometerSessionService implements Session
         /**
          * The FixometerSession from the database
          *
-         * @var FixometerSession $session
+         * @var \TheRestartProject\Fixometer\Domain\Entities\FixometerSession $session
          */
         $session = $this->repository->findOneBySession($token);
 

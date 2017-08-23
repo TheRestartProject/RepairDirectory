@@ -4,7 +4,7 @@ namespace TheRestartProject\RepairDirectory\Dusk\Http\Controllers;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\Auth;
-use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 
 /**
  * User Controller for when using Dusk and needing to login a user
@@ -27,7 +27,7 @@ class UserController
     /**
      * Creates a new UserController
      *
-     * @param UserRepository $repository The user repository
+     * @param \TheRestartProject\Fixometer\Domain\Repositories\UserRepository $repository The user repository
      *
      * @return UserController
      */

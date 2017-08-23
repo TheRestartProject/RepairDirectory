@@ -9,7 +9,7 @@ use Hamcrest\Matchers as h;
 use Illuminate\Http\Request;
 use Psy\Command\Command;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionService;
-use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
+use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**

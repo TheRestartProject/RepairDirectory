@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Auth;
 
-use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
+use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
 
 /**
  * Class DeleteFixometerSessionHandler
@@ -18,7 +18,7 @@ class DeleteFixometerSessionHandler
     /**
      * Session repository
      *
-     * @var FixometerSessionRepository
+     * @var \TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository
      */
     private $repository;
 

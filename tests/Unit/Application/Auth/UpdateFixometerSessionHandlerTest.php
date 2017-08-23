@@ -5,8 +5,8 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Auth;
 use Illuminate\Support\Str;
 use TheRestartProject\RepairDirectory\Application\Auth\UpdateFixometerSessionCommand;
 use TheRestartProject\RepairDirectory\Application\Auth\UpdateFixometerSessionHandler;
-use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
-use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
+use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 use Mockery as m;
 
@@ -24,7 +24,7 @@ class UpdateFixometerSessionHandlerTest extends TestCase
     /**
      * The mocked session repository
      *
-     * @var FixometerSessionRepository|m\MockInterface
+     * @var \TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository|m\MockInterface
      */
     protected $sessionRepository;
 
@@ -79,7 +79,7 @@ class UpdateFixometerSessionHandlerTest extends TestCase
         /**
          * The session repository
          *
-         * @var FixometerSessionRepository $sessionRepository
+         * @var \TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository $sessionRepository
          */
         $sessionRepository = $this->sessionRepository;
 

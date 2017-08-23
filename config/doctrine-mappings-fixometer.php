@@ -1,6 +1,7 @@
 <?php
+
 return [
-    'TheRestartProject\RepairDirectory\Domain\Models\User' => [
+    'TheRestartProject\Fixometer\Domain\Entities\User' => [
         'type'   => 'entity',
         'table'  => 'users',
         'id'     => [
@@ -51,7 +52,7 @@ return [
             ]
         ]
     ],
-    'TheRestartProject\RepairDirectory\Domain\Models\FixometerSession' => [
+    'TheRestartProject\Fixometer\Domain\Entities\FixometerSession' => [
         'type'   => 'entity',
         'table'  => 'sessions',
         'id'     => [

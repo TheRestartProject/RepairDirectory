@@ -2,8 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
 
-use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
-use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
+use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
+use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
 
 /**
  * Implementation of the FixometerSessionRepository for doctrine
@@ -21,7 +21,7 @@ class DoctrineFixometerSessionRepository extends DoctrineRepository implements F
      *
      * @param string $session The random string that represents a session
      *
-     * @return FixometerSession|null
+     * @return \TheRestartProject\Fixometer\Domain\Entities\FixometerSession|null
      */
     public function findOneBySession($session)
     {
@@ -31,7 +31,7 @@ class DoctrineFixometerSessionRepository extends DoctrineRepository implements F
     /**
      * Add a new session
      *
-     * @param FixometerSession $session The Session to add
+     * @param \TheRestartProject\Fixometer\Domain\Entities\FixometerSession $session The Session to add
      *
      * @return void
      */
@@ -53,7 +53,7 @@ class DoctrineFixometerSessionRepository extends DoctrineRepository implements F
     /**
      * Remove a session
      *
-     * @param FixometerSession $session The Session to remove
+     * @param \TheRestartProject\Fixometer\Domain\Entities\FixometerSession $session The Session to remove
      *
      * @return void
      */
@@ -67,7 +67,7 @@ class DoctrineFixometerSessionRepository extends DoctrineRepository implements F
      *
      * @param int $uid The Unique id for the session
      *
-     * @return FixometerSession|null
+     * @return \TheRestartProject\Fixometer\Domain\Entities\FixometerSession|null
      */
     public function find($uid)
     {

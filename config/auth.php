@@ -1,6 +1,6 @@
 <?php
 
-use TheRestartProject\RepairDirectory\Domain\Models\User;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 
 return [
 

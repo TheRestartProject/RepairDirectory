@@ -1,8 +1,8 @@
 <?php
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
-use TheRestartProject\RepairDirectory\Domain\Models\User;
-use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\Fixometer\Domain\Entities\User;
+use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 
 
 /**
@@ -29,7 +29,7 @@ class DoctrineUserRepository extends DoctrineRepository implements UserRepositor
     /**
      * Finds all users, or empty collection if none
      *
-     * @return User[]
+     * @return \TheRestartProject\Fixometer\Domain\Entities\User[]
      */
     public function findAll()
     {

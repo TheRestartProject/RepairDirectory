@@ -5,7 +5,7 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
-use TheRestartProject\RepairDirectory\Domain\Models\User;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 
 /*
 |--------------------------------------------------------------------------

@@ -1,14 +1,14 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Domain\Repositories;
+namespace TheRestartProject\Fixometer\Domain\Repositories;
 
-use TheRestartProject\RepairDirectory\Domain\Models\User;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 
 /**
  * Interface UserRepository
  *
  * @category Repository
- * @package  TheRestartProject\RepairDirectory\Domain\Repositories
+ * @package  TheRestartProject\Fixometer\Domain\Repositories
  * @author   Matt Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
@@ -18,7 +18,7 @@ interface UserRepository
     /**
      * Finds all users, or empty collection if none
      *
-     * @return User[]
+     * @return \TheRestartProject\Fixometer\Domain\Entities\User[]
      */
     public function findAll();
 

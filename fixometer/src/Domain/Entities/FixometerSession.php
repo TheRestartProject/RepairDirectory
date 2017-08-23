@@ -1,12 +1,12 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Domain\Models;
+namespace TheRestartProject\Fixometer\Domain\Entities;
 
 /**
  * Entity to represent the Fixometer Session table
  *
  * @category Entity
- * @package  TheRestartProject\RepairDirectory\Domain\Models
+ * @package  TheRestartProject\Fixometer\Domain\Entities
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/

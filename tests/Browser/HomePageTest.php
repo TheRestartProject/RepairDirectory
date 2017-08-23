@@ -4,7 +4,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Browser;
 
 use Illuminate\Support\Collection;
 use Laravel\Dusk\Browser;
-use TheRestartProject\RepairDirectory\Domain\Models\User;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\HomePage;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;

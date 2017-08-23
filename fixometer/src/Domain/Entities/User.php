@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Domain\Models;
+namespace TheRestartProject\Fixometer\Domain\Entities;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
  * The user who can be logged into the application
  *
  * @category Entity
- * @package  TheRestartProject\RepairDirectory\Domain\Models
+ * @package  TheRestartProject\Fixometer\Domain\Entities
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk

@@ -1,14 +1,14 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Domain\Repositories;
+namespace TheRestartProject\Fixometer\Domain\Repositories;
 
-use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
+use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
 
 /**
  * Implementation of the StatefulGuard that uses the FixometerSession
  *
  * @category Repository
- * @package  TheRestartProject\RepairDirectory\Domain\Repositories
+ * @package  TheRestartProject\Fixometer\Domain\Repositories
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
@@ -47,7 +47,7 @@ interface FixometerSessionRepository
      *
      * @param int $uid The Unique id for the session
      *
-     * @return FixometerSession|null
+     * @return \TheRestartProject\Fixometer\Domain\Entities\FixometerSession|null
      */
     public function find($uid);
 

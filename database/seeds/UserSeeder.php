@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use TheRestartProject\RepairDirectory\Domain\Models\User;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 
 class UserSeeder extends Seeder
 {

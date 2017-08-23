@@ -3,9 +3,9 @@
 namespace TheRestartProject\RepairDirectory\Application\Auth;
 use Carbon\Carbon;
 use TheRestartProject\RepairDirectory\Application\CommandBus\Exceptions\NotFoundException;
-use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
-use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
-use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
+use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
+use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 
 
 /**
@@ -36,7 +36,7 @@ class UpdateFixometerSessionHandler
     /**
      * UpdateFixometerSessionHandler constructor.
      *
-     * @param FixometerSessionRepository $sessionRepository The session repository
+     * @param \TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository $sessionRepository The session repository
      * @param UserRepository             $userRepository    The user repository
      */
     public function __construct(
