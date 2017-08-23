@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
+namespace TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  * Abstract class that can be used for repositories that should work with Doctrine ORM
  *
  * @category Repository
- * @package  TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories
+ * @package  TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/

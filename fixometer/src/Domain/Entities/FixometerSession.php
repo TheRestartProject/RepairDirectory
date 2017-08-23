@@ -18,7 +18,7 @@ class FixometerSession
      *
      * @var int
      */
-    private $idsession;
+    private $idsessions;
 
     /**
      * The randomly generated string for the session
@@ -53,21 +53,21 @@ class FixometerSession
      *
      * @return int
      */
-    public function getIdsession()
+    public function getIdsessions()
     {
-        return $this->idsession;
+        return $this->idsessions;
     }
 
     /**
      * Set the unique id for this session
      *
-     * @param int $idsession the unique id
+     * @param int $idsessions the unique id
      *
      * @return void
      */
-    public function setIdsession($idsession)
+    public function setIdsessions($idsessions)
     {
-        $this->idsession = $idsession;
+        $this->idsessions = $idsessions;
     }
 
     /**

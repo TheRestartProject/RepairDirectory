@@ -10,8 +10,8 @@ use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionGuard;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionService;
 use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
+use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
+use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 
 class AuthServiceProvider extends ServiceProvider
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
+namespace TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories;
+
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
-
 
 /**
  * Class DoctrineUserRepository
  *
  * @category Repository
- * @package  TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories
+ * @package  TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/

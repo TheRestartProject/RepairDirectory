@@ -56,7 +56,7 @@ return [
         'type'   => 'entity',
         'table'  => 'sessions',
         'id'     => [
-            'idsession' => [
+            'idsessions' => [
                 'type'     => 'integer',
                 'generator' => [
                     'strategy' => 'auto'

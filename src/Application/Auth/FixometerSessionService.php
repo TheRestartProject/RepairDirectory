@@ -267,7 +267,7 @@ class FixometerSessionService implements Session
          */
         $session = $this->repository->findOneBySession($token);
 
-        $command = new DeleteFixometerSessionCommand($session->getIdsession());
+        $command = new DeleteFixometerSessionCommand($session->getIdsessions());
 
         $this->bus->handle($command);
 

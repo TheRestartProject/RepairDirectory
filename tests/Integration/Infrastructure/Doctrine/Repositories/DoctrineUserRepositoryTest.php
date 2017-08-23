@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Integration\Infrastructure\Doc
 use Doctrine\Common\Persistence\ManagerRegistry;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
+use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
@@ -25,7 +25,7 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
     /**
      * The repository under test
      *
-     * @var DoctrineUserRepository
+     * @var \TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository
      */
     protected $repository;
 

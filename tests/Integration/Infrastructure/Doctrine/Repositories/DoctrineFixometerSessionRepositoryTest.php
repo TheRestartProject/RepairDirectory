@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Integration\Infrastructure\Doc
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Illuminate\Support\Str;
 use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
-use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
+use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
@@ -25,7 +25,7 @@ class DoctrineFixometerSessionRepositoryTest extends IntegrationTestCase
     /**
      * The repository under test
      *
-     * @var DoctrineFixometerSessionRepository
+     * @var \TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository
      */
     protected $repository;
 

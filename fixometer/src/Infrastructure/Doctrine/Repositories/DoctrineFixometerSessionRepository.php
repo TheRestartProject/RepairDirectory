@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
+namespace TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories;
 
 use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
 use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
@@ -9,7 +9,7 @@ use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
  * Implementation of the FixometerSessionRepository for doctrine
  *
  * @category Repository
- * @package  TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories
+ * @package  TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
