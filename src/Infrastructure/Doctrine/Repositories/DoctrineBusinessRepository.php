@@ -130,7 +130,7 @@ class DoctrineBusinessRepository implements BusinessRepository
             $doctrineSQL = $dqlQuery->getSQL();
             $additionalParameters = $this->getParametersFromDoctrineQuery($dqlQuery);
 
-            $additionalSQL = $this->nameParameters($doctrineSQL, array_keys($additionalParameters));
+            $additionalSQL = $this->convertToNamedParameters($doctrineSQL, array_keys($additionalParameters));
 
             $additionalWhere = substr($additionalSQL, strpos($additionalSQL, 'WHERE') + 6);
             $sql .= " AND $additionalWhere";
@@ -207,14 +207,15 @@ class DoctrineBusinessRepository implements BusinessRepository
     /**
      * Replace the '?' characters in an SQL string with each element in $parameterNames in order.
      *
-     * @param $sql
-     * @param $parameterNames
+     * @param string $sql            The SQL to convert to use named parameters
+     * @param array  $parameterNames An array of parameter names (strings)
      *
      * @return string
      */
-    private function nameParameters($sql, $parameterNames) {
+    private function convertToNamedParameters($sql, $parameterNames)
+    {
         $newSql = $sql;
-        foreach($parameterNames as $parameterName) {
+        foreach ($parameterNames as $parameterName) {
             $nextParamPos = strpos($newSql, '?');
             if ($nextParamPos !== false) {
                 $newSql = substr_replace($newSql, ":$parameterName", $nextParamPos, 1);
