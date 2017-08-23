@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Cookie\CookieJar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use League\Tactician\CommandBus;
@@ -58,7 +59,8 @@ class AuthServiceProvider extends ServiceProvider
             return new FixometerSessionService(
                 'PHPSESSID',
                 $app->make(CommandBus::class),
-                $app->make(FixometerSessionRepository::class)
+                $app->make(FixometerSessionRepository::class),
+                $app->make(CookieJar::class)
             );
         });
     }

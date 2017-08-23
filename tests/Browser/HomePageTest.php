@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Laravel\Dusk\Browser;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\HomePage;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 
@@ -20,7 +21,7 @@ use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
  */
 class HomePageTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, FixometerDatabaseMigrations;
 
     /**
      * Sets up the enviroment

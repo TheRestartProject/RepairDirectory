@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Browser;
 
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -18,6 +19,7 @@ use TheRestartProject\RepairDirectory\Tests\Browser\Pages\MapPage;
  */
 class MapSearchTest extends DuskTestCase
 {
+    use DatabaseMigrations, FixometerDatabaseMigrations;
     /**
      * Assert that when I visit the homepage I can go there
      *
@@ -35,7 +37,7 @@ class MapSearchTest extends DuskTestCase
             function (Browser $browser) {
                 $browser->visit(new MapPage())
                     ->assertSee('Your location')
-                    ->assertSee('Categories');
+                    ->assertCategoryInputExists();
             }
         );
     }

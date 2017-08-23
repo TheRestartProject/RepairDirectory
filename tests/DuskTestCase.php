@@ -6,6 +6,7 @@ use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 
 /**
  * Class DuskTestCase
@@ -17,6 +18,7 @@ use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
  * @link     https://laravel.com/docs/5.4/dusk
  *
  * @method runDatabaseMigrations
+ * @method runFixometerDatabaseMigrations
  */
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -55,6 +57,10 @@ abstract class DuskTestCase extends BaseTestCase
 
         if (isset($uses[DatabaseMigrations::class])) {
             $this->runDatabaseMigrations();
+        }
+
+        if (isset($uses[FixometerDatabaseMigrations::class])) {
+            $this->runFixometerDatabaseMigrations();
         }
 
         return $uses;

@@ -103,7 +103,7 @@ class MapPage extends Page
      */
     public function assertCategoryInputExists(Browser $browser)
     {
-        $browser->assertSee('Categories');
+        $browser->assertSee('Category');
 
         return $this;
     }
