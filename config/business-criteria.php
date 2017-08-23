@@ -1,37 +1,38 @@
 <?php
 
+use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 
 return [
     'public' => [
         [
             'field' => 'address',
-            'operator' => '!=',
+            'operator' => Operators::NOT_EQUAL,
             'value' => ''
         ],
         [
             'field' => 'postcode',
-            'operator' => '!=',
+            'operator' => Operators::NOT_EQUAL,
             'value' => ''
         ],
         [
             'field' => 'city',
-            'operator' => '!=',
+            'operator' => Operators::NOT_EQUAL,
             'value' => ''
         ],
         [
             'field' => 'warrantyOffered',
-            'operator' => '=',
+            'operator' => Operators::EQUAL,
             'value' => true
         ],
         [
             'field' => 'positiveReviewPc',
-            'operator' => '>=',
+            'operator' => Operators::GREATER_THAN_OR_EQUAL,
             'value' => '80'
         ],
         [
             'field' => 'publishingStatus',
-            'operator' => '=',
+            'operator' => Operators::EQUAL,
             'value' => PublishingStatus::PUBLISHED
         ]
     ]

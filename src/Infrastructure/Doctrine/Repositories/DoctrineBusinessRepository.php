@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Parameter;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
@@ -175,6 +176,13 @@ class DoctrineBusinessRepository implements BusinessRepository
             $field = $criterion['field'];
             $operator = $criterion['operator'];
             $value = $criterion['value'];
+
+            // handle array contains operator
+            if ($operator === Operators::CONTAINS) {
+                $operator = 'LIKE';
+                $value = '%' . $value . '%';
+            }
+
             $queryBuilder->andWhere("b.$field $operator :$field");
             $queryBuilder->setParameter($field, $value);
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
@@ -21,8 +22,8 @@ class BusinessController extends Controller
         if ($category) {
             $criteria[] = [
                 'field' => 'categories',
-                'operator' => 'LIKE',
-                'value' => '%' . $category . '%'
+                'operator' => Operators::CONTAINS,
+                'value' => $category
             ];
         }
 
