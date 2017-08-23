@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Auth;
 
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
@@ -16,75 +17,260 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionReposi
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class FixometerSessionService
+class FixometerSessionService implements Session
 {
     /**
-     * The repository class for the FixometerSession
+     * The name of the session
      *
-     * @var FixometerSessionRepository
+     * @var string
      */
-    private $repository;
-
+    private $name;
     /**
-     * The command bus for running commands
-     *
-     * @var CommandBus
-     */
-    private $bus;
-
-    /**
-     * The request for interacting with the http
-     *
-     * @var null|Request
+     * @var Request|null
      */
     private $request;
 
     /**
      * Constructs the Fixometer Session Service
      *
-     * @param FixometerSessionRepository $repository The session repository
-     * @param CommandBus                 $bus        The command bus for the application
-     * @param Request|null               $request    The http request
+     * @param string       $name    The name of the session
+     * @param Request|null $request The request object or null
      */
-    public function __construct(
-        FixometerSessionRepository $repository,
-        CommandBus $bus,
-        Request $request = null
-    ) {
-        $this->repository = $repository;
-        $this->bus = $bus;
+    public function __construct($name, Request $request = null)
+    {
+        $this->name = $name;
         $this->request = $request;
     }
 
     /**
-     * Gets the User Id from the Fixometer Session
-     *
-     * This method gets the session token from the user's cookies,
-     * then finds the fixometer session for that token. If it
-     * doesn't exist it returns null, otherwise it returns the user
-     * id from the fixometer session.
-     *
-     * @return int|null
-     */
-    public function getUserId()
-    {
-        $sessionToken = $this->getSessionToken();
-
-        $session = $this->repository->findOneBySession($sessionToken);
-
-        if ($session === null) {
-            return null;
-        }
-
-        return $session->getUser();
-    }
-
-    /**
-     * Gets the session token from the cookie
+     * Get the name of the session.
      *
      * @return string
      */
-    protected function getSessionToken()
+    public function getName()
     {
+        return $this->name;
+    }
+
+    /**
+     * Get the current session ID.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->getRequest()->cookie($this->getName(), '');
+    }
+
+    /**
+     * Set the session ID.
+     *
+     * @param  string $id
+     * @return void
+     */
+    public function setId($id)
+    {
+        // TODO: Implement setId() method.
+    }
+
+    /**
+     * Start the session, reading the data from a handler.
+     *
+     * @return bool
+     */
+    public function start()
+    {
+        return false;
+    }
+
+    /**
+     * Save the session data to storage.
+     *
+     * @return bool
+     */
+    public function save()
+    {
+        return false;
+    }
+
+    /**
+     * Get all of the session data.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return [];
+    }
+
+    /**
+     * Checks if a key exists.
+     *
+     * @param  string|array $key
+     * @return bool
+     */
+    public function exists($key)
+    {
+        // TODO: Implement exists() method.
+    }
+
+    /**
+     * Checks if an a key is present and not null.
+     *
+     * @param  string|array $key
+     * @return bool
+     */
+    public function has($key)
+    {
+        // TODO: Implement has() method.
+    }
+
+    /**
+     * Get an item from the session.
+     *
+     * @param  string $key
+     * @param  mixed $default
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        // TODO: Implement get() method.
+    }
+
+    /**
+     * Put a key / value pair or array of key / value pairs in the session.
+     *
+     * @param  string|array $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function put($key, $value = null)
+    {
+        // TODO: Implement put() method.
+    }
+
+    /**
+     * Get the CSRF token value.
+     *
+     * @return string
+     */
+    public function token()
+    {
+        // TODO: Implement token() method.
+    }
+
+    /**
+     * Remove an item from the session, returning its value.
+     *
+     * @param  string $key
+     * @return mixed
+     */
+    public function remove($key)
+    {
+        // TODO: Implement remove() method.
+    }
+
+    /**
+     * Remove one or many items from the session.
+     *
+     * @param  string|array $keys
+     * @return void
+     */
+    public function forget($keys)
+    {
+        // TODO: Implement forget() method.
+    }
+
+    /**
+     * Remove all of the items from the session.
+     *
+     * @return void
+     */
+    public function flush()
+    {
+        // TODO: Implement flush() method.
+    }
+
+    /**
+     * Generate a new session ID for the session.
+     *
+     * @param  bool $destroy
+     * @return bool
+     */
+    public function migrate($destroy = false)
+    {
+        // TODO: Implement migrate() method.
+    }
+
+    /**
+     * Determine if the session has been started.
+     *
+     * @return bool
+     */
+    public function isStarted()
+    {
+        // TODO: Implement isStarted() method.
+    }
+
+    /**
+     * Get the previous URL from the session.
+     *
+     * @return string|null
+     */
+    public function previousUrl()
+    {
+        // TODO: Implement previousUrl() method.
+    }
+
+    /**
+     * Set the "previous" URL in the session.
+     *
+     * @param  string $url
+     * @return void
+     */
+    public function setPreviousUrl($url)
+    {
+        // TODO: Implement setPreviousUrl() method.
+    }
+
+    /**
+     * Get the session handler instance.
+     *
+     * @return \SessionHandlerInterface
+     */
+    public function getHandler()
+    {
+        // TODO: Implement getHandler() method.
+    }
+
+    /**
+     * Determine if the session handler needs a request.
+     *
+     * @return bool
+     */
+    public function handlerNeedsRequest()
+    {
+        // TODO: Implement handlerNeedsRequest() method.
+    }
+
+    /**
+     * Set the request on the handler instance.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return void
+     */
+    public function setRequestOnHandler($request)
+    {
+        // TODO: Implement setRequestOnHandler() method.
+    }
+
+    /**
+     * This returns the request
+     *
+     * @return Request
+     */
+    protected function getRequest()
+    {
+        return $this->request ?: Request::createFromGlobals();
     }
 }
