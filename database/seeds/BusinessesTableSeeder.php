@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 
@@ -20,7 +21,8 @@ class BusinessesTableSeeder extends Seeder
             'address' => '203 Mawney Road',
             'postcode' => 'RM7 8BX',
             'geolocation' => new Point(51.583626,0.163757),
-            'categories' => [Category::DESKTOP]
+            'categories' => [Category::DESKTOP],
+            'publishingStatus' => PublishingStatus::PUBLISHED
         ]);
 
         entity(Business::class)->create([
@@ -29,7 +31,12 @@ class BusinessesTableSeeder extends Seeder
             'address' => '7 Cranbrook Road, Ilford',
             'postcode' => 'IG1 4DU',
             'geolocation' => new Point(51.5589297,-0.1090134),
-            'categories' => [Category::DESKTOP]
+            'categories' => [Category::DESKTOP],
+            'publishingStatus' => PublishingStatus::PUBLISHED
+        ]);
+
+        entity(Business::class)->create([
+            'publishingStatus' => PublishingStatus::PUBLISHED
         ]);
 
         entity(Business::class)->create();

@@ -105,17 +105,17 @@ class DoctrineBusinessRepository implements BusinessRepository
     public function findByLocation($geolocation, $radius, $criteria)
     {
         $rsm = new ResultSetMappingBuilder($this->entityManager);
-        $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+        $rsm->addRootEntityFromClassMetadata(Business::class, 'b0_');
 
-        $sql = "SELECT *, AsText(b.geolocation) AS geolocation FROM businesses b WHERE 
+        $sql = "SELECT *, AsText(b0_.geolocation) AS geolocation FROM businesses b0_ WHERE 
                   MBRContains(
                     LineString(
                       Point(:x - :radius / (69 * COS(RADIANS(:y))), :y - :radius / 69),
                       Point(:x + :radius / (69 * COS(RADIANS(:y))), :y + :radius / 69)
                     ),
-                    b.geolocation
+                    b0_.geolocation
                   )
-                  AND ST_Distance_Sphere(Point(:x, :y), b.geolocation) <= :radius * 1000";
+                  AND ST_Distance_Sphere(Point(:x, :y), b0_.geolocation) <= :radius * 1000";
 
         $radiusKm = $radius * 1.60934;
         $parameters = [
@@ -127,8 +127,10 @@ class DoctrineBusinessRepository implements BusinessRepository
         if (count($criteria)) {
             $dqlQuery = $this->queryFromCriteria($criteria);
 
-            $additionalSQL = $dqlQuery->getDQL();
+            $doctrineSQL = $dqlQuery->getSQL();
             $additionalParameters = $this->getParametersFromDoctrineQuery($dqlQuery);
+
+            $additionalSQL = $this->nameParameters($doctrineSQL, array_keys($additionalParameters));
 
             $additionalWhere = substr($additionalSQL, strpos($additionalSQL, 'WHERE') + 6);
             $sql .= " AND $additionalWhere";
@@ -169,19 +171,12 @@ class DoctrineBusinessRepository implements BusinessRepository
     {
         $queryBuilder = $this->businessRepository->createQueryBuilder('b');
         $queryBuilder->select('b');
-        foreach ($criteria as $key => $value) {
-            if (is_array($value)) {
-                // business should be returned if any of its categories match any of the query categories
-                // so we use `orWhere()`
-                foreach ($value as $i => $item) {
-                    $queryBuilder->orWhere("b.$key LIKE :${key}_$i");
-                    $queryBuilder->setParameter("${key}_$i", "%$item%");
-                }
-                continue;
-            }
-
-            $queryBuilder->andWhere("b.$key = :$key");
-            $queryBuilder->setParameter($key, $value);
+        foreach ($criteria as $criterion) {
+            $field = $criterion['field'];
+            $operator = $criterion['operator'];
+            $value = $criterion['value'];
+            $queryBuilder->andWhere("b.$field $operator :$field");
+            $queryBuilder->setParameter($field, $value);
         }
         return $queryBuilder->getQuery();
     }
@@ -207,5 +202,24 @@ class DoctrineBusinessRepository implements BusinessRepository
             $parameters[$doctrineParameter->getName()] = $doctrineParameter->getValue();
         }
         return $parameters;
+    }
+
+    /**
+     * Replace the '?' characters in an SQL string with each element in $parameterNames in order.
+     *
+     * @param $sql
+     * @param $parameterNames
+     *
+     * @return string
+     */
+    private function nameParameters($sql, $parameterNames) {
+        $newSql = $sql;
+        foreach($parameterNames as $parameterName) {
+            $nextParamPos = strpos($newSql, '?');
+            if ($nextParamPos !== false) {
+                $newSql = substr_replace($newSql, ":$parameterName", $nextParamPos, 1);
+            }
+        }
+        return $newSql;
     }
 }

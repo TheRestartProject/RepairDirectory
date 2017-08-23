@@ -15,7 +15,16 @@ class BusinessController extends Controller
         $location = $request->input('location');
         $category = $request->input('category');
         $radius = $request->input('radius') ?: 5;
-        $criteria = $category ? [ 'categories' => [ $category ] ] : [];
+        
+        $criteria = config('business-criteria.public');
+        
+        if ($category) {
+            $criteria[] = [
+                'field' => 'categories',
+                'operator' => 'LIKE',
+                'value' => '%' . $category . '%'
+            ];
+        }
 
         $businesses = [];
         $searchLocation = null;

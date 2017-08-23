@@ -54,6 +54,16 @@ $factory->define(Business::class, function (Faker\Generator $faker, $attributes)
         $business->setCategories([$faker->sentence]);
     }
 
+    if (array_key_exists('publishingStatus', $attributes)) {
+        $business->setPublishingStatus($attributes['publishingStatus']);
+    } else {
+        $business->setPublishingStatus($faker->word);
+    }
+
+    $business->setCity($faker->city);
+    $business->setWarrantyOffered(true);
+    $business->setPositiveReviewPc(81);
+
     return $business;
 });
 

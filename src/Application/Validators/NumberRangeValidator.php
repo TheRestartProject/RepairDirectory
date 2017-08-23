@@ -40,9 +40,10 @@ class NumberRangeValidator implements Validator
 
 
     /**
-     * Throws a validation exception if the string is shorter than $this->min or longer than $this->max.
+     * Throws a validation exception if the number is not between $min and $max or does not
+     * agree with $decimalValuesAllowed
      *
-     * @param string $value The value to test
+     * @param mixed $value The value to test
      *
      * @return void
      *
@@ -50,12 +51,10 @@ class NumberRangeValidator implements Validator
      */
     function validate($value)
     {
-
         if (!is_numeric($value)) {
             throw new ValidationException($this->fieldNameTitleCase . " invalid: must be a number!");
         }
-        if (!$this->decimalValuesAllowed && !ctype_digit($value)) {
-            var_dump("fail!");
+        if (!$this->decimalValuesAllowed && !ctype_digit((string)$value)) {
             throw new ValidationException($this->fieldNameTitleCase . " invalid: must not be a decimal number!");
         }
         if ($value < $this->min || $value > $this->max) {
