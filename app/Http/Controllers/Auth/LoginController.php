@@ -45,6 +45,11 @@ class LoginController extends Controller
         return redirect()->route('map');
     }
 
+    public function showLoginForm()
+    {
+        return redirect()->route('home');
+    }
+
     public function logout()
     {
         $this->guard()->logout();

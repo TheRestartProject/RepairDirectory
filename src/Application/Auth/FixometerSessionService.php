@@ -4,6 +4,8 @@ namespace TheRestartProject\RepairDirectory\Application\Auth;
 
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
 use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
@@ -29,17 +31,26 @@ class FixometerSessionService implements Session
      * @var Request|null
      */
     private $request;
+    /**
+     * @var CommandBus
+     */
+    private $bus;
 
     /**
      * Constructs the Fixometer Session Service
      *
      * @param string       $name    The name of the session
+     * @param CommandBus   $bus     The command bus for executing commands
      * @param Request|null $request The request object or null
      */
-    public function __construct($name, Request $request = null)
-    {
+    public function __construct(
+        $name,
+        CommandBus $bus,
+        Request $request = null
+    ) {
         $this->name = $name;
         $this->request = $request;
+        $this->bus = $bus;
     }
 
     /**
@@ -146,7 +157,39 @@ class FixometerSessionService implements Session
      */
     public function put($key, $value = null)
     {
-        // TODO: Implement put() method.
+
+        if ($key !== 'user') {
+            return;
+        }
+
+        $tokenIsNew = false;
+        $token = $this->getId();
+
+        if (empty($token)) {
+            $tokenIsNew = true;
+            $token = Str::random(45);
+        }
+
+        $command = new UpdateFixometerSessionCommand($token, $value);
+
+        try {
+            $this->bus->handle($command);
+        } catch (\Exception $e) {
+            return;
+        }
+
+        if ($tokenIsNew) {
+            Cookie::queue(
+                Cookie::make(
+                    $this->getName(),
+                    $token,
+                    3600,
+                    null,
+                    config('app.url')
+                )
+            );
+        }
+
     }
 
     /**
@@ -156,7 +199,7 @@ class FixometerSessionService implements Session
      */
     public function token()
     {
-        // TODO: Implement token() method.
+        return '';
     }
 
     /**
@@ -167,7 +210,30 @@ class FixometerSessionService implements Session
      */
     public function remove($key)
     {
-        // TODO: Implement remove() method.
+        if ($key !== 'user') {
+            return null;
+        }
+
+        $token = $this->getId();
+
+        if (emtpy($token)) {
+            return null;
+        }
+
+        //seeing as the user id is the only thing on the
+        //fixometer session, removing it will also destroy
+        //the session
+
+        /**
+         * @var FixometerSession $session
+         */
+        $session = $this->repository->findByToken($token);
+
+        $command = new DeleteFixometerSessionCommand($session->getUid());
+
+        $this->bus->handle($command);
+
+        return $session->getUser();
     }
 
     /**

@@ -113,4 +113,32 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
         self::assertInstanceOf(User::class, $foundUser);
         self::assertEquals($user->getUid(), $foundUser->getUid());
     }
+
+    public function it_returns_false_if_no_user_exists_with_that_id()
+    {
+        $result = $this->repository->hasUserById(1);
+
+        self::assertFalse($result);
+    }
+
+    /**
+     * Test that it returns true if a user exists
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_returns_user_if_a_user_exists_with_that_id()
+    {
+        /**
+         * The created user
+         *
+         * @var User $user
+         */
+        $user = entity(User::class)->create();
+
+        $result = $this->repository->hasUserById($user->getUid());
+
+        self::assertTrue($result);
+    }
 }

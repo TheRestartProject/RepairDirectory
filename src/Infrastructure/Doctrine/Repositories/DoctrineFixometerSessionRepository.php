@@ -29,6 +29,18 @@ class DoctrineFixometerSessionRepository extends DoctrineRepository implements F
     }
 
     /**
+     * Add a new session
+     *
+     * @param FixometerSession $session The Session to add
+     *
+     * @return void
+     */
+    public function add(FixometerSession $session)
+    {
+        $this->entityManager->persist($session);
+    }
+
+    /**
      * Return the class name of the entity that this repository is for.
      *
      * @return string

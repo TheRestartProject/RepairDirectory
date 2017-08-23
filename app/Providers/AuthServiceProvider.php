@@ -5,8 +5,12 @@ namespace App\Providers;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionGuard;
+use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionService;
+use TheRestartProject\RepairDirectory\Domain\Repositories\FixometerSessionRepository;
 use TheRestartProject\RepairDirectory\Domain\Repositories\UserRepository;
+use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
 use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 
 class AuthServiceProvider extends ServiceProvider
@@ -35,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
             return new FixometerSessionGuard(
                 $name,
                 Auth::createUserProvider($config['provider']),
-                $app->make(Session::class)
+                $app->make(FixometerSessionService::class)
             );
         });
     }
@@ -49,5 +53,12 @@ class AuthServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(UserRepository::class, DoctrineUserRepository::class);
+        $this->app->singleton(FixometerSessionRepository::class, DoctrineFixometerSessionRepository::class);
+        $this->app->singleton(FixometerSessionService::class, function($app) {
+            return new FixometerSessionService(
+                'PHPSESSID',
+                $app->make(CommandBus::class)
+            );
+        });
     }
 }

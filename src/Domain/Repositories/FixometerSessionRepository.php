@@ -23,4 +23,14 @@ interface FixometerSessionRepository
      * @return FixometerSession|null
      */
     public function findOneBySession($session);
+
+
+    /**
+     * Add a new session
+     *
+     * @param FixometerSession $session The Session to add
+     *
+     * @return void
+     */
+    public function add(FixometerSession $session);
 }

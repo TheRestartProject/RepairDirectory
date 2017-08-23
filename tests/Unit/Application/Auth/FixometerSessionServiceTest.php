@@ -3,8 +3,9 @@
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Auth;
 
 use Illuminate\Support\Str;
-use Ivory\HttpAdapter\Event\RequestErroredEvent;
+use League\Tactician\CommandBus;
 use Mockery as m;
+use Hamcrest\Matchers as h;
 use Illuminate\Http\Request;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionService;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
@@ -18,6 +19,30 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
  */
 class FixometerSessionServiceTest extends TestCase
 {
+    const SESSION_NAME = 'PHPSESSID';
+
+    /**
+     * The mocked Request object
+     *
+     * @var Request|m\MockInterface
+     */
+    protected $request;
+
+    /**
+     * The mocked CommandBus
+     *
+     * @var CommandBus|m\MockInterface
+     */
+    protected $bus;
+
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->request = m::mock(Request::class);
+        $this->bus = m::spy(CommandBus::class);
+    }
+
+
     /**
      * Tests that it can get its own name
      *
@@ -27,11 +52,9 @@ class FixometerSessionServiceTest extends TestCase
      */
     public function it_can_get_the_name_of_the_session()
     {
-        $sessionName = 'test_session';
+        $session = $this->createSession();
 
-        $session = $this->createSession($sessionName);
-
-        self::assertEquals($session->getName(), $sessionName);
+        self::assertEquals($session->getName(), self::SESSION_NAME);
     }
 
     /**
@@ -43,19 +66,9 @@ class FixometerSessionServiceTest extends TestCase
      */
     public function it_returns_an_empty_string_if_there_is_no_cookie()
     {
-        $name = 'PHPSESSID';
+        $this->sessionGetsIdAndReturns('');
 
-        /**
-         * A mocked Request object
-         *
-         * @var Request|m\MockInterface $request
-         */
-        $request = m::mock(Request::class);
-        $request->shouldReceive('cookie')
-            ->with($name, '')
-            ->andReturn('');
-
-        $session = $this->createSession($name, $request);
+        $session = $this->createSession();
 
         $id = $session->getId();
 
@@ -72,19 +85,10 @@ class FixometerSessionServiceTest extends TestCase
     public function it_can_get_the_token_of_the_session()
     {
         $token = Str::random(45);
-        $name = 'PHPSESSID';
 
-        /**
-         * A mocked Request object
-         *
-         * @var Request|m\MockInterface $request
-         */
-        $request = m::mock(Request::class);
-        $request->shouldReceive('cookie')
-            ->with($name, '')
-            ->andReturn($token);
+        $this->sessionGetsIdAndReturns($token);
 
-        $session = $this->createSession($name, $request);
+        $session = $this->createSession();
 
         $id = $session->getId();
 
@@ -92,15 +96,65 @@ class FixometerSessionServiceTest extends TestCase
     }
 
     /**
-     * Creates a session
+     * Tests that it won't put non user information into the session
      *
-     * @param string       $name    The name of the session
-     * @param Request|null $request The request object
+     * @test
+     *
+     * @return void
+     */
+    public function it_wont_put_non_user_information_into_the_session()
+    {
+        $session = $this->createSession();
+
+        $session->put('not_user', 1);
+
+        $this->bus->shouldNotHaveReceived('handler');
+    }
+
+    /**
+     * Tests that it will update the session if given a user id
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_will_update_the_session_with_a_new_random_token_if_there_is_no_existing_session()
+    {
+        $session = $this->sessionGetsIdAndReturns('')
+            ->createSession();
+
+        $session->put('user', 1);
+
+        $this->bus->shouldHaveReceived('handle');
+    }
+
+    /**
+     * Creates a session
      *
      * @return FixometerSessionService
      */
-    protected function createSession($name = 'test', $request = null)
+    protected function createSession()
     {
-        return new FixometerSessionService($name, $request);
+        return new FixometerSessionService(
+            self::SESSION_NAME,
+            $this->bus,
+            $this->request
+        );
+    }
+
+    /**
+     * Sets up the mock request to return the value of the SESSION_NAME cookie
+     *
+     * @param string $token The token that the getId method returns
+     *
+     * @return $this
+     */
+    protected function sessionGetsIdAndReturns($token)
+    {
+        $this->request->shouldReceive('cookie')
+            ->with(self::SESSION_NAME, '')
+            ->andReturn($token);
+
+        return $this;
     }
 }

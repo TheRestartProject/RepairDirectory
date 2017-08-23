@@ -46,4 +46,17 @@ class DoctrineUserRepository extends DoctrineRepository implements UserRepositor
     {
         return $this->repository->find($id);
     }
+
+    /**
+     * Returns true if the user exists
+     *
+     * @param int $id The unique id for the user
+     * @return bool
+     */
+    public function hasUserById($id)
+    {
+        $user = $this->find($id);
+
+        return $user !== null;
+    }
 }
