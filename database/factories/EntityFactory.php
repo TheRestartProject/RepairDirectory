@@ -1,5 +1,6 @@
 <?php
 
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
@@ -37,6 +38,8 @@ $factory->define(Business::class, function (Faker\Generator $faker, $attributes)
         $business->setAddress(implode(', ', explode("\n", $faker->address)));
     }
 
+    $business->setCity($faker->city);
+
     if (array_key_exists('postcode', $attributes)) {
         $business->setPostcode($attributes['postcode']);
     } else {
@@ -52,6 +55,23 @@ $factory->define(Business::class, function (Faker\Generator $faker, $attributes)
         $business->setCategories($attributes['categories']);
     } else {
         $business->setCategories([$faker->sentence]);
+    }
+
+    if (array_key_exists('publishingStatus', $attributes)) {
+        $business->setPublishingStatus($attributes['publishingStatus']);
+    } else {
+        $business->setPublishingStatus(PublishingStatus::DRAFT);
+    }
+
+    if (array_key_exists('warranty', $attributes)) {
+        $business->setWarranty($attributes['warranty']);
+        $business->setWarrantyOffered((boolean)$attributes['warranty']);
+    }
+
+    if (array_key_exists('positiveReviewPc', $attributes)) {
+        $business->setPositiveReviewPc($attributes['positiveReviewPc']);
+    } else {
+        $business->setPositiveReviewPc(50);
     }
 
     return $business;

@@ -18,6 +18,8 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
  * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class BusinessValidator implements Validator
 {
@@ -93,41 +95,58 @@ class BusinessValidator implements Validator
             }
         }
 
-        // Combined Validators
-
-        // PublishingStatus + PositiveReviewPc
-        if($business->getPublishingStatus() === PublishingStatus::PUBLISHED && $business->getPositiveReviewPc() < 80)
-        {
-            $errors['publishingStatus'] = 'Can\'t publish a business with a positive review percentage of under 80%';
-        }
-        // PublishingStatus + WarrantyOffered
-        if($business->getPublishingStatus() === PublishingStatus::PUBLISHED && !$business->isWarrantyOffered())
-        {
-            $errors['publishingStatus'] = array_key_exists ('publishingStatus', $errors)
-                                        ? $errors['publishingStatus'] . '.<br/> Can\'t publish a business that doesn\'t offer warranty.'
-                                        : 'Can\'t publish a business that doesn\'t offer warranty.';
-        }
-
+        // simple field validators
         foreach ($this->validators as $field => $validator) {
-            if (array_key_exists($field, $businessArr)) {
-                $value = $businessArr[$field];
-                if ($value) {
-                    try {
-                        /**
-                         * The Validator for the current field
-                         *
-                         * @var Validator $validator
-                         */
-                        $validator->validate($value);
-                    } catch (ValidationException $e) {
-                        $errors[$field] = $e->getMessage();
-                    }
+            $value = $businessArr[$field];
+            if ($value) {
+                try {
+                    /**
+                     * The Validator for the current field
+                     *
+                     * @var Validator $validator
+                     */
+                    $validator->validate($value);
+                } catch (ValidationException $e) {
+                    $errors[$field] = $e->getMessage();
                 }
             }
         }
 
+        // Combined Validators
+        try {
+            $this->validateBusinessPublishingStatus($business);
+        } catch (ValidationException $e) {
+            $errors['publishingStatus'] = $e->getMessage();
+        }
+
         if (count($errors)) {
             throw new BusinessValidationException($business, $errors);
+        }
+    }
+
+    /**
+     * Throw an error if the Business's publishing status is not allowed according to business logic.
+     *
+     * @param Business $business The Business to validate
+     *
+     * @return void
+     *
+     * @throws ValidationException
+     */
+    private function validateBusinessPublishingStatus(Business $business)
+    {
+        $messages = [];
+        // PublishingStatus + PositiveReviewPc
+        if ($business->getPublishingStatus() === PublishingStatus::PUBLISHED && $business->getPositiveReviewPc() < 80) {
+            $messages[] = 'Can\'t publish a business with a positive review percentage of under 80%';
+        }
+        // PublishingStatus + WarrantyOffered
+        if ($business->getPublishingStatus() === PublishingStatus::PUBLISHED && !$business->isWarrantyOffered()) {
+            $messages[] = 'Can\'t publish a business that doesn\'t offer warranty.';
+        }
+
+        if (count($messages)) {
+            throw new ValidationException(implode(', ', $messages));
         }
     }
 

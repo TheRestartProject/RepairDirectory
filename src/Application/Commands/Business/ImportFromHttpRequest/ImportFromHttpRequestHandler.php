@@ -97,7 +97,9 @@ class ImportFromHttpRequestHandler
      */
     private function transformRequestData($data) 
     {
-        $data['warrantyOffered'] = array_key_exists('warrantyOffered', $data) && $data['warrantyOffered'] === 'Yes';
+        if (array_key_exists('warrantyOffered', $data)) {
+            $data['warrantyOffered'] = $data['warrantyOffered'] === 'Yes';
+        }
         if (array_key_exists('productsRepaired', $data)) {
             $data['productsRepaired'] = StringUtil::stringToArray($data['productsRepaired']);
         }

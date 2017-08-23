@@ -636,7 +636,7 @@ class Business
     /**
      * Set this business's publishing status
      *
-     * @param string $pricingInformation The value to set
+     * @param string $publishingStatus The value to set
      *
      * @return void
      */
