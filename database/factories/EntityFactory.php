@@ -2,7 +2,7 @@
 
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
-use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
+use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
 use TheRestartProject\Fixometer\Domain\Entities\User;

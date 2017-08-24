@@ -2,6 +2,8 @@
 
 define('LARAVEL_START', microtime(true));
 
+session_start();
+
 /*
 |--------------------------------------------------------------------------
 | Register The Composer Auto Loader

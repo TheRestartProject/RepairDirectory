@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-session_start();
-
 use Illuminate\Support\ServiceProvider;
 
 class FixometerServiceProvider extends ServiceProvider
