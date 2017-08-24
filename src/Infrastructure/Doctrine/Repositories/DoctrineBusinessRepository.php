@@ -21,33 +21,8 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class DoctrineBusinessRepository implements BusinessRepository
+class DoctrineBusinessRepository extends DoctrineRepository implements BusinessRepository
 {
-    /**
-     * The Doctrine Entity Manager
-     *
-     * @var EntityManager
-     */
-    private $entityManager;
-
-    /**
-     * The Doctrine Repository for businesses
-     *
-     * @var EntityRepository
-     */
-    private $businessRepository;
-
-    /**
-     * DoctrineBusinessRepository constructor.
-     *
-     * @param EntityManager $entityManager The Doctrine Entity Manager (autowired)
-     */
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
-        $this->businessRepository = $entityManager->getRepository(Business::class);
-    }
-
     /**
      * Register a new business with the entity manager.
      *
@@ -67,7 +42,7 @@ class DoctrineBusinessRepository implements BusinessRepository
      */
     public function findAll()
     {
-        return $this->businessRepository->findAll();
+        return $this->repository->findAll();
     }
 
     /**
@@ -84,7 +59,7 @@ class DoctrineBusinessRepository implements BusinessRepository
          *
          * @var Business $business
          */
-        $business = $this->businessRepository->find($uid);
+        $business = $this->repository->find($uid);
         return $business;
     }
 
@@ -170,7 +145,7 @@ class DoctrineBusinessRepository implements BusinessRepository
      */
     private function queryFromCriteria($criteria)
     {
-        $queryBuilder = $this->businessRepository->createQueryBuilder('b');
+        $queryBuilder = $this->repository->createQueryBuilder('b');
         $queryBuilder->select('b');
         foreach ($criteria as $criterion) {
             $field = $criterion['field'];
@@ -230,5 +205,15 @@ class DoctrineBusinessRepository implements BusinessRepository
             }
         }
         return $newSql;
+    }
+
+    /**
+     * Return the class name of the entity that this repository is for.
+     *
+     * @return string
+     */
+    protected function getEntityClass()
+    {
+        return Business::class;
     }
 }
