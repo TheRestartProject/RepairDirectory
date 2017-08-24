@@ -54,7 +54,7 @@ class BusinessValidator implements Validator
             'name' => new StringLengthValidator('Name', 2, 255),
             'description' => new StringLengthValidator('Description', 10, 65535),
             'address' => new StringLengthValidator('Address', 2, 255),
-            'postcode' => new PostcodeValidator(),
+            'postcode' => new StringLengthValidator('Postcode', 1, 64),
             'city' => new StringLengthValidator('City', 2, 100),
             'localArea' => new StringLengthValidator('Local Area', 2, 100),
             'landline' => new PhoneNumberValidator('Landline'),
@@ -110,6 +110,10 @@ class BusinessValidator implements Validator
                     $errors[$field] = $e->getMessage();
                 }
             }
+        }
+        
+        if (!$business->getGeolocation()) {
+            $errors['geolocation'] = 'Geocoding failed – please check the address';
         }
 
         // Combined Validators

@@ -54,7 +54,8 @@ class BusinessValidatorTest extends TestCase
             self::fail('Did not throw exception when fields are missing');
         } catch (BusinessValidationException $e) {
             self::assertEquals(
-                'name is required, address is required, postcode is required, description is required',
+                'name is required, address is required, postcode is required, description is required, '.
+                'Geocoding failed – please check the address',
                 $e->getMessage()
             );
             self::assertEquals(
@@ -62,7 +63,8 @@ class BusinessValidatorTest extends TestCase
                     'name' => 'name is required',
                     'address' => 'address is required',
                     'postcode' => 'postcode is required',
-                    'description' => 'description is required'
+                    'description' => 'description is required',
+                    'geolocation' => 'Geocoding failed – please check the address'
                 ],
                 $e->getErrors()
             );
@@ -88,12 +90,15 @@ class BusinessValidatorTest extends TestCase
         } catch (BusinessValidationException $e) {
             self::assertEquals(
                 'Name invalid: must be between 2 and 255 characters long, ' .
-                'Landline invalid: only numbers allowed', $e->getMessage()
+                'Landline invalid: only numbers allowed, ' .
+                'Geocoding failed – please check the address', $e->getMessage()
+
             );
             self::assertEquals(
                 [
                     'name' => 'Name invalid: must be between 2 and 255 characters long',
-                    'landline' => 'Landline invalid: only numbers allowed'
+                    'landline' => 'Landline invalid: only numbers allowed',
+                    'geolocation' => 'Geocoding failed – please check the address'
                 ],
                 $e->getErrors()
             );
