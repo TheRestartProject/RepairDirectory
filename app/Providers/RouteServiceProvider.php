@@ -54,14 +54,17 @@ class RouteServiceProvider extends ServiceProvider
         //when in development mode, this route is accessible
         //this will ensure that we are always redirected to the
         //real homepage
-        Route::get('/', function () {
-            return redirect('/map');
-        });
 
-        Route::prefix('map')
-             ->middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+
+        Route::namespace($this->namespace)
+            ->middleware('web')
+            ->group(function () {
+                Route::prefix('')->group(base_path('routes/local.php'));
+                Route::prefix('map')
+                    ->group(base_path('routes/web.php'));
+            });
+
+
     }
 
     /**

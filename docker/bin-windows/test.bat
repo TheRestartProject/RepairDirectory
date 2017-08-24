@@ -25,9 +25,9 @@ IF "%1"=="documentation" (
 ) ELSE IF "%1"=="coverage" (
 
     cd docker
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing
+    docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing fixometer_db_testing
     docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm xdebug php vendor/bin/phpunit --testsuite=Unit --testsuite=Feature --coverage-html reports/codecoverage
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing
+    docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing fixometer_db_testing
     cd ..
 
 ) ELSE IF "%1"=="unit" (
@@ -38,20 +38,20 @@ IF "%1"=="documentation" (
 
 ) ELSE IF "%1"=="feature" (
 
-    cd docker
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Feature
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing
-    cd ..
+     cd docker
+     docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d database_testing fixometer_db_testing
+     docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm php php vendor/bin/phpunit --testsuite=Feature
+     docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop database_testing fixometer_db_testing
+     cd ..
 
 ) ELSE IF "%1"=="browser" (
 
-    cd docker
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d restart-project.local database_testing
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm  dusk
-    docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop selenium
-    docker-compose -f docker-compose.yml up -d restart-project.local
-    cd ..
+      cd docker
+      docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d restart-project.local database_testing
+      docker-compose -f docker-compose.yml -f docker-compose.testing.yml run --rm  dusk
+      docker-compose -f docker-compose.yml -f docker-compose.testing.yml stop selenium
+      docker-compose -f docker-compose.yml up -d restart-project.local
+      cd ..
 
 ) ELSE (
 

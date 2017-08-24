@@ -5,6 +5,8 @@ namespace TheRestartProject\RepairDirectory\Tests;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 
 /**
  * Class DuskTestCase
@@ -14,6 +16,9 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk
+ *
+ * @method runDatabaseMigrations
+ * @method runFixometerDatabaseMigrations
  */
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -40,4 +45,26 @@ abstract class DuskTestCase extends BaseTestCase
             'http://selenium:4444/wd/hub', DesiredCapabilities::chrome()
         );
     }
+
+    /**
+     * Boot the testing helper traits.
+     *
+     * @return array
+     */
+    protected function setUpTraits()
+    {
+        $uses = parent::setUpTraits();
+
+        if (isset($uses[DatabaseMigrations::class])) {
+            $this->runDatabaseMigrations();
+        }
+
+        if (isset($uses[FixometerDatabaseMigrations::class])) {
+            $this->runFixometerDatabaseMigrations();
+        }
+
+        return $uses;
+    }
+
+
 }

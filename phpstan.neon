@@ -1,3 +1,5 @@
 parameters:
     ignoreErrors:
         - '#Method Mockery\\MockInterface::shouldReceive\(\) invoked with 1 parameter, 0 required#'
+        - '#Call to an undefined method Laravel\\Dusk\\Browser#'
+        - '#Parameter \#1 \$url of method Laravel\\Dusk\\Browser::visit\(\) expects string#'

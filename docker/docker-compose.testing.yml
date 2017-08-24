@@ -2,61 +2,24 @@ version: '2'
 
 services:
 
-  database_testing:
-    image: mysql:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=restartproject
-      - MYSQL_DATABASE=restartproject
-      - MYSQL_USER=restartproject
-      - MYSQL_PASSWORD=restartproject
-    volumes:
-      - ./database/default/testing:/var/lib/mysql
-    networks:
-      - restartproject
-    restart: always
-
-  restart-project.local:
-    environment:
-      - APP_ENV=testing
-      - DB_HOST=database_testing
-
-  selenium:
-    image: selenium/standalone-chrome
-    networks:
-      - restartproject
-
   xdebug:
     environment:
       - APP_ENV=testing
       - DB_HOST=database_testing
+      - APP_URL=http://test.restart-project.local
 
   php:
     environment:
       - APP_ENV=testing
       - DB_HOST=database_testing
+      - APP_URL=http://test.restart-project.local
 
-  dusk:
-    depends_on:
-      - database
-      - restart-project.local
-      - selenium
-      - mail.restart-project.local
-    build: ./php
-    image: restartproject_php
-    volumes:
-      - ../:/app
-    env_file: php/application.env
-    environment:
-      - APP_ENV=testing
-      - DB_HOST=database_testing
-    command: ["php", "artisan", "dusk"]
-    networks:
-      - restartproject
 
   composer:
     environment:
       - APP_ENV=testing
       - DB_HOST=database_testing
+      - APP_URL=http://test.restart-project.local
 
 networks:
   proxy-tier:

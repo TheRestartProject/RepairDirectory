@@ -3,6 +3,8 @@
 namespace TheRestartProject\RepairDirectory\Tests;
 
 use Illuminate\Support\Facades\Artisan;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**
@@ -15,6 +17,9 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
  * @author   Joaquim d'Souza <joaquim@outlandish.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
+ *
+ * @method runDatabaseMigrations
+ * @method runFixometerDatabaseMigrations
  */
 abstract class IntegrationTestCase extends TestCase
 {
@@ -27,19 +32,25 @@ abstract class IntegrationTestCase extends TestCase
     public function setUp()
     {
         parent::setUp();
-        Artisan::call('doctrine:migrations:refresh');
-        Artisan::call('db:seed');
     }
 
     /**
-     * Rollback the database migrations so tests are idempotent.
+     * Boot the testing helper traits.
      *
-     * @return void
+     * @return array
      */
-    public function tearDown()
+    protected function setUpTraits()
     {
-        Artisan::call('doctrine:migrations:reset');
-        parent::tearDown();
-    }
+        $uses = parent::setUpTraits();
 
+        if (isset($uses[DatabaseMigrations::class])) {
+            $this->runDatabaseMigrations();
+        }
+
+        if (isset($uses[FixometerDatabaseMigrations::class])) {
+            $this->runFixometerDatabaseMigrations();
+        }
+
+        return $uses;
+    }
 }

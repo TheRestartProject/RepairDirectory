@@ -15,9 +15,10 @@ use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 
 Route::get('/', function () {
     return view('map', [ 'categories' => Category::values() ]);
-});
+})->name('map');
 
 Route::prefix('admin')
+    ->middleware('auth')
     ->namespace('Admin')
     ->group(function () {
         Route::get('/', 'AdminController@index')->name('admin.index');

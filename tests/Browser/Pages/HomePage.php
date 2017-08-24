@@ -5,9 +5,9 @@ namespace TheRestartProject\RepairDirectory\Tests\Browser\Pages;
 use Laravel\Dusk\Browser;
 
 /**
- * Class HomePage
+ * Page class that represents the HomePage
  *
- * @category Tests
+ * @category Page
  * @package  TheRestartProject\RepairDirectory\Tests\Browser\Pages
  * @author   Matthew Kendon <matt@outlandish.com>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
@@ -34,7 +34,7 @@ class HomePage extends Page
      */
     public function assert(Browser $browser)
     {
-        $browser->text('Laravel');
+        $browser->assertRouteIs('home');
     }
 
     /**
@@ -45,7 +45,10 @@ class HomePage extends Page
     public function elements()
     {
         return [
-            '@element' => '#selector',
+            '@mapButton' => 'a#map',
+            '@userSelector' => 'form#login-as-user select',
+            '@loginButton' => '#login',
+            '@logoutButton' => '#logout',
         ];
     }
 }

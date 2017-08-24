@@ -4,6 +4,8 @@ namespace TheRestartProject\RepairDirectory\Tests\Integration\Infrastructure\Doc
 
 use Doctrine\ORM\EntityManager;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -17,6 +19,7 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class AddSuggestionsListenerTest extends IntegrationTestCase
 {
+    use DatabaseMigrations;
 
     /**
      * Store a reference to the entity manager so that it can
@@ -69,6 +72,7 @@ class AddSuggestionsListenerTest extends IntegrationTestCase
      */
     public function it_adds_suggestions_when_businesses_are_updated()
     {
+        entity(Business::class)->create();
         $business = $this->entityManager->getRepository(Business::class)->find(1);
         $business->setProductsRepaired(['NewTestPhone', 'NewTestPhoneX']);
         $business->setAuthorisedBrands(['Outlandish', 'Unit4']);

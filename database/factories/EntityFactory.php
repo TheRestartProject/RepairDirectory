@@ -2,8 +2,10 @@
 
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\FixometerSession;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Models\Suggestion;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,4 +96,36 @@ $factory->define(Suggestion::class, function (Faker\Generator $faker, $attribute
     }
 
     return $suggestion;
+});
+
+/** @var LaravelDoctrine\ORM\Testing\Factory $factory */
+$factory->define(User::class, function (Faker\Generator $faker) {
+    static $password;
+
+    $createdAt = $faker->dateTimeBetween('-10 days');
+
+    $user = [
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('secret'),
+        'name' => $faker->firstName,
+        'role' => User::GUEST,
+        'recovery' => null,
+        'recoveryExpires' => null,
+        'createdAt' => $createdAt,
+        'modifiedAt' => $createdAt
+    ];
+
+    return $user;
+});
+
+/** @var LaravelDoctrine\ORM\Testing\Factory $factory */
+$factory->define(FixometerSession::class, function (Faker\Generator $faker) {
+    $createdAt = $faker->dateTimeBetween('-10 days');
+
+    return [
+        'session' => $faker->unique()->lexify('?????????????'),
+        'user' => $faker->randomDigitNotNull,
+        'createdAt' => $createdAt,
+        'modifiedAt' => $createdAt
+    ];
 });

@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Doctrine\Repositories;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
@@ -45,6 +46,13 @@ class DoctrineSuggestionRepositoryTest extends TestCase
     private $doctrineSuggestionRepository;
 
     /**
+     * The repository to test
+     *
+     * @var ManagerRegistry
+     */
+    protected $managerRegistry;
+
+    /**
      * Set up the mocks for the test
      *
      * @return void
@@ -55,17 +63,21 @@ class DoctrineSuggestionRepositoryTest extends TestCase
         $this->entityManager = Mockery::mock(EntityManager::class);
         $this->entityRepository = Mockery::mock(EntityRepository::class);
 
-        /**
-         * Cast mock to EntityManager.
-         *
-         * @var EntityManager $entityManager
-         */
-        $entityManager = $this->entityManager;
         $this->entityManager->shouldReceive('getRepository')
             ->andReturn($this->entityRepository);
 
+        $this->managerRegistry = Mockery::mock(ManagerRegistry::class);
+        $this->managerRegistry->shouldReceive('getManagerForClass')->andReturn($this->entityManager);
+
+        /**
+         * Cast mock to ManagerRegistry.
+         *
+         * @var ManagerRegistry $managerRegistry
+         */
+        $managerRegistry = $this->managerRegistry;
+
         $this->doctrineSuggestionRepository
-            = new DoctrineSuggestionRepository($entityManager);
+            = new DoctrineSuggestionRepository($managerRegistry);
     }
 
     /**
@@ -78,12 +90,13 @@ class DoctrineSuggestionRepositoryTest extends TestCase
     public function it_can_be_instantiated()
     {
         /**
-         * Cast to EntityManager to squash type hint errors.
+         * Cast to ManagerRegistry to squash type hint errors.
          *
-         * @var EntityManager $entityManager
+         * @var ManagerRegistry $managerRegistry
          */
-        $entityManager = Mockery::spy(EntityManager::class);
-        $repository = new DoctrineSuggestionRepository($entityManager);
+        $managerRegistry = $this->managerRegistry;
+        $repository = new DoctrineSuggestionRepository($managerRegistry);
+
         self::assertInstanceOf(DoctrineSuggestionRepository::class, $repository);
     }
 
