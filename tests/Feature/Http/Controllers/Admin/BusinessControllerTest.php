@@ -102,4 +102,28 @@ class BusinessControllerTest extends IntegrationTestCase
             ]
         );
     }
+
+    /**
+     * @test
+     */
+    public function test_scrape_review()
+    {
+        $response = $this->get(
+            route(
+                'admin.business.scrape-review', 
+                [
+                    'url' => 'https://www.google.co.uk/maps/place/KFC/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342'
+            
+                ]
+            )
+        );
+        $response->assertStatus(200);
+        $response->assertJson([
+            'reviewSource' => ReviewSource::GOOGLE,
+            'reviewAggregation' => [
+                'averageScore' => 3.1,
+                'positiveReviewPc' => 80
+            ]
+        ]);
+    }
 }

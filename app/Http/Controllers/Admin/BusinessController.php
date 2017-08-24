@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use League\Flysystem\Exception;
 use League\Tactician\CommandBus;
-use SKAgarwal\GoogleApi\PlacesApi;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
@@ -14,6 +12,8 @@ use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
+use TheRestartProject\RepairDirectory\Infrastructure\Services\ReviewService\ReviewService;
 
 class BusinessController extends Controller
 {
@@ -43,13 +43,14 @@ class BusinessController extends Controller
         return redirect('map/admin');
     }
 
-    public function scrapeReview(PlacesApi $googlePlaces, Request $request)
+    public function scrapeReview(Request $request, ReviewManager $reviewManager)
     {
-        $url = $request->input("reviewSourceUrl");
-        $query = $this->getLongLatFromUrl($url);
-        $response = $googlePlaces->textSearch($query);
-
-
+        $url = $request->input("url");
+        $response = $reviewManager->getReviewResponse($url);
+        if ($response) {
+            return response($response->toArray(), 200);
+        }
+        return response('', 404);
     }
 
     private function renderEdit(Business $business, $errors) {
@@ -69,27 +70,4 @@ class BusinessController extends Controller
             'errors' => $errors
         ]);
     }
-
-    private function getLongLatFromUrl($url)
-    {
-        $path = parse_url($url)['path'];
-        $data = explode('data=', $path)[1];
-
-        $dataElements = explode('!',$data);
-
-        $latitude = null;
-        $longitude = null;
-
-        foreach($dataElements as $data) {
-            if (strpos($data, '3d') === 0) {
-                $latitude = substr($data, 2);
-            }
-            if (strpos($data, '4d') === 0) {
-                $longitude = substr($data, 2);
-            }
-        }
-
-        return ["long" => $longitude, "lat" => $latitude];
-    }
-
 }
