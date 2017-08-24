@@ -281,6 +281,8 @@ class FixometerSessionService implements Session
 
         $this->cookieJar->forget($this->getName());
 
+        unset($_SESSION[APPNAME]);
+
         return $session->getUser();
     }
 
