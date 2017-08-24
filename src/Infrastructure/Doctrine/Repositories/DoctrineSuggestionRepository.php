@@ -17,33 +17,8 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\SuggestionRepository;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-class DoctrineSuggestionRepository implements SuggestionRepository
+class DoctrineSuggestionRepository extends DoctrineRepository implements SuggestionRepository
 {
-    /**
-     * The Doctrine Entity Manager
-     *
-     * @var EntityManager
-     */
-    private $entityManager;
-
-    /**
-     * The Doctrine Repository for suggestions
-     *
-     * @var EntityRepository
-     */
-    private $suggestionRepository;
-
-    /**
-     * DoctrineBusinessRepository constructor.
-     *
-     * @param EntityManager $entityManager The Doctrine Entity Manager (autowired)
-     */
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
-        $this->suggestionRepository = $entityManager->getRepository(Suggestion::class);
-    }
-
     /**
      * Register a new suggestion with the entity manager.
      *
@@ -66,12 +41,22 @@ class DoctrineSuggestionRepository implements SuggestionRepository
      */
     public function find($field, $prefix)
     {
-        return $this->suggestionRepository->createQueryBuilder('s')
+        return $this->repository->createQueryBuilder('s')
             ->where('s.field = :field')
             ->andWhere('s.value LIKE :value')
             ->setParameter('field', $field)
             ->setParameter('value', $prefix . '%')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Return the class name of the entity that this repository is for.
+     *
+     * @return string
+     */
+    protected function getEntityClass()
+    {
+        return Suggestion::class;
     }
 }
