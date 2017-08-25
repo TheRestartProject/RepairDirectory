@@ -74,24 +74,33 @@ class BusinessListTest extends DuskTestCase
     }
 
     /**
-     * Test that searching in a location with no repair shops shows no results
+     * Tests that a restarter can visit the admin page
      *
-     * When I search in an area with no results
-     * Then I should see a message telling me that there were 0 results nearby
+     * Given I am logged in as a Restarter
+     *  When I visit the admin page
+     *  Then I should be on the admin page
      *
+     * @test
      *
      * @return void
      */
-    public function if_i_search_for_a_location_with_no_repair_shops_there_should_be_no_results()
+    public function i_can_visit_the_admin_page_if_i_am_logged_in_as_a_restarter()
     {
+
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::RESTARTER]);
+
         $this->browse(
-            function (Browser $browser) {
-                $browser->visit(new MapPage())
-                    ->type('@searchByLocation', 'romford')
-                    ->press('@submitButton')
-                    ->waitForText('results in your area', 10)
-                    ->assertNoResults();
+            function (Browser $browser) use ($user) {
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visitRoute('admin.index')
+                    ->assertRouteIs('admin.index');
             }
         );
     }
+
 }
