@@ -176,11 +176,12 @@
                 @can('update', $business)
                 <select id="publishingStatus" name="publishingStatus" class="form-control">
                     @foreach($publishingStatuses as $status)
+                        @if(in_array($status, $authorizedStatuses, false))
                         <option value="{{ $status }}"
-                                {{ $business->getPublishingStatus() == $status ? 'selected' : '' }}
-                                {{ in_array($status, $authorizedStatuses, false) ? '' : 'disabled' }}>
+                                {{ $business->getPublishingStatus() == $status ? 'selected' : '' }}>
                             {{ $status }}
                         </option>
+                        @endif
                     @endforeach
                 </select>
                 @else

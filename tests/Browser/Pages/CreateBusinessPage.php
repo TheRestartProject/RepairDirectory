@@ -87,6 +87,36 @@ class CreateBusinessPage extends Page
     }
 
     /**
+     * Assert that a status appears as a disabled option
+     *
+     * @param Browser $browser
+     * @param string  $status
+     *
+     * @return $this
+     */
+    public function assertCannotSelectStatus(Browser $browser, $status)
+    {
+        $browser->assertSelectMissingOption('@publishingStatus', $status);
+
+        return $this;
+    }
+
+    /**
+     * Sets the publishing status on the form
+     *
+     * @param Browser $browser
+     * @param string  $status
+     *
+     * @return $this
+     */
+    public function setPublishedStatusAs(Browser $browser, $status)
+    {
+        $browser->select('@publishingStatus', $status);
+
+        return $this;
+    }
+
+    /**
      * Fills in the form
      *
      * @param Browser $browser

@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Browser\Admin;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use TheRestartProject\Fixometer\Domain\Entities\User;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\BusinessListPage;
@@ -137,4 +138,96 @@ class BusinessCreateTest extends DuskTestCase
         );
     }
 
+
+    /**
+     * Test that a restarter can create a new ready for review business
+     *
+     * Given I am logged in as a restarter
+     *  When I create a new ready for review business
+     *  Then I should see that business in the list
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_new_ready_for_review_business_if_i_am_logged_in_as_a_restarter()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::RESTARTER]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $businessName = 'Name of Business';
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->fillInForm($businessName)
+                    ->setPublishedStatusAs(PublishingStatus::READY_FOR_REVIEW)
+                    ->press('@submitButton')
+                    ->assertRouteIs('admin.index')
+                    ->assertSee($businessName);
+            }
+        );
+    }
+
+    /**
+     * Test that a restarter cannot create a new published business
+     *
+     * Given I am logged in as a restarter
+     *  When I try to create a new business
+     *  Then I cannot see the published status in the published status select input
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_cannot_create_a_new_published_business_if_i_am_logged_in_as_a_restarter()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::RESTARTER]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->assertCannotSelectStatus(PublishingStatus::PUBLISHED);
+            }
+        );
+    }
+
+    /**
+     * Test that a restarter cannot create a new hidden business
+     *
+     * Given I am logged in as a restarter
+     *  When I try to create a new business
+     *  Then I cannot see the hidden status in the published status select input
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_cannot_create_a_new_hidden_business_if_i_am_logged_in_as_a_restarter()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::RESTARTER]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->assertCannotSelectStatus(PublishingStatus::HIDDEN);
+            }
+        );
+    }
 }
