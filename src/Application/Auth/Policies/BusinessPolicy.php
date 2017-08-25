@@ -74,6 +74,19 @@ class BusinessPolicy
         return $this->userIsRestarter($user) && !$business->isPublished();
     }
 
+
+    /**
+     * Checks that user can view the business
+     *
+     * @param User $user The user to check
+     *
+     * @return bool
+     */
+    public function view(User $user)
+    {
+        return !$this->userIsGuest($user);
+    }
+
     /**
      * Checks whether the user is an admin
      *
