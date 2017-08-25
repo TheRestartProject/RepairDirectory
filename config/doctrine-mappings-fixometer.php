@@ -30,6 +30,9 @@ return [
             'name' => [
                 'type' => 'string'
             ],
+            'role' => [
+                'type' => 'integer'
+            ],
             'recovery' => [
                 'type' => 'string',
                 'length' => 45,

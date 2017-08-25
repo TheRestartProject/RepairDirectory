@@ -6,12 +6,14 @@ services:
     environment:
       - APP_ENV=testing
       - DB_HOST=database_testing
+      - FIXOMETER_DB_HOST=database_testing
       - APP_URL=http://test.restart-project.local
 
   php:
     environment:
       - APP_ENV=testing
       - DB_HOST=database_testing
+      - FIXOMETER_DB_HOST=database_testing
       - APP_URL=http://test.restart-project.local
 
 
@@ -19,6 +21,7 @@ services:
     environment:
       - APP_ENV=testing
       - DB_HOST=database_testing
+      - FIXOMETER_DB_HOST=database_testing
       - APP_URL=http://test.restart-project.local
 
 networks:
