@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/map/app.css">
     <script type="text/javascript" src="/js/map/app.js"></script>
 
-    <title>Repair Directory</title>
+    <title>{{ __('map.title') }}</title>
 </head>
 <body>
 <div>
