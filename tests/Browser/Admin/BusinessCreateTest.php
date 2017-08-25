@@ -230,4 +230,169 @@ class BusinessCreateTest extends DuskTestCase
             }
         );
     }
+
+    /**
+     * Tests that an admin can visit the admin page
+     *
+     * Given I am logged in as an Admin
+     *  When I visit the admin page
+     *  Then I should be on the admin page
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_visit_the_create_business_page_if_i_am_logged_in_as_an_admin()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::RESTARTER]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visitRoute('admin.business.create')
+                    ->assertRouteIs('admin.business.create');
+            }
+        );
+    }
+
+    /**
+     * Test that an admin can create a new draft business
+     *
+     * Given I am logged in as an Admin
+     *  When I create a new draft business
+     *  Then I should see that business in the list
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_new_draft_business_if_i_am_logged_in_as_an_admin()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::HOST]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $businessName = 'Name of Business';
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->fillInForm($businessName)
+                    ->press('@submitButton')
+                    ->assertRouteIs('admin.index')
+                    ->assertSee($businessName);
+            }
+        );
+    }
+
+
+    /**
+     * Test that an admin can create a new ready for review business
+     *
+     * Given I am logged in as an Admin
+     *  When I create a new ready for review business
+     *  Then I should see that business in the list
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_new_ready_for_review_business_if_i_am_logged_in_as_an_admin()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::HOST]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $businessName = 'Name of Business';
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->fillInForm($businessName)
+                    ->setPublishedStatusAs(PublishingStatus::READY_FOR_REVIEW)
+                    ->press('@submitButton')
+                    ->assertRouteIs('admin.index')
+                    ->assertSee($businessName);
+            }
+        );
+    }
+
+    /**
+     * Test that an admin cannot create a new published business
+     *
+     * Given I am logged in as an Admin
+     *  When I try to create a new business
+     *  Then I cannot see the published status in the published status select input
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_new_published_business_if_i_am_logged_in_as_an_admin()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::HOST]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $businessName = 'Name of Business';
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->fillInForm($businessName)
+                    ->setPublishedStatusAs(PublishingStatus::PUBLISHED)
+                    ->press('@submitButton')
+                    ->assertRouteIs('admin.index')
+                    ->assertSee($businessName);
+            }
+        );
+    }
+
+    /**
+     * Test that an admin cannot create a new hidden business
+     *
+     * Given I am logged in as an Admin
+     *  When I try to create a new business
+     *  Then I cannot see the hidden status in the published status select input
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_new_hidden_business_if_i_am_logged_in_as_an_admin()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::HOST]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $businessName = 'Name of Business';
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->fillInForm($businessName)
+                    ->setPublishedStatusAs(PublishingStatus::HIDDEN)
+                    ->press('@submitButton')
+                    ->assertRouteIs('admin.index')
+                    ->assertSee($businessName);
+            }
+        );
+    }
 }
