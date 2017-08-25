@@ -790,7 +790,11 @@ class Business
     }
 
     /**
-     * Whether the business is published or not (hidden is considered to be published).
+     * Whether the business is published or not
+     *
+     * Because the status hidden is only settable by an admin user
+     * it is considered the same as published for this purpose.
+     * Its a subset of published.
      *
      * @return bool
      */
@@ -798,7 +802,10 @@ class Business
     {
         return in_array(
             $this->getPublishingStatus(),
-            [PublishingStatus::HIDDEN, PublishingStatus::PUBLISHED],
+            [
+                PublishingStatus::HIDDEN,
+                PublishingStatus::PUBLISHED
+            ],
             true
         );
     }
