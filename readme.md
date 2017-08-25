@@ -11,6 +11,8 @@
 7. Ensure that the fixometer database connections in the `.env` file are set
     * FIXOMETER_DB_* can be set to the same database as your normal one, or a new database
     can be created for fixometer users and sessions.
+9a. Copy the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`, or
+9b. Change the path to the fixometer config to somewhere else by setting in your `.env` as `FIXOMETER_CONFIG_PATH`.
 8. Run migrations for the fixometer database `php artisan doctrine:migrations:migrate --connection=fixometer`
 7. Add the users to log in with to visit the admin section `php artisan db:seed --class=UserSeeder`.
 

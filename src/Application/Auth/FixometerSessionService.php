@@ -99,7 +99,11 @@ class FixometerSessionService implements Session
      */
     public function getId()
     {
-        return $this->getRequest()->cookie($this->getName(), '');
+        if (isset($_SESSION[APPNAME]) && isset($_SESSION[APPNAME][SESSIONKEY])) {
+            return $_SESSION[APPNAME][SESSIONKEY];
+        }
+
+        return '';
     }
 
     /**
@@ -225,9 +229,9 @@ class FixometerSessionService implements Session
         }
 
         if ($tokenIsNew) {
-            $cookie = $this->cookieJar->make($this->getName(), $token, 3600);
-            $this->cookieJar->queue($cookie);
+            $_SESSION[APPNAME][SESSIONKEY] = $token;
         }
+
 
     }
 
@@ -276,6 +280,8 @@ class FixometerSessionService implements Session
         $this->bus->handle($command);
 
         $this->cookieJar->forget($this->getName());
+
+        unset($_SESSION[APPNAME]);
 
         return $session->getUser();
     }
