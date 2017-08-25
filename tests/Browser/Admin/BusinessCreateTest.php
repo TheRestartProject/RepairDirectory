@@ -7,12 +7,13 @@ use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\BusinessListPage;
+use TheRestartProject\RepairDirectory\Tests\Browser\Pages\CreateBusinessPage;
 use TheRestartProject\RepairDirectory\Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use TheRestartProject\RepairDirectory\Tests\Browser\Pages\MapPage;
 
 /**
- * Test class for the Admin Business list functionality
+ * Test class for the Admin Create Business functionality
  *
  * @category Tests
  * @package  TheRestartProject\RepairDirectory\Tests\Browser\Pages
@@ -20,25 +21,26 @@ use TheRestartProject\RepairDirectory\Tests\Browser\Pages\MapPage;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk
  */
-class BusinessListTest extends DuskTestCase
+class BusinessCreateTest extends DuskTestCase
 {
     use DatabaseMigrations, FixometerDatabaseMigrations;
+
     /**
-     * Test that I need to be logged in to visit the admin page
+     * Test that I need to be logged in to visit the create business page
      *
      * Given I am not logged in
-     *  When I visit the admin page
+     *  When I visit the create business page
      *  Then I should be redirected to the homepage
      *
      * @test
      *
      * @return void
      */
-    public function i_cannot_visit_the_admin_page_if_not_logged_in()
+    public function i_cannot_visit_the_create_business_page_if_not_logged_in()
     {
         $this->browse(
             function (Browser $browser) {
-                $browser->visitRoute('admin.index')
+                $browser->visitRoute('admin.business.create')
                     ->assertRouteIs('home');
             }
         );
@@ -55,7 +57,7 @@ class BusinessListTest extends DuskTestCase
      *
      * @return void
      */
-    public function i_cannot_visit_the_admin_page_if_i_am_logged_in_as_a_guest()
+    public function i_cannot_visit_the_create_business_page_if_i_am_logged_in_as_a_guest()
     {
         /**
          * The user to log in with
@@ -67,7 +69,7 @@ class BusinessListTest extends DuskTestCase
         $this->browse(
             function (Browser $browser) use ($user) {
                 $browser->loginAs($user->getAuthIdentifier())
-                    ->visitRoute('admin.index')
+                    ->visitRoute('admin.business.create')
                     ->assertRouteIs('home');
             }
         );
@@ -84,9 +86,8 @@ class BusinessListTest extends DuskTestCase
      *
      * @return void
      */
-    public function i_can_visit_the_admin_page_if_i_am_logged_in_as_a_restarter()
+    public function i_can_visit_the_create_business_page_if_i_am_logged_in_as_a_restarter()
     {
-
         /**
          * The user to log in with
          *
@@ -97,8 +98,41 @@ class BusinessListTest extends DuskTestCase
         $this->browse(
             function (Browser $browser) use ($user) {
                 $browser->loginAs($user->getAuthIdentifier())
-                    ->visitRoute('admin.index')
-                    ->assertRouteIs('admin.index');
+                    ->visitRoute('admin.business.create')
+                    ->assertRouteIs('admin.business.create');
+            }
+        );
+    }
+
+    /**
+     * Test that a restarter can create a new draft business
+     *
+     * Given I am logged in as a restarter
+     *  When I create a new draft business
+     *  Then I should see that business in the list
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_new_draft_business_if_i_am_logged_in_as_a_restarter()
+    {
+        /**
+         * The user to log in with
+         *
+         * @var Authenticatable $user
+         */
+        $user = entity(User::class)->create(['role' => User::RESTARTER]);
+
+        $this->browse(
+            function (Browser $browser) use ($user) {
+                $businessName = 'Name of Business';
+                $browser->loginAs($user->getAuthIdentifier())
+                    ->visit(new CreateBusinessPage())
+                    ->fillInForm($businessName)
+                    ->press('@submitButton')
+                    ->assertRouteIs('admin.index')
+                    ->assertSee($businessName);
             }
         );
     }

@@ -27,6 +27,19 @@ class BusinessPolicy
         }
     }
 
+
+    /**
+     * Checks whether a user can create a business
+     *
+     * @param User $user The user to check
+     *
+     * @return bool
+     */
+    public function create(User $user)
+    {
+        return !$this->userIsGuest($user);
+    }
+
     /**
      * Checks whether a user can list the businesses
      *

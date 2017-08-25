@@ -25,6 +25,8 @@ class BusinessController extends Controller
 
     public function create(Request $request, CommandBus $commandBus)
     {
+        $this->authorize('create', Business::class);
+
         try {
             $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
         } catch (BusinessValidationException $e) {
@@ -56,6 +58,10 @@ class BusinessController extends Controller
 
     private function renderEdit(Business $business, $errors) {
         $isCreate = $business->getUid() === null;
+
+        if ($isCreate) {
+            $this->authorize('create', Business::class);
+        }
 
         $formAction = $isCreate ? route('admin.business.create') : route('admin.business.update', ['id' => $business->getUid()]);
         $formMethod = $isCreate ? 'post' : 'put';
