@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Auth\Policies;
 
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 
@@ -63,6 +64,10 @@ class BusinessPolicy
     public function update(User $user, Business $business)
     {
         if ($this->userIsGuest($user)) {
+            return false;
+        }
+
+        if ($business->isPublished() && $this->userIsRestarter($user)) {
             return false;
         }
 

@@ -3,6 +3,9 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Auth\Access\Gate;
+use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Application\Validators\CustomBusinessValidator;
@@ -36,18 +39,24 @@ class ImportFromHttpRequestHandler
     private $geocoder;
     
     private $validator;
+    /**
+     * @var Gate
+     */
+    private $gate;
 
     /**
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
      * @param BusinessRepository $repository An implementation of the BusinessRepository
      * @param Geocoder           $geocoder   Geocoder to get [lat, lng] of business
+     * @param Gate               $gate       Gate to authorize users with
      */
-    public function __construct(BusinessRepository $repository, Geocoder $geocoder)
+    public function __construct(BusinessRepository $repository, Geocoder $geocoder, Gate $gate)
     {
         $this->repository = $repository;
         $this->geocoder = $geocoder;
         $this->validator = new CustomBusinessValidator();
+        $this->gate = $gate;
     }
 
     /**
@@ -57,7 +66,9 @@ class ImportFromHttpRequestHandler
      *
      * @return Business
      *
-     * @throws EntityNotFoundException, BusinessValidationException
+     * @throws EntityNotFoundException
+     * @throws BusinessValidationException
+     * @throws AuthorizationException
      */
     public function handle(ImportFromHttpRequestCommand $command)
     {
@@ -68,8 +79,10 @@ class ImportFromHttpRequestHandler
         
         $business = $isCreate ? new Business() : $this->repository->findById($businessUid);
         if (!$business) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Business with id of {$businessUid} could not be found");
         }
+
+        $this->authorize($isCreate, $business);
 
         $data = $this->transformRequestData($data);
 
@@ -123,6 +136,23 @@ class ImportFromHttpRequestHandler
             if (method_exists($business, $setter)) {
                 $business->{$setter}($value);
             }
+        }
+    }
+
+    /**
+     * Throws exception if logged in user is not authorized
+     *
+     * @param bool     $isCreate Whether the business is new or not
+     * @param Business $business The business to check against
+     *
+     * @throws AuthorizationException
+     */
+    protected function authorize($isCreate, $business)
+    {
+        if ($isCreate) {
+            $this->gate->authorize('create', Business::class);
+        } else {
+            $this->gate->authorize('update', $business);
         }
     }
 }

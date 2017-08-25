@@ -789,4 +789,18 @@ class Business
         $this->notes = $notes;
     }
 
+    /**
+     * Whether the business is published or not (hidden is considered to be published).
+     *
+     * @return bool
+     */
+    public function isPublished()
+    {
+        return in_array(
+            $this->getPublishingStatus(),
+            [PublishingStatus::HIDDEN, PublishingStatus::PUBLISHED],
+            true
+        );
+    }
+
 }
