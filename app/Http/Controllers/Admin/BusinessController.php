@@ -60,10 +60,6 @@ class BusinessController extends Controller
     private function renderEdit(Business $business, $errors) {
         $isCreate = $business->getUid() === null;
 
-        if ($isCreate) {
-            $this->authorize('create', Business::class);
-        }
-
         $formAction = $isCreate ? route('admin.business.create') : route('admin.business.update', ['id' => $business->getUid()]);
         $formMethod = $isCreate ? 'post' : 'put';
 
