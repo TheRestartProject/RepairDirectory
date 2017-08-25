@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands;
 
+use Illuminate\Contracts\Auth\Access\Gate;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestHandler;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
@@ -44,6 +45,13 @@ class ImportFromHttpRequestTest extends TestCase
     private $geocoder;
 
     /**
+     * The mocked Gate
+     *
+     * @var m\MockInterface
+     */
+    private $gate;
+
+    /**
      * Setups the the handler under test for each test
      *
      * @return void
@@ -52,6 +60,7 @@ class ImportFromHttpRequestTest extends TestCase
     {
         $this->repository = m::spy(BusinessRepository::class);
         $this->geocoder = m::mock(Geocoder::class);
+        $this->gate = m::mock(Gate::class);
 
         /**
          * Cast mock to BusinessRepository
@@ -67,9 +76,17 @@ class ImportFromHttpRequestTest extends TestCase
          */
         $geocoder = $this->geocoder;
 
+        /**
+         * Cast mock to Gate
+         *
+         * @var Gate $gate
+         */
+        $gate = $this->gate;
+
         $this->handler = new ImportFromHttpRequestHandler(
             $repository,
-            $geocoder
+            $geocoder,
+            $gate
         );
     }
 
@@ -99,10 +116,19 @@ class ImportFromHttpRequestTest extends TestCase
          */
         $geocoder = m::mock(Geocoder::class);
 
+        /**
+         * Cast mock to Gate
+         *
+         * @var Gate $gate
+         */
+        $gate = m::spy(Gate::class);
+
         $handler = new ImportFromHttpRequestHandler(
             $repository,
-            $geocoder
+            $geocoder,
+            $gate
         );
+
         self::assertInstanceOf(ImportFromHttpRequestHandler::class, $handler);
     }
 
@@ -123,7 +149,7 @@ class ImportFromHttpRequestTest extends TestCase
             "postcode" => "RM7 8BX",
             "description" => "Laptop, PC, and Netbook repairs, mobile service."
         ];
-        $this->setupGeocoder();
+        $this->setupGeocoder()->setupGate();
 
         $addedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data));
 
@@ -151,13 +177,14 @@ class ImportFromHttpRequestTest extends TestCase
         $business = new Business();
         $business->setName('Old Name');
 
-        $this->setupGeocoder();
+        $this->setupGeocoder()->setupGate();
         $this->repository->shouldReceive('findById')->with(1)->andReturn($business);
 
         $updatedBusiness = $this->handler->handle(new ImportFromHttpRequestCommand($data, 1));
 
         $this->repository->shouldHaveReceived('findById')->with(1);
         $this->repository->shouldNotHaveReceived('add');
+
         self::assertInstanceOf(Business::class, $updatedBusiness);
         self::assertEquals('New Name', $business->getName());
     }
@@ -165,11 +192,25 @@ class ImportFromHttpRequestTest extends TestCase
     /**
      * Sets up the geocoder to return a [lat, lng] for a Business
      *
-     * @return void
+     * @return $this
      */
     public function setupGeocoder()
     {
         $this->geocoder->shouldReceive('geocode')->andReturn(new Point(0, 0));
+
+        return $this;
+    }
+
+    /**
+     * Sets up the geocoder to return a [lat, lng] for a Business
+     *
+     * @return $this
+     */
+    public function setupGate()
+    {
+        $this->gate->shouldReceive('authorize');
+
+        return $this;
     }
 
     /**
