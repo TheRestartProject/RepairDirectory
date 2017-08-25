@@ -63,10 +63,26 @@ class BusinessController extends Controller
         $formAction = $isCreate ? route('admin.business.create') : route('admin.business.update', ['id' => $business->getUid()]);
         $formMethod = $isCreate ? 'post' : 'put';
 
+        if ($isCreate) {
+            $business->setPublishingStatus(PublishingStatus::DRAFT);
+        }
+
+        $publishingStatuses = PublishingStatus::values();
+        $authorizedStatuses = $publishingStatuses;
+
+
+        if (auth()->user()->getRole() === 4) {
+            $authorizedStatuses = [
+                PublishingStatus::DRAFT,
+                PublishingStatus::READY_FOR_REVIEW
+            ];
+        }
+
         return view('admin.business.edit', [
             'categories' => Category::values(),
             'reviewSources' => ReviewSource::values(),
-            'publishingStatuses' => PublishingStatus::values(),
+            'publishingStatuses' => $publishingStatuses,
+            'authorizedStatuses' => $authorizedStatuses,
             'business' => $business,
             'isCreate' => $isCreate,
             'formAction' => $formAction,

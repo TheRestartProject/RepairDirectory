@@ -171,20 +171,29 @@
             </div>
 
             <div class="form-group">
+
                 <label for="publishingStatus">{{ __('admin.publishing_status') }}</label>
+                @can('update', $business)
                 <select id="publishingStatus" name="publishingStatus" class="form-control">
                     @foreach($publishingStatuses as $status)
-                        <option value="{{ $status }}" {{ $business->getPublishingStatus() == $status ? "selected" : "" }}>
+                        <option value="{{ $status }}"
+                                {{ $business->getPublishingStatus() === $status ? 'selected' : '' }}
+                                {{ in_array($status, $authorizedStatuses, false) ? '' : 'disabled' }}>
                             {{ $status }}
                         </option>
                     @endforeach
                 </select>
+                @else
+                    <input id="publishingStatus" name="publishingStatus" class="form-control" readonly value="{{ $business->getPublishingStatus() }}"/>
+                @endcan
                 {!! array_key_exists('publishingStatus', $errors) ? '<small>' . $errors['publishingStatus'] . '</small>' : '' !!}
             </div>
 
+            @can('update', $business)
             <div>
                 <button id="submit" class="btn btn-success">{{ __('admin.save') }}</button>
             </div>
+            @endcan
             {!! array_key_exists('business', $errors) ? '<small>' . $errors['business'] . '</small>' : '' !!}
         </div>
     </form>
