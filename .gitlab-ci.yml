@@ -15,6 +15,7 @@ build:
   - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
   - php composer-setup.php
   - php -r "unlink('composer-setup.php');"
+  - cp fixometer/config/config.dist.php fixometer/config/config.php
   script:
   - php composer.phar install
   - php composer.phar run-script post-root-package-install
