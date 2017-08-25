@@ -177,7 +177,7 @@
                 <select id="publishingStatus" name="publishingStatus" class="form-control">
                     @foreach($publishingStatuses as $status)
                         <option value="{{ $status }}"
-                                {{ $business->getPublishingStatus() === $status ? 'selected' : '' }}
+                                {{ $business->getPublishingStatus() == $status ? 'selected' : '' }}
                                 {{ in_array($status, $authorizedStatuses, false) ? '' : 'disabled' }}>
                             {{ $status }}
                         </option>
