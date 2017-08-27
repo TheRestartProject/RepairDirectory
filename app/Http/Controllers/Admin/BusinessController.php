@@ -36,7 +36,7 @@ class BusinessController extends Controller
         return redirect('map/admin');
     }
 
-    public function update($id, Request $request, CommandBus $commandBus, BusinessRepository $repository)
+    public function update($id, Request $request, CommandBus $commandBus)
     {
         try {
             $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
