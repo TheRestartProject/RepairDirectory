@@ -73,14 +73,14 @@ class CustomBusinessValidator implements BusinessValidator
             'averageScore' => new v\NumberRangeValidator('Average Score', 0, 5, true),
             'warrantyOffered' => new v\BooleanValidator(),
             'warranty' => new v\StringLengthValidator('Warranty Details', 10, 65535),
-            'publishingStatus' => new v\PublishingStatusValidator()
+            'publishingStatus' => new PublishingStatusValidator()
         ];
     }
 
     /**
      * Throw a BusinessValidationException if the provided business has any invalid fields.
      *
-     * @param Business $business The business to validate
+     * @param array $business The business to validate
      *
      * @return void
      *
@@ -89,17 +89,16 @@ class CustomBusinessValidator implements BusinessValidator
     public function validate($business)
     {
         $errors = [];
-        $businessArr = $business->toArray();
 
         foreach ($this->required as $field) {
-            if (!array_key_exists($field, $businessArr) || !$businessArr[$field]) {
+            if (!array_key_exists($field, $business) || !$business[$field]) {
                 $errors[$field] = $field . ' is required';
             }
         }
 
         // simple field validators
         foreach ($this->validators as $field => $validator) {
-            $value = $businessArr[$field];
+            $value = $business[$field];
             if ($value) {
                 try {
                     /**
@@ -114,7 +113,7 @@ class CustomBusinessValidator implements BusinessValidator
             }
         }
         
-        if (!$business->getGeolocation()) {
+        if (!$business['geolocation']) {
             $errors['geolocation'] = 'Geocoding failed – please check the address';
         }
 
@@ -133,21 +132,21 @@ class CustomBusinessValidator implements BusinessValidator
     /**
      * Throw an error if the Business's publishing status is not allowed according to business logic.
      *
-     * @param Business $business The Business to validate
+     * @param array $business The Business to validate
      *
      * @return void
      *
      * @throws ValidationException
      */
-    private function validateBusinessPublishingStatus(Business $business)
+    private function validateBusinessPublishingStatus($business)
     {
         $messages = [];
         // PublishingStatus + PositiveReviewPc
-        if ($business->getPublishingStatus() === PublishingStatus::PUBLISHED && $business->getPositiveReviewPc() < 80) {
+        if ($business['publishingStatus'] === PublishingStatus::PUBLISHED && $business['postiveReviewPc'] < 80) {
             $messages[] = 'Can\'t publish a business with a positive review percentage of under 80%';
         }
         // PublishingStatus + WarrantyOffered
-        if ($business->getPublishingStatus() === PublishingStatus::PUBLISHED && !$business->isWarrantyOffered()) {
+        if ($business['publishingStatus'] === PublishingStatus::PUBLISHED && !$business['warrantyOffered']) {
             $messages[] = 'Can\'t publish a business that doesn\'t offer warranty.';
         }
 

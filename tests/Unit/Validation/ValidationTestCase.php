@@ -1,7 +1,8 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tests;
+namespace TheRestartProject\RepairDirectory\Tests\Unit\Validation;
 
+use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**
  * Class ValidationTestCase
@@ -23,7 +24,7 @@ abstract class ValidationTestCase extends TestCase
      *
      * @return string
      */
-    function getRandomString($length)
+    protected function getRandomString($length)
     {
         $str = '';
         while ($length > 0) {

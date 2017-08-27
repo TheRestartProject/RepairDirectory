@@ -17,6 +17,12 @@ use League\Tactician\Logger\Formatter\Formatter;
 use League\Tactician\Logger\LoggerMiddleware;
 use TheRestartProject\RepairDirectory\Application\CommandBus\LaravelContainerAdapter;
 use TheRestartProject\RepairDirectory\Application\CommandBus\Middleware\TransactionMiddleware;
+use TheRestartProject\RepairDirectory\Tactician\Validator\CommandValidatorMiddleware;
+use TheRestartProject\RepairDirectory\Tactician\Validator\Extractors\ClassNameExtractor as ValidatorClassNameExtractor;
+use TheRestartProject\RepairDirectory\Tactician\Validator\Extractors\CommandNameExtractor as ValidatorCommandNameExtractor;
+use TheRestartProject\RepairDirectory\Tactician\Validator\Inflectors\MethodNameInflector as ValidatorMethodNameInflector;
+use TheRestartProject\RepairDirectory\Tactician\Validator\Inflectors\ValidateInflector;
+use TheRestartProject\RepairDirectory\Tactician\Validator\Locators\ValidatorLocator;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
@@ -62,6 +68,29 @@ class CommandBusServiceProvider extends ServiceProvider
         $this->app->singleton(CommandNameExtractor::class, ClassNameExtractor::class);
         $this->app->singleton(MethodNameInflector::class, HandleInflector::class);
         $this->app->singleton(CommandHandlerMiddleware::class, CommandHandlerMiddleware::class);
+    }
+
+
+    /**
+     * Sets up the Command Bus Handler middleware
+     *
+     * This middleware allows handlers to be fetched from the container instead of
+     * created in memory. Makes things faster.
+     *
+     * @link http://tactician.thephpleague.com/plugins/container/
+     */
+    public function validatorMiddleware()
+    {
+        $this->app->singleton(ValidatorLocator::class, function ($app) {
+            return new ContainerLocator(
+                new LaravelContainerAdapter($app),
+                app('config')->get('tactician.validators')
+            );
+        });
+
+        $this->app->singleton(ValidatorCommandNameExtractor::class, ValidatorClassNameExtractor::class);
+        $this->app->singleton(ValidatorMethodNameInflector::class, ValidateInflector::class);
+        $this->app->singleton(CommandValidatorMiddleware::class, CommandValidatorMiddleware::class);
     }
 
     /**
@@ -114,6 +143,7 @@ class CommandBusServiceProvider extends ServiceProvider
     public function setupMiddleware()
     {
         $this->handlerMiddleware();
+        $this->validatorMiddleware();
         $this->loggerMiddleware();
         $this->doctrineMiddleware();
     }

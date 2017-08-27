@@ -18,7 +18,7 @@ use TheRestartProject\RepairDirectory\Tests\TestCase;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class BusinessValidatorTest extends TestCase
+class CustomBusinessValidatorTest extends TestCase
 {
 
     /**
@@ -50,7 +50,7 @@ class BusinessValidatorTest extends TestCase
     {
         $business = new Business();
         try {
-            $this->validator->validate($business);
+            $this->validator->validate($business->toArray());
             self::fail('Did not throw exception when fields are missing');
         } catch (BusinessValidationException $e) {
             self::assertEquals(
@@ -68,7 +68,7 @@ class BusinessValidatorTest extends TestCase
                 ],
                 $e->getErrors()
             );
-            self::assertEquals($business, $e->getBusiness());
+            self::assertEquals($business->toArray(), $e->getBusiness());
         }
     }
 
@@ -85,7 +85,7 @@ class BusinessValidatorTest extends TestCase
         try {
             $business->setName('a');
             $business->setLandline('abc');
-            $this->validator->validate($business);
+            $this->validator->validate($business->toArray());
             self::fail('Did not throw exception when name too short');
         } catch (BusinessValidationException $e) {
             self::assertEquals(
@@ -101,7 +101,7 @@ class BusinessValidatorTest extends TestCase
                 ],
                 $e->getErrors()
             );
-            self::assertEquals($business, $e->getBusiness());
+            self::assertEquals($business->toArray(), $e->getBusiness());
         }
     }
 

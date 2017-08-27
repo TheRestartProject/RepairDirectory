@@ -2,8 +2,6 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
-use Illuminate\Http\Request;
-
 /**
  * Command to create or update a business from HTTP post data
  *

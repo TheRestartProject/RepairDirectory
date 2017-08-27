@@ -1,11 +1,11 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Tests\Unit\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
-use TheRestartProject\RepairDirectory\Application\Validators\PostcodeValidator;
-use TheRestartProject\RepairDirectory\Application\Validators\Validator;
-use TheRestartProject\RepairDirectory\Tests\ValidationTestCase;
+use TheRestartProject\RepairDirectory\Validation\Validators\PostcodeValidator;
+use TheRestartProject\RepairDirectory\Validation\Validators\Validator;
+use TheRestartProject\RepairDirectory\Tests\Unit\Validation\ValidationTestCase;
 
 /**
  * Test class for the PostcodeValidator class
