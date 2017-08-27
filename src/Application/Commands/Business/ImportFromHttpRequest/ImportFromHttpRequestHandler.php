@@ -37,26 +37,19 @@ class ImportFromHttpRequestHandler
      * @var Geocoder
      */
     private $geocoder;
-    
-    private $validator;
-    /**
-     * @var Gate
-     */
-    private $gate;
 
     /**
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
      * @param BusinessRepository $repository An implementation of the BusinessRepository
      * @param Geocoder           $geocoder   Geocoder to get [lat, lng] of business
-     * @param Gate               $gate       Gate to authorize users with
+     *
+     * @return $this
      */
-    public function __construct(BusinessRepository $repository, Geocoder $geocoder, Gate $gate)
+    public function __construct(BusinessRepository $repository, Geocoder $geocoder)
     {
         $this->repository = $repository;
         $this->geocoder = $geocoder;
-        $this->validator = new CustomBusinessValidator();
-        $this->gate = $gate;
     }
 
     /**
@@ -78,18 +71,16 @@ class ImportFromHttpRequestHandler
         $isCreate = !(boolean) $businessUid;
         
         $business = $isCreate ? new Business() : $this->repository->findById($businessUid);
+
         if (!$business) {
             throw new EntityNotFoundException("Business with id of {$businessUid} could not be found");
         }
-
-        $this->authorize($isCreate, $business);
 
         $data = $this->transformRequestData($data);
 
         $this->updateValues($business, $data);
 
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
-
 
         if ($isCreate) {
             $this->repository->add($business);
@@ -144,6 +135,8 @@ class ImportFromHttpRequestHandler
      *
      * @param bool     $isCreate Whether the business is new or not
      * @param Business $business The business to check against
+     *
+     * @return void
      *
      * @throws AuthorizationException
      */

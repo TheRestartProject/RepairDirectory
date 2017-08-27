@@ -7,9 +7,11 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 /**
  * Run when a business is imported
  *
- * @category Authorize
- * @package TheRestartProject\RepairDirectory\Domain\
- * @author Matthew Kendon <matt@outlandish.com>
+ * @category Authorizer
+ * @package  TheRestartProject\RepairDirectory\Domain\
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 interface ImportBusinessAuthorizer
 {

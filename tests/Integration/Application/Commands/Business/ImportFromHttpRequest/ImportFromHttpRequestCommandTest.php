@@ -19,6 +19,8 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Integration\Application\Commands\Business\ImportFromHttpRequest
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class ImportFromHttpRequestCommandTest extends IntegrationTestCase
 {
@@ -32,12 +34,16 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     protected $bus;
 
     /**
+     * The business to test with
+     *
      * @var Business $business
      */
     protected $business;
 
     /**
      * Sets up the test environment
+     *
+     * @return void
      */
     public function setUp()
     {
@@ -227,10 +233,12 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
         $command = $this
             ->logInAsRole(User::RESTARTER)
             ->createValidBusiness(['publishingStatus' => PublishingStatus::PUBLISHED])
-            ->createCommand([
-                'name' => 'New Name',
-                'publishingStatus' => PublishingStatus::DRAFT
-            ]);
+            ->createCommand(
+                [
+                    'name' => 'New Name',
+                    'publishingStatus' => PublishingStatus::DRAFT
+                ]
+            );
 
         $this->bus->handle($command);
     }
@@ -249,10 +257,12 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
         $command = $this
             ->logInAsRole(User::RESTARTER)
             ->createValidBusiness(['publishingStatus' => PublishingStatus::HIDDEN])
-            ->createCommand([
-                'name' => 'New Name',
-                'publishingStatus' => PublishingStatus::DRAFT
-            ]);
+            ->createCommand(
+                [
+                    'name' => 'New Name',
+                    'publishingStatus' => PublishingStatus::DRAFT
+                ]
+            );
 
         $this->bus->handle($command);
     }
@@ -382,7 +392,9 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     }
 
     /**
-     * @param Business $business The business to convert
+     * Generates request data from a business
+     *
+     * @param Business $business  The business to convert
      * @param array    $overrides An array of overrides
      *
      * @return array
@@ -466,16 +478,19 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     /**
      * Asserts the business exists in the database
      *
-     * @param array $overrides
+     * @param array $overrides Array of attributes to override the assertion with
      *
      * @return $this;
      */
     protected function assertBusinessExists(array $overrides = [])
     {
-        $data = array_merge([
-            'name' => $this->business->getName(),
-            'publishing_status' => $this->business->getPublishingStatus()
-        ], $overrides);
+        $data = array_merge(
+            [
+                'name' => $this->business->getName(),
+                'publishing_status' => $this->business->getPublishingStatus()
+            ],
+            $overrides
+        );
 
         $this->assertDatabaseHas('businesses', $data);
 

@@ -12,10 +12,13 @@ use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
- * Tests the ability to
- * @category
+ * Tests the ability to create new businesses
+ *
+ * @category Test
  * @package  TheRestartProject\RepairDirectory\Tests\Feature\Http
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class CreateBusinessTest extends IntegrationTestCase
 {
@@ -61,11 +64,15 @@ class CreateBusinessTest extends IntegrationTestCase
     public function i_can_create_a_draft_business_as_a_restarter()
     {
         /**
+         * The business to be created
+         *
          * @var Business $business
          */
-        $business = entity(Business::class)->make([
-            'publishingStatus' => PublishingStatus::DRAFT
-        ]);
+        $business = entity(Business::class)->make(
+            [
+                'publishingStatus' => PublishingStatus::DRAFT
+            ]
+        );
 
         $this->beRestarter()
             ->createBusiness($business);
@@ -83,11 +90,15 @@ class CreateBusinessTest extends IntegrationTestCase
     public function i_can_create_a_ready_for_review_business_as_a_restarter()
     {
         /**
+         * The business to be created
+         *
          * @var Business $business
          */
-        $business = entity(Business::class)->make([
-            'publishingStatus' => PublishingStatus::READY_FOR_REVIEW
-        ]);
+        $business = entity(Business::class)->make(
+            [
+                'publishingStatus' => PublishingStatus::READY_FOR_REVIEW
+            ]
+        );
 
         $this->beRestarter()
             ->createBusiness($business);
@@ -105,11 +116,15 @@ class CreateBusinessTest extends IntegrationTestCase
     public function i_cannot_create_a_published_business_as_a_restarter()
     {
         /**
+         * Business to be created
+         *
          * @var Business $business
          */
-        $business = entity(Business::class)->make([
-            'publishingStatus' => PublishingStatus::PUBLISHED
-        ]);
+        $business = entity(Business::class)->make(
+            [
+                'publishingStatus' => PublishingStatus::PUBLISHED
+            ]
+        );
 
         $this->beRestarter()
             ->createBusiness($business)
@@ -121,7 +136,7 @@ class CreateBusinessTest extends IntegrationTestCase
     /**
      * Asserts that the business exists
      *
-     * @param Business $business
+     * @param Business $business Business to be checked
      *
      * @return $this
      */
@@ -138,7 +153,7 @@ class CreateBusinessTest extends IntegrationTestCase
     /**
      * Asserts that the business exists
      *
-     * @param Business $business
+     * @param Business $business Business to be checked with
      *
      * @return $this
      */
@@ -192,13 +207,15 @@ class CreateBusinessTest extends IntegrationTestCase
     /**
      * Create a business by posting a serialized representation of one
      *
-     * @param Business $business
+     * @param Business $business Business to fill in the form with
      *
      * @return TestResponse
      */
     protected function createBusiness(Business $business)
     {
         /**
+         * The session object
+         *
          * @var Session $session
          */
         $session = $this->app->make('session');
@@ -215,7 +232,7 @@ class CreateBusinessTest extends IntegrationTestCase
     }
 
     /**
-     *
+     * Converts a business into an array that can be used to fill in a form
      *
      * @param Business $business The business to serialize
      *

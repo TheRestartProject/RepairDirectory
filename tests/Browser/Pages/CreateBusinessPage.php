@@ -89,8 +89,8 @@ class CreateBusinessPage extends Page
     /**
      * Assert that a status appears as a disabled option
      *
-     * @param Browser $browser
-     * @param string  $status
+     * @param Browser $browser The browser object to run tests with
+     * @param string  $status  The status to check
      *
      * @return $this
      */
@@ -104,8 +104,8 @@ class CreateBusinessPage extends Page
     /**
      * Sets the publishing status on the form
      *
-     * @param Browser $browser
-     * @param string  $status
+     * @param Browser $browser The browser object to run tests with
+     * @param string  $status  The status to check
      *
      * @return $this
      */
@@ -119,8 +119,8 @@ class CreateBusinessPage extends Page
     /**
      * Fills in the form
      *
-     * @param Browser $browser
-     * @param string  $name
+     * @param Browser $browser The browser object to run tests with
+     * @param string  $name    The name of the business
      *
      * @return $this
      */

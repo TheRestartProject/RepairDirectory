@@ -10,21 +10,25 @@ use TheRestartProject\RepairDirectory\Domain\Authorizers\ImportBusinessAuthorize
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 /**
- * Class LaravelImportBusinessAuthorizer
+ * Implementation of the Business Authorizer that uses Laravel services
  *
  * @category Authorizer
  * @package  TheRestartProject\RepairDirectory\Application\Authorizers
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
 {
     /**
+     * The Laravel auth manager
+     *
      * @var AuthManager
      */
     private $authManager;
 
     /**
-     * LaravelImportBusinessAuthorizer constructor.
+     * Constructs the ImportBusinessAuthorizer
      *
      * @param AuthManager $authManager The authentication manager
      */
@@ -43,7 +47,7 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
      * Additionally, a business cannot be published unless the user that is
      * logged in is of a specific role.
      *
-     * @param array $data The data that is to be inserted
+     * @param array    $data     The data that is to be inserted
      * @param Business $business The business that is to be updated or null if new
      *
      * @return void
@@ -79,7 +83,9 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
     protected function getUser()
     {
         /**
-         * @var User $user The user that is currently authenticated
+         * The user that is currently authenticated
+         *
+         * @var User $user
          */
         $user = $this->authManager->guard()->user();
 
@@ -123,6 +129,8 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
     }
 
     /**
+     * Returns true if the data includes the published status
+     *
      * @param array $data The data to check
      *
      * @return bool
@@ -145,7 +153,7 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
      */
     protected function businessIsPublished(Business $business = null)
     {
-       return $business !== null && $business->isPublished();
+        return $business !== null && $business->isPublished();
     }
 
 }

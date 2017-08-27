@@ -5,6 +5,15 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands\Busi
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
+/**
+ * Tests the basic functionality of the ImportFromHttpRequestCommand
+ *
+ * @category Test
+ * @package  TheRestartProject\RepairDirectory\Tests\Unit\Application\Commands\Business\ImportFromHttpRequest
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
+ */
 class ImportFromHttpRequestCommandTest extends TestCase
 {
     /**
