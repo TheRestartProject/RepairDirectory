@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
@@ -27,7 +27,7 @@ class CategoriesValidator implements Validator
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    function validate($categories)
+    public function validate($categories)
     {
         foreach ($categories as $category) {
             $foundCategory = Category::search($category);

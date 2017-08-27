@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
@@ -28,7 +28,7 @@ class ReviewSourceValidator implements Validator
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    function validate($source)
+    public function validate($source)
     {
         $foundSource = ReviewSource::search($source);
         if (!$foundSource) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
@@ -25,7 +25,7 @@ class WebsiteValidator implements Validator
      *
      * @throws ValidationException
      */
-    function validate($website)
+    public function validate($website)
     {
         if (strlen($website) < 5 || strlen($website) > 100) {
             throw new ValidationException('Website invalid: must be between 5 and 100 characters long');

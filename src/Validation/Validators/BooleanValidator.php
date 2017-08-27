@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
@@ -13,9 +13,6 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  */
-
-
-
 class BooleanValidator implements Validator
 {
 
@@ -28,7 +25,7 @@ class BooleanValidator implements Validator
      *
      * @throws ValidationException
      */
-    function validate($value)
+    public function validate($value)
     {
         if (!is_bool($value)) {
             throw new ValidationException("Warranty Offered invalid: must be either true or false!");

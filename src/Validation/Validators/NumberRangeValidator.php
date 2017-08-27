@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
@@ -29,7 +29,7 @@ class NumberRangeValidator implements Validator
      * @param integer $max                  The maximum value of valid numbers
      * @param boolean $decimalValuesAllowed True if non-integers are valid
      */
-    function __construct($fieldNameTitleCase, $min, $max, $decimalValuesAllowed)
+    public function __construct($fieldNameTitleCase, $min, $max, $decimalValuesAllowed)
     {
         $this->min = $min;
         $this->max = $max;

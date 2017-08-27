@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
@@ -25,7 +25,7 @@ class EmailValidator implements Validator
      *
      * @throws ValidationException
      */
-    function validate($email)
+    public function validate($email)
     {
         if (strlen($email) < 6 || strlen($email) > 100) {
             throw new ValidationException('Email invalid: must be between 6 and 100 characters long');

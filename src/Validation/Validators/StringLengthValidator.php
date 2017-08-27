@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
@@ -27,7 +27,7 @@ class StringLengthValidator implements Validator
      * @param integer $min                The minimum length of valid strings
      * @param integer $max                The maximum length of valid strings
      */
-    function __construct($fieldNameTitleCase, $min, $max)
+    public function __construct($fieldNameTitleCase, $min, $max)
     {
         $this->min = $min;
         $this->max = $max;
@@ -43,7 +43,7 @@ class StringLengthValidator implements Validator
      *
      * @throws ValidationException
      */
-    function validate($value)
+    public function validate($value)
     {
         if (strlen($value) < $this->min || strlen($value) > $this->max) {
             throw new ValidationException($this->errorMessage);

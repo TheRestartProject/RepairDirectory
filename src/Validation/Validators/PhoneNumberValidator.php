@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
@@ -23,7 +23,7 @@ class PhoneNumberValidator implements Validator
      *
      * @param string $fieldNameTitleCase A readable label for the value being tested. Used to form the error message
      */
-    function __construct($fieldNameTitleCase)
+    public function __construct($fieldNameTitleCase)
     {
         $this->fieldNameTitleCase = $fieldNameTitleCase;
     }
@@ -38,7 +38,7 @@ class PhoneNumberValidator implements Validator
      *
      * @throws ValidationException
      */
-    function validate($number)
+    public function validate($number)
     {
         $chars = str_split($number);
         foreach ($chars as $char) {

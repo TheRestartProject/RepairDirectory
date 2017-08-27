@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Application\Validators;
+namespace TheRestartProject\RepairDirectory\Validation\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
@@ -25,7 +25,7 @@ class PostcodeValidator implements Validator
      *
      * @throws ValidationException
      */
-    function validate($postcode)
+    public function validate($postcode)
     {
         if (strpos($postcode, " ") === false) {
             throw new ValidationException('Postcode invalid: must include a space');
