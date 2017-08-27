@@ -1,9 +1,10 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tactician\Security\Locators;
+namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators;
 
 use Psr\Container\ContainerInterface;
-use TheRestartProject\RepairDirectory\Tactician\Security\Exceptions\MissingAuthorizerException;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Exceptions\MissingAuthorizerException;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators\AuthorizerLocator;
 
 /**
  * Class ContainerLocator
@@ -74,7 +75,7 @@ class ContainerLocator implements AuthorizerLocator
      *
      * @return object
      *
-     * @throws MissingAuthorizerException
+     * @throws \TheRestartProject\RepairDirectory\Tactician\Authorizer\Exceptions\MissingAuthorizerException
      */
     public function getAuthorizerForCommand($commandName)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tactician\Security\Locators;
+namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators;
 
 use TheRestartProject\RepairDirectory\Tactician\Validator\MissingHandlerException;
 

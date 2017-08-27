@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tactician\Security\Inflectors;
+namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Inflectors;
 
 
 interface MethodNameInflector

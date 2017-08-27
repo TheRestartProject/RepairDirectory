@@ -1,12 +1,14 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tactician\Validator;
+namespace TheRestartProject\RepairDirectory\Tactician\Authorizer;
 
 use League\Tactician\Middleware;
-use TheRestartProject\RepairDirectory\Tactician\Security\Exceptions\CanNotInvokeAuthorizerException;
-use TheRestartProject\RepairDirectory\Tactician\Security\Extractors\CommandNameExtractor;
-use TheRestartProject\RepairDirectory\Tactician\Security\Inflectors\MethodNameInflector;
-use TheRestartProject\RepairDirectory\Tactician\Security\Locators\AuthorizerLocator;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Exceptions\CanNotInvokeAuthorizerException;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors\CommandNameExtractor;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Inflectors\MethodNameInflector;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators\AuthorizerLocator;
+use TheRestartProject\RepairDirectory\Tactician\Validator\CanNotInvokeHandlerException;
+use TheRestartProject\RepairDirectory\Tactician\Validator\CanNotInvokeSecurityException;
 
 /**
  * Class CommandSecurityMiddleware
@@ -18,12 +20,12 @@ use TheRestartProject\RepairDirectory\Tactician\Security\Locators\AuthorizerLoca
 class CommandAuthorizerMiddleware implements Middleware
 {
     /**
-     * @var CommandNameExtractor
+     * @var \TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors\CommandNameExtractor
      */
     private $commandNameExtractor;
 
     /**
-     * @var AuthorizerLocator
+     * @var \TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators\AuthorizerLocator
      */
     private $securityLocator;
 
@@ -33,8 +35,8 @@ class CommandAuthorizerMiddleware implements Middleware
     private $methodNameInflector;
 
     /**
-     * @param CommandNameExtractor $commandNameExtractor
-     * @param AuthorizerLocator     $securityLocator
+     * @param \TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors\CommandNameExtractor $commandNameExtractor
+     * @param \TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators\AuthorizerLocator     $securityLocator
      * @param MethodNameInflector  $methodNameInflector
      */
     public function __construct(

@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tactician\Security\Exceptions;
+namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Exceptions;
 
 use League\Tactician\Exception\Exception;
 

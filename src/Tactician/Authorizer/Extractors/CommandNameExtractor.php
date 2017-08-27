@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tactician\Security\Extractors;
+namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors;
 
 
 use TheRestartProject\RepairDirectory\Tactician\Security\CannotDetermineCommandNameException;

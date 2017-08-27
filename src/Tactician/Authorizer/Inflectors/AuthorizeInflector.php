@@ -1,6 +1,7 @@
 <?php
 
-namespace TheRestartProject\RepairDirectory\Tactician\Security\Inflectors;
+namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Inflectors;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Inflectors\MethodNameInflector;
 
 /**
  * Class AuthorizeInflector
