@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors;
 
 
-use TheRestartProject\RepairDirectory\Tactician\Security\CannotDetermineCommandNameException;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer\Exception\CannotDetermineCommandNameException;
 
 interface CommandNameExtractor
 {

@@ -2,10 +2,12 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Integration\Application\Commands\Business\ImportFromHttpRequest;
 
-use Illuminate\Validation\UnauthorizedException;
 use League\Tactician\CommandBus;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
+use TheRestartProject\RepairDirectory\Domain\Exceptions\ImportBusinessUnauthorizedException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
@@ -67,7 +69,28 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
      */
     public function it_throws_an_exception_if_no_user_is_logged_in()
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(ImportBusinessUnauthorizedException::class);
+
+        $business = $this->createValidBusiness();
+        $data = $this->generateRequestDataFromBusiness($business);
+
+        $command = $this->createCommand($data);
+
+        $this->bus->handle($command);
+    }
+
+    /**
+     * Tests that a guest user cannot import a business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_throws_an_exception_if_the_user_is_a_guest()
+    {
+        $this->expectException(ImportBusinessUnauthorizedException::class);
+
+        $this->logInAsRole(User::GUEST);
 
         $business = $this->createValidBusiness();
         $data = $this->generateRequestDataFromBusiness($business);
@@ -84,10 +107,13 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function it_imports_the_business()
+    public function it_imports_the_draft_business_if_the_user_a_restarter()
     {
         $business = $this->createValidBusiness();
+        $business->setPublishingStatus(PublishingStatus::DRAFT);
         $data = $this->generateRequestDataFromBusiness($business);
+
+        $this->logInAsRole(User::RESTARTER);
 
         $command = new ImportFromHttpRequestCommand($data);
 
@@ -97,6 +123,53 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
             'name' => $business->getName(),
             'publishing_status' => $business->getPublishingStatus()
         ]);
+    }
+
+    /**
+     * Tests that a restarter can create a ready for review business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_imports_a_ready_for_review_business_if_the_user_is_a_restarter()
+    {
+        $business = $this->createValidBusiness();
+        $business->setPublishingStatus(PublishingStatus::DRAFT);
+        $data = $this->generateRequestDataFromBusiness($business);
+
+        $this->logInAsRole(User::RESTARTER);
+
+        $command = new ImportFromHttpRequestCommand($data);
+
+        $this->bus->handle($command);
+
+        $this->assertDatabaseHas('businesses', [
+            'name' => $business->getName(),
+            'publishing_status' => $business->getPublishingStatus()
+        ]);
+    }
+
+    /**
+     * Tests that a restarter cannot publish a business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_throws_an_exception_if_a_published_business_is_imported_by_a_restarter()
+    {
+        $this->expectException(ImportBusinessUnauthorizedException::class);
+
+        $this->logInAsRole(User::RESTARTER);
+
+        $business = $this->createValidBusiness();
+        $business->setPublishingStatus(PublishingStatus::PUBLISHED);
+        $data = $this->generateRequestDataFromBusiness($business);
+
+        $command = $this->createCommand($data);
+
+        $this->bus->handle($command);
     }
 
     /**
@@ -144,5 +217,20 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     protected function createCommand($data)
     {
         return new ImportFromHttpRequestCommand($data);
+    }
+
+    /**
+     * Log in as a user of a specific role
+     *
+     * @param string $role The role for the user that is to be logged in
+     *
+     * @return $this
+     */
+    protected function logInAsRole($role)
+    {
+        $user = entity(User::class)->create(['role' => $role]);
+        $this->be($user);
+
+        return $this;
     }
 }

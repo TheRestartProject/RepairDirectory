@@ -1,7 +1,6 @@
 <?php
 
 namespace TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors;
-use TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors\CommandNameExtractor;
 
 /**
  * Class ClassNameExtractor

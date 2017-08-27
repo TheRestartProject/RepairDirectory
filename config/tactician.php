@@ -23,11 +23,16 @@ return [
     'middleware' => [
         \League\Tactician\Logger\LoggerMiddleware::class,
         \TheRestartProject\RepairDirectory\Tactician\Validator\CommandValidatorMiddleware::class,
+        \TheRestartProject\RepairDirectory\Tactician\Authorizer\CommandAuthorizerMiddleware::class,
         TransactionMiddleware::class,
         \League\Tactician\Handler\CommandHandlerMiddleware::class
     ],
 
     'validators' => [
         ImportFromHttpRequest\ImportFromHttpRequestCommand::class => ImportFromHttpRequest\ImportFromHttpRequestValidator::class,
+    ],
+
+    'authorizers' => [
+        ImportFromHttpRequest\ImportFromHttpRequestCommand::class => ImportFromHttpRequest\ImportFromHttpRequestAuthorizer::class,
     ]
 ];

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use League\Tactician\CommandBus;
 use League\Tactician\Container\ContainerLocator;
@@ -15,15 +16,11 @@ use League\Tactician\Handler\MethodNameInflector\MethodNameInflector;
 use League\Tactician\Logger\Formatter\ClassNameFormatter;
 use League\Tactician\Logger\Formatter\Formatter;
 use League\Tactician\Logger\LoggerMiddleware;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 use TheRestartProject\RepairDirectory\Application\CommandBus\LaravelContainerAdapter;
 use TheRestartProject\RepairDirectory\Application\CommandBus\Middleware\TransactionMiddleware;
-use TheRestartProject\RepairDirectory\Tactician\Validator\CommandValidatorMiddleware;
-use TheRestartProject\RepairDirectory\Tactician\Validator\Extractors\ClassNameExtractor as ValidatorClassNameExtractor;
-use TheRestartProject\RepairDirectory\Tactician\Validator\Extractors\CommandNameExtractor as ValidatorCommandNameExtractor;
-use TheRestartProject\RepairDirectory\Tactician\Validator\Inflectors\MethodNameInflector as ValidatorMethodNameInflector;
-use TheRestartProject\RepairDirectory\Tactician\Validator\Inflectors\ValidateInflector;
-use TheRestartProject\RepairDirectory\Tactician\Validator\Locators\ValidatorLocator;
-use TheRestartProject\RepairDirectory\Tactician\Validator\Locators\ContainerLocator as ValidatorContainerLocator;
+use TheRestartProject\RepairDirectory\Tactician\Validator;
+use TheRestartProject\RepairDirectory\Tactician\Authorizer;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
@@ -73,25 +70,74 @@ class CommandBusServiceProvider extends ServiceProvider
 
 
     /**
-     * Sets up the Command Bus Handler middleware
+     * Sets up the Command Bus Validator middleware
      *
-     * This middleware allows handlers to be fetched from the container instead of
+     * This middleware allows Validators to be fetched from the container instead of
      * created in memory. Makes things faster.
      *
      * @link http://tactician.thephpleague.com/plugins/container/
      */
     public function validatorMiddleware()
     {
-        $this->app->singleton(ValidatorLocator::class, function ($app) {
-            return new ValidatorContainerLocator(
+        $this->app->singleton(Validator\Locators\ValidatorLocator::class, function ($app) {
+            return new Validator\Locators\ContainerLocator(
                 new LaravelContainerAdapter($app),
                 app('config')->get('tactician.validators')
             );
         });
 
-        $this->app->singleton(ValidatorCommandNameExtractor::class, ValidatorClassNameExtractor::class);
-        $this->app->singleton(ValidatorMethodNameInflector::class, ValidateInflector::class);
-        $this->app->singleton(CommandValidatorMiddleware::class, CommandValidatorMiddleware::class);
+        $this->app->singleton(
+            Validator\Extractors\CommandNameExtractor::class,
+            Validator\Extractors\ClassNameExtractor::class
+        );
+
+        $this->app->singleton(
+            Validator\Inflectors\MethodNameInflector::class,
+            Validator\Inflectors\ValidateInflector::class
+        );
+
+        $this->app->singleton(
+            Validator\CommandValidatorMiddleware::class,
+            Validator\CommandValidatorMiddleware::class
+        );
+    }
+
+
+
+    /**
+     * Sets up the Command Bus Authorizer middleware
+     *
+     * This middleware allows authorizers to be fetched from the container instead of
+     * created in memory. Makes things faster.
+     *
+     * @link http://tactician.thephpleague.com/plugins/container/
+     */
+    public function authorizerMiddleware()
+    {
+        $this->app->singleton(
+            Authorizer\Locators\AuthorizerLocator::class,
+            function ($app) {
+                return new Authorizer\Locators\ContainerLocator(
+                    new LaravelContainerAdapter($app),
+                    app('config')->get('tactician.authorizers')
+                );
+            }
+        );
+
+        $this->app->singleton(
+            Authorizer\Extractors\CommandNameExtractor::class,
+            Authorizer\Extractors\ClassNameExtractor::class
+        );
+
+        $this->app->singleton(
+            Authorizer\Inflectors\MethodNameInflector::class,
+            Authorizer\Inflectors\AuthorizeInflector::class
+        );
+
+        $this->app->singleton(
+            Authorizer\CommandAuthorizerMiddleware::class,
+            Authorizer\CommandAuthorizerMiddleware::class
+        );
     }
 
     /**
@@ -145,6 +191,7 @@ class CommandBusServiceProvider extends ServiceProvider
     {
         $this->handlerMiddleware();
         $this->validatorMiddleware();
+        $this->authorizerMiddleware();
         $this->loggerMiddleware();
         $this->doctrineMiddleware();
     }
