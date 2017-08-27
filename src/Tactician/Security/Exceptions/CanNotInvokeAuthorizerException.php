@@ -11,7 +11,7 @@ use League\Tactician\Exception\Exception;
  * @package  TheRestartProject\RepairDirectory\Tactician\Validator\Exceptions
  * @author   Matthew Kendon <matt@outlandish.com>
  */
-class CanNotInvokeSecurityException extends \BadMethodCallException implements Exception
+class CanNotInvokeAuthorizerException extends \BadMethodCallException implements Exception
 {
 
     /**

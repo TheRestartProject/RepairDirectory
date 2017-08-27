@@ -9,9 +9,9 @@ interface MethodNameInflector
      * Return the method name to call on the command handler and return it.
      *
      * @param object $command
-     * @param object $commandHandler
+     * @param object $commandAuthorizer
      *
      * @return string
      */
-    public function inflect($command, $commandHandler);
+    public function inflect($command, $commandAuthorizer);
 }

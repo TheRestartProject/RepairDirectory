@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tactician\Security\Locators;
 
 use Psr\Container\ContainerInterface;
-use TheRestartProject\RepairDirectory\Tactician\Security\Exceptions\MissingSecurityException;
+use TheRestartProject\RepairDirectory\Tactician\Security\Exceptions\MissingAuthorizerException;
 
 /**
  * Class ContainerLocator
@@ -12,7 +12,7 @@ use TheRestartProject\RepairDirectory\Tactician\Security\Exceptions\MissingSecur
  * @package  TheRestartProject\RepairDirectory\Tactician\Validator\Locator
  * @author   Matthew Kendon <matt@outlandish.com>
  */
-class ContainerLocator implements SecurityLocator
+class ContainerLocator implements AuthorizerLocator
 {
     /**
      * @var ContainerInterface
@@ -20,22 +20,22 @@ class ContainerLocator implements SecurityLocator
     protected $container;
 
     /**
-     * The collection of Command/CommandHandler
+     * The collection of Command/CommandAuthorizer
      *
      * @var array
      */
-    protected $commandNameToSecurityMap = [];
+    protected $commandNameToAuthorizerMap = [];
 
     /**
      * @param ContainerInterface $container
-     * @param array              $commandNameToSecurityMap
+     * @param array              $commandNameToAuthorizerMap
      */
     public function __construct(
         ContainerInterface $container,
-        array $commandNameToSecurityMap = []
+        array $commandNameToAuthorizerMap = []
     ) {
         $this->container = $container;
-        $this->addSecurities($commandNameToSecurityMap);
+        $this->addAuthorizers($commandNameToAuthorizerMap);
     }
 
     /**
@@ -44,9 +44,9 @@ class ContainerLocator implements SecurityLocator
      * @param string $security   Security to receive class
      * @param string $commandName Can be a class name or name of a NamedCommand
      */
-    public function addSecurity($security, $commandName)
+    public function addAuthorizer($security, $commandName)
     {
-        $this->commandNameToSecurityMap[$commandName] = $security;
+        $this->commandNameToAuthorizerMap[$commandName] = $security;
     }
 
     /**
@@ -58,12 +58,12 @@ class ContainerLocator implements SecurityLocator
      *      'CompleteTaskCommand' => 'CompleteTaskCommandHandler',
      *  ]
      *
-     * @param array $commandNameToValidatorMap
+     * @param array $commandNameToAuthorizerMap
      */
-    public function addSecurities(array $commandNameToValidatorMap)
+    public function addAuthorizers(array $commandNameToAuthorizerMap)
     {
-        foreach ($commandNameToValidatorMap as $commandName => $validator) {
-            $this->addSecurity($validator, $commandName);
+        foreach ($commandNameToAuthorizerMap as $commandName => $authorizer) {
+            $this->addAuthorizer($authorizer, $commandName);
         }
     }
 
@@ -74,15 +74,15 @@ class ContainerLocator implements SecurityLocator
      *
      * @return object
      *
-     * @throws MissingSecurityException
+     * @throws MissingAuthorizerException
      */
-    public function getSecurityForCommand($commandName)
+    public function getAuthorizerForCommand($commandName)
     {
-        if (!isset($this->commandNameToSecurityMap[$commandName])) {
-            throw MissingSecurityException::forCommand($commandName);
+        if (!isset($this->commandNameToAuthorizerMap[$commandName])) {
+            throw MissingAuthorizerException::forCommand($commandName);
         }
 
-        $serviceId = $this->commandNameToSecurityMap[$commandName];
+        $serviceId = $this->commandNameToAuthorizerMap[$commandName];
 
         return $this->container->get($serviceId);
     }

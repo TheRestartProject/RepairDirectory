@@ -5,13 +5,13 @@ namespace TheRestartProject\RepairDirectory\Tactician\Security\Exceptions;
 use League\Tactician\Exception\Exception;
 
 /**
- * Class MissingValidatorException
+ * Class MissingAuthorizerException
  *
  * @category Exception
- * @package  TheRestartProject\RepairDirectory\Tactician\Validator\Exceptions
+ * @package  TheRestartProject\RepairDirectory\Tactician\Authorizer\Exceptions
  * @author   Matthew Kendon <matt@outlandish.com>
  */
-class MissingSecurityException extends \OutOfBoundsException implements Exception
+class MissingAuthorizerException extends \OutOfBoundsException implements Exception
 {
     /**
      * @var string

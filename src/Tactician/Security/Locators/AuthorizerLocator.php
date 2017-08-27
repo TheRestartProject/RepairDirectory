@@ -11,7 +11,7 @@ use TheRestartProject\RepairDirectory\Tactician\Validator\MissingHandlerExceptio
  * @package  TheRestartProject\RepairDirectory\Tactician\Validator
  * @author   Matthew Kendon <matt@outlandish.com>
  */
-interface SecurityLocator
+interface AuthorizerLocator
 {
     /**
      * Retrieves the handler for a specified command
@@ -22,5 +22,5 @@ interface SecurityLocator
      *
      * @throws MissingHandlerException
      */
-    public function getSecurityForCommand($commandName);
+    public function getAuthorizerForCommand($commandName);
 }

@@ -3,10 +3,10 @@
 namespace TheRestartProject\RepairDirectory\Tactician\Validator;
 
 use League\Tactician\Middleware;
-use TheRestartProject\RepairDirectory\Tactician\Security\Exceptions\CanNotInvokeValidatorException;
+use TheRestartProject\RepairDirectory\Tactician\Security\Exceptions\CanNotInvokeAuthorizerException;
 use TheRestartProject\RepairDirectory\Tactician\Security\Extractors\CommandNameExtractor;
 use TheRestartProject\RepairDirectory\Tactician\Security\Inflectors\MethodNameInflector;
-use TheRestartProject\RepairDirectory\Tactician\Security\Locators\SecurityLocator;
+use TheRestartProject\RepairDirectory\Tactician\Security\Locators\AuthorizerLocator;
 
 /**
  * Class CommandSecurityMiddleware
@@ -15,7 +15,7 @@ use TheRestartProject\RepairDirectory\Tactician\Security\Locators\SecurityLocato
  * @package  TheRestartProject\RepairDirectory\Tactician\Security
  * @author   Matthew Kendon <matt@outlandish.com>
  */
-class CommandSecurityMiddleware implements Middleware
+class CommandAuthorizerMiddleware implements Middleware
 {
     /**
      * @var CommandNameExtractor
@@ -23,7 +23,7 @@ class CommandSecurityMiddleware implements Middleware
     private $commandNameExtractor;
 
     /**
-     * @var SecurityLocator
+     * @var AuthorizerLocator
      */
     private $securityLocator;
 
@@ -34,12 +34,12 @@ class CommandSecurityMiddleware implements Middleware
 
     /**
      * @param CommandNameExtractor $commandNameExtractor
-     * @param SecurityLocator     $securityLocator
+     * @param AuthorizerLocator     $securityLocator
      * @param MethodNameInflector  $methodNameInflector
      */
     public function __construct(
         CommandNameExtractor $commandNameExtractor,
-        SecurityLocator $securityLocator,
+        AuthorizerLocator $securityLocator,
         MethodNameInflector $methodNameInflector
     ) {
         $this->commandNameExtractor = $commandNameExtractor;

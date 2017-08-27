@@ -3,24 +3,24 @@
 namespace TheRestartProject\RepairDirectory\Tactician\Security\Inflectors;
 
 /**
- * Class ValidateInflector
+ * Class AuthorizeInflector
  *
  * @category TacticianMiddleware
  * @package  TheRestartProject\RepairDirectory\Tactician\Validator
  * @author   Matthew Kendon <matt@outlandish.com>
  */
-class SecureInflector implements MethodNameInflector
+class AuthorizeInflector implements MethodNameInflector
 {
     /**
      * Return the method name to call on the command handler and return it.
      *
      * @param object $command
-     * @param object $commandHandler
+     * @param object $commandAuthorizer
      *
      * @return string
      */
-    public function inflect($command, $commandHandler)
+    public function inflect($command, $commandAuthorizer)
     {
-        return 'secure';
+        return 'authorize';
     }
 }
