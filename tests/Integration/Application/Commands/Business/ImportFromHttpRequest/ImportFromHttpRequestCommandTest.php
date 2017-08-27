@@ -32,6 +32,11 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     protected $bus;
 
     /**
+     * @var Business $business
+     */
+    protected $business;
+
+    /**
      * Sets up the test environment
      */
     public function setUp()
@@ -52,10 +57,8 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     {
         $this->expectException(BusinessValidationException::class);
 
-        $business = $this->createInvalidBusiness();
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $command = new ImportFromHttpRequestCommand($data);
+        $command = $this->makeInvalidBusiness()
+            ->createCommand();
 
         $this->bus->handle($command);
     }
@@ -71,10 +74,8 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     {
         $this->expectException(ImportBusinessUnauthorizedException::class);
 
-        $business = $this->createValidBusiness();
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $command = $this->createCommand($data);
+        $command = $this->makeValidBusiness()
+            ->createCommand();
 
         $this->bus->handle($command);
     }
@@ -90,12 +91,10 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     {
         $this->expectException(ImportBusinessUnauthorizedException::class);
 
-        $this->logInAsRole(User::GUEST);
-
-        $business = $this->createValidBusiness();
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $command = $this->createCommand($data);
+        $command = $this
+            ->logInAsRole(User::GUEST)
+            ->makeValidBusiness()
+            ->createCommand();
 
         $this->bus->handle($command);
     }
@@ -109,20 +108,14 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
      */
     public function it_imports_the_draft_business_if_the_user_a_restarter()
     {
-        $business = $this->createValidBusiness();
-        $business->setPublishingStatus(PublishingStatus::DRAFT);
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $this->logInAsRole(User::RESTARTER);
-
-        $command = new ImportFromHttpRequestCommand($data);
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->makeValidBusiness(['publishingStatus' => PublishingStatus::DRAFT])
+            ->createCommand();
 
         $this->bus->handle($command);
 
-        $this->assertDatabaseHas('businesses', [
-            'name' => $business->getName(),
-            'publishing_status' => $business->getPublishingStatus()
-        ]);
+        $this->assertBusinessExists();
     }
 
     /**
@@ -134,20 +127,14 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
      */
     public function it_imports_a_ready_for_review_business_if_the_user_is_a_restarter()
     {
-        $business = $this->createValidBusiness();
-        $business->setPublishingStatus(PublishingStatus::DRAFT);
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $this->logInAsRole(User::RESTARTER);
-
-        $command = new ImportFromHttpRequestCommand($data);
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->makeValidBusiness(['publishingStatus' => PublishingStatus::READY_FOR_REVIEW])
+            ->createCommand();
 
         $this->bus->handle($command);
 
-        $this->assertDatabaseHas('businesses', [
-            'name' => $business->getName(),
-            'publishing_status' => $business->getPublishingStatus()
-        ]);
+        $this->assertBusinessExists();
     }
 
     /**
@@ -161,45 +148,248 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     {
         $this->expectException(ImportBusinessUnauthorizedException::class);
 
-        $this->logInAsRole(User::RESTARTER);
-
-        $business = $this->createValidBusiness();
-        $business->setPublishingStatus(PublishingStatus::PUBLISHED);
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $command = $this->createCommand($data);
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->makeValidBusiness(['publishingStatus' => PublishingStatus::PUBLISHED])
+            ->createCommand();
 
         $this->bus->handle($command);
     }
 
     /**
-     * Creates an invalid business
+     * Tests that a restart cannot import a hidden business
      *
-     * @return Business
+     * @test
+     *
+     * @return void
      */
-    protected function createInvalidBusiness()
+    public function it_throws_an_exception_if_a_restarter_imports_a_hidden_business()
     {
-        return entity(Business::class, 'invalid')->make();
+        $this->expectException(ImportBusinessUnauthorizedException::class);
+
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->makeValidBusiness(['publishingStatus' => PublishingStatus::HIDDEN])
+            ->createCommand();
+
+        $this->bus->handle($command);
+    }
+
+    /**
+     * Test that an admin can import a published business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_imports_a_published_business_as_an_admin()
+    {
+        $command = $this
+            ->logInAsRole(User::HOST)
+            ->makeValidBusiness(['publishingStatus' => PublishingStatus::PUBLISHED])
+            ->createCommand();
+
+        $this->bus->handle($command);
+
+        $this->assertBusinessExists();
+    }
+
+    /**
+     * Test that an admin import a hidden business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_can_import_a_hidden_business_as_an_admin()
+    {
+        $command = $this
+            ->logInAsRole(User::HOST)
+            ->makeValidBusiness(['publishingStatus' => PublishingStatus::HIDDEN])
+            ->createCommand();
+
+        $this->bus->handle($command);
+
+        $this->assertBusinessExists();
+    }
+
+    /**
+     * Test that a restarter cannot update a published business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_throws_an_error_if_a_restarter_tries_to_update_a_published_business()
+    {
+        $this->expectException(ImportBusinessUnauthorizedException::class);
+
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->createValidBusiness(['publishingStatus' => PublishingStatus::PUBLISHED])
+            ->createCommand([
+                'name' => 'New Name',
+                'publishingStatus' => PublishingStatus::DRAFT
+            ]);
+
+        $this->bus->handle($command);
+    }
+
+    /**
+     * Test that a restarter cannot update a hidden business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_throws_an_error_if_a_restarter_tries_to_update_a_hidden_business()
+    {
+        $this->expectException(ImportBusinessUnauthorizedException::class);
+
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->createValidBusiness(['publishingStatus' => PublishingStatus::HIDDEN])
+            ->createCommand([
+                'name' => 'New Name',
+                'publishingStatus' => PublishingStatus::DRAFT
+            ]);
+
+        $this->bus->handle($command);
+    }
+
+    /**
+     * Test that a restarter can update a draft business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_allows_a_restarter_to_update_a_draft_business()
+    {
+        $newName = 'New Name';
+
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->createValidBusiness(['publishingStatus' => PublishingStatus::DRAFT])
+            ->createCommand(['name' => $newName]);
+
+        $this->bus->handle($command);
+
+        $this->assertBusinessExists(['name' => $newName]);
+    }
+
+    /**
+     * Test that a restarter can update a ready for review  business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_allows_a_restarter_to_update_a_ready_to_review_business()
+    {
+        $newName = 'New Name';
+
+        $command = $this
+            ->logInAsRole(User::RESTARTER)
+            ->createValidBusiness(['publishingStatus' => PublishingStatus::READY_FOR_REVIEW])
+            ->createCommand(['name' => $newName]);
+
+        $this->bus->handle($command);
+
+        $this->assertBusinessExists(['name' => $newName]);
+    }
+
+    /**
+     * Test that a restarter can update a draft business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_allows_an_admin_to_update_a_published_business()
+    {
+        $newName = 'New Name';
+
+        $command = $this
+            ->logInAsRole(User::HOST)
+            ->createValidBusiness(['publishingStatus' => PublishingStatus::PUBLISHED])
+            ->createCommand(['name' => $newName]);
+
+        $this->bus->handle($command);
+
+        $this->assertBusinessExists(['name' => $newName]);
+    }
+
+    /**
+     * Test that a restarter can update a ready for review  business
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function it_allows_an_admin_to_update_a_hidden_business()
+    {
+        $newName = 'New Name';
+
+        $command = $this
+            ->logInAsRole(User::HOST)
+            ->createValidBusiness(['publishingStatus' => PublishingStatus::HIDDEN])
+            ->createCommand(['name' => $newName]);
+
+        $this->bus->handle($command);
+
+        $this->assertBusinessExists(['name' => $newName]);
     }
 
     /**
      * Creates an invalid business
      *
-     * @return Business
+     * @return $this
      */
-    protected function createValidBusiness()
+    protected function makeInvalidBusiness()
     {
-        return entity(Business::class)->make();
+        $this->business = entity(Business::class, 'invalid')->make();
+
+        return $this;
+    }
+
+    /**
+     * Creates an invalid business
+     *
+     * @param array $attributes The array of attributes to create the business with
+     *
+     * @return $this
+     */
+    protected function makeValidBusiness(array $attributes = [])
+    {
+        $this->business = entity(Business::class)->make($attributes);
+
+        return $this;
+    }
+
+    /**
+     * Creates an invalid business
+     *
+     * @param array $attributes The array of attributes to create the business
+     *
+     * @return $this
+     */
+    protected function createValidBusiness(array $attributes = [])
+    {
+        $this->business = entity(Business::class)->create($attributes);
+
+        return $this;
     }
 
     /**
      * @param Business $business The business to convert
+     * @param array    $overrides An array of overrides
      *
      * @return array
      */
-    protected function generateRequestDataFromBusiness(Business $business)
+    protected function generateRequestDataFromBusiness(Business $business, array $overrides = [])
     {
-        $data = $business->toArray();
+        $data = array_merge($business->toArray(), $overrides);
 
         $data['productsRepaired'] = implode(',', $business->getProductsRepaired());
         $data['authorisedBrands'] = implode(',', $business->getAuthorisedBrands());
@@ -210,13 +400,17 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     /**
      * Creates a command to be tested
      *
-     * @param $data
+     * @param array $overrides Overrides the data that is used to setup the database
      *
      * @return ImportFromHttpRequestCommand
      */
-    protected function createCommand($data)
+    protected function createCommand(array $overrides = [])
     {
-        return new ImportFromHttpRequestCommand($data);
+        $data = $this->generateRequestDataFromBusiness($this->business);
+
+        $data = array_merge($data, $overrides);
+
+        return new ImportFromHttpRequestCommand($data, $this->business->getUid());
     }
 
     /**
@@ -230,6 +424,60 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     {
         $user = entity(User::class)->create(['role' => $role]);
         $this->be($user);
+
+        return $this;
+    }
+
+    /**
+     * Sets up the command with a valid business
+     *
+     * @return ImportFromHttpRequestCommand
+     */
+    protected function setupCommandWithInvalidBusiness()
+    {
+        $this->business = $business = $this->makeInvalidBusiness();
+
+
+        $data = $this->generateRequestDataFromBusiness($business);
+
+        $command = new ImportFromHttpRequestCommand($data);
+
+        return $command;
+    }
+
+    /**
+     * Sets up the command with a valid business
+     *
+     * @param array $attributes The attributes of the business
+     *
+     * @return ImportFromHttpRequestCommand
+     */
+    protected function setupCommandWithValidBusiness(array $attributes = [])
+    {
+        $this->business = $business = $this->makeValidBusiness($attributes);
+
+        $data = $this->generateRequestDataFromBusiness($business);
+
+        $command = $this->createCommand($data);
+
+        return $command;
+    }
+
+    /**
+     * Asserts the business exists in the database
+     *
+     * @param array $overrides
+     *
+     * @return $this;
+     */
+    protected function assertBusinessExists(array $overrides = [])
+    {
+        $data = array_merge([
+            'name' => $this->business->getName(),
+            'publishing_status' => $this->business->getPublishingStatus()
+        ], $overrides);
+
+        $this->assertDatabaseHas('businesses', $data);
 
         return $this;
     }

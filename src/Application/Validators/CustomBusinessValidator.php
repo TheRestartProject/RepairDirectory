@@ -142,11 +142,11 @@ class CustomBusinessValidator implements BusinessValidator
     {
         $messages = [];
         // PublishingStatus + PositiveReviewPc
-        if ($business['publishingStatus'] === PublishingStatus::PUBLISHED && $business['postiveReviewPc'] < 80) {
+        if ($business['publishingStatus'] === PublishingStatus::PUBLISHED && $business['positiveReviewPc'] < 80) {
             $messages[] = 'Can\'t publish a business with a positive review percentage of under 80%';
         }
         // PublishingStatus + WarrantyOffered
-        if ($business['publishingStatus'] === PublishingStatus::PUBLISHED && !$business) {
+        if ($business['publishingStatus'] === PublishingStatus::PUBLISHED && !$business['warrantyOffered']) {
             $messages[] = 'Can\'t publish a business that doesn\'t offer warranty.';
         }
 

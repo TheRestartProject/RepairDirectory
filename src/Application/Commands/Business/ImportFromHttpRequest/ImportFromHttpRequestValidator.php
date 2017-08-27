@@ -25,7 +25,6 @@ class ImportFromHttpRequestValidator
     public function validate(ImportFromHttpRequestCommand $command)
     {
         $data = $command->getData();
-
         $this->businessValidator->validate($data);
     }
 }

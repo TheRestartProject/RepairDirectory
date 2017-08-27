@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Application\Authorizers;
 
 use Illuminate\Auth\AuthManager;
 use TheRestartProject\Fixometer\Domain\Entities\User;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Exceptions\ImportBusinessUnauthorizedException;
 use TheRestartProject\RepairDirectory\Domain\Authorizers\ImportBusinessAuthorizer;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
@@ -60,6 +61,14 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
         if ($this->isUserGuest($user)) {
             throw new ImportBusinessUnauthorizedException('User is a guest.');
         }
+
+        if ($this->isUserRestarter($user) && $this->dataIsPublished($data)) {
+            throw new ImportBusinessUnauthorizedException('User is a restarter and cannot publish businesses');
+        }
+
+        if ($this->isUserRestarter($user) && $this->businessIsPublished($business)) {
+            throw new ImportBusinessUnauthorizedException('User is a restarter and cannot update a published business');
+        }
     }
 
     /**
@@ -100,4 +109,43 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
     {
         return $user === null;
     }
+
+    /**
+     * Checks that a user is a restarter or not
+     *
+     * @param User $user The user to check
+     *
+     * @return bool
+     */
+    protected function isUserRestarter($user)
+    {
+        return $user->getRole() === User::RESTARTER;
+    }
+
+    /**
+     * @param array $data The data to check
+     *
+     * @return bool
+     */
+    protected function dataIsPublished($data)
+    {
+        $statuses = [
+            PublishingStatus::PUBLISHED,
+            PublishingStatus::HIDDEN
+        ];
+        return in_array($data['publishingStatus'], $statuses, true);
+    }
+
+    /**
+     * Checks that a business is published
+     *
+     * @param Business $business The business to check
+     *
+     * @return bool
+     */
+    protected function businessIsPublished(Business $business = null)
+    {
+       return $business !== null && $business->isPublished();
+    }
+
 }
