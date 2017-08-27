@@ -56,7 +56,7 @@ $factory->define(Business::class, function (Faker\Generator $faker, $attributes)
     if (array_key_exists('categories', $attributes)) {
         $business->setCategories($attributes['categories']);
     } else {
-        $business->setCategories([$faker->sentence]);
+        $business->setCategories(['Fan']);
     }
 
     if (array_key_exists('publishingStatus', $attributes)) {
@@ -77,6 +77,32 @@ $factory->define(Business::class, function (Faker\Generator $faker, $attributes)
     }
 
     return $business;
+});
+
+$factory->defineAs(Business::class, 'invalid', function (Faker\Generator $faker) {
+    return [
+        'name' => 'a',
+        'description' => 'abcd',
+        'address' => 'a',
+        'postcode' => $faker->sentence(50, false),
+        'city' => 'a',
+        'localArea' => 'a',
+        'landline' => 'abcd',
+        'mobile' => 'abcd',
+        'website' => 'abcd',
+        'email' => 'abcd',
+        'categories' => ['nothing'],
+        'qualifications' => $faker->sentence(50, false),
+        'communityEndorsement' => $faker->sentence(50, false),
+        'notes' => null,
+        'reviewSource' => 'abcd',
+        'positiveReviewPc' => -10,
+        'numberOfReviews' => -10,
+        'averageScore' => -1,
+        'warrantyOffered' => 'abcd',
+        'warranty' => 'abcd',
+        'publishingStatus' => 'abcd'
+    ];
 });
 
 /** @var LaravelDoctrine\ORM\Testing\Factory $factory */

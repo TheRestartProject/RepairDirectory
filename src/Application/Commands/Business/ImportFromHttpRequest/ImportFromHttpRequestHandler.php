@@ -77,7 +77,6 @@ class ImportFromHttpRequestHandler
 
         $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
 
-        $this->validator->validate($business->toArray());
 
         if ($isCreate) {
             $this->repository->add($business);

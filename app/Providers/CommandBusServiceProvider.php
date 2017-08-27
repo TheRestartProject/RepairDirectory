@@ -23,6 +23,7 @@ use TheRestartProject\RepairDirectory\Tactician\Validator\Extractors\CommandName
 use TheRestartProject\RepairDirectory\Tactician\Validator\Inflectors\MethodNameInflector as ValidatorMethodNameInflector;
 use TheRestartProject\RepairDirectory\Tactician\Validator\Inflectors\ValidateInflector;
 use TheRestartProject\RepairDirectory\Tactician\Validator\Locators\ValidatorLocator;
+use TheRestartProject\RepairDirectory\Tactician\Validator\Locators\ContainerLocator as ValidatorContainerLocator;
 
 class CommandBusServiceProvider extends ServiceProvider
 {
@@ -82,7 +83,7 @@ class CommandBusServiceProvider extends ServiceProvider
     public function validatorMiddleware()
     {
         $this->app->singleton(ValidatorLocator::class, function ($app) {
-            return new ContainerLocator(
+            return new ValidatorContainerLocator(
                 new LaravelContainerAdapter($app),
                 app('config')->get('tactician.validators')
             );

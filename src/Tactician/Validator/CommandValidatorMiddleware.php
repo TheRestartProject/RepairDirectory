@@ -60,18 +60,20 @@ class CommandValidatorMiddleware implements Middleware
     public function execute($command, callable $next)
     {
         $commandName = $this->commandNameExtractor->extract($command);
-        $handler = $this->validatorLocator->getHandlerForCommand($commandName);
-        $methodName = $this->methodNameInflector->inflect($command, $handler);
+        $validator = $this->validatorLocator->getValidatorForCommand($commandName);
+        $methodName = $this->methodNameInflector->inflect($command, $validator);
 
         // is_callable is used here instead of method_exists, as method_exists
         // will fail when given a handler that relies on __call.
-        if (!is_callable([$handler, $methodName])) {
+        if (!is_callable([$validator, $methodName])) {
             throw CanNotInvokeValidatorException::forCommand(
                 $command,
                 "Method '{$methodName}' does not exist on handler"
             );
         }
 
-        return $handler->{$methodName}($command);
+        $validator->{$methodName}($command);
+
+        return $next($command);
     }
 }

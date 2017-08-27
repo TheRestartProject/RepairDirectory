@@ -9,7 +9,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use TheRestartProject\RepairDirectory\Application\Validators\CustomBusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
 use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineBusinessRepository;
 
 class BusinessServiceProvider extends ServiceProvider
@@ -32,6 +34,7 @@ class BusinessServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(BusinessRepository::class, DoctrineBusinessRepository::class);
+        $this->app->singleton(BusinessValidator::class, CustomBusinessValidator::class);
     }
 
 }
