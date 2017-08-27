@@ -6,6 +6,8 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationE
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
+use TheRestartProject\RepairDirectory\Validation\Validators as v;
 
 /**
  * Class BusinessValidator.
@@ -19,9 +21,9 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
  * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @link     http://www.outlandish.com/
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.Coupling\BetweenObjects)
  */
-class BusinessValidator implements Validator
+class CustomBusinessValidator implements BusinessValidator
 {
     /**
      * An array of fields that cannot be missing or have a falsey value in the Business
@@ -51,27 +53,27 @@ class BusinessValidator implements Validator
             'description'
         ];
         $this->validators = [
-            'name' => new StringLengthValidator('Name', 2, 255),
-            'description' => new StringLengthValidator('Description', 10, 65535),
-            'address' => new StringLengthValidator('Address', 2, 255),
-            'postcode' => new StringLengthValidator('Postcode', 1, 64),
-            'city' => new StringLengthValidator('City', 2, 100),
-            'localArea' => new StringLengthValidator('Local Area', 2, 100),
-            'landline' => new PhoneNumberValidator('Landline'),
-            'mobile' => new PhoneNumberValidator('Mobile'),
-            'website' => new WebsiteValidator(),
-            'email' => new EmailValidator(),
-            'categories' => new CategoriesValidator(),
-            'qualifications' => new StringLengthValidator('Qualifications', 0, 255),
-            'communityEndorsement' => new StringLengthValidator('Community Endorsement', 0, 100),
-            'notes' => new StringLengthValidator('Notes', 0, 65535),
-            'reviewSource' => new ReviewSourceValidator(),
-            'positiveReviewPc' => new NumberRangeValidator("Positive Review Scores", 0, 100, false),
-            'numberOfReviews' => new NumberRangeValidator("Number of Reviews", 0, 65535, false),
-            'averageScore' => new NumberRangeValidator("Average Score", 0, 5, true),
-            'warrantyOffered' => new BooleanValidator(),
-            'warranty' => new StringLengthValidator('Warranty Details', 10, 65535),
-            'publishingStatus' => new PublishingStatusValidator()
+            'name' => new v\StringLengthValidator('Name', 2, 255),
+            'description' => new v\StringLengthValidator('Description', 10, 65535),
+            'address' => new v\StringLengthValidator('Address', 2, 255),
+            'postcode' => new v\StringLengthValidator('Postcode', 1, 64),
+            'city' => new v\StringLengthValidator('City', 2, 100),
+            'localArea' => new v\StringLengthValidator('Local Area', 2, 100),
+            'landline' => new v\PhoneNumberValidator('Landline'),
+            'mobile' => new v\PhoneNumberValidator('Mobile'),
+            'website' => new v\WebsiteValidator(),
+            'email' => new v\EmailValidator(),
+            'categories' => new v\CategoriesValidator(),
+            'qualifications' => new v\StringLengthValidator('Qualifications', 0, 255),
+            'communityEndorsement' => new v\StringLengthValidator('Community Endorsement', 0, 100),
+            'notes' => new v\StringLengthValidator('Notes', 0, 65535),
+            'reviewSource' => new v\ReviewSourceValidator(),
+            'positiveReviewPc' => new v\NumberRangeValidator('Positive Review Scores', 0, 100, false),
+            'numberOfReviews' => new v\NumberRangeValidator('Number of Reviews', 0, 65535, false),
+            'averageScore' => new v\NumberRangeValidator('Average Score', 0, 5, true),
+            'warrantyOffered' => new v\BooleanValidator(),
+            'warranty' => new v\StringLengthValidator('Warranty Details', 10, 65535),
+            'publishingStatus' => new v\PublishingStatusValidator()
         ];
     }
 

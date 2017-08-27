@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
-use TheRestartProject\RepairDirectory\Application\Validators\BusinessValidator;
+use TheRestartProject\RepairDirectory\Application\Validators\CustomBusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 
@@ -24,7 +24,7 @@ class BusinessValidatorTest extends TestCase
     /**
      * The validator under test
      *
-     * @var BusinessValidator
+     * @var CustomBusinessValidator
      */
     private $validator;
 
@@ -36,7 +36,7 @@ class BusinessValidatorTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->validator = new BusinessValidator();
+        $this->validator = new CustomBusinessValidator();
     }
 
     /**

@@ -5,7 +5,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
-use TheRestartProject\RepairDirectory\Application\Validators\BusinessValidator;
+use TheRestartProject\RepairDirectory\Application\Validators\CustomBusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
@@ -47,7 +47,7 @@ class ImportFromHttpRequestHandler
     {
         $this->repository = $repository;
         $this->geocoder = $geocoder;
-        $this->validator = new BusinessValidator();
+        $this->validator = new CustomBusinessValidator();
     }
 
     /**
