@@ -2,7 +2,13 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http;
 
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Foundation\Testing\TestResponse;
+use TheRestartProject\Fixometer\Domain\Entities\User;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -13,7 +19,11 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class CreateBusinessTest extends IntegrationTestCase
 {
+    use DatabaseMigrations, FixometerDatabaseMigrations;
+
     /**
+     * Test that a business cannot created by user that is not logged in
+     *
      * @test
      *
      * @return void
@@ -21,10 +31,187 @@ class CreateBusinessTest extends IntegrationTestCase
     public function i_cannot_create_a_business_if_i_am_not_logged_in()
     {
         $business = entity(Business::class)->make();
-        $this->post(
+        $this->createBusiness($business)
+            ->assertRedirect(route('home'));
+    }
+
+    /**
+     * Test that a business cannot created by guest
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_cannot_create_a_business_if_i_am_logged_in_as_a_guest()
+    {
+        $business = entity(Business::class)->make();
+
+        $this->beRole(User::GUEST)
+            ->createBusiness($business)
+            ->assertRedirect(route('home'));
+    }
+
+    /**
+     * Test that a draft business can be created by a restarter
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_draft_business_as_a_restarter()
+    {
+        /**
+         * @var Business $business
+         */
+        $business = entity(Business::class)->make([
+            'publishingStatus' => PublishingStatus::DRAFT
+        ]);
+
+        $this->beRestarter()
+            ->createBusiness($business);
+
+        $this->assertBusinessExists($business);
+    }
+
+    /**
+     * Test that a ready for review business can be created by a restarter
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_can_create_a_ready_for_review_business_as_a_restarter()
+    {
+        /**
+         * @var Business $business
+         */
+        $business = entity(Business::class)->make([
+            'publishingStatus' => PublishingStatus::READY_FOR_REVIEW
+        ]);
+
+        $this->beRestarter()
+            ->createBusiness($business);
+
+        $this->assertBusinessExists($business);
+    }
+
+    /**
+     * Test that a published business cannot be created by a restarter
+     *
+     * @test
+     *
+     * @return void
+     */
+    public function i_cannot_create_a_published_business_as_a_restarter()
+    {
+        /**
+         * @var Business $business
+         */
+        $business = entity(Business::class)->make([
+            'publishingStatus' => PublishingStatus::PUBLISHED
+        ]);
+
+        $this->beRestarter()
+            ->createBusiness($business)
+            ->assertRedirect(route('admin.business.edit'));
+
+        $this->assertBusinessDoesNotExist($business);
+    }
+
+    /**
+     * Asserts that the business exists
+     *
+     * @param Business $business
+     *
+     * @return $this
+     */
+    protected function assertBusinessExists(Business $business)
+    {
+        $data = [
+            'name' => $business->getName(),
+            'publishing_status' => $business->getPublishingStatus()
+        ];
+
+        return $this->assertDatabaseHas('businesses', $data);
+    }
+
+    /**
+     * Asserts that the business exists
+     *
+     * @param Business $business
+     *
+     * @return $this
+     */
+    protected function assertBusinessDoesNotExist(Business $business)
+    {
+        $data = [
+            'name' => $business->getName(),
+            'publishing_status' => $business->getPublishingStatus()
+        ];
+
+        return $this->assertDatabaseMissing('businesses', $data);
+    }
+
+
+    /**
+     * Log in as an Admin
+     *
+     * @return $this
+     */
+    protected function beAdmin()
+    {
+        return $this->beRole(User::GUEST);
+    }
+
+    /**
+     * Log in as a Restarter
+     *
+     * @return $this
+     */
+    protected function beRestarter()
+    {
+        return $this->beRole(User::RESTARTER);
+    }
+
+    /**
+     * Log in as a user of the specified role
+     *
+     * @param string $role The role that the user should be
+     *
+     * @return $this
+     */
+    protected function beRole($role)
+    {
+        $user = entity(User::class)->create(['role' => $role]);
+
+        $this->be($user);
+
+        return $this;
+    }
+
+    /**
+     * Create a business by posting a serialized representation of one
+     *
+     * @param Business $business
+     *
+     * @return TestResponse
+     */
+    protected function createBusiness(Business $business)
+    {
+        /**
+         * @var Session $session
+         */
+        $session = $this->app->make('session');
+
+        $this->startSession();
+
+        return $this->post(
             route('admin.business.create'),
-            $this->serializeBusiness($business)
-        )->assertRedirect(route('home'));
+            array_merge(
+                $this->serializeBusiness($business),
+                ['_token', $session->token()]
+            )
+        );
     }
 
     /**
