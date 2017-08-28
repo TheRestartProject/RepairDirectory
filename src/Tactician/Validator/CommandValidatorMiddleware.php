@@ -14,28 +14,40 @@ use TheRestartProject\RepairDirectory\Tactician\Validator\Locators\ValidatorLoca
  * @category TacticianMiddleware
  * @package  TheRestartProject\RepairDirectory\Tactician\Validator
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class CommandValidatorMiddleware implements Middleware
 {
     /**
+     * The object to extract the name of the command with
+     *
      * @var CommandNameExtractor
      */
     private $commandNameExtractor;
 
     /**
+     * The object to locate the validator with
+     *
      * @var ValidatorLocator
      */
     private $validatorLocator;
 
     /**
+     * The object to determine how to call the validator
+     *
      * @var MethodNameInflector
      */
     private $methodNameInflector;
 
     /**
-     * @param CommandNameExtractor $commandNameExtractor
-     * @param ValidatorLocator     $validatorLocator
-     * @param MethodNameInflector  $methodNameInflector
+     * Constructs the middleware
+     *
+     * @param CommandNameExtractor $commandNameExtractor The command name extractor
+     * @param ValidatorLocator     $validatorLocator     The validator locator
+     * @param MethodNameInflector  $methodNameInflector  The method name inflector
+     *
+     * @return self
      */
     public function __construct(
         CommandNameExtractor $commandNameExtractor,
@@ -50,8 +62,8 @@ class CommandValidatorMiddleware implements Middleware
     /**
      * Executes a command and optionally returns a value
      *
-     * @param object   $command
-     * @param callable $next
+     * @param object   $command The command to validate
+     * @param callable $next    The next middleware in the chain
      *
      * @return mixed
      *

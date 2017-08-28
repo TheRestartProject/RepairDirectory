@@ -5,14 +5,19 @@ namespace TheRestartProject\RepairDirectory\Tactician\Validator\Locators;
 use Psr\Container\ContainerInterface;
 
 /**
- * Class ContainerLocator
- * @category
+ * Locates the validator for a command from the container
+ *
+ * @category Locator
  * @package  TheRestartProject\RepairDirectory\Tactician\Validator\Locator
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class ContainerLocator implements ValidatorLocator
 {
     /**
+     * The container to look in
+     *
      * @var ContainerInterface
      */
     protected $container;
@@ -25,8 +30,12 @@ class ContainerLocator implements ValidatorLocator
     protected $commandNameToValidatorMap = [];
 
     /**
-     * @param ContainerInterface $container
-     * @param array              $commandNameToValidatorMap
+     * Constructs the Locator
+     *
+     * @param ContainerInterface $container                 The container
+     * @param array              $commandNameToValidatorMap The map of command name to validator name
+     *
+     * @return self
      */
     public function __construct(
         ContainerInterface $container,
@@ -41,6 +50,8 @@ class ContainerLocator implements ValidatorLocator
      *
      * @param string $validator   Validator to receive class
      * @param string $commandName Can be a class name or name of a NamedCommand
+     *
+     * @return void
      */
     public function addValidator($validator, $commandName)
     {
@@ -56,7 +67,9 @@ class ContainerLocator implements ValidatorLocator
      *      'CompleteTaskCommand' => 'CompleteTaskCommandHandler',
      *  ]
      *
-     * @param array $commandNameToValidatorMap
+     * @param array $commandNameToValidatorMap The array of command name to validator name
+     *
+     * @return void
      */
     public function addValidators(array $commandNameToValidatorMap)
     {
@@ -68,7 +81,7 @@ class ContainerLocator implements ValidatorLocator
     /**
      * Retrieves the handler for a specified command
      *
-     * @param string $commandName
+     * @param string $commandName The name of the command to get the validator for
      *
      * @return object
      *

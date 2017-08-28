@@ -2,10 +2,18 @@
 
 namespace TheRestartProject\RepairDirectory\Domain\Validators;
 
-
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
+/**
+ * Validates a business
+ *
+ * @category Validator
+ * @package  TheRestartProject\RepairDirectory\Domain\Validators
+ * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
+ */
 interface BusinessValidator
 {
 

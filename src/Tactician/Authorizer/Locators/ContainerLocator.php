@@ -7,15 +7,19 @@ use TheRestartProject\RepairDirectory\Tactician\Authorizer\Exceptions\MissingAut
 use TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators\AuthorizerLocator;
 
 /**
- * Class ContainerLocator
+ * Locates the authorizer from within a container
  *
  * @category Locator
  * @package  TheRestartProject\RepairDirectory\Tactician\Validator\Locator
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class ContainerLocator implements AuthorizerLocator
 {
     /**
+     * The container to locate the authorizer
+     *
      * @var ContainerInterface
      */
     protected $container;
@@ -28,8 +32,12 @@ class ContainerLocator implements AuthorizerLocator
     protected $commandNameToAuthorizerMap = [];
 
     /**
-     * @param ContainerInterface $container
-     * @param array              $commandNameToAuthorizerMap
+     * Constructs the locator
+     *
+     * @param ContainerInterface $container                  The container
+     * @param array              $commandNameToAuthorizerMap The map of command name to authorizer name
+     *
+     * @return self
      */
     public function __construct(
         ContainerInterface $container,
@@ -42,8 +50,10 @@ class ContainerLocator implements AuthorizerLocator
     /**
      * Bind a handler instance to receive all commands with a certain class
      *
-     * @param string $security   Security to receive class
+     * @param string $security    Security to receive class
      * @param string $commandName Can be a class name or name of a NamedCommand
+     *
+     * @return void
      */
     public function addAuthorizer($security, $commandName)
     {
@@ -59,7 +69,9 @@ class ContainerLocator implements AuthorizerLocator
      *      'CompleteTaskCommand' => 'CompleteTaskCommandHandler',
      *  ]
      *
-     * @param array $commandNameToAuthorizerMap
+     * @param array $commandNameToAuthorizerMap Map of Command names to authorizer names
+     *
+     * @return void
      */
     public function addAuthorizers(array $commandNameToAuthorizerMap)
     {
@@ -71,11 +83,11 @@ class ContainerLocator implements AuthorizerLocator
     /**
      * Retrieves the handler for a specified command
      *
-     * @param string $commandName
+     * @param string $commandName The name of the command to authorize
      *
      * @return object
      *
-     * @throws \TheRestartProject\RepairDirectory\Tactician\Authorizer\Exceptions\MissingAuthorizerException
+     * @throws MissingAuthorizerException
      */
     public function getAuthorizerForCommand($commandName)
     {

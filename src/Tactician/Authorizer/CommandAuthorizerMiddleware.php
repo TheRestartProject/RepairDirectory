@@ -11,49 +11,61 @@ use TheRestartProject\RepairDirectory\Tactician\Validator\CanNotInvokeHandlerExc
 use TheRestartProject\RepairDirectory\Tactician\Validator\CanNotInvokeSecurityException;
 
 /**
- * Class CommandSecurityMiddleware
+ * Middleware for authorizing commands
  *
  * @category TacticianMiddleware
  * @package  TheRestartProject\RepairDirectory\Tactician\Security
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class CommandAuthorizerMiddleware implements Middleware
 {
     /**
-     * @var \TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors\CommandNameExtractor
+     * The command name extractor
+     *
+     * @var Extractors\CommandNameExtractor
      */
     private $commandNameExtractor;
 
     /**
-     * @var \TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators\AuthorizerLocator
+     * The authorizer locator
+     *
+     * @var Locators\AuthorizerLocator
      */
-    private $securityLocator;
+    private $authorizerLocator;
 
     /**
+     * The method name inflector
+     *
      * @var MethodNameInflector
      */
     private $methodNameInflector;
 
     /**
-     * @param \TheRestartProject\RepairDirectory\Tactician\Authorizer\Extractors\CommandNameExtractor $commandNameExtractor
-     * @param \TheRestartProject\RepairDirectory\Tactician\Authorizer\Locators\AuthorizerLocator     $securityLocator
-     * @param MethodNameInflector  $methodNameInflector
+     * Constructs the middleware
+     *
+     * @param Extractors\CommandNameExtractor $commandNameExtractor Extracts the name of the command
+     * @param Locators\AuthorizerLocator      $authorizerLocator    Locates the authorizer
+     * @param MethodNameInflector             $methodNameInflector  Determines the method to be called on the authorizer
+     *
+     * @return self
      */
     public function __construct(
         CommandNameExtractor $commandNameExtractor,
-        AuthorizerLocator $securityLocator,
+        AuthorizerLocator $authorizerLocator,
         MethodNameInflector $methodNameInflector
     ) {
         $this->commandNameExtractor = $commandNameExtractor;
-        $this->securityLocator = $securityLocator;
+        $this->authorizerLocator = $authorizerLocator;
         $this->methodNameInflector = $methodNameInflector;
     }
 
     /**
      * Executes a command and optionally returns a value
      *
-     * @param object   $command
-     * @param callable $next
+     * @param object   $command The command to authorized
+     * @param callable $next    The next middleware
      *
      * @return mixed
      *
@@ -62,7 +74,7 @@ class CommandAuthorizerMiddleware implements Middleware
     public function execute($command, callable $next)
     {
         $commandName = $this->commandNameExtractor->extract($command);
-        $security = $this->securityLocator->getAuthorizerForCommand($commandName);
+        $security = $this->authorizerLocator->getAuthorizerForCommand($commandName);
         $methodName = $this->methodNameInflector->inflect($command, $security);
 
         // is_callable is used here instead of method_exists, as method_exists
