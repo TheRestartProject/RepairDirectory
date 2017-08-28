@@ -2,7 +2,6 @@ const $ = jQuery = require('jquery');
 const combobox = require('./combobox');
 const { enableElement, disableElement } = require('./util');
 
-const $form = $("form");
 const $slider = $("#positiveReviewPcRange");
 const $sliderValue = $("#positiveReviewPc");
 

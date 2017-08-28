@@ -76,7 +76,7 @@ class GooglePlacesReviewer implements Reviewer
                 $positiveReviewPc = ($barSizeByRating[5] + $barSizeByRating[4] + $barSizeByRating[3]) * 100 / $totalBarSize;
             }
         }
-        if (!$positiveReviewPc || !$averageScore || !$numReviews) {
+        if (!$positiveReviewPc && !$averageScore && !$numReviews) {
             return null;
         }
         $aggregation = new ReviewAggregation();
