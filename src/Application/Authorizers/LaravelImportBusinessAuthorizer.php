@@ -56,6 +56,11 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
      */
     public function authorize(array $data, Business $business = null)
     {
+        /**
+         * Logged in user
+         *
+         * @var User $user
+         */
         $user = $this->getUser();
 
         if ($this->isUserLoggedIn($user)) {

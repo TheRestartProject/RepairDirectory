@@ -20,7 +20,7 @@ interface BusinessValidator
     /**
      * Throw a BusinessValidationException if the provided business has any invalid fields.
      *
-     * @param Business $business The business to validate
+     * @param array $business The business to validate
      *
      * @return void
      *

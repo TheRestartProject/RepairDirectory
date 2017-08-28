@@ -19,7 +19,7 @@ class ImportFromHttpRequestValidator
     /**
      * Validator to run for the command
      *
-     * @var CustomBusinessValidator
+     * @var BusinessValidator
      */
     private $businessValidator;
 

@@ -68,9 +68,13 @@ class ImportFromHttpRequestHandler
         $data = $command->getData();
 
         $businessUid = $command->getBusinessUid();
-        $isCreate = !(boolean) $businessUid;
-        
-        $business = $isCreate ? new Business() : $this->repository->findById($businessUid);
+
+        $business = new Business();
+        $isCreate = true;
+
+        if ($businessUid !== null) {
+            $business = $this->repository->findById($businessUid);
+        }
 
         if (!$business) {
             throw new EntityNotFoundException("Business with id of {$businessUid} could not be found");

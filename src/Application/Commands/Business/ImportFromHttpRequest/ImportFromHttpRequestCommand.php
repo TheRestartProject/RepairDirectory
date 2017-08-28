@@ -46,7 +46,7 @@ class ImportFromHttpRequestCommand
     /**
      * Return the uid of the business to update (if any)
      *
-     * @return integer
+     * @return integer|null
      */
     public function getBusinessUid()
     {

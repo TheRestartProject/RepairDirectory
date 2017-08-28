@@ -59,7 +59,7 @@ class ImportFromHttpRequestAuthorizer
         $uid = $command->getBusinessUid();
         $business = null;
         if ($uid !== null) {
-            $business = $this->repository->findById($command->getBusinessUid());
+            $business = $this->repository->findById($uid);
         }
 
         $this->authorizer->authorize($command->getData(), $business);

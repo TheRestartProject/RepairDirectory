@@ -430,7 +430,7 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     /**
      * Log in as a user of a specific role
      *
-     * @param string $role The role for the user that is to be logged in
+     * @param int $role The role for the user that is to be logged in
      *
      * @return $this
      */
@@ -440,41 +440,6 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
         $this->be($user);
 
         return $this;
-    }
-
-    /**
-     * Sets up the command with a valid business
-     *
-     * @return ImportFromHttpRequestCommand
-     */
-    protected function setupCommandWithInvalidBusiness()
-    {
-        $this->business = $business = $this->makeInvalidBusiness();
-
-
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $command = new ImportFromHttpRequestCommand($data);
-
-        return $command;
-    }
-
-    /**
-     * Sets up the command with a valid business
-     *
-     * @param array $attributes The attributes of the business
-     *
-     * @return ImportFromHttpRequestCommand
-     */
-    protected function setupCommandWithValidBusiness(array $attributes = [])
-    {
-        $this->business = $business = $this->makeValidBusiness($attributes);
-
-        $data = $this->generateRequestDataFromBusiness($business);
-
-        $command = $this->createCommand($data);
-
-        return $command;
     }
 
     /**

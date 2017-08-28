@@ -147,7 +147,9 @@ class CreateBusinessTest extends IntegrationTestCase
             'publishing_status' => $business->getPublishingStatus()
         ];
 
-        return $this->assertDatabaseHas('businesses', $data);
+        $this->assertDatabaseHas('businesses', $data);
+
+        $this;
     }
 
     /**
@@ -164,7 +166,9 @@ class CreateBusinessTest extends IntegrationTestCase
             'publishing_status' => $business->getPublishingStatus()
         ];
 
-        return $this->assertDatabaseMissing('businesses', $data);
+        $this->assertDatabaseMissing('businesses', $data);
+
+        return $this;
     }
 
 
@@ -191,7 +195,7 @@ class CreateBusinessTest extends IntegrationTestCase
     /**
      * Log in as a user of the specified role
      *
-     * @param string $role The role that the user should be
+     * @param int $role The role that the user should be
      *
      * @return $this
      */
