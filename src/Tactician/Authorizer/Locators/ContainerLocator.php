@@ -29,22 +29,22 @@ class ContainerLocator implements AuthorizerLocator
      *
      * @var array
      */
-    protected $commandNameToAuthorizerMap = [];
+    protected $commandAuthorizerMap = [];
 
     /**
      * Constructs the locator
      *
-     * @param ContainerInterface $container                  The container
-     * @param array              $commandNameToAuthorizerMap The map of command name to authorizer name
+     * @param ContainerInterface $container            The container
+     * @param array              $commandAuthorizerMap The map of command name to authorizer name
      *
      * @return self
      */
     public function __construct(
         ContainerInterface $container,
-        array $commandNameToAuthorizerMap = []
+        array $commandAuthorizerMap = []
     ) {
         $this->container = $container;
-        $this->addAuthorizers($commandNameToAuthorizerMap);
+        $this->addAuthorizers($commandAuthorizerMap);
     }
 
     /**
@@ -57,7 +57,7 @@ class ContainerLocator implements AuthorizerLocator
      */
     public function addAuthorizer($security, $commandName)
     {
-        $this->commandNameToAuthorizerMap[$commandName] = $security;
+        $this->commandAuthorizerMap[$commandName] = $security;
     }
 
     /**
@@ -69,13 +69,13 @@ class ContainerLocator implements AuthorizerLocator
      *      'CompleteTaskCommand' => 'CompleteTaskCommandHandler',
      *  ]
      *
-     * @param array $commandNameToAuthorizerMap Map of Command names to authorizer names
+     * @param array $commandAuthorizerMap Map of Command names to authorizer names
      *
      * @return void
      */
-    public function addAuthorizers(array $commandNameToAuthorizerMap)
+    public function addAuthorizers(array $commandAuthorizerMap)
     {
-        foreach ($commandNameToAuthorizerMap as $commandName => $authorizer) {
+        foreach ($commandAuthorizerMap as $commandName => $authorizer) {
             $this->addAuthorizer($authorizer, $commandName);
         }
     }
@@ -88,14 +88,16 @@ class ContainerLocator implements AuthorizerLocator
      * @return object
      *
      * @throws MissingAuthorizerException
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function getAuthorizerForCommand($commandName)
     {
-        if (!isset($this->commandNameToAuthorizerMap[$commandName])) {
+        if (!isset($this->commandAuthorizerMap[$commandName])) {
             throw MissingAuthorizerException::forCommand($commandName);
         }
 
-        $serviceId = $this->commandNameToAuthorizerMap[$commandName];
+        $serviceId = $this->commandAuthorizerMap[$commandName];
 
         return $this->container->get($serviceId);
     }

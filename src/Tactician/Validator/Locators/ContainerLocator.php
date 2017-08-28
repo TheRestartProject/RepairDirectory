@@ -27,22 +27,22 @@ class ContainerLocator implements ValidatorLocator
      *
      * @var array
      */
-    protected $commandNameToValidatorMap = [];
+    protected $commandValidatorMap = [];
 
     /**
      * Constructs the Locator
      *
-     * @param ContainerInterface $container                 The container
-     * @param array              $commandNameToValidatorMap The map of command name to validator name
+     * @param ContainerInterface $container           The container
+     * @param array              $commandValidatorMap The map of command name to validator name
      *
      * @return self
      */
     public function __construct(
         ContainerInterface $container,
-        array $commandNameToValidatorMap = []
+        array $commandValidatorMap = []
     ) {
         $this->container = $container;
-        $this->addValidators($commandNameToValidatorMap);
+        $this->addValidators($commandValidatorMap);
     }
 
     /**
@@ -55,7 +55,7 @@ class ContainerLocator implements ValidatorLocator
      */
     public function addValidator($validator, $commandName)
     {
-        $this->commandNameToValidatorMap[$commandName] = $validator;
+        $this->commandValidatorMap[$commandName] = $validator;
     }
 
     /**
@@ -67,13 +67,13 @@ class ContainerLocator implements ValidatorLocator
      *      'CompleteTaskCommand' => 'CompleteTaskCommandHandler',
      *  ]
      *
-     * @param array $commandNameToValidatorMap The array of command name to validator name
+     * @param array $commandValidatorMap The array of command name to validator name
      *
      * @return void
      */
-    public function addValidators(array $commandNameToValidatorMap)
+    public function addValidators(array $commandValidatorMap)
     {
-        foreach ($commandNameToValidatorMap as $commandName => $validator) {
+        foreach ($commandValidatorMap as $commandName => $validator) {
             $this->addValidator($validator, $commandName);
         }
     }
@@ -86,14 +86,16 @@ class ContainerLocator implements ValidatorLocator
      * @return object
      *
      * @throws MissingHandlerException
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function getValidatorForCommand($commandName)
     {
-        if (!isset($this->commandNameToValidatorMap[$commandName])) {
+        if (!isset($this->commandValidatorMap[$commandName])) {
             throw MissingHandlerException::forCommand($commandName);
         }
 
-        $serviceId = $this->commandNameToValidatorMap[$commandName];
+        $serviceId = $this->commandValidatorMap[$commandName];
 
         return $this->container->get($serviceId);
     }

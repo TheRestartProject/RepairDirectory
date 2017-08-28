@@ -71,10 +71,10 @@ class ImportFromHttpRequestCommandTest extends TestCase
      */
     public function it_can_get_the_id()
     {
-        $id = 1;
+        $uid = 1;
 
-        $command = new ImportFromHttpRequestCommand([], $id);
+        $command = new ImportFromHttpRequestCommand([], $uid);
 
-        self::assertEquals($id, $command->getBusinessUid());
+        self::assertEquals($uid, $command->getBusinessUid());
     }
 }

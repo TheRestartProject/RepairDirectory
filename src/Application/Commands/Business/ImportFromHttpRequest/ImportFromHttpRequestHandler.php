@@ -129,23 +129,4 @@ class ImportFromHttpRequestHandler
             }
         }
     }
-
-    /**
-     * Throws exception if logged in user is not authorized
-     *
-     * @param bool     $isCreate Whether the business is new or not
-     * @param Business $business The business to check against
-     *
-     * @return void
-     *
-     * @throws AuthorizationException
-     */
-    protected function authorize($isCreate, $business)
-    {
-        if ($isCreate) {
-            $this->gate->authorize('create', Business::class);
-        } else {
-            $this->gate->authorize('update', $business);
-        }
-    }
 }

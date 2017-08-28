@@ -57,9 +57,8 @@ class ImportFromHttpRequestAuthorizer
     public function authorize(ImportFromHttpRequestCommand $command)
     {
         $uid = $command->getBusinessUid();
-        if ($uid === null) {
-            $business = null;
-        } else {
+        $business = null;
+        if ($uid !== null) {
             $business = $this->repository->findById($command->getBusinessUid());
         }
 

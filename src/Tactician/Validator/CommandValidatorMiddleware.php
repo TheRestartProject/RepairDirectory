@@ -68,6 +68,8 @@ class CommandValidatorMiddleware implements Middleware
      * @return mixed
      *
      * @throws CanNotInvokeHandlerException
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function execute($command, callable $next)
     {

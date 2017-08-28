@@ -90,39 +90,10 @@ class CustomBusinessValidator implements BusinessValidator
     {
         $errors = [];
 
-        foreach ($this->required as $field) {
-            if (!array_key_exists($field, $business) || !$business[$field]) {
-                $errors[$field] = $field . ' is required';
-            }
-        }
+        $this->ensureRequiredFields($business, $errors);
 
         // simple field validators
-        foreach ($this->validators as $field => $validator) {
-            $value = $business[$field];
-            if ($value) {
-                try {
-                    /**
-                     * The Validator for the current field
-                     *
-                     * @var Validator $validator
-                     */
-                    $validator->validate($value);
-                } catch (ValidationException $e) {
-                    $errors[$field] = $e->getMessage();
-                }
-            }
-        }
-        
-        if (!$business['geolocation']) {
-            $errors['geolocation'] = 'Geocoding failed – please check the address';
-        }
-
-        // Combined Validators
-        try {
-            $this->validateBusinessPublishingStatus($business);
-        } catch (ValidationException $e) {
-            $errors['publishingStatus'] = $e->getMessage();
-        }
+        $this->validateFields($business, $errors);
 
         if (count($errors)) {
             throw new BusinessValidationException($business, $errors);
@@ -152,6 +123,57 @@ class CustomBusinessValidator implements BusinessValidator
 
         if (count($messages)) {
             throw new ValidationException(implode(', ', $messages));
+        }
+    }
+
+    /**
+     * Ensures that all required fields exist and have a value
+     *
+     * @param array $business The business data to validate
+     * @param array $errors   The errors array
+     *
+     * @return void
+     */
+    protected function ensureRequiredFields($business, &$errors)
+    {
+        foreach ($this->required as $field) {
+            if (!array_key_exists($field, $business) || !$business[$field]) {
+                $errors[$field] = $field . ' is required';
+            }
+        }
+    }
+
+    /**
+     * Validates all fields in the data
+     *
+     * @param array $business The business data to validate
+     * @param array $errors   The errors array
+     *
+     * @return void
+     */
+    protected function validateFields($business, &$errors)
+    {
+        foreach ($this->validators as $field => $validator) {
+            $value = $business[$field];
+            if ($value) {
+                try {
+                    /**
+                     * The Validator for the current field
+                     *
+                     * @var Validator $validator
+                     */
+                    $validator->validate($value);
+                } catch (ValidationException $e) {
+                    $errors[$field] = $e->getMessage();
+                }
+            }
+        }
+
+        // Combined Validators
+        try {
+            $this->validateBusinessPublishingStatus($business);
+        } catch (ValidationException $e) {
+            $errors['publishingStatus'] = $e->getMessage();
         }
     }
 
