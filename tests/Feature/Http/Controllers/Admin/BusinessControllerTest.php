@@ -122,7 +122,8 @@ class BusinessControllerTest extends IntegrationTestCase
             'reviewSource' => ReviewSource::GOOGLE,
             'reviewAggregation' => [
                 'averageScore' => 3.1,
-                'positiveReviewPc' => 80
+                'positiveReviewPc' => 68,
+                'numReviews' => 116
             ]
         ]);
     }

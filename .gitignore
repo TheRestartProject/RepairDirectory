@@ -15,4 +15,5 @@ yarn-error.log
 composer.phar
 .env
 /reports/
+/bin
 /fixometer/config/config.php

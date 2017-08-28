@@ -1,114 +1,100 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joaquim
- * Date: 24/08/2017
- * Time: 12:32
- */
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers;
 
 
-use SKAgarwal\GoogleApi\PlacesApi;
-use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
+use JonnyW\PhantomJs\Client;
+use PHPHtmlParser\Dom;
+use PHPHtmlParser\Dom\HtmlNode;
 use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Domain\Services\Reviewers\Reviewer;
 
 class GooglePlacesReviewer implements Reviewer
 {
-    /** @var PlacesApi */
-    private $googlePlaces;
-    
-    public function __construct(PlacesApi $googlePlaces)
+    /** @var Client */
+    private $phantom;
+
+    public function __construct(Client $phantom)
     {
-        $this->googlePlaces = $googlePlaces;
+        $this->phantom = $phantom;
     }
+
     /**
      * @param string $url
      * @return ReviewAggregation
      */
     public function getReviewAggregation($url)
     {
-        $nameAndLocation = $this->extractNameAndLocationFromGooglePlaceUrl($url);
-        if (!$nameAndLocation) {
-            return null;
+        $numReviews = null;
+        $averageScore = null;
+        $positiveReviewPc = null;
+        
+        $response = $this->doRequest($url);
+
+        if ($response->isRedirect()) {
+            $response = $this->doRequest($response->getRedirectUrl());
         }
 
-        // call the places API
-        $places = $this->googlePlaces->nearbySearch(
-            $nameAndLocation['location'], 10, ['name' => $nameAndLocation['name']])->get('results');
-        $place = $places->get(0);
-        if (!$place) {
-            return null;
-        }
+        if ($response->getStatus() === 200) {
+            $html = $response->getContent();
 
-        $placeId = $place['place_id'];
-        $placeDetails = $this->googlePlaces->placeDetails($placeId)->get('result');
+            $dom = new Dom;
+            $dom->load($html);
+            $numReviewsSelection = $dom->find('.ml-panes-entity-ratings-histogram-summary-reviews-number');
+            if (count($numReviewsSelection)) {
+                $numReviewsText = $numReviewsSelection[0]->text;
+                $numReviews = (integer) explode('review', $numReviewsText)[0];
+            }
 
-        $reviewAggregation = new ReviewAggregation();
-        $reviewAggregation->setAverageScore($placeDetails['rating']);
+            $averageScoreContainerSelection = $dom->find('.ml-panes-entity-review-number');
+            if (count($averageScoreContainerSelection)) {
+                /** @var HtmlNode $averageScoreContainer */
+                $averageScoreContainer = $averageScoreContainerSelection[0];
+                $averageScore = (float) $averageScoreContainer->find('span')[0]->text;
+            }
 
-        $reviews = $placeDetails['reviews'];
-        $positiveReviews = 0;
-        foreach ($reviews as $review) {
-            if ($review['rating'] >= 3) {
-                $positiveReviews++;
+            // derive positive review percentage from the bar chart
+            $reviewBarChartSelection = $dom->find('.ml-panes-entity-ratings-histogram-bucket');
+            if (count($reviewBarChartSelection) === 5) {
+                $totalBarSize = 0;
+                $barSizeByRating = [
+                    1 => 0,
+                    2 => 0,
+                    3 => 0,
+                    4 => 0,
+                    5 => 0
+                ];
+                $currentRating = 5; // nodes come back in reverse order
+                foreach ($reviewBarChartSelection as $reviewBar) {
+                    /** @var HtmlNode $reviewBar */
+                    $css = $reviewBar->getAttribute('style');
+                    $padding = explode('padding-left:', $css)[1];
+                    $barSizeByRating[$currentRating] = (float) $padding;
+                    $totalBarSize += (float) $padding;
+                    $currentRating--;
+                }
+                $positiveReviewPc = ($barSizeByRating[5] + $barSizeByRating[4] + $barSizeByRating[3]) * 100 / $totalBarSize;
             }
         }
-        if (count($reviews)) {
-            $reviewAggregation->setPositiveReviewPc($positiveReviews * 100 / count($reviews));
+        if (!$positiveReviewPc || !$averageScore || !$numReviews) {
+            return null;
         }
-
-        return $reviewAggregation;
+        $aggregation = new ReviewAggregation();
+        $aggregation->setAverageScore($averageScore);
+        $aggregation->setPositiveReviewPc((integer) $positiveReviewPc);
+        $aggregation->setNumReviews($numReviews);
+        return $aggregation;
     }
 
-    private function extractNameAndLocationFromGooglePlaceUrl($url)
-    {
-        $parsedUrl = parse_url($url);
+    private function doRequest($url) {
+        $request = $this->phantom->getMessageFactory()->createRequest($url, 'GET');
+        $request->setTimeout(5000);
+        $request->setViewportSize(320, 1024);
 
-        if (!array_key_exists('path', $parsedUrl)) {
-            return null;
-        }
+        $response = $this->phantom->getMessageFactory()->createResponse();
 
-        $path = $parsedUrl['path'];
+        $this->phantom->send($request, $response);
 
-        // extract the place name
-        $placeIndex = strpos($path, '/place/');
-        if ($placeIndex === false) {
-            return null;
-        }
-        $nameIndex = $placeIndex + strlen('/place/');
-        $endNameIndex = strpos($path, '/', $nameIndex);
-        if ($endNameIndex === false) {
-            return null;
-        }
-        $name = urldecode(substr($path, $nameIndex, $endNameIndex - $nameIndex));
-
-        // extract lat/lng
-        $latitude = null;
-        $longitude = null;
-        $dataIndex = strpos($path, 'data=');
-        if ($dataIndex === false) {
-            return null;
-        }
-        $dataStart = $dataIndex + strlen('data=');
-        $dataString = substr($path, $dataStart);
-        $data = explode('!', $dataString);
-        foreach ($data as $datum) {
-            if (strpos($datum, '3d') === 0) {
-                $latitude = substr($datum, 2);
-            }
-            if (strpos($datum, '4d') === 0) {
-                $longitude = substr($datum, 2);
-            }
-        }
-        if (!$latitude || !$longitude) {
-            return null;
-        }
-
-        return [
-            'name' => $name,
-            'location' => $latitude . ',' . $longitude
-        ];
+        return $response;
     }
 }

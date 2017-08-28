@@ -16,6 +16,9 @@ class ReviewAggregation
     
     /** @var integer */
     private $positiveReviewPc;
+
+    /** @var integer */
+    private $numReviews;
     
     /**
      * @return float
@@ -51,5 +54,21 @@ class ReviewAggregation
 
     public function toArray() {
         return get_object_vars($this);
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumReviews()
+    {
+        return $this->numReviews;
+    }
+
+    /**
+     * @param int $numReviews
+     */
+    public function setNumReviews($numReviews)
+    {
+        $this->numReviews = $numReviews;
     }
 }

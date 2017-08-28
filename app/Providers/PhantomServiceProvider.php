@@ -9,10 +9,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
-use TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories\DoctrineBusinessRepository;
+use JonnyW\PhantomJs\Client;
 
-class BusinessServiceProvider extends ServiceProvider
+class PhantomServiceProvider extends ServiceProvider
 {
 
     /**
@@ -31,7 +30,11 @@ class BusinessServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(BusinessRepository::class, DoctrineBusinessRepository::class);
+        $this->app->singleton(Client::class, function () {
+            $phantom = Client::getInstance();
+            $phantom->isLazy();
+            return $phantom;
+        });
     }
 
 }
