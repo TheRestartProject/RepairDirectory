@@ -1,6 +1,8 @@
 const $ = jQuery = require('jquery');
 const combobox = require('./combobox');
+const { enableElement, disableElement } = require('./util');
 
+const $form = $("form");
 const $slider = $("#positiveReviewPcRange");
 const $sliderValue = $("#positiveReviewPc");
 
@@ -19,10 +21,29 @@ combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 
 const $reviewSourceUrl = $("#reviewSourceUrl");
-$reviewSourceUrl.keyup(function () {
-        console.log("He's a right proper logger");
-        console.log('%c right proper', 'font-size: 0.5rem;');
-
-        $.get("/map/admin/scrape-review", {"reviewSourceUrl" : $reviewSourceUrl.val()})
+const $derivedElements = $("#reviewSourceUrl,#reviewSource,#positiveReviewPc,#positiveReviewPcRange,#averageScore");
+$reviewSourceUrl.blur(
+    function () {
+        disableElement($derivedElements);
+        $.get("/map/admin/business/scrape-review", { "url": $reviewSourceUrl.val() }, function (response) {
+            if (response.reviewSource) {
+                $('#reviewSource').find('option')
+                    .each(function () {
+                        const $option = $(this);
+                        if ($option.val() === response.reviewSource) {
+                            $option.attr('selected', '');
+                        } else {
+                            $option.removeAttr('selected');
+                        }
+                    })
+            }
+            if (response.reviewAggregation) {
+                $('#positiveReviewPc').val(response.reviewAggregation.positiveReviewPc || 0);
+                $('#positiveReviewPcRange').val(response.reviewAggregation.positiveReviewPc || 0);
+                $('#averageScore').val(response.reviewAggregation.averageScore || 0);
+                $('#numberOfReviews').val(response.reviewAggregation.numberOfReviews || '');
+            }
+            enableElement($derivedElements);
+        })
     }
 );

@@ -10,6 +10,10 @@ namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Services\R
 
 
 use Illuminate\Support\Collection;
+use JonnyW\PhantomJs\Client;
+use JonnyW\PhantomJs\Http\MessageFactory;
+use JonnyW\PhantomJs\Http\Request;
+use JonnyW\PhantomJs\Http\Response;
 use Mockery;
 use SKAgarwal\GoogleApi\PlacesApi;
 use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
@@ -22,7 +26,7 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
      * @test
      */
     public function it_returns_null_for_malformed_url() {
-        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
+        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs(500));
 
         $malformedUrls = [
             'https://sdf',
@@ -45,7 +49,18 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
      */
     public function it_returns_null_for_an_unknown_place() {
         $url = 'https://www.google.co.uk/maps/place/Nowhere/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
-        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
+        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs(404));
+        $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
+
+        self::assertNull($reviewAggregation);
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_null_for_unexpected_html_response() {
+        $url = 'https://www.google.co.uk/maps/place/Nowhere/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
+        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs(200, '<html></html>'));
         $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
 
         self::assertNull($reviewAggregation);
@@ -56,54 +71,57 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
      */
     public function it_returns_a_review_aggregation_for_good_url() {
         $url = 'https://www.google.co.uk/maps/place/KFC/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
-        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
+        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs());
         $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
 
         $expected = new ReviewAggregation();
-        $expected->setAverageScore(3);
+        $expected->setAverageScore(3.0);
         $expected->setPositiveReviewPc(50);
+        $expected->setNumberOfReviews(117);
 
         self::assertEquals($expected, $reviewAggregation);
     }
 
     /**
-     * @return PlacesApi
+     * @param $status
+     * @param $html
+     *
+     * @return Client
      */
-    private function getPlacesApi() {
+    private function getPhantomJs($status = 200, $html = null) {
+        $phantom = Mockery::mock(Client::class);
+        $messageFactory = Mockery::mock(MessageFactory::class);
+        $request = Mockery::mock(Request::class);
+        $response = Mockery::mock(Response::class);
 
-        $placesApi = Mockery::mock(PlacesApi::class);
+        $phantom->shouldReceive('getMessageFactory')->andReturn($messageFactory);
 
-        $emptySearchResponse = new Collection();
-        $emptySearchResponse->put('results', new Collection());
-        $placesApi
-            ->shouldReceive('nearbySearch')
-            ->with('51.3795758,-2.3584342', 10, [ 'name' => 'Nowhere' ])
-            ->andReturn($emptySearchResponse);
-        
-        $nearbySearchResults = new Collection();
-        $nearbySearchResults->push(
-            [
-                'place_id' => 1
-            ]
-        );
-        $nearbySearchResponse = new Collection();
-        $nearbySearchResponse->put('results', $nearbySearchResults);
-        $placesApi
-            ->shouldReceive('nearbySearch')
-            ->with('51.3795758,-2.3584342', 10, [ 'name' => 'KFC' ])
-            ->andReturn($nearbySearchResponse);
+        $messageFactory->shouldReceive('createRequest')->andReturn($request);
+        $request->shouldReceive('setTimeout');
+        $request->shouldReceive('setViewportSize');
 
-        $placeDetailsResponse = new Collection();
-        $placeDetailsResponse->put('result', [
-            'rating' => 3,
-            'reviews' => [
-                [ 'rating' => 2 ],
-                [ 'rating' => 4 ]
-            ]
-        ]);
-        $placesApi->shouldReceive('placeDetails')->andReturn($placeDetailsResponse);
+        $messageFactory->shouldReceive('createResponse')->andReturn($response);
+        $response->shouldReceive('isRedirect');
 
-        return $placesApi;
+        $phantom->shouldReceive('send');
+        $response->shouldReceive('getStatus')->andReturn($status);
+        $response->shouldReceive('getContent')->andReturn($html ?: '
+        <html>
+            <body>
+                <div class="ml-panes-entity-review-number"><span>3.0</span></div>
+                <div class="ml-panes-entity-ratings-histogram-summary-reviews-number">117 reviews</div>
+                <div>
+                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:5px"></span>
+                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:10px"></span>
+                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:5px"></span>
+                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:10px"></span>
+                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:10px"></span>
+                </div>
+            </body>
+        </html>
+        ');
+
+        return $phantom;
     }
 
 }

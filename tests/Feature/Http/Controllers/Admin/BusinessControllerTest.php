@@ -5,6 +5,7 @@ namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
+use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
@@ -118,13 +119,17 @@ class BusinessControllerTest extends IntegrationTestCase
             )
         );
         $response->assertStatus(200);
-        $response->assertJson([
-            'reviewSource' => ReviewSource::GOOGLE,
-            'reviewAggregation' => [
-                'averageScore' => 3.1,
-                'positiveReviewPc' => 68,
-                'numReviews' => 116
-            ]
-        ]);
+        $content = $response->decodeResponseJson();
+
+        self::assertEquals(ReviewSource::GOOGLE, $content['reviewSource']);
+
+        self::assertGreaterThan(2, $content['reviewAggregation']['averageScore']);
+        self::assertLessThan(4, $content['reviewAggregation']['averageScore']);
+
+        self::assertGreaterThan(40, $content['reviewAggregation']['positiveReviewPc']);
+        self::assertLessThan(100, $content['reviewAggregation']['positiveReviewPc']);
+
+        self::assertGreaterThan(100, $content['reviewAggregation']['numberOfReviews']);
+        self::assertLessThan(1000, $content['reviewAggregation']['numberOfReviews']);
     }
 }

@@ -18,7 +18,7 @@ class ReviewAggregation
     private $positiveReviewPc;
 
     /** @var integer */
-    private $numReviews;
+    private $numberOfReviews;
     
     /**
      * @return float
@@ -59,16 +59,16 @@ class ReviewAggregation
     /**
      * @return int
      */
-    public function getNumReviews()
+    public function getNumberOfReviews()
     {
-        return $this->numReviews;
+        return $this->numberOfReviews;
     }
 
     /**
      * @param int $numReviews
      */
-    public function setNumReviews($numReviews)
+    public function setNumberOfReviews($numReviews)
     {
-        $this->numReviews = $numReviews;
+        $this->numberOfReviews = $numReviews;
     }
 }

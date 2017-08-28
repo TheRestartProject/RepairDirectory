@@ -33,6 +33,7 @@ class PhantomServiceProvider extends ServiceProvider
         $this->app->singleton(Client::class, function () {
             $phantom = Client::getInstance();
             $phantom->isLazy();
+            $phantom->getEngine()->setPath(config('phantom.path'));
             return $phantom;
         });
     }

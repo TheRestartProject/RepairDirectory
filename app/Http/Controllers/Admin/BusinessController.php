@@ -48,7 +48,8 @@ class BusinessController extends Controller
         $url = $request->input("url");
         $response = $reviewManager->getReviewResponse($url);
         if ($response) {
-            return response($response->toArray(), 200);
+            $data = $response->toArray();
+            return response($data, 200);
         }
         return response('', 404);
     }

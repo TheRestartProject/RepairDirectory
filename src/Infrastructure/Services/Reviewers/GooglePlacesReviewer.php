@@ -82,13 +82,13 @@ class GooglePlacesReviewer implements Reviewer
         $aggregation = new ReviewAggregation();
         $aggregation->setAverageScore($averageScore);
         $aggregation->setPositiveReviewPc((integer) $positiveReviewPc);
-        $aggregation->setNumReviews($numReviews);
+        $aggregation->setNumberOfReviews($numReviews);
         return $aggregation;
     }
 
     private function doRequest($url) {
         $request = $this->phantom->getMessageFactory()->createRequest($url, 'GET');
-        $request->setTimeout(5000);
+        $request->setTimeout(2000);
         $request->setViewportSize(320, 1024);
 
         $response = $this->phantom->getMessageFactory()->createResponse();
