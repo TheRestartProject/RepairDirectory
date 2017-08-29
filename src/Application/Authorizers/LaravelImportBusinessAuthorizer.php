@@ -38,7 +38,7 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
     }
 
     /**
-     * Checks whether the business can be
+     * Checks whether the business is authorized to be imported
      *
      * When importing a business, some rules are in place. For example
      * in the web app, a user must be logged in and must be of a certain
