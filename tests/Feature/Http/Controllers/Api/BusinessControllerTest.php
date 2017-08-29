@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -16,6 +17,7 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class BusinessControllerTest extends IntegrationTestCase
 {
+    use DatabaseMigrations;
     /**
      * Asserts that the BusinessController->search returns all businesses
      * when no query parameters are present on the request

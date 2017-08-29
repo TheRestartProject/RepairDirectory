@@ -2,9 +2,12 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin;
 
+use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -18,6 +21,8 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class BusinessControllerTest extends IntegrationTestCase
 {
+    use DatabaseMigrations;
+    use FixometerDatabaseMigrations;
     /**
      * Asserts that the BusinessController->create function creates a new Business
      * and persists this in the database
@@ -28,6 +33,9 @@ class BusinessControllerTest extends IntegrationTestCase
      */
     public function test_create()
     {
+        $user = entity(User::class)->create(['role' => User::HOST]);
+        $this->be($user);
+
         $response = $this->post(
             route('admin.business.create'), [
                 'name' => 'iRepair Centre Bath',
@@ -73,6 +81,9 @@ class BusinessControllerTest extends IntegrationTestCase
      */
     public function test_update()
     {
+        $user = entity(User::class)->create(['role' => User::HOST]);
+        $this->be($user);
+
         $response = $this->put(
             route('admin.business.update', ['id' => 1]), [
                 'name' => 'This is a new name',
