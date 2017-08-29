@@ -5,6 +5,8 @@ namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
+use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -18,6 +20,8 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class BusinessControllerTest extends IntegrationTestCase
 {
+    use DatabaseMigrations;
+    use FixometerDatabaseMigrations;
     /**
      * Asserts that the BusinessController->create function creates a new Business
      * and persists this in the database

@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Artisan;
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -16,6 +17,7 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class ImportBusinessesCommandTest extends IntegrationTestCase
 {
+    use DatabaseMigrations;
     /**
      * Test that the businesses have been created
      *

@@ -24,6 +24,7 @@ trait DatabaseMigrations
     public function runDatabaseMigrations()
     {
         $this->artisan('doctrine:migrations:refresh');
+        $this->artisan('db:seed');
 
         $this->app[Kernel::class]->setArtisan(null);
 

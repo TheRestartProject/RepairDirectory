@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
+use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
 /**
@@ -15,6 +16,7 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
  */
 class SuggestionControllerTest extends IntegrationTestCase
 {
+    use DatabaseMigrations;
     /**
      * Asserts that the SuggestionController->search returns the correct suggestions
      *
