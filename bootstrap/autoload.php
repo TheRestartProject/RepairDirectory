@@ -2,7 +2,7 @@
 
 define('LARAVEL_START', microtime(true));
 
-//session_start();
+session_start();
 
 /*
 |--------------------------------------------------------------------------
