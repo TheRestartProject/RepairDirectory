@@ -7,12 +7,12 @@
 
     <link rel="stylesheet" type="text/css" href="/css/map/app.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
-    <title>Repair Directory Admin</title>
+    <title>@lang('admin.title')</title>
 </head>
 <body>
 <div class="container">
-    <a href='/map' class="header__link btn btn-primary">Go to the Map</a>
-    <h1><a href="{{ route('admin.index') }}">Repair Directory Admin</a></h1>
+    <a href='/map' class="header__link btn btn-primary">@lang('admin.go_to_map')</a>
+    <h1><a href="{{ route('admin.index') }}">@lang('admin.title')</a></h1>
     @yield('content')
     <script src="/js/map/admin.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>

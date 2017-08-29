@@ -8,13 +8,13 @@
                 <img src="/images/map/logo.png">
             </div>
             <div class="sidebar__content">
-                <h3 class="sidebar__header">Restart repair directory</h3>
-                <p class="sidebar__copy">Find a local business to repair your stuff.</p>
+                <h3 class="sidebar__header">{{ __('map.header_title') }}</h3>
+                <p class="sidebar__copy">{{ __('map.header_copy') }}</p>
                 <form id="search" class="sidebar__search">
                     <div class="row no-gutter">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label for="location">Your location</label>
+                                <label for="location">{{ __('map.location') }}</label>
                                 <input id="location" name="location" class="form-control sidebar__input"
                                 placeholder="E.G. Postcode">
                             </div>
@@ -23,9 +23,9 @@
                     <div class="row no-gutter">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label for="category">Category</label>
+                                <label for="category">{{ __('map.category') }}</label>
                                 <select id="category" name="category" class="form-control sidebar__select">
-                                    <option value="" selected>All</option>
+                                    <option value="" selected>{{ __('map.category_all') }}</option>
                                     @foreach($categories as $category)
                                         <option value="{{ $category }}">
                                             {{ $category }}
@@ -38,7 +38,9 @@
                     <div class="row no-gutter">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <button id="submit" class="btn btn-primary sidebar__button" disabled>Search</button>
+                                <button id="submit" class="btn btn-primary sidebar__button" disabled>
+                                    {{ __('map.search') }}
+                                </button>
                             </div>
                         </div>
                     </div>
