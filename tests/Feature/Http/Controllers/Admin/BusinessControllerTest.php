@@ -3,9 +3,8 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin;
 
 use TheRestartProject\Fixometer\Domain\Entities\User;
-use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
-use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Testing\FixometerDatabaseMigrations;
@@ -109,6 +108,8 @@ class BusinessControllerTest extends IntegrationTestCase
      */
     public function test_scrape_review()
     {
+        $user = entity(User::class)->create(['role' => User::HOST]);
+        $this->be($user);
         $response = $this->get(
             route(
                 'admin.business.scrape-review', 
