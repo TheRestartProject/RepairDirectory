@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestFactory;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
@@ -26,23 +27,27 @@ class BusinessController extends Controller
         return $this->renderEdit($business, []);
     }
 
-    public function create(Request $request, CommandBus $commandBus)
+    public function create(Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
     {
         try {
-            $commandBus->handle(new ImportFromHttpRequestCommand($request->all()));
+            $command = $commandFactory->makeFromRequest($request);
+            $commandBus->handle($command);
         } catch (BusinessValidationException $e) {
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
+
         return redirect('map/admin');
     }
 
-    public function update($id, Request $request, CommandBus $commandBus)
+    public function update($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
     {
         try {
+            $command = $commandFactory->makeFromRequest($request);
             $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
         } catch (BusinessValidationException $e) {
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
+
         return redirect('map/admin');
     }
 

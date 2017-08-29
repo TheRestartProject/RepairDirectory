@@ -175,6 +175,12 @@ class CustomBusinessValidator implements BusinessValidator
         } catch (ValidationException $e) {
             $errors['publishingStatus'] = $e->getMessage();
         }
+
+
+        if (!isset($business['geolocation']) && !empty($business['geolocation'])) {
+            $errors['geolocation'] = 'Geocoding failed – please check the address';
+        }
+
     }
 
 }

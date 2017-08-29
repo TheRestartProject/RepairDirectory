@@ -80,40 +80,13 @@ class ImportFromHttpRequestHandler
             throw new EntityNotFoundException("Business with id of {$businessUid} could not be found");
         }
 
-        $data = $this->transformRequestData($data);
-
         $this->updateValues($business, $data);
-
-        $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
 
         if ($isCreate) {
             $this->repository->add($business);
         }
         
         return $business;
-    }
-
-    /**
-     * Transforms the request data, converting the type of each value to that of the corresponding Business field.
-     *
-     * @param array $data The HTTP Request data
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     */
-    private function transformRequestData($data) 
-    {
-        if (array_key_exists('warrantyOffered', $data)) {
-            $data['warrantyOffered'] = $data['warrantyOffered'] === 'Yes';
-        }
-        if (array_key_exists('productsRepaired', $data)) {
-            $data['productsRepaired'] = StringUtil::stringToArray($data['productsRepaired']);
-        }
-        if (array_key_exists('authorisedBrands', $data)) {
-            $data['authorisedBrands'] = StringUtil::stringToArray($data['authorisedBrands']);
-        }
-        return $data;
     }
 
     /**
