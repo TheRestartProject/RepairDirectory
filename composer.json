@@ -80,30 +80,30 @@
         ],
         "test:all": [
             "php artisan config:clear",
-            "vendor/bin/phpunit"
+            "php vendor/bin/phpunit"
         ],
         "test:unit": [
             "php artisan config:clear",
-            "vendor/bin/phpunit --testsuite=Unit"
+            "php vendor/bin/phpunit --testsuite=Unit"
         ],
         "test:integration": [
             "php artisan config:clear",
-            "vendor/bin/phpunit --testsuite=Integration"
+            "php vendor/bin/phpunit --testsuite=Integration"
         ],
         "test:feature": [
             "php artisan config:clear",
-            "vendor/bin/phpunit --testsuite=Feature"
+            "php vendor/bin/phpunit --testsuite=Feature"
         ],
         "sniff": [
-            "vendor/bin/phpcs --config-set ignore_errors_on_exit 1",
-            "vendor/bin/phpcs -s --standard=phpcs.xml --extensions=php src tests"
+            "php vendor/bin/phpcs --config-set ignore_errors_on_exit 1",
+            "php vendor/bin/phpcs -s --standard=phpcs.xml --extensions=php src tests"
         ],
         "mess": [
-            "vendor/bin/phpmd src/ text phpmd.xml",
-            "vendor/bin/phpmd tests/ text codesize,design,naming,unusedcode"
+            "php vendor/bin/phpmd src/ text phpmd.xml",
+            "php vendor/bin/phpmd tests/ text codesize,design,naming,unusedcode"
         ],
-        "copypaste": "vendor/bin/phpcpd src app tests",
-        "stan": "vendor/bin/phpstan analyse src tests --level=7 -c phpstan.neon"
+        "copypaste": "php vendor/bin/phpcpd src app tests",
+        "stan": "php vendor/bin/phpstan analyse src tests --level=7 -c phpstan.neon"
     },
     "config": {
         "preferred-install": "dist",
