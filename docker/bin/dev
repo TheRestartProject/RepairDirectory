@@ -8,6 +8,7 @@ case "$1" in
         docker/bin/yarn
         docker/bin/npm run dev
         docker/bin/artisan doctrine:migrations:migrate
+        docker/bin/artisan doctrine:migrations:migrate --connection=fixometer
         ;;
     'reports')
         docker/bin/test coverage
