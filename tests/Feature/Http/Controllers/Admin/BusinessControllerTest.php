@@ -132,7 +132,7 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @test
      */
-    public function test_scrape_review()
+    public function i_can_scrape_review()
     {
         $user = entity(User::class)->create(['role' => User::HOST]);
         $this->be($user);
