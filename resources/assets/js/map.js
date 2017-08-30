@@ -121,6 +121,8 @@ function scrollToRepairer(business) {
 }
 
 function showRepairer(business, marker) {
+    resetMarkers();
+
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
     map.setCenter({lat: business.geolocation.latitude, lng: business.geolocation.longitude});
     map.setZoom(15);
@@ -145,6 +147,10 @@ function hideRepairer() {
         const $item = $(this);
         $item.removeClass('business-list__item--inactive')
     });
+    resetMarkers();
+}
+
+function resetMarkers() {
     markers.forEach(marker => {
         marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     });
