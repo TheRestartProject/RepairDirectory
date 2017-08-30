@@ -3,24 +3,51 @@
 namespace TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers;
 
 use JonnyW\PhantomJs\Client;
+use JonnyW\PhantomJs\Http\ResponseInterface;
 use PHPHtmlParser\Dom;
 use PHPHtmlParser\Dom\HtmlNode;
 use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Domain\Services\Reviewers\Reviewer;
 
+/**
+ * Class GooglePlacesReviewer
+ *
+ * Implementations must implement the getReviewAggregation function, which
+ * scrapes review data from the provided URL, and returns a ReviewAggregation.
+ *
+ * @category Reviewer
+ * @package  TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class GooglePlacesReviewer implements Reviewer
 {
-    /** @var Client */
+    /**
+     * An interface to a PhantomJS process. A headless browser that can be used to
+     * get a snapshot of the HTML that a "real user" would see when visiting
+     * a URL.
+     *
+     * @var Client
+     */
     private $phantom;
 
+    /**
+     * GooglePlacesReviewer constructor.
+     *
+     * @param Client $phantom An interface to a PhantomJS process
+     */
     public function __construct(Client $phantom)
     {
         $this->phantom = $phantom;
     }
 
     /**
-     * @param string $url
-     * @return ReviewAggregation
+     * Scrape a Google Places URL, returning a ReviewAggregation.
+     *
+     * @param string $url The URL to scrape
+     *
+     * @return ReviewAggregation|null
      */
     public function getReviewAggregation($url)
     {
@@ -52,6 +79,14 @@ class GooglePlacesReviewer implements Reviewer
         return $aggregation;
     }
 
+    /**
+     * Send a URL to the PhantomJS process, instructing it to process and render the resulting
+     * web page and return the HTML a user would see.
+     *
+     * @param String $url The URL of the web page to render
+     *
+     * @return ResponseInterface
+     */
     private function doRequest($url)
     {
         $request = $this->phantom->getMessageFactory()->createRequest($url, 'GET');
@@ -65,6 +100,13 @@ class GooglePlacesReviewer implements Reviewer
         return $response;
     }
 
+    /**
+     * Extract the number of reviews from the Google Places HTML.
+     *
+     * @param Dom $dom The Google Places HTML parsed into a Dom object.
+     *
+     * @return int|null
+     */
     private function scrapeNumReviews(Dom $dom)
     {
         $numReviews = null;
@@ -76,24 +118,46 @@ class GooglePlacesReviewer implements Reviewer
         return $numReviews;
     }
 
+    /**
+     * Extract the average score of reviews from the Google Places HTML.
+     *
+     * @param Dom $dom The Google Places HTML parsed into a Dom object.
+     *
+     * @return float|null
+     */
     private function scrapeAverageScore(Dom $dom)
     {
         $averageScore = null;
-        $averageScoreContainerSelection = $dom->find('.ml-panes-entity-review-number');
-        if (count($averageScoreContainerSelection)) {
-            /** @var HtmlNode $averageScoreContainer */
-            $averageScoreContainer = $averageScoreContainerSelection[0];
-            $averageScore = (float)$averageScoreContainer->find('span')[0]->text;
+        $avgScoreSelection = $dom->find('.ml-panes-entity-review-number');
+        if (count($avgScoreSelection)) {
+            /**
+             * A HtmlNode that contains the Average Score value
+             *
+             * @var HtmlNode $avgScoreContainer
+             */
+            $avgScoreContainer = $avgScoreSelection[0];
+            $averageScore = (float)$avgScoreContainer->text(true);
         }
         return $averageScore;
     }
 
+    /**
+     * Extract the positive review percentage from the Google Places HTML.
+     * 
+     * Calculated using the widths of bars in the horizontal bar chart
+     * displayed on the Google Places page. The width is controlled
+     * by the "padding-left" style attribute.
+     *
+     * @param Dom $dom The Google Places HTML parsed into a Dom object.
+     *
+     * @return int|null
+     */
     private function scrapePositiveReviewPc(Dom $dom)
     {
         $positiveReviewPc = null;
         // derive positive review percentage from the bar chart
-        $reviewBarChartSelection = $dom->find('.ml-panes-entity-ratings-histogram-bucket');
-        if (count($reviewBarChartSelection) === 5) {
+        $barChartSelection = $dom->find('.ml-panes-entity-ratings-histogram-bucket');
+        if (count($barChartSelection) === 5) {
             $totalBarSize = 0;
             $barSizeByRating = [
                 1 => 0,
@@ -103,8 +167,12 @@ class GooglePlacesReviewer implements Reviewer
                 5 => 0
             ];
             $currentRating = 5; // nodes come back in reverse order
-            foreach ($reviewBarChartSelection as $reviewBar) {
-                /** @var HtmlNode $reviewBar */
+            foreach ($barChartSelection as $reviewBar) {
+                /**
+                 * A HtmlNode that represents the horizontal bar in a bar chart.
+                 *
+                 * @var HtmlNode $reviewBar
+                 */
                 $css = $reviewBar->getAttribute('style');
                 $padding = explode('padding-left:', $css)[1];
                 $barSizeByRating[$currentRating] = (float)$padding;

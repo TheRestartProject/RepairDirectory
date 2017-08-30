@@ -1,16 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joaquim
- * Date: 23/08/2017
- * Time: 13:44
- */
 
 namespace TheRestartProject\RepairDirectory\Application\QueryLanguage;
 
-
 use MyCLabs\Enum\Enum;
 
+/**
+ * Enum Operators
+ *
+ * Used to represent Domain queries and translate these to Doctrine/SQL queries
+ *
+ * @category Enum
+ * @package  TheRestartProject\RepairDirectory\Domain\Enums
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class Operators extends Enum
 {
     const EQUAL = '=';

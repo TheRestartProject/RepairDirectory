@@ -92,7 +92,6 @@ class BusinessValidatorTest extends TestCase
                 'Name invalid: must be between 2 and 255 characters long, ' .
                 'Landline invalid: only numbers allowed, ' .
                 'Geocoding failed – please check the address', $e->getMessage()
-
             );
             self::assertEquals(
                 [

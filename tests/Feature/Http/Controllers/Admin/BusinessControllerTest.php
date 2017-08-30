@@ -104,6 +104,10 @@ class BusinessControllerTest extends IntegrationTestCase
     }
 
     /**
+     * Tests that the scraping of reviews works (currently only for Google Places).
+     *
+     * @return void
+     *
      * @test
      */
     public function test_scrape_review()
