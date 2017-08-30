@@ -59,12 +59,12 @@ class BusinessController extends Controller
             $commandBus->handle($command);
         } catch (BusinessValidationException $e) {
             return redirect()
-                ->route('admin.business.edit')
+                ->route('admin.business.edit', [ 'id' => $id ])
                 ->withErrors($e->getErrors())
                 ->withInput();
         } catch (ImportBusinessUnauthorizedException $e) {
             return redirect()
-                ->route('admin.business.edit')
+                ->route('admin.business.edit', [ 'id' => $id ])
                 ->withErrors(['authorization' => 'You are not authorized to edit this business.'])
                 ->withInput();
         }
