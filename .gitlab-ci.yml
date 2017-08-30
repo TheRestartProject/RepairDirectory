@@ -9,13 +9,10 @@ build:php:
   image: registry.outlandish.com/the-restart-project/repair-directory/composer
   stage: build
   script:
-  - composer run-script fixometer:config
-  - composer install
-  - composer run-script post-root-package-install
-  - composer run-script key:generate
-#  - yarn
-#  - npm run production
-#  - rm -rf node_modules
+  - run-script fixometer:config
+  - install
+  - run-script post-root-package-install
+  - run-script key:generate
   tags:
   - docker
   only:
