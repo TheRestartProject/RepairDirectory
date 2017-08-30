@@ -60,25 +60,34 @@ function formatBusinessDetails(business, compact = false) {
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-globe"></span>
-                <a href="${business.website}">${business.website}</a>
+                <a href="${business.website}" onclick="trackOutboundLink('${business.website}'); return false;">
+                    ${business.website}
+                </a>
             </p>
         `);
     }
 
     if (business.email) {
+        const href = `mailto:${business.email}`;
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-envelope-o"></span>
-                <a href="mailto:${business.email}">${business.email}</a>
+                <a href="${href}" onclick="trackOutboundLink('${href}'; return false;">
+                    ${business.email}
+                </a>
             </p>
         `);
     }
 
     if (business.landline || business.mobile) {
+        const phoneNumber = business.landline || business.mobile;
+        const href = `tel:${phoneNumber}`;
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-phone"></span>
-                <span>${business.landline || business.mobile}</span>
+                <a href="${href}" onclick="trackOutboundLink('${href}'); return false;">
+                    ${phoneNumber}
+                </a>
             </p>
         `);
     }
