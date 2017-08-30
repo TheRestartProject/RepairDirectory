@@ -41,9 +41,9 @@ class Point
     {
         if (isset($geolocation['latitude'], $geolocation['longitude'])) {
             return new self($geolocation['latitude'], $geolocation['longitude']);
-        } else {
-            return new self($geolocation[0], $geolocation[1]);
         }
+
+        return new self($geolocation[0], $geolocation[1]);
     }
 
     /**

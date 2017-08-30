@@ -7,17 +7,20 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 
 /**
- * Class BusinessPolicy
- * @category
+ * Determines whether a user to perform actions on a Business
+ *
+ * @category Policy
  * @package  TheRestartProject\RepairDirectory\Application\Auth\Policies
  * @author   Matthew Kendon <matt@outlandish.com>
+ * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ * @link     http://outlandish.com
  */
 class BusinessPolicy
 {
     /**
      * Runs before any policy action
      *
-     * @param User $user
+     * @param User $user The user to check
      *
      * @return bool|void
      */
@@ -90,7 +93,7 @@ class BusinessPolicy
     /**
      * Checks whether the user is an admin
      *
-     * @param User $user
+     * @param User $user The user to check
      *
      * @return bool
      */
@@ -102,7 +105,7 @@ class BusinessPolicy
     /**
      * Checks whether the user is a guest
      *
-     * @param User $user
+     * @param User $user The user to check
      *
      * @return bool
      */
@@ -114,7 +117,7 @@ class BusinessPolicy
     /**
      * Checks whether the user is a Restarter
      *
-     * @param User $user
+     * @param User $user The user to check
      *
      * @return bool
      */

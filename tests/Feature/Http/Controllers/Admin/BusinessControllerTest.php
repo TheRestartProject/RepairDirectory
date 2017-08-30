@@ -102,7 +102,7 @@ class BusinessControllerTest extends IntegrationTestCase
     /**
      * Converts a business into http data
      *
-     * @param Business $business
+     * @param Business $business The business to convert
      *
      * @return data
      */

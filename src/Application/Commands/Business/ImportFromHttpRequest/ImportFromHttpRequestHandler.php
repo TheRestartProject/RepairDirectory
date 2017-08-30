@@ -83,7 +83,7 @@ class ImportFromHttpRequestHandler
 
         $this->updateValues($business, $data);
 
-        $business->setGeolocation(Point::fromArray($data['geolocation']));
+        $business->setGeolocation($this->createPoint($data));
 
         if ($isCreate) {
             $this->repository->add($business);
@@ -108,5 +108,19 @@ class ImportFromHttpRequestHandler
                 $business->{$setter}($value);
             }
         }
+    }
+
+    /**
+     * Creates a Point from the geolocation data
+     *
+     * @param array $data The array of data
+     *
+     * @return Point
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    protected function createPoint($data)
+    {
+        return Point::fromArray($data['geolocation']);
     }
 }
