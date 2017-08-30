@@ -10,6 +10,7 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundExcep
 use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Application\Validators\CustomBusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
@@ -82,10 +83,12 @@ class ImportFromHttpRequestHandler
 
         $this->updateValues($business, $data);
 
+        $business->setGeolocation(Point::fromArray($data['geolocation']));
+
         if ($isCreate) {
             $this->repository->add($business);
         }
-        
+
         return $business;
     }
 

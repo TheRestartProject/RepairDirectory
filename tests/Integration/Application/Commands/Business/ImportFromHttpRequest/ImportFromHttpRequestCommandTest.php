@@ -405,9 +405,6 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
     {
         $data = array_merge($business->toArray(), $overrides);
 
-        $data['productsRepaired'] = implode(',', $business->getProductsRepaired());
-        $data['authorisedBrands'] = implode(',', $business->getAuthorisedBrands());
-
         return $data;
     }
 
