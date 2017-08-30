@@ -83,7 +83,7 @@ class ContainerLocator implements ValidatorLocator
      *
      * @param string $commandName The name of the command to get the validator for
      *
-     * @return object
+     * @return object|null
      *
      * @throws MissingHandlerException
      *
@@ -92,7 +92,7 @@ class ContainerLocator implements ValidatorLocator
     public function getValidatorForCommand($commandName)
     {
         if (!isset($this->commandValidatorMap[$commandName])) {
-            throw MissingHandlerException::forCommand($commandName);
+            return null;
         }
 
         $serviceId = $this->commandValidatorMap[$commandName];

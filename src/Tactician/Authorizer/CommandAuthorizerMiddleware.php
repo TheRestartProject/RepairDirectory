@@ -76,19 +76,25 @@ class CommandAuthorizerMiddleware implements Middleware
     public function execute($command, callable $next)
     {
         $commandName = $this->commandNameExtractor->extract($command);
-        $security = $this->authorizerLocator->getAuthorizerForCommand($commandName);
-        $methodName = $this->methodNameInflector->inflect($command, $security);
+        $authorizer = $this->authorizerLocator->getAuthorizerForCommand($commandName);
+        $methodName = $this->methodNameInflector->inflect($command, $authorizer);
+
+        // if no validator then none has been defined.
+        // go to next middleware
+        if ($authorizer === null) {
+            return $next($command);
+        }
 
         // is_callable is used here instead of method_exists, as method_exists
         // will fail when given a handler that relies on __call.
-        if (!is_callable([$security, $methodName])) {
+        if (!is_callable([$authorizer, $methodName])) {
             throw CanNotInvokeAuthorizerException::forCommand(
                 $command,
                 "Method '{$methodName}' does not exist on authorizer"
             );
         }
 
-        $security->{$methodName}($command);
+        $authorizer->{$methodName}($command);
 
         return $next($command);
     }

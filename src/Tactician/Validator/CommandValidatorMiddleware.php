@@ -77,6 +77,12 @@ class CommandValidatorMiddleware implements Middleware
         $validator = $this->validatorLocator->getValidatorForCommand($commandName);
         $methodName = $this->methodNameInflector->inflect($command, $validator);
 
+        // if no validator then none has been defined.
+        // go to next middleware
+        if ($validator === null) {
+            return $next($command);
+        }
+
         // is_callable is used here instead of method_exists, as method_exists
         // will fail when given a handler that relies on __call.
         if (!is_callable([$validator, $methodName])) {

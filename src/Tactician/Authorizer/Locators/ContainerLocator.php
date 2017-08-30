@@ -85,7 +85,7 @@ class ContainerLocator implements AuthorizerLocator
      *
      * @param string $commandName The name of the command to authorize
      *
-     * @return object
+     * @return object|null
      *
      * @throws MissingAuthorizerException
      *
@@ -94,7 +94,7 @@ class ContainerLocator implements AuthorizerLocator
     public function getAuthorizerForCommand($commandName)
     {
         if (!isset($this->commandAuthorizerMap[$commandName])) {
-            throw MissingAuthorizerException::forCommand($commandName);
+            return null;
         }
 
         $serviceId = $this->commandAuthorizerMap[$commandName];
