@@ -33,7 +33,7 @@ class CreateBusinessTest extends IntegrationTestCase
      */
     public function i_cannot_create_a_business_if_i_am_not_logged_in()
     {
-        $business = entity(Business::class)->make();
+        $business = entity(Business::class, 'real')->make();
         $this->createBusiness($business)
             ->assertRedirect(route('home'));
     }
@@ -47,7 +47,7 @@ class CreateBusinessTest extends IntegrationTestCase
      */
     public function i_cannot_create_a_business_if_i_am_logged_in_as_a_guest()
     {
-        $business = entity(Business::class)->make();
+        $business = entity(Business::class, 'real')->make();
 
         $this->beRole(User::GUEST)
             ->createBusiness($business)
@@ -68,7 +68,7 @@ class CreateBusinessTest extends IntegrationTestCase
          *
          * @var Business $business
          */
-        $business = entity(Business::class)->make(
+        $business = entity(Business::class, 'real')->make(
             [
                 'publishingStatus' => PublishingStatus::DRAFT
             ]
@@ -94,7 +94,7 @@ class CreateBusinessTest extends IntegrationTestCase
          *
          * @var Business $business
          */
-        $business = entity(Business::class)->make(
+        $business = entity(Business::class, 'real')->make(
             [
                 'publishingStatus' => PublishingStatus::READY_FOR_REVIEW
             ]
@@ -120,7 +120,7 @@ class CreateBusinessTest extends IntegrationTestCase
          *
          * @var Business $business
          */
-        $business = entity(Business::class)->make(
+        $business = entity(Business::class, 'real')->make(
             [
                 'publishingStatus' => PublishingStatus::PUBLISHED
             ]
@@ -265,7 +265,7 @@ class CreateBusinessTest extends IntegrationTestCase
             'reviewSource' => $business->getReviewSource(),
             'numberOfReviews' => $business->getNumberOfReviews(),
             'averageScore' => $business->getAverageScore(),
-            'warrantyOffered' => $business->isWarrantyOffered(),
+            'warrantyOffered' => $business->isWarrantyOffered() ? 'Yes' : 'No',
             'warranty' => $business->getWarranty(),
             'publishingStatus' => $business->getPublishingStatus()
         ];

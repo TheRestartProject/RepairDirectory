@@ -50,7 +50,8 @@ class CustomBusinessValidator implements BusinessValidator
             'name',
             'address',
             'postcode',
-            'description'
+            'description',
+            'geolocation'
         ];
         $this->validators = [
             'name' => new v\StringLengthValidator('Name', 2, 255),

@@ -30,6 +30,8 @@ class BusinessController extends Controller
 
     public function create(Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
     {
+        $this->authorize('create', Business::class);
+
         try {
             $command = $commandFactory->makeFromRequest($request);
             $commandBus->handle($command);
@@ -50,6 +52,8 @@ class BusinessController extends Controller
 
     public function update($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
     {
+        $this->authorize('create', Business::class);
+
         try {
             $command = $commandFactory->makeFromRequest($request, $id);
             $commandBus->handle($command);

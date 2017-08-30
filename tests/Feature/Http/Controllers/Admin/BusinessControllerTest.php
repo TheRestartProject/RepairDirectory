@@ -3,6 +3,8 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin;
 
 use TheRestartProject\Fixometer\Domain\Entities\User;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
@@ -29,40 +31,29 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * @test
+     * @todo: this doesn't its test elsewhere.
      */
-    public function test_create()
+    public function i_can_create()
     {
         $user = entity(User::class)->create(['role' => User::HOST]);
         $this->be($user);
 
+        /**
+         * The business to create
+         *
+         * @var Business $business
+         */
+        $business = entity(Business::class, 'real')->make();
+
         $response = $this->post(
-            route('admin.business.create'), [
-                'name' => 'iRepair Centre Bath',
-                'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
-                'address' => '12 Westgate St, Bath',
-                'postcode' => 'BA1 1EQ',
-                'city' => 'Bath',
-                'localArea' => 'Somerset',
-                'mobile' => '07761901775',
-                'landline' => '07141200908',
-                'website' => 'outlandish.com'
-            ]
+            route('admin.business.create'),
+            $this->convertBusinessToHttpData($business)
         );
         $response->assertStatus(302);
 
         $this->assertDatabaseHas(
             'businesses', [
-                'uid' => 7,
-                'name' => 'iRepair Centre Bath',
-                'description' => 'Bath\'s iRepair Centre. Fix all your broken devices.',
-                'address' => '12 Westgate St, Bath',
-                'postcode' => 'BA1 1EQ',
-                'city' => 'Bath',
-                'local_area' => 'Somerset',
-                'mobile' => '07761901775',
-                'landline' => '07141200908',
-                'website' => 'outlandish.com'
+                'uid' => $business->getUid(),
             ]
         );
 
@@ -77,20 +68,25 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * @test
+     * @todo: this doesn't work its tested elsewhere
      */
-    public function test_update()
+    public function i_can_update()
     {
         $user = entity(User::class)->create(['role' => User::HOST]);
         $this->be($user);
 
+        /**
+         * The business to create
+         *
+         * @var Business $business
+         */
+        $business = entity(Business::class)->create();
+        $business->setName('This is a new name');
+        $business->setDescription('This is a new description.');
+
         $response = $this->put(
-            route('admin.business.update', ['id' => 1]), [
-                'name' => 'This is a new name',
-                'description' => 'This is a new description.',
-                'address' => '12 Westgate St, Bath',
-                'postcode' => 'BA1 1EQ'
-            ]
+            route('admin.business.update', ['id' => $business->getUid()]),
+            $this->convertBusinessToHttpData($business)
         );
         $response->assertStatus(302);
 
@@ -101,6 +97,32 @@ class BusinessControllerTest extends IntegrationTestCase
                 'description' => 'This is a new description.'
             ]
         );
+    }
+
+    /**
+     * Converts a business into http data
+     *
+     * @param Business $business
+     *
+     * @return data
+     */
+    protected function convertBusinessToHttpData(Business $business)
+    {
+        $data = $business->toArray();
+
+        if (array_key_exists('warrantyOffered', $data)) {
+            $data['warrantyOffered'] = 'Yes';
+        }
+
+        if (array_key_exists('productsRepaired', $data)) {
+            $data['productsRepaired'] = '';
+        }
+
+        if (array_key_exists('authorisedBrands', $data)) {
+            $data['authorisedBrands'] = '';
+        }
+
+        return $data;
     }
 
     /**
@@ -116,10 +138,10 @@ class BusinessControllerTest extends IntegrationTestCase
         $this->be($user);
         $response = $this->get(
             route(
-                'admin.business.scrape-review', 
+                'admin.business.scrape-review',
                 [
                     'url' => 'https://www.google.co.uk/maps/place/KFC/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342'
-            
+
                 ]
             )
         );

@@ -22,9 +22,9 @@ use TheRestartProject\Fixometer\Domain\Entities\User;
 $factory->define(Business::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
-        'address' => '12 Westgate St, Bath',
-        'postcode' => 'BA1 1EQ',
-        'city' => 'Bath',
+        'address' => $faker->unique()->address,
+        'postcode' => $faker->postcode,
+        'city' => $faker->city,
         'description' => $faker->sentence,
         'geolocation' => new Point($faker->randomFloat(), $faker->randomFloat()),
         'categories' => ['Fan'],
@@ -32,6 +32,18 @@ $factory->define(Business::class, function (Faker\Generator $faker) {
         'warrantyOffered' => true,
         'warranty' => $faker->sentence,
         'positiveReviewPc' => 80,
+        'localArea' => $faker->words(2, true),
+        'landline' => '077657784333',
+        'mobile' => '077657784333',
+        'website' => $faker->url,
+        'email' => $faker->companyEmail,
+        'categories' => ['Fan'],
+        'qualifications' => $faker->sentence,
+        'communityEndorsement' => $faker->sentence,
+        'notes' => $faker->sentence,
+        'warrantyOffered' => true,
+        'warranty' => $faker->sentence,
+        'publishingStatus' => PublishingStatus::DRAFT
     ];
 });
 
@@ -58,6 +70,33 @@ $factory->defineAs(Business::class, 'invalid', function (Faker\Generator $faker)
         'warrantyOffered' => 'abcd',
         'warranty' => 'abcd',
         'publishingStatus' => 'abcd'
+    ];
+});
+
+$factory->defineAs(Business::class, 'real', function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->company,
+        'address' => '12 Westgate St, Bath',
+        'postcode' => 'BA1 1EQ',
+        'city' => 'Bath',
+        'description' => $faker->sentence,
+        'categories' => ['Fan'],
+        'publishingStatus' => PublishingStatus::DRAFT,
+        'warrantyOffered' => true,
+        'warranty' => $faker->sentence,
+        'positiveReviewPc' => 80,
+        'localArea' => $faker->words(2, true),
+        'landline' => '077657784333',
+        'mobile' => '077657784333',
+        'website' => $faker->domainName,
+        'email' => $faker->companyEmail,
+        'categories' => ['Fan'],
+        'qualifications' => $faker->sentence,
+        'communityEndorsement' => $faker->sentence,
+        'notes' => $faker->sentence,
+        'warrantyOffered' => true,
+        'warranty' => $faker->sentence,
+        'publishingStatus' => PublishingStatus::DRAFT
     ];
 });
 
