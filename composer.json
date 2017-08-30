@@ -66,6 +66,12 @@
             "PhantomInstaller\\Installer::installPhantomJS",
             "php artisan optimize"
         ],
+        "fixometer:config": [
+            "cp fixometer/config/config.dist.php fixometer/config/config.php"
+        ],
+        "key:generate": [
+            "php artisan key:generate"
+        ],
         "code": [
             "@sniff",
             "@mess",
