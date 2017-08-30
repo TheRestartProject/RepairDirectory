@@ -1,6 +1,11 @@
 FROM php:7-alpine
 
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN apk --no-cache add \
+    zlib-dev \
+    bzip2 \
+    bzip2-dev
+
+RUN docker-php-ext-install pdo pdo_mysql mysqli zip bz2
 
 COPY php.ini /usr/local/etc/php/php.ini
 

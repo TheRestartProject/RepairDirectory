@@ -1,25 +1,32 @@
-image: tetraweb/php:7.1
-
 stages:
   - build
   - test
   - cleanup
   - deploy
 
-build:
+build:php:
+  image: registry.outlandish.com/the-restart-project/repair-directory/composer
   stage: build
-  before_script:
-  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  - "apt-get update && apt-get install zip unzip yarn -y"
-  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  - php composer-setup.php
-  - php -r "unlink('composer-setup.php');"
-  - cp fixometer/config/config.dist.php fixometer/config/config.php
   script:
-  - php composer.phar install
-  - php composer.phar run-script post-root-package-install
-  - php artisan key:generate
+  - composer run-script fixometer:config
+  - composer install
+  - composer run-script post-root-package-install
+  - composer run-script key:generate
+  tags:
+  - docker
+  only:
+  - master
+  - /^feature-.*$/
+  artifacts:
+    paths:
+    - ./
+    name: "${CI_BUILD_REF_NAME}"
+    expire_in: 1 hour
+
+build:node:
+  image: node:6
+  stage: build
+  script:
   - yarn
   - npm run production
   - rm -rf node_modules
@@ -35,12 +42,13 @@ build:
     expire_in: 1 hour
 
 test:static-analysis:
+  image: registry.outlandish.com/the-restart-project/repair-directory/composer
   dependencies:
-    - build
+    - build:php
   stage: test
   allow_failure: true
   script:
-  - php composer.phar run-script code
+  - composer run-script code
   tags:
   - docker
   only:
@@ -48,11 +56,12 @@ test:static-analysis:
   - /^feature-.*$/
 
 test:unittests:
+  image: registry.outlandish.com/the-restart-project/repair-directory/composer
   dependencies:
-    - build
+    - build:php
   stage: test
   script:
-  - php composer.phar run-script test:unit
+  - composer run-script test:unit
   tags:
   - docker
   only:
@@ -61,7 +70,8 @@ test:unittests:
 
 deploy:heroku:
   dependencies:
-    - build
+    - build:php
+    - build:node
   image: ruby:2.2
   stage: deploy
   tags:
@@ -76,14 +86,15 @@ deploy:heroku:
     url: https://restartproject.herokuapp.com/
   only:
     - master
-    - feature-8-multi-select
 
 cleanup:
+  image: registry.outlandish.com/the-restart-project/repair-directory/composer
   dependencies:
-    - build
+    - build:php
+    - build:node
   stage: cleanup
   script:
-  - php composer.phar install --no-dev
+  - composer install --no-dev
   - rm -rf .git
   - rm .env
   tags:
