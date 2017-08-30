@@ -88,12 +88,13 @@ deploy:heroku:
     - master
 
 cleanup:
+  image: registry.outlandish.com/the-restart-project/repair-directory/composer
   dependencies:
     - build:php
     - build:node
   stage: cleanup
   script:
-  - php composer.phar install --no-dev
+  - composer install --no-dev
   - rm -rf .git
   - rm .env
   tags:
