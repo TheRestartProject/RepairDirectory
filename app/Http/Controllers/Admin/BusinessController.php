@@ -11,6 +11,7 @@ use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationE
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
+use TheRestartProject\RepairDirectory\Domain\Exceptions\ImportBusinessUnauthorizedException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
@@ -33,7 +34,15 @@ class BusinessController extends Controller
             $command = $commandFactory->makeFromRequest($request);
             $commandBus->handle($command);
         } catch (BusinessValidationException $e) {
-            return $this->renderEdit($e->getBusiness(), $e->getErrors());
+            return redirect()
+                ->route('admin.business.edit')
+                ->withErrors($e->getErrors())
+                ->withInput();
+        } catch (ImportBusinessUnauthorizedException $e) {
+            return redirect()
+                ->route('admin.business.edit')
+                ->withErrors(['authorization' => 'You are not authorized to create this business.'])
+                ->withInput();
         }
 
         return redirect('map/admin');
@@ -42,10 +51,18 @@ class BusinessController extends Controller
     public function update($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
     {
         try {
-            $command = $commandFactory->makeFromRequest($request);
-            $commandBus->handle(new ImportFromHttpRequestCommand($request->all(), $id));
+            $command = $commandFactory->makeFromRequest($request, $id);
+            $commandBus->handle($command);
         } catch (BusinessValidationException $e) {
-            return $this->renderEdit($e->getBusiness(), $e->getErrors());
+            return redirect()
+                ->route('admin.business.edit')
+                ->withErrors($e->getErrors())
+                ->withInput();
+        } catch (ImportBusinessUnauthorizedException $e) {
+            return redirect()
+                ->route('admin.business.edit')
+                ->withErrors(['authorization' => 'You are not authorized to edit this business.'])
+                ->withInput();
         }
 
         return redirect('map/admin');
@@ -92,7 +109,6 @@ class BusinessController extends Controller
             'isCreate' => $isCreate,
             'formAction' => $formAction,
             'formMethod' => $formMethod,
-            'errors' => $errors
         ]);
     }
 }

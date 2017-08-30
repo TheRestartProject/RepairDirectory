@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 use Illuminate\Http\Request;
+use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
 /**
@@ -51,12 +52,33 @@ class ImportFromHttpRequestFactory
     {
         $data = $request->all();
 
+        $data = $this->ensureDefaults($data);
+
         $data = $this->transformRequestData($data);
 
         $data = $this->geocodeData($data);
 
         return new ImportFromHttpRequestCommand($data, $businessId);
 
+    }
+
+    /**
+     * Transforms the request data, converting the type of each value to that of the corresponding Business field.
+     *
+     * @param array $data The HTTP Request data
+     *
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    protected function ensureDefaults($data)
+    {
+        $defaults = [
+            'categories' => [],
+            'warrantyOffered' => false
+        ];
+
+        return array_merge($defaults, $data);
     }
 
     /**
@@ -94,8 +116,15 @@ class ImportFromHttpRequestFactory
      */
     protected function geocodeData($data)
     {
-        if (isset($data['address'], $data['postcode'])) {
-            $data['geolocation'] = $this->geocoder->geocode($data['address'] . ', ' . $data['postcode']);
+        if (!isset($data['geolocation']) && isset($data['address'], $data['postcode'])) {
+            $point = $this->geocoder->geocode($data['address'] . ', ' . $data['postcode']);
+
+            if ($point) {
+                $data['geolocation'] = [
+                    'latitude' => $point->getLatitude(),
+                    'longitude' => $point->getLongitude()
+                ];
+            }
         }
 
         return $data;
