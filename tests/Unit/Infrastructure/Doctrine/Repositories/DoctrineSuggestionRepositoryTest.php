@@ -48,7 +48,7 @@ class DoctrineSuggestionRepositoryTest extends TestCase
     /**
      * The repository to test
      *
-     * @var ManagerRegistry
+     * @var MockInterface
      */
     protected $managerRegistry;
 

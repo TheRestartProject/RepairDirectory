@@ -12,6 +12,8 @@ use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
+use TheRestartProject\RepairDirectory\Infrastructure\Services\ReviewService\ReviewService;
 
 class BusinessController extends Controller
 {
@@ -39,6 +41,17 @@ class BusinessController extends Controller
             return $this->renderEdit($e->getBusiness(), $e->getErrors());
         }
         return redirect('map/admin');
+    }
+
+    public function scrapeReview(Request $request, ReviewManager $reviewManager)
+    {
+        $url = $request->input("url");
+        $response = $reviewManager->getReviewResponse($url);
+        if ($response) {
+            $data = $response->toArray();
+            return response($data, 200);
+        }
+        return response('', 404);
     }
 
     private function renderEdit(Business $business, $errors) {

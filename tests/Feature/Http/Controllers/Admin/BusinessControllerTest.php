@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Admin;
 
 use TheRestartProject\Fixometer\Domain\Entities\User;
-use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
+use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
@@ -101,5 +101,40 @@ class BusinessControllerTest extends IntegrationTestCase
                 'description' => 'This is a new description.'
             ]
         );
+    }
+
+    /**
+     * Tests that the scraping of reviews works (currently only for Google Places).
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function test_scrape_review()
+    {
+        $user = entity(User::class)->create(['role' => User::HOST]);
+        $this->be($user);
+        $response = $this->get(
+            route(
+                'admin.business.scrape-review', 
+                [
+                    'url' => 'https://www.google.co.uk/maps/place/KFC/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342'
+            
+                ]
+            )
+        );
+        $response->assertStatus(200);
+        $content = $response->decodeResponseJson();
+
+        self::assertEquals(ReviewSource::GOOGLE, $content['reviewSource']);
+
+        self::assertGreaterThan(2, $content['reviewAggregation']['averageScore']);
+        self::assertLessThan(4, $content['reviewAggregation']['averageScore']);
+
+        self::assertGreaterThan(40, $content['reviewAggregation']['positiveReviewPc']);
+        self::assertLessThan(100, $content['reviewAggregation']['positiveReviewPc']);
+
+        self::assertGreaterThan(100, $content['reviewAggregation']['numberOfReviews']);
+        self::assertLessThan(1000, $content['reviewAggregation']['numberOfReviews']);
     }
 }

@@ -184,6 +184,7 @@ return [
         App\Providers\BusinessServiceProvider::class,
         App\Providers\GeocoderServiceProvider::class,
         App\Providers\SuggestionServiceProvider::class,
+        App\Providers\PhantomServiceProvider::class,
         App\Providers\FixometerServiceProvider::class
 
     ],

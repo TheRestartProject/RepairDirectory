@@ -141,6 +141,12 @@
             </div>
 
             <div class="form-group">
+                <label for="reviewSourceUrl">Review Source URL</label>
+                <input id="reviewSourceUrl" name="reviewSourceUrl" class="form-control" value="">
+                {!! array_key_exists('reviewSourceUrl', $errors) ? '<small>' . $errors['reviewSourceUrl'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
                 <label for="numberOfReviews">{{ __('admin.number_of_reviews') }}</label>
                 <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
                 {!! array_key_exists('numberOfReviews', $errors) ? '<small>' . $errors['numberOfReviews'] . '</small>' : '' !!}
