@@ -22,9 +22,9 @@ class SuggestionControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * @test
+     * @todo: seed in the test not before.
      */
-    public function test_search()
+    public function i_can_search()
     {
         $response = $this->get(route('suggestion.search'));
         $response->assertStatus(400);

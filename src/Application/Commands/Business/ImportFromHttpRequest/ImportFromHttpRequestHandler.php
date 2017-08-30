@@ -3,10 +3,14 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Auth\Access\Gate;
+use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
-use TheRestartProject\RepairDirectory\Application\Validators\BusinessValidator;
+use TheRestartProject\RepairDirectory\Application\Validators\CustomBusinessValidator;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
@@ -34,20 +38,19 @@ class ImportFromHttpRequestHandler
      * @var Geocoder
      */
     private $geocoder;
-    
-    private $validator;
 
     /**
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
      * @param BusinessRepository $repository An implementation of the BusinessRepository
      * @param Geocoder           $geocoder   Geocoder to get [lat, lng] of business
+     *
+     * @return $this
      */
     public function __construct(BusinessRepository $repository, Geocoder $geocoder)
     {
         $this->repository = $repository;
         $this->geocoder = $geocoder;
-        $this->validator = new BusinessValidator();
     }
 
     /**
@@ -57,56 +60,36 @@ class ImportFromHttpRequestHandler
      *
      * @return Business
      *
-     * @throws EntityNotFoundException, BusinessValidationException
+     * @throws EntityNotFoundException
+     * @throws BusinessValidationException
+     * @throws AuthorizationException
      */
     public function handle(ImportFromHttpRequestCommand $command)
     {
         $data = $command->getData();
 
         $businessUid = $command->getBusinessUid();
-        $isCreate = !(boolean) $businessUid;
-        
-        $business = $isCreate ? new Business() : $this->repository->findById($businessUid);
-        if (!$business) {
-            throw new EntityNotFoundException();
+
+        $business = new Business();
+        $isCreate = true;
+
+        if ($businessUid !== null) {
+            $business = $this->repository->findById($businessUid);
         }
 
-        $data = $this->transformRequestData($data);
+        if (!$business) {
+            throw new EntityNotFoundException("Business with id of {$businessUid} could not be found");
+        }
 
         $this->updateValues($business, $data);
 
-        $business->setGeolocation($this->geocoder->geocode($business->getAddress() . ', ' . $business->getPostcode()));
-
-        $this->validator->validate($business);
+        $business->setGeolocation($this->createPoint($data));
 
         if ($isCreate) {
             $this->repository->add($business);
         }
-        
-        return $business;
-    }
 
-    /**
-     * Transforms the request data, converting the type of each value to that of the corresponding Business field.
-     *
-     * @param array $data The HTTP Request data
-     *
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.StaticAccess)
-     */
-    private function transformRequestData($data) 
-    {
-        if (array_key_exists('warrantyOffered', $data)) {
-            $data['warrantyOffered'] = $data['warrantyOffered'] === 'Yes';
-        }
-        if (array_key_exists('productsRepaired', $data)) {
-            $data['productsRepaired'] = StringUtil::stringToArray($data['productsRepaired']);
-        }
-        if (array_key_exists('authorisedBrands', $data)) {
-            $data['authorisedBrands'] = StringUtil::stringToArray($data['authorisedBrands']);
-        }
-        return $data;
+        return $business;
     }
 
     /**
@@ -125,5 +108,19 @@ class ImportFromHttpRequestHandler
                 $business->{$setter}($value);
             }
         }
+    }
+
+    /**
+     * Creates a Point from the geolocation data
+     *
+     * @param array $data The array of data
+     *
+     * @return Point
+     *
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
+    protected function createPoint($data)
+    {
+        return Point::fromArray($data['geolocation']);
     }
 }

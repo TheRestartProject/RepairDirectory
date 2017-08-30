@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
@@ -19,31 +20,23 @@ class BusinessControllerTest extends IntegrationTestCase
 {
     use DatabaseMigrations;
     /**
-     * Asserts that the BusinessController->search returns all businesses
+     * Asserts that the BusinessController->search returns no businesses
      * when no query parameters are present on the request
      *
      * @return void
      *
      * @test
      */
-    public function test_search_without_location()
+    public function i_can_search_without_location()
     {
+        entity(Business::class, 3)->create();
+
         $response = $this->get(route('business.search'));
         $response->assertStatus(200);
         $response->assertJson(
             [
                 'searchLocation' => null,
-                'businesses' => [
-                    [
-                        'uid' => 1
-                    ],
-                    [
-                        'uid' => 2
-                    ],
-                    [
-                        'uid' => 3
-                    ]
-                ]
+                'businesses' => []
             ]
         );
     }
@@ -56,8 +49,10 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @test
      */
-    public function test_search_with_category()
+    public function i_can_search_with_category()
     {
+        entity(Business::class, 3)->create();
+
         $response = $this->get(
             route(
                 'business.search', [
@@ -69,14 +64,7 @@ class BusinessControllerTest extends IntegrationTestCase
         $response->assertJson(
             [
                 'searchLocation' => null,
-                'businesses' => [
-                    [
-                        'uid' => 1
-                    ],
-                    [
-                        'uid' => 2
-                    ]
-                ]
+                'businesses' => []
             ]
         );
     }
@@ -87,9 +75,9 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * @test
+     * todo: don't seed this in advance create the businesses for this specific test
      */
-    public function test_search_with_location()
+    public function i_can_search_with_location()
     {
         $response = $this->get(
             route(
@@ -128,9 +116,9 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * @test
+     * todo: don't seed this in advance create the businesses for this specific test
      */
-    public function test_search_with_category_and_location()
+    public function i_can_search_with_category_and_location()
     {
         $response = $this->get(
             route(

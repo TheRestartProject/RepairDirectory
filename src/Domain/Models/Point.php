@@ -31,6 +31,22 @@ class Point
     }
 
     /**
+     * Creates a Point object from an array
+     *
+     * @param array $geolocation Latitude and Longitude in array
+     *
+     * @return self
+     */
+    public static function fromArray($geolocation)
+    {
+        if (isset($geolocation['latitude'], $geolocation['longitude'])) {
+            return new self($geolocation['latitude'], $geolocation['longitude']);
+        }
+
+        return new self($geolocation[0], $geolocation[1]);
+    }
+
+    /**
      * Return the latitude of the point
      *
      * @return float

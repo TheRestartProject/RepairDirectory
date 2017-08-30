@@ -19,83 +19,94 @@ use TheRestartProject\Fixometer\Domain\Entities\User;
 */
 
 /** @var LaravelDoctrine\ORM\Testing\Factory $factory */
-$factory->define(Business::class, function (Faker\Generator $faker, $attributes) {
-    $business = new Business();
+$factory->define(Business::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->company,
+        'address' => $faker->unique()->address,
+        'postcode' => $faker->postcode,
+        'city' => $faker->city,
+        'description' => $faker->sentence,
+        'geolocation' => new Point($faker->randomFloat(), $faker->randomFloat()),
+        'categories' => ['Fan'],
+        'publishingStatus' => PublishingStatus::DRAFT,
+        'warrantyOffered' => true,
+        'warranty' => $faker->sentence,
+        'positiveReviewPc' => 80,
+        'localArea' => $faker->words(2, true),
+        'landline' => '077657784333',
+        'mobile' => '077657784333',
+        'website' => $faker->url,
+        'email' => $faker->companyEmail,
+        'categories' => ['Fan'],
+        'qualifications' => $faker->sentence,
+        'communityEndorsement' => $faker->sentence,
+        'notes' => $faker->sentence,
+        'warrantyOffered' => true,
+        'warranty' => $faker->sentence,
+        'publishingStatus' => PublishingStatus::DRAFT
+    ];
+});
 
-    if (array_key_exists('name', $attributes)) {
-        $business->setName($attributes['name']);
-    } else {
-        $business->setName($faker->name);
-    }
+$factory->defineAs(Business::class, 'invalid', function (Faker\Generator $faker) {
+    return [
+        'name' => 'a',
+        'description' => 'abcd',
+        'address' => 'a',
+        'postcode' => $faker->sentence(50, false),
+        'city' => 'a',
+        'localArea' => 'a',
+        'landline' => 'abcd',
+        'mobile' => 'abcd',
+        'website' => 'abcd',
+        'email' => 'abcd',
+        'categories' => ['nothing'],
+        'qualifications' => $faker->sentence(50, false),
+        'communityEndorsement' => $faker->sentence(50, false),
+        'notes' => null,
+        'reviewSource' => 'abcd',
+        'positiveReviewPc' => -10,
+        'numberOfReviews' => -10,
+        'averageScore' => -1,
+        'warrantyOffered' => 'abcd',
+        'warranty' => 'abcd',
+        'publishingStatus' => 'abcd'
+    ];
+});
 
-    if (array_key_exists('description', $attributes)) {
-        $business->setDescription($attributes['description']);
-    } else {
-        $business->setDescription($faker->sentence);
-    }
-
-    if (array_key_exists('address', $attributes)) {
-        $business->setAddress($attributes['address']);
-    } else {
-        $business->setAddress(implode(', ', explode("\n", $faker->address)));
-    }
-
-    $business->setCity($faker->city);
-
-    if (array_key_exists('postcode', $attributes)) {
-        $business->setPostcode($attributes['postcode']);
-    } else {
-        $business->setPostcode($faker->postcode);
-    }
-
-    if (array_key_exists('geolocation', $attributes)) {
-        $business->setGeolocation($attributes['geolocation']);
-    } else {
-        $business->setGeolocation(new Point($faker->randomFloat(), $faker->randomFloat()));
-    }
-    if (array_key_exists('categories', $attributes)) {
-        $business->setCategories($attributes['categories']);
-    } else {
-        $business->setCategories([$faker->sentence]);
-    }
-
-    if (array_key_exists('publishingStatus', $attributes)) {
-        $business->setPublishingStatus($attributes['publishingStatus']);
-    } else {
-        $business->setPublishingStatus(PublishingStatus::DRAFT);
-    }
-
-    if (array_key_exists('warranty', $attributes)) {
-        $business->setWarranty($attributes['warranty']);
-        $business->setWarrantyOffered((boolean)$attributes['warranty']);
-    }
-
-    if (array_key_exists('positiveReviewPc', $attributes)) {
-        $business->setPositiveReviewPc($attributes['positiveReviewPc']);
-    } else {
-        $business->setPositiveReviewPc(50);
-    }
-
-    return $business;
+$factory->defineAs(Business::class, 'real', function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->company,
+        'address' => '12 Westgate St, Bath',
+        'postcode' => 'BA1 1EQ',
+        'city' => 'Bath',
+        'description' => $faker->sentence,
+        'categories' => ['Fan'],
+        'publishingStatus' => PublishingStatus::DRAFT,
+        'warrantyOffered' => true,
+        'warranty' => $faker->sentence,
+        'positiveReviewPc' => 80,
+        'localArea' => $faker->words(2, true),
+        'landline' => '077657784333',
+        'mobile' => '077657784333',
+        'website' => $faker->domainName,
+        'email' => $faker->companyEmail,
+        'categories' => ['Fan'],
+        'qualifications' => $faker->sentence,
+        'communityEndorsement' => $faker->sentence,
+        'notes' => $faker->sentence,
+        'warrantyOffered' => true,
+        'warranty' => $faker->sentence,
+        'publishingStatus' => PublishingStatus::DRAFT
+    ];
 });
 
 /** @var LaravelDoctrine\ORM\Testing\Factory $factory */
-$factory->define(Suggestion::class, function (Faker\Generator $faker, $attributes) {
-    $suggestion = new Suggestion();
+$factory->define(Suggestion::class, function (Faker\Generator $faker) {
 
-    if (array_key_exists('field', $attributes)) {
-        $suggestion->setField($attributes['field']);
-    } else {
-        $suggestion->setField($faker->word);
-    }
-
-    if (array_key_exists('value', $attributes)) {
-        $suggestion->setValue($attributes['value']);
-    } else {
-        $suggestion->setValue($faker->word);
-    }
-
-    return $suggestion;
+    return [
+        'field' => $faker->word,
+        'value' => $faker->word,
+    ];
 });
 
 /** @var LaravelDoctrine\ORM\Testing\Factory $factory */

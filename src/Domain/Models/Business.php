@@ -789,4 +789,25 @@ class Business
         $this->notes = $notes;
     }
 
+    /**
+     * Whether the business is published or not
+     *
+     * Because the status hidden is only settable by an admin user
+     * it is considered the same as published for this purpose.
+     * Its a subset of published.
+     *
+     * @return bool
+     */
+    public function isPublished()
+    {
+        return in_array(
+            $this->getPublishingStatus(),
+            [
+                PublishingStatus::HIDDEN,
+                PublishingStatus::PUBLISHED
+            ],
+            true
+        );
+    }
+
 }

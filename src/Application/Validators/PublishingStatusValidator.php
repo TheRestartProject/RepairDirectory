@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Application\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
+use TheRestartProject\RepairDirectory\Validation\Validators\Validator;
 
 /**
  * Class PublishingStatusValidator
@@ -28,7 +29,7 @@ class PublishingStatusValidator implements Validator
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
-    function validate($status)
+    public function validate($status)
     {
         $foundStatus = PublishingStatus::search($status);
         if (!$foundStatus) {

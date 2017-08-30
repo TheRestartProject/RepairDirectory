@@ -2,8 +2,6 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
-use Illuminate\Http\Request;
-
 /**
  * Command to create or update a business from HTTP post data
  *
@@ -48,7 +46,7 @@ class ImportFromHttpRequestCommand
     /**
      * Return the uid of the business to update (if any)
      *
-     * @return integer
+     * @return integer|null
      */
     public function getBusinessUid()
     {

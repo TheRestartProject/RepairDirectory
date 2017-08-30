@@ -12,6 +12,8 @@ use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
+use TheRestartProject\RepairDirectory\Application\Auth\Policies\BusinessPolicy;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        Business::class => BusinessPolicy::class
     ];
 
     /**

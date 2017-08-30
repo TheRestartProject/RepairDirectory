@@ -23,7 +23,7 @@ trait FixometerDatabaseMigrations
      */
     public function runFixometerDatabaseMigrations()
     {
-        $this->artisan('doctrine:migrations:refresh', ['--connection' => 'fixometer']);
+        $this->artisan('doctrine:migrations:migrate', ['--connection' => 'fixometer']);
 
         $this->app[Kernel::class]->setArtisan(null);
 

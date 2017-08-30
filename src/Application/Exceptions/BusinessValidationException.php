@@ -25,15 +25,15 @@ class BusinessValidationException extends ValidationException
     /**
      * The invalid business
      *
-     * @var Business
+     * @var array
      */
     private $business;
 
     /**
      * BusinessValidationException constructor.
      *
-     * @param Business $business The business with errors
-     * @param array    $errors   The errors explaining why the business is invalid, keyed by field name
+     * @param array $business The business with errors
+     * @param array $errors   The errors explaining why the business is invalid, keyed by field name
      */
     public function __construct($business, $errors)
     {
@@ -56,7 +56,7 @@ class BusinessValidationException extends ValidationException
     /**
      * Return the invalid business
      *
-     * @return Business
+     * @return array
      */
     public function getBusiness()
     {

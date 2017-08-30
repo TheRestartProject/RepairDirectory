@@ -11,6 +11,7 @@ use \TheRestartProject\RepairDirectory\Application\Commands\Suggestion\AddSugges
 
 
 return [
+
     'handlers' => [
         ImportFromCsvRow\ImportFromCsvRowCommand::class => ImportFromCsvRow\ImportFromCsvRowHandler::class,
         ImportFromHttpRequest\ImportFromHttpRequestCommand::class => ImportFromHttpRequest\ImportFromHttpRequestHandler::class,
@@ -18,9 +19,20 @@ return [
         UpdateFixometerSessionCommand::class => UpdateFixometerSessionHandler::class,
         DeleteFixometerSessionCommand::class => DeleteFixometerSessionHandler::class
     ],
+
     'middleware' => [
         \League\Tactician\Logger\LoggerMiddleware::class,
+        \TheRestartProject\RepairDirectory\Tactician\Validator\CommandValidatorMiddleware::class,
+        \TheRestartProject\RepairDirectory\Tactician\Authorizer\CommandAuthorizerMiddleware::class,
         TransactionMiddleware::class,
         \League\Tactician\Handler\CommandHandlerMiddleware::class
+    ],
+
+    'validators' => [
+        ImportFromHttpRequest\ImportFromHttpRequestCommand::class => ImportFromHttpRequest\ImportFromHttpRequestValidator::class,
+    ],
+
+    'authorizers' => [
+        ImportFromHttpRequest\ImportFromHttpRequestCommand::class => ImportFromHttpRequest\ImportFromHttpRequestAuthorizer::class,
     ]
 ];
