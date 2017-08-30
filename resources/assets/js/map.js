@@ -67,9 +67,15 @@ function doSearch(query) {
         enableElement($searchButton);
         showElement($businessListContainer);
         businesses.forEach(addRepairer);
+        let resultCountText;
+        if (!businesses.length) {
+            resultCountText = 'Unfortunately, there are no results in your area';
+        } else {
+            resultCountText = businesses.length + ((businesses.length === 1) ? ' result ' : ' results ') + 'in your area';
+        }
         $businessListContainer
             .find('.business-list-container__result-count')
-            .text(businesses.length + ((businesses.length === 1) ? ' result ' : ' results ') + 'in your area');
+            .text(resultCountText);
     });
 }
 
@@ -84,13 +90,14 @@ function clearMap() {
 
 function addRepairer(business) {
     const marker = new google.maps.Marker({
+        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
         position: {lat: business.geolocation.latitude, lng: business.geolocation.longitude},
         map: map,
         title: business.name
     });
     marker.addListener('click', function () {
         scrollToRepairer(business);
-        showRepairer(business);
+        showRepairer(business, marker);
     });
     markers.push(marker);
 
@@ -101,7 +108,7 @@ function addRepairer(business) {
     `);
 
     $business.click(() => {
-        showRepairer(business);
+        showRepairer(business, marker);
     });
 
     $('.business-list').append($business);
@@ -113,7 +120,8 @@ function scrollToRepairer(business) {
     $sidebar.animate(({scrollTop: $business.offset().top - $sidebar.offset().top + $sidebar.scrollTop() - 100}));
 }
 
-function showRepairer(business) {
+function showRepairer(business, marker) {
+    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
     map.setCenter({lat: business.geolocation.latitude, lng: business.geolocation.longitude});
     map.setZoom(15);
 
@@ -136,7 +144,10 @@ function hideRepairer() {
     $('.business-list__item').each(function () {
         const $item = $(this);
         $item.removeClass('business-list__item--inactive')
-    })
+    });
+    markers.forEach(marker => {
+        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+    });
 }
 
 module.exports = {initMap};
