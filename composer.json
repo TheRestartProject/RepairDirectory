@@ -83,6 +83,7 @@
             "php vendor/bin/phpunit"
         ],
         "test:unit": [
+            "ls vendor/bin",
             "php artisan config:clear",
             "php vendor/bin/phpunit --testsuite=Unit"
         ],
