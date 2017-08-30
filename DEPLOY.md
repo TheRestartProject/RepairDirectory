@@ -115,4 +115,12 @@ However, as stated, you should never run the fixometer migration command against
 it is not required and potentially damaging (although it should just fail with a warning that tables 
 to create already exist).
 
+## Security
+
+Currently on the production site, the `map/` section of the site is behind an HTTP auth username and
+password. This is defined in the `.htaccess` file in the `public_html/public/map` folder. The `.htaccess`
+file is not copied over during the deployment process (the rest of the public folder is), and so when
+the site is ready to go public (without the username and password to view the map), the section from the 
+`.htaccess` file can be safely deleted. 
+
  
