@@ -14,7 +14,7 @@
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 
 Route::get('/', function () {
-    return view('map', [ 'categories' => Category::values() ]);
+    return view('map', [ 'categories' => Category::values(), 'gaTrackingId' => config('google-analytics.id') ]);
 })->name('map');
 
 Route::prefix('admin')

@@ -60,7 +60,9 @@ function formatBusinessDetails(business, compact = false) {
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-globe"></span>
-                <a href="${business.website}">${business.website}</a>
+                <a href="${business.website}" onclick="trackOutboundLink('${business.website}'); return false;">
+                    ${business.website}
+                </a>
             </p>
         `);
     }
@@ -69,16 +71,21 @@ function formatBusinessDetails(business, compact = false) {
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-envelope-o"></span>
-                <a href="mailto:${business.email}">${business.email}</a>
+                <a href="mailto:${business.email}" onclick="trackOutboundLink('mailto:${business.email}'); return false;">
+                    ${business.email}
+                </a>
             </p>
         `);
     }
 
     if (business.landline || business.mobile) {
+        const phoneNumber = business.landline || business.mobile;
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-phone"></span>
-                <span>${business.landline || business.mobile}</span>
+                <a href="tel:${phoneNumber}" onclick="trackOutboundLink('tel:${phoneNumber}'); return false;">
+                    ${phoneNumber}
+                </a>
             </p>
         `);
     }
