@@ -68,10 +68,11 @@ function formatBusinessDetails(business, compact = false) {
     }
 
     if (business.email) {
+        const href = `mailto:${business.email}`;
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-envelope-o"></span>
-                <a href="mailto:${business.email}" onclick="trackOutboundLink('mailto:${business.email}'); return false;">
+                <a href="${href}" onclick="trackOutboundLink('${href}'; return false;">
                     ${business.email}
                 </a>
             </p>
@@ -80,10 +81,11 @@ function formatBusinessDetails(business, compact = false) {
 
     if (business.landline || business.mobile) {
         const phoneNumber = business.landline || business.mobile;
+        const href = `tel:${phoneNumber}`;
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-phone"></span>
-                <a href="tel:${phoneNumber}" onclick="trackOutboundLink('tel:${phoneNumber}'); return false;">
+                <a href="${href}" onclick="trackOutboundLink('${href}'); return false;">
                     ${phoneNumber}
                 </a>
             </p>
