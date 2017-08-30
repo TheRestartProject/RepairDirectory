@@ -121,11 +121,9 @@
 
         <div class="col-xs-12 col-md-4">
             <div class="form-group">
-                <label for="positiveReviewPcRange">{{ __('admin.positive_review_percentage') }}</label>
-                <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" class="slider" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
-                <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control slider-input" value={{$business->getPositiveReviewPc()}}>
-                <span>%</span>
-                {!! array_key_exists('positiveReviewPc', $errors) ? '<small>' . $errors['positiveReviewPc'] . '</small>' : '' !!}
+                <label for="reviewSourceUrl">Review Source URL</label>
+                <input id="reviewSourceUrl" name="reviewSourceUrl" class="form-control" value="">
+                {!! array_key_exists('reviewSourceUrl', $errors) ? '<small>' . $errors['reviewSourceUrl'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
@@ -141,15 +139,17 @@
             </div>
 
             <div class="form-group">
-                <label for="reviewSourceUrl">Review Source URL</label>
-                <input id="reviewSourceUrl" name="reviewSourceUrl" class="form-control" value="">
-                {!! array_key_exists('reviewSourceUrl', $errors) ? '<small>' . $errors['reviewSourceUrl'] . '</small>' : '' !!}
-            </div>
-
-            <div class="form-group">
                 <label for="numberOfReviews">{{ __('admin.number_of_reviews') }}</label>
                 <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{$business->getNumberOfReviews()}}">
                 {!! array_key_exists('numberOfReviews', $errors) ? '<small>' . $errors['numberOfReviews'] . '</small>' : '' !!}
+            </div>
+
+            <div class="form-group">
+                <label for="positiveReviewPcRange">{{ __('admin.positive_review_percentage') }}</label>
+                <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" class="slider" min="0" max="100" value={{$business->getPositiveReviewPc()}}>
+                <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control slider-input" value={{$business->getPositiveReviewPc()}}>
+                <span>%</span>
+                {!! array_key_exists('positiveReviewPc', $errors) ? '<small>' . $errors['positiveReviewPc'] . '</small>' : '' !!}
             </div>
 
             <div class="form-group">
@@ -163,7 +163,7 @@
                 <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{$business->isWarrantyOffered() ? 'checked' : ''}} value="Yes" >
                 {!! array_key_exists('warrantyOffered', $errors) ? '<small>' . $errors['warrantyOffered'] . '</small>' : '' !!}
             </div>
-            
+
             <div class="form-group">
                 <label for="warranty">{{ __('admin.warranty_details') }}</label>
                 <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{$business->getWarranty()}}</textarea>
