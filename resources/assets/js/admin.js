@@ -28,7 +28,7 @@ $('input[name]').each(function () {
     $input.blur(function () {
        $.get('/map/admin/business/validate-field', { field: $input.attr('name'), value: $input.val() }, response => {
            if (response) {
-               const $error = $(`<small id="${field}-error">${response}</small>`);
+               const $error = $(`<small class="business-error" id="${field}-error">${response}</small>`);
                $error.insertAfter($input);
            } else {
                $(`#${field}-error`).remove();
