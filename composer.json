@@ -102,7 +102,7 @@
             "php bin/phpmd src/ text phpmd.xml",
             "php bin/phpmd tests/ text codesize,design,naming,unusedcode"
         ],
-        "copypaste": "php vbin/phpcpd src app tests",
+        "copypaste": "php bin/phpcpd src app tests",
         "stan": "php bin/phpstan analyse src tests --level=7 -c phpstan.neon"
     },
     "config": {
