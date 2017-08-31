@@ -6,6 +6,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 use TheRestartProject\RepairDirectory\Application\Util\AddressUtil;
 use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Domain\Enums\Cluster;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
@@ -123,6 +124,7 @@ class ImportFromCsvRowHandler
         }
         $business->setWarrantyOffered((boolean)$business->getWarranty());
         $business->setPricingInformation($row['Pricing information']);
+        $business->setPublishingStatus(PublishingStatus::PUBLISHED);
         return $business;
     }
 
