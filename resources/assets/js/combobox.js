@@ -48,12 +48,16 @@ function combobox ($el, field) {
     });
 
     // when a key is released, query the API for suggestions
+    let xhr;
     $el.keyup(function () {
-        const prefix = $el.val();
+        if (xhr) {
+            xhr.abort();
+        }
 
+        const prefix = $el.val();
         if (prefix) {
             // get suggestions
-            $.get('/map/api/suggestion/search', { prefix, field }, function (suggestions) {
+            xhr = $.get('/map/api/suggestion/search', { prefix, field }, function (suggestions) {
                 // remove previous suggestions
                 $suggestions.empty();
                 // add each suggestion as a <li>
