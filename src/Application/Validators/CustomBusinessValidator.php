@@ -8,6 +8,7 @@ use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
 use TheRestartProject\RepairDirectory\Validation\Validators as v;
+use TheRestartProject\RepairDirectory\Validation\Validators\Validator;
 
 /**
  * Class BusinessValidator.
@@ -50,8 +51,7 @@ class CustomBusinessValidator implements BusinessValidator
             'name',
             'address',
             'postcode',
-            'description',
-            'geolocation'
+            'description'
         ];
         $this->validators = [
             'name' => new v\StringLengthValidator('Name', 2, 255),
@@ -178,7 +178,7 @@ class CustomBusinessValidator implements BusinessValidator
         }
 
 
-        if (!isset($business['geolocation']) && !empty($business['geolocation'])) {
+        if (!array_key_exists('geolocation', $business) || !$business['geolocation']) {
             $errors['geolocation'] = 'Geocoding failed – please check the address';
         }
 
