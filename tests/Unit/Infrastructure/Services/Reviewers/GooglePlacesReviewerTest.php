@@ -1,54 +1,28 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: joaquim
+ * Date: 24/08/2017
+ * Time: 17:01
+ */
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Services\Reviewers;
 
-use JonnyW\PhantomJs\Client;
-use JonnyW\PhantomJs\Http\MessageFactory;
-use JonnyW\PhantomJs\Http\Request;
-use JonnyW\PhantomJs\Http\Response;
+
+use Illuminate\Support\Collection;
 use Mockery;
+use SKAgarwal\GoogleApi\PlacesApi;
 use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers\GooglePlacesReviewer;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
-/**
- * Tests that the GooglePlacesReviewer can extract a ReviewAggregation from
- * scraped HTML.
- *
- * @category Test
- * @package  TheRestartProject\RepairDirectory\Tests\Unit\Domain\Services
- * @author   Joaquim d'Souza <joaquim@outlandish.com>
- * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
- * @link     http://outlandish.com
- */
 class GooglePlacesReviewerTest extends IntegrationTestCase
 {
-    private $testHtml = '
-        <html>
-            <body>
-                <div class="ml-panes-entity-review-number"><span>3.0</span></div>
-                <div class="ml-panes-entity-ratings-histogram-summary-reviews-number">117 reviews</div>
-                <div>
-                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:5px"></span>
-                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:10px"></span>
-                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:5px"></span>
-                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:10px"></span>
-                    <span class="ml-panes-entity-ratings-histogram-bucket" style="padding-left:10px"></span>
-                </div>
-            </body>
-        </html>
-        ';
-
     /**
-     * Test that malformed urls don't cause errors and instead return null
-     *
      * @test
-     *
-     * @return void
      */
-    public function it_returns_null_for_malformed_url()
-    {
-        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs(500, ''));
+    public function it_returns_null_for_malformed_url() {
+        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
 
         $malformedUrls = [
             'https://sdf',
@@ -67,94 +41,69 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
     }
 
     /**
-     * Test that unknown Google Places don't cause errors and instead return null
-     *
      * @test
-     *
-     * @return void
      */
-    public function it_returns_null_for_an_unknown_place()
-    {
+    public function it_returns_null_for_an_unknown_place() {
         $url = 'https://www.google.co.uk/maps/place/Nowhere/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
-        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs(404, ''));
+        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
         $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
 
         self::assertNull($reviewAggregation);
     }
 
     /**
-     * Test that unexpected HTML doesn't cause errors and null is returned
-     *
      * @test
-     *
-     * @return void
      */
-    public function it_returns_null_for_unexpected_html_response()
-    {
-        $url = 'https://www.google.co.uk/maps/place/Nowhere/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
-        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs(200, '<html></html>'));
-        $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
-
-        self::assertNull($reviewAggregation);
-    }
-
-    /**
-     * Test that expected HTML returns an expected ReviewAggregation
-     *
-     * @test
-     *
-     * @return void
-     */
-    public function it_returns_a_review_aggregation_for_good_url()
-    {
+    public function it_returns_a_review_aggregation_for_good_url() {
         $url = 'https://www.google.co.uk/maps/place/KFC/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
-        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPhantomJs(200, $this->testHtml));
+        $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
         $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
 
         $expected = new ReviewAggregation();
-        $expected->setAverageScore(3.0);
+        $expected->setAverageScore(3);
         $expected->setPositiveReviewPc(50);
-        $expected->setNumberOfReviews(117);
 
         self::assertEquals($expected, $reviewAggregation);
     }
 
     /**
-     * Return a mocked PhantomJS client. It will return responses that have
-     * the provided status and html.
-     *
-     * @param integer $status The HTTP Status code to return in the response
-     * @param string  $html   The HTML to return in the response
-     *
-     * @return Client
+     * @return PlacesApi
      */
-    private function getPhantomJs($status, $html)
-    {
-        $mock = Mockery::mock(Client::class);
-        $messageFactory = Mockery::mock(MessageFactory::class);
-        $request = Mockery::mock(Request::class);
-        $response = Mockery::mock(Response::class);
+    private function getPlacesApi() {
 
-        $mock->shouldReceive('getMessageFactory')->andReturn($messageFactory);
+        $placesApi = Mockery::mock(PlacesApi::class);
 
-        $messageFactory->shouldReceive('createRequest')->andReturn($request);
-        $request->shouldReceive('setTimeout');
-        $request->shouldReceive('setViewportSize');
+        $emptySearchResponse = new Collection();
+        $emptySearchResponse->put('results', new Collection());
+        $placesApi
+            ->shouldReceive('nearbySearch')
+            ->with('51.3795758,-2.3584342', 10, [ 'name' => 'Nowhere' ])
+            ->andReturn($emptySearchResponse);
 
-        $messageFactory->shouldReceive('createResponse')->andReturn($response);
-        $response->shouldReceive('isRedirect');
+        $nearbySearchResults = new Collection();
+        $nearbySearchResults->push(
+            [
+                'place_id' => 1
+            ]
+        );
+        $nearbySearchResponse = new Collection();
+        $nearbySearchResponse->put('results', $nearbySearchResults);
+        $placesApi
+            ->shouldReceive('nearbySearch')
+            ->with('51.3795758,-2.3584342', 10, [ 'name' => 'KFC' ])
+            ->andReturn($nearbySearchResponse);
 
-        $mock->shouldReceive('send');
-        $response->shouldReceive('getStatus')->andReturn($status);
-        $response->shouldReceive('getContent')->andReturn($html);
+        $placeDetailsResponse = new Collection();
+        $placeDetailsResponse->put('result', [
+            'rating' => 3,
+            'reviews' => [
+                [ 'rating' => 2 ],
+                [ 'rating' => 4 ]
+            ]
+        ]);
+        $placesApi->shouldReceive('placeDetails')->andReturn($placeDetailsResponse);
 
-        /**
-         * Cast mock to Client
-         *
-         * @var Client $phantom
-         */
-        $phantom = $mock;
-        return $phantom;
+        return $placesApi;
     }
 
 }
