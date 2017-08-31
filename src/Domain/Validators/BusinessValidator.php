@@ -27,4 +27,6 @@ interface BusinessValidator
      * @throws BusinessValidationException Thrown if the business is invalid
      */
     public function validate($business);
+    
+    public function validateField($field, $value);
 }
