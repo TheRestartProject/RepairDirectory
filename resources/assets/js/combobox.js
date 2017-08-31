@@ -69,6 +69,16 @@ function combobox ($el, field) {
                         $el.val('');
                     });
                 });
+                // add a special "Add tag" option if the prefix doesn't exist in the suggestions
+                if (suggestions.indexOf(prefix) === -1) {
+                    const $add = $(`<li role="button">Add tag: "${prefix}"</li>`);
+                    $suggestions.append($add);
+                    $add.click(function () {
+                        _addToSelected(prefix, $selected, $hidden);
+                        $suggestions.empty();
+                        $el.val('');
+                    });
+                }
             });
         } else {
             // if the current item is the empty string, remove the suggestions
