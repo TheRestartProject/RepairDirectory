@@ -56,6 +56,8 @@ function combobox ($el, field) {
 
         const prefix = $el.val();
         if (prefix) {
+            $suggestions.empty();
+            $suggestions.append('<li>Loading...</li>');
             // get suggestions
             xhr = $.get('/map/api/suggestion/search', { prefix, field }, function (suggestions) {
                 // remove previous suggestions
