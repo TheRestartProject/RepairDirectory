@@ -21,6 +21,23 @@ combobox($localArea, 'localArea');
 combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 
+// set up on-the-fly validation for all <input> elements
+$('input[name]').each(function () {
+    const $input = $(this);
+    const field = $input.attr('name');
+    $input.blur(function () {
+       $.get('/map/admin/business/validate-field', { field: $input.attr('name'), value: $input.val() }, response => {
+           if (response) {
+               const $error = $(`<small class="business-error" id="${field}-error">${response}</small>`);
+               $error.insertAfter($input);
+           } else {
+               $(`#${field}-error`).remove();
+           }
+       })
+    });
+});
+
+// set up review url scraping
 const $reviewSourceUrl = $("#reviewSourceUrl");
 const $derivedElements = $("#reviewSourceUrl,#reviewSource,#positiveReviewPc,#positiveReviewPcRange,#averageScore");
 $reviewSourceUrl.blur(

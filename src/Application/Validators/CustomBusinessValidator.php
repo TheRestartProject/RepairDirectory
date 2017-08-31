@@ -184,4 +184,14 @@ class CustomBusinessValidator implements BusinessValidator
 
     }
 
+    public function validateField($field, $value)
+    {
+        if (in_array($field, $this->required) && !$value) {
+            throw new ValidationException("$field is required");
+        }
+        
+        if ($value && array_key_exists($field, $this->validators)) {
+            $this->validators[$field]->validate($value);
+        }
+    }
 }

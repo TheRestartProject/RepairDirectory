@@ -8,6 +8,7 @@ use League\Tactician\CommandBus;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestFactory;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
+use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
@@ -15,6 +16,7 @@ use TheRestartProject\RepairDirectory\Domain\Exceptions\ImportBusinessUnauthoriz
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
+use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
 use TheRestartProject\RepairDirectory\Infrastructure\Services\ReviewService\ReviewService;
 
 class BusinessController extends Controller
@@ -70,6 +72,21 @@ class BusinessController extends Controller
         }
 
         return redirect('map/admin');
+    }
+
+    public function validateField(Request $request, BusinessValidator $businessValidator)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+        if (!$field) {
+            return response('Invalid request', 400);
+        }
+        try {
+            $businessValidator->validateField($field, $value);
+        } catch (ValidationException $e) {
+            return response($e->getMessage(), 200);
+        }
+        return response('', 200);
     }
 
     public function scrapeReview(Request $request, ReviewManager $reviewManager)
