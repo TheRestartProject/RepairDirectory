@@ -161,6 +161,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
             $queryBuilder->andWhere("b.$field $operator :$field");
             $queryBuilder->setParameter($field, $value);
         }
+        $queryBuilder->orderBy('b.positiveReviewPc', 'DESC');
         return $queryBuilder->getQuery();
     }
 
