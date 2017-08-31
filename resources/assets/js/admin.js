@@ -13,9 +13,11 @@ $sliderValue.blur(function () {
     $slider.val($sliderValue.val());
 });
 
+const $localArea = $('#localArea');
 const $productsRepaired = $('#productsRepaired');
 const $authorisedBrands = $('#authorisedBrands');
 
+combobox($localArea, 'localArea');
 combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 

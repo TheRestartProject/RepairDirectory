@@ -14,7 +14,7 @@
                 <label for="name">{{ __('admin.name') }}</label>
                 <input id="name" name="name" class="form-control" value="{{ old('name') ?: $business->getName() }}"/>
                 @if($errors->has('name'))
-                    <small>{{ $errors->first('name') }}</small>
+                    <small class="business-error">{{ $errors->first('name') }}</small>
                 @endif
             </div>
 
@@ -22,7 +22,7 @@
                 <label for="address">{{ __('admin.address') }}</label>
                 <input id="address" name="address" class="form-control" value="{{ old('address') ?: $business->getAddress() }}"/>
                 @if($errors->has('address'))
-                    <small>{{ $errors->first('address') }}</small>
+                    <small class="business-error">{{ $errors->first('address') }}</small>
                 @endif
             </div>
 
@@ -30,7 +30,7 @@
                 <label for="city">{{ __('admin.city') }}</label>
                 <input id="city" name="city" class="form-control" value="{{ old('city') ?: $business->getCity() }}"/>
                 @if($errors->has('city'))
-                    <small>{{ $errors->first('city') }}</small>
+                    <small class="business-error">{{ $errors->first('city') }}</small>
                 @endif
             </div>
 
@@ -38,10 +38,10 @@
                 <label for="postcode">{{ __('admin.postcode') }}</label>
                 <input id="postcode" name="postcode" class="form-control" value="{{ old('postcode') ?: $business->getPostcode() }}"/>
                 @if($errors->has('postcode'))
-                    <small>{{ $errors->first('postcode') }}</small>
+                    <small class="business-error">{{ $errors->first('postcode') }}</small>
                 @endif
                 @if($errors->has('geolocation'))
-                    <small>{{ $errors->first('geolocation') }}</small>
+                    <small class="business-error">{{ $errors->first('geolocation') }}</small>
                 @endif
             </div>
 
@@ -49,7 +49,7 @@
                 <label for="localArea">{{ __('admin.local_area') }}</label>
                 <input id="localArea" name="localArea" class="form-control" value="{{ old('localArea') ?: $business->getLocalArea() }}">
                 @if($errors->has('localArea'))
-                    <small>{{ $errors->first('localArea') }}</small>
+                    <small class="business-error">{{ $errors->first('localArea') }}</small>
                 @endif
             </div>
 
@@ -57,7 +57,7 @@
                 <label for="description">{{ __('admin.description') }}</label>
                 <textarea id="description" name="description" class="form-control">{{ old('description') ?: $business->getDescription() }}</textarea>
                 @if($errors->has('description'))
-                    <small>{{ $errors->first('description') }}</small>
+                    <small class="business-error">{{ $errors->first('description') }}</small>
                 @endif
             </div>
 
@@ -65,7 +65,7 @@
                 <label for="landline">{{ __('admin.phone') }}</label>
                 <input id="landline" name="landline" class="form-control" value="{{ old('landline') ?: $business->getLandline() }}">
                 @if($errors->has('landline'))
-                    <small>{{ $errors->first('landline') }}</small>
+                    <small class="business-error">{{ $errors->first('landline') }}</small>
                 @endif
             </div>
 
@@ -73,7 +73,7 @@
                 <label for="mobile">{{ __('admin.mobile') }}</label>
                 <input id="mobile" name="mobile" class="form-control" value="{{ old('mobile') ?: $business->getMobile() }}">
                 @if($errors->has('mobile'))
-                    <small>{{ $errors->first('mobile') }}</small>
+                    <small class="business-error">{{ $errors->first('mobile') }}</small>
                 @endif
             </div>
 
@@ -81,7 +81,7 @@
                 <label for="website">{{ __('admin.website') }}</label>
                 <input id="website" name="website" class="form-control" value="{{ old('website') ?: $business->getWebsite() }}">
                 @if($errors->has('website'))
-                    <small>{{ $errors->first('website') }}</small>
+                    <small class="business-error">{{ $errors->first('website') }}</small>
                 @endif
             </div>
 
@@ -89,7 +89,7 @@
                 <label for="email">{{ __('admin.email') }}</label>
                 <input id="email" name="email" class="form-control" value="{{ old('email') ?: $business->getEmail() }}">
                 @if($errors->has('email'))
-                    <small>{{ $errors->first('email') }}</small>
+                    <small class="business-error">{{ $errors->first('email') }}</small>
                 @endif
             </div>
         </div>
@@ -106,7 +106,7 @@
                     @endforeach
                 </select>
                 @if($errors->has('categories'))
-                    <small>{{ $errors->first('categories') }}</small>
+                    <small class="business-error">{{ $errors->first('categories') }}</small>
                 @endif
             </div>
 
@@ -115,7 +115,7 @@
                 <input id="productsRepaired" name="productsRepaired" class="form-control"
                        value="{{ old('productsRepaired') ?: implode(',', $business->getProductsRepaired()) }}">
                 @if($errors->has('productsRepaired'))
-                    <small>{{ $errors->first('productsRepaired') }}</small>
+                    <small class="business-error">{{ $errors->first('productsRepaired') }}</small>
                 @endif
             </div>
 
@@ -124,7 +124,7 @@
                 <input id="authorisedBrands" name="authorisedBrands" class="form-control"
                        value="{{ old('authorisedBrands') ?: implode(',', $business->getAuthorisedBrands()) }}">
                 @if($errors->has('authorisedBrands'))
-                    <small>{{ $errors->first('authorisedBrands') }}</small>
+                    <small class="business-error">{{ $errors->first('authorisedBrands') }}</small>
                 @endif
             </div>
 
@@ -132,7 +132,7 @@
                 <label for="qualifications">{{ __('admin.qualifications') }}</label>
                 <textarea id="qualifications" name="qualifications" class="form-control">{{ old('qualifications') ?: $business->getQualifications() }}</textarea>
                 @if($errors->has('qualifications'))
-                    <small>{{ $errors->first('qualifications') }}</small>
+                    <small class="business-error">{{ $errors->first('qualifications') }}</small>
                 @endif
             </div>
 
@@ -140,7 +140,7 @@
                 <label for="communityEndorsement">{{ __('admin.community_endorsement') }}</label>
                 <textarea id="communityEndorsement" name="communityEndorsement" class="form-control">{{ old('communityEndorsement') ?: $business->getCommunityEndorsement() }}</textarea>
                 @if($errors->has('communityEndorsement'))
-                    <small>{{ $errors->first('communityEndorsement') }}</small>
+                    <small class="business-error">{{ $errors->first('communityEndorsement') }}</small>
                 @endif
             </div>
 
@@ -148,7 +148,7 @@
                 <label for="notes">{{ __('admin.notes') }}</label>
                 <textarea id="notes" name="notes" class="form-control">{{ old('notes') ?: $business->getNotes() }}</textarea>
                 @if($errors->has('notes'))
-                    <small>{{ $errors->first('notes') }}</small>
+                    <small class="business-error">{{ $errors->first('notes') }}</small>
                 @endif
             </div>
         </div>
@@ -171,7 +171,7 @@
                     @endforeach
                 </select>
                 @if($errors->has('reviewSource'))
-                    <small>{{ $errors->first('reviewSource') }}</small>
+                    <small class="business-error">{{ $errors->first('reviewSource') }}</small>
                 @endif
             </div>
 
@@ -179,7 +179,7 @@
                 <label for="numberOfReviews">{{ __('admin.number_of_reviews') }}</label>
                 <input id="numberOfReviews" name="numberOfReviews" class="form-control" value="{{ old('numberOfReviews') ?: $business->getNumberOfReviews() }}">
                 @if($errors->has('numberOfReviews'))
-                    <small>{{ $errors->first('numberOfReviews') }}</small>
+                    <small class="business-error">{{ $errors->first('numberOfReviews') }}</small>
                 @endif
             </div>
 
@@ -188,14 +188,16 @@
                 <input id="positiveReviewPcRange" name="positiveReviewPcRange" type="range" class="slider" min="0" max="100" value={{ old('positiveReviewPc') ?: $business->getPositiveReviewPc()}}>
                 <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control slider-input" value={{ old('positiveReviewPc') ?: $business->getPositiveReviewPc()}}>
                 <span>%</span>
-                {!! array_key_exists('positiveReviewPc', $errors) ? '<small>' . $errors['positiveReviewPc'] . '</small>' : '' !!}
+                @if($errors->has('positiveReviewPc'))
+                    <small class="business-error">{{ $errors->first('positiveReviewPc') }}</small>
+                @endif
             </div>
 
             <div class="form-group">
                 <label for="averageScore">{{ __('admin.average_scores') }}</label>
                 <input id="averageScore" name="averageScore" class="form-control" value="{{ old('averageScore') ?: $business->getAverageScore() }}">
                 @if($errors->has('averageScore'))
-                    <small>{{ $errors->first('averageScore') }}</small>
+                    <small class="business-error">{{ $errors->first('averageScore') }}</small>
                 @endif
             </div>
 
@@ -203,7 +205,7 @@
                 <label for="warrantyOffered">{{ __('admin.warranty_offered') }}</label>
                 <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control" {{ old('warrantyOffered') ? (old('warrantyOffered') === 'Yes' ? 'checked' : '') : ($business->isWarrantyOffered() ? 'checked' : '') }} value="Yes" >
                 @if($errors->has('warrantyOffered'))
-                    <small>{{ $errors->first('warrantyOffered') }}</small>
+                    <small class="business-error">{{ $errors->first('warrantyOffered') }}</small>
                 @endif
             </div>
 
@@ -211,7 +213,7 @@
                 <label for="warranty">{{ __('admin.warranty_details') }}</label>
                 <textarea name="warranty" id="warranty" cols="30" rows="10" class="form-control">{{ old('warranty') ?: $business->getWarranty() }}</textarea>
                 @if($errors->has('warranty'))
-                    <small>{{ $errors->first('warranty') }}</small>
+                    <small class="business-error">{{ $errors->first('warranty') }}</small>
                 @endif
             </div>
 
@@ -233,7 +235,7 @@
                     <input id="publishingStatus" name="publishingStatus" class="form-control" readonly value="{{ old('publishingStatus') ?: $business->getPublishingStatus() }}"/>
                 @endcan
                 @if($errors->has('publishingStatus'))
-                    <small>{{ $errors->first('publishingStatus') }}</small>
+                    <small class="business-error">{{ $errors->first('publishingStatus') }}</small>
                 @endif
             </div>
 
@@ -243,10 +245,10 @@
             </div>
             @endcan
             @if($errors->has('business'))
-                <small>{{ $errors->first('business') }}</small>
+                <small class="business-error">{{ $errors->first('business') }}</small>
             @endif
             @if($errors->has('authorization'))
-                <small>{{ $errors->first('authorization') }}</small>
+                <small class="business-error">{{ $errors->first('authorization') }}</small>
             @endif
         </div>
     </form>
