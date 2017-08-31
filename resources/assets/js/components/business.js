@@ -107,7 +107,7 @@ function formatBusinessDetails(business, compact = false) {
 
     if (business.warrantyOffered) {
         $rightColumn.append(`
-            <p class="business-detail">
+            <p class="business-detail business-detail--scrollable">
                 <span class="fa fa-calendar-check-o"></span>
                 <span>Warranty: ${business.warranty || 'Provided'}</span>
             </p>

@@ -124,8 +124,7 @@ function showRepairer(business, marker) {
     resetMarkers();
 
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-    map.setCenter({lat: business.geolocation.latitude, lng: business.geolocation.longitude});
-    map.setZoom(15);
+    map.setCenter({lat: business.geolocation.latitude + 0.025, lng: business.geolocation.longitude});
 
     $businessPopup.find('.business-popup__content').html(renderBusiness(business));
 
