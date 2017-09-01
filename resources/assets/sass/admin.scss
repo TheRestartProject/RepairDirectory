@@ -1,3 +1,7 @@
+.dataTable tbody tr {
+  cursor: pointer;
+}
+
 .slider {
   width: 70% !important;
   display: inline-block !important;
@@ -22,8 +26,19 @@
   height: 310px;
 }
 
-#submit {
-  width: 100%;
+.actions {
+  button {
+    width: 48%;
+    &:first-child {
+      float: left;
+    }
+    &:last-child {
+      float: right;
+    }
+    &:first-child:last-child {
+      width: 100%;
+    }
+  }
 }
 
 .combobox__results,.combobox__selected {
@@ -55,4 +70,20 @@
 
 .business-error {
   color: red;
+}
+
+#delete-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(100,100,100,0.5);
+}
+
+.delete-popup__form {
+  padding: 1rem;
+  width: 300px;
+  margin: 100px auto;
+  background: white;
 }

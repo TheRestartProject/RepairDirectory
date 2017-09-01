@@ -62,4 +62,13 @@ interface BusinessRepository
      * @return array
      */
     public function findByLocation($geolocation, $radius, $criteria);
+
+    /**
+     * Remove a business from the repository
+     * 
+     * @param Business $business
+     * 
+     * @return void
+     */
+    public function remove(Business $business);
 }

@@ -6,8 +6,8 @@ use TheRestartProject\RepairDirectory\Application\Auth\UpdateFixometerSessionCom
 use TheRestartProject\RepairDirectory\Application\Auth\UpdateFixometerSessionHandler;
 use TheRestartProject\RepairDirectory\Application\CommandBus\Middleware\TransactionMiddleware;
 use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromCsvRow;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\DeleteBusiness;
 use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
-use \TheRestartProject\RepairDirectory\Application\Commands\Suggestion\AddSuggestion;
 
 
 return [
@@ -15,9 +15,9 @@ return [
     'handlers' => [
         ImportFromCsvRow\ImportFromCsvRowCommand::class => ImportFromCsvRow\ImportFromCsvRowHandler::class,
         ImportFromHttpRequest\ImportFromHttpRequestCommand::class => ImportFromHttpRequest\ImportFromHttpRequestHandler::class,
-        AddSuggestion\AddSuggestionCommand::class => AddSuggestion\AddSuggestionHandler::class,
         UpdateFixometerSessionCommand::class => UpdateFixometerSessionHandler::class,
-        DeleteFixometerSessionCommand::class => DeleteFixometerSessionHandler::class
+        DeleteFixometerSessionCommand::class => DeleteFixometerSessionHandler::class,
+        DeleteBusiness\DeleteBusinessCommand::class => DeleteBusiness\DeleteBusinessHandler::class
     ],
 
     'middleware' => [

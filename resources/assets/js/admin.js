@@ -1,22 +1,21 @@
 const $ = jQuery = require('jquery');
 const combobox = require('./combobox');
-const {enableElement, disableElement} = require('./util');
+const {showElement, hideElement, enableElement, disableElement} = require('./util');
 
+// set up slider
 const $slider = $("#positiveReviewPcRange");
 const $sliderValue = $("#positiveReviewPc");
-
 $slider.change(function () {
     $sliderValue.val($slider.val());
 });
-
 $sliderValue.blur(function () {
     $slider.val($sliderValue.val());
 });
 
+// set up comboboxes
 const $localArea = $('#localArea');
 const $productsRepaired = $('#productsRepaired');
 const $authorisedBrands = $('#authorisedBrands');
-
 combobox($localArea, 'localArea');
 combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
@@ -71,3 +70,12 @@ $reviewSourceUrl.blur(
         })
     }
 );
+
+// set up delete button and popup
+const $delete = $('#delete');
+const $deletePopup = $('#delete-popup');
+const $cancelDelete = $('#cancel-delete');
+const $confirmDelete = $('#confirm-delete');
+$delete.click(() => showElement($deletePopup));
+$cancelDelete.click(() => hideElement($deletePopup));
+$confirmDelete.click(() => hideElement($deletePopup));
