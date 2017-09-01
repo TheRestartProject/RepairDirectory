@@ -3,7 +3,7 @@
 @section('content')
     <h2>{{ __($isCreate ? 'admin.new_business' : 'admin.edit_business') }}</h2>
 
-    <form class="row" action="{{ $formAction }}" method="post">
+    <form class="row" action="{{ $formAction }}" method="post" autocomplete="off">
 
         {{ csrf_field() }}
 
@@ -49,7 +49,7 @@
 
             <div class="form-group">
                 <label for="localArea">{{ __('admin.local_area') }}</label>
-                <input id="localArea" name="localArea" class="form-control validate"
+                <input id="localArea" name="localArea" class="form-control validate" autocomplete="off"
                        value="{{ old('localArea') ?: $business->getLocalArea() }}">
                 @if($errors->has('localArea'))
                     <small class="business-error">{{ $errors->first('localArea') }}</small>
@@ -119,7 +119,7 @@
 
             <div class="form-group">
                 <label for="productsRepaired">{{ __('admin.products_repaired') }}</label>
-                <input id="productsRepaired" name="productsRepaired" class="form-control"
+                <input id="productsRepaired" name="productsRepaired" class="form-control" autocomplete="off"
                        value="{{ old('productsRepaired') ?: implode(',', $business->getProductsRepaired()) }}">
                 @if($errors->has('productsRepaired'))
                     <small class="business-error">{{ $errors->first('productsRepaired') }}</small>
@@ -128,7 +128,7 @@
 
             <div class="form-group">
                 <label for="authorisedBrands">{{ __('admin.authorised_brands') }}</label>
-                <input id="authorisedBrands" name="authorisedBrands" class="form-control"
+                <input id="authorisedBrands" name="authorisedBrands" class="form-control" autocomplete="off"
                        value="{{ old('authorisedBrands') ?: implode(',', $business->getAuthorisedBrands()) }}">
                 @if($errors->has('authorisedBrands'))
                     <small class="business-error">{{ $errors->first('authorisedBrands') }}</small>
