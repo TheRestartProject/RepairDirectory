@@ -217,4 +217,16 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
     {
         return Business::class;
     }
+
+    /**
+     * Remove a business from the repository
+     *
+     * @param Business $business
+     *
+     * @return void
+     */
+    public function remove(Business $business)
+    {
+        $this->entityManager->remove($business);
+    }
 }

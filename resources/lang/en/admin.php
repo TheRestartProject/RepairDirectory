@@ -34,4 +34,6 @@ return [
     'publishing_status' => 'Publishing Status',
 
     'save' => 'Save',
+    'delete' => 'Delete',
+    'cancel' => 'Cancel'
 ];

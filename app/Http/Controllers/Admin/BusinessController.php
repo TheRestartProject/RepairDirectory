@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use League\Tactician\CommandBus;
+use TheRestartProject\RepairDirectory\Application\Commands\Business\DeleteBusiness\DeleteBusinessCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestCommand;
 use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest\ImportFromHttpRequestFactory;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
@@ -17,7 +18,6 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
 use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
-use TheRestartProject\RepairDirectory\Infrastructure\Services\ReviewService\ReviewService;
 
 class BusinessController extends Controller
 {
@@ -54,7 +54,7 @@ class BusinessController extends Controller
 
     public function update($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
     {
-        $this->authorize('create', Business::class);
+        $this->authorize('update', Business::class);
 
         try {
             $command = $commandFactory->makeFromRequest($request, $id);
@@ -71,6 +71,13 @@ class BusinessController extends Controller
                 ->withInput();
         }
 
+        return redirect('map/admin');
+    }
+    
+    public function delete($id, CommandBus $commandBus)
+    {
+        $this->authorize('update', Business::class);
+        $commandBus->handle(new DeleteBusinessCommand($id));
         return redirect('map/admin');
     }
 
