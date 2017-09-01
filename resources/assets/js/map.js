@@ -2,6 +2,7 @@ const $ = require('jquery');
 const renderBusiness = require('./components/business');
 const {hideElement, showElement, enableElement, disableElement} = require('./util');
 
+let isMobile;
 let map;
 let markers = [];
 let $businessPopup;
@@ -33,7 +34,7 @@ $(document).ready(() => {
 });
 
 function initMap() {
-    const isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
+    isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
 
     map = new google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
         zoom: 13,
@@ -121,10 +122,12 @@ function scrollToRepairer(business) {
 }
 
 function showRepairer(business, marker) {
+    const mapOffset = isMobile ? 0 : 0.025;
+
     resetMarkers();
 
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-    map.setCenter({lat: business.geolocation.latitude + 0.025, lng: business.geolocation.longitude});
+    map.setCenter({lat: business.geolocation.latitude + mapOffset, lng: business.geolocation.longitude});
 
     $businessPopup.find('.business-popup__content').html(renderBusiness(business));
 
