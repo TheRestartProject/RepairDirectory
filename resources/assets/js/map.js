@@ -55,6 +55,8 @@ function onSearch(e) {
         radius: 5
     };
 
+    trackSearch(query.category);
+
     doSearch(query);
 }
 
@@ -122,6 +124,8 @@ function scrollToRepairer(business) {
 }
 
 function showRepairer(business, marker) {
+    trackRepairerSelection(business);
+
     const mapOffset = isMobile ? 0 : 0.025;
 
     resetMarkers();
@@ -156,6 +160,15 @@ function resetMarkers() {
     markers.forEach(marker => {
         marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
     });
+}
+
+function trackSearch(category) {
+    ga('send', 'event', 'search', 'submit', category, { 'transport': 'beacon' });
+}
+
+function trackRepairerSelection(business) {
+    const value = [business.name, business.address, business.postcode].join(', ');
+    ga('send', 'event', 'map', 'select', value, { 'transport': 'beacon' });
 }
 
 module.exports = {initMap};
