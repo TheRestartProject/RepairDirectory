@@ -155,6 +155,13 @@ class Business
     private $positiveReviewPc;
 
     /**
+     * A URL that points to a review (or collection of reviews) of the Business
+     * 
+     * @var string
+     */
+    private $reviewSourceUrl;
+    
+    /**
      * The source of the review data provided - i.e. Google, yelp, ...
      * Valid sources are enumerated in Enums\ReviewSources
      *
@@ -808,6 +815,26 @@ class Business
             ],
             true
         );
+    }
+
+    /**
+     * Return a URL that points to a review (or collection of reviews) of the Business
+     * 
+     * @return string
+     */
+    public function getReviewSourceUrl()
+    {
+        return $this->reviewSourceUrl;
+    }
+
+    /**
+     * Set a URL that points to a review (or collection of reviews) of the Business
+     * 
+     * @param string $reviewSourceUrl The value to set
+     */
+    public function setReviewSourceUrl($reviewSourceUrl)
+    {
+        $this->reviewSourceUrl = $reviewSourceUrl;
     }
 
 }

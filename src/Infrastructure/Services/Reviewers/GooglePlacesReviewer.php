@@ -48,17 +48,6 @@ class GooglePlacesReviewer implements Reviewer
         $reviewAggregation = new ReviewAggregation();
         $reviewAggregation->setAverageScore($placeDetails['rating']);
 
-        $reviews = $placeDetails['reviews'];
-        $positiveReviews = 0;
-        foreach ($reviews as $review) {
-            if ($review['rating'] >= 3) {
-                $positiveReviews++;
-            }
-        }
-        if (count($reviews)) {
-            $reviewAggregation->setPositiveReviewPc($positiveReviews * 100 / count($reviews));
-        }
-
         return $reviewAggregation;
     }
 

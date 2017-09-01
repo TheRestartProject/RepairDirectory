@@ -20,8 +20,8 @@ combobox($localArea, 'localArea');
 combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 
-// set up on-the-fly validation for all <input> elements
-$('input[name]').each(function () {
+// set up on-the-fly validation for all elements with the 'validate' class
+$('.validate').each(function () {
     const $input = $(this);
     const field = $input.attr('name');
     $input.blur(function () {

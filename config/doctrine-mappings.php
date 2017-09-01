@@ -83,6 +83,10 @@ return [
                 'type' => 'integer',
                 'nullable' => true
             ],
+            'reviewSourceUrl' => [
+                'type' => 'string',
+                'nullable' => true
+            ],
             'reviewSource' => [
                 'type' => 'string',
                 'nullable' => true

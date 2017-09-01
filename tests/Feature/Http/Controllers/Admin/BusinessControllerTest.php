@@ -152,8 +152,5 @@ class BusinessControllerTest extends IntegrationTestCase
 
         self::assertGreaterThan(2, $content['reviewAggregation']['averageScore']);
         self::assertLessThan(4, $content['reviewAggregation']['averageScore']);
-
-        self::assertGreaterThan(40, $content['reviewAggregation']['positiveReviewPc']);
-        self::assertLessThan(100, $content['reviewAggregation']['positiveReviewPc']);
     }
 }
