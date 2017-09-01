@@ -68,6 +68,7 @@ class CustomBusinessValidator implements BusinessValidator
             'qualifications' => new v\StringLengthValidator('Qualifications', 0, 255),
             'communityEndorsement' => new v\StringLengthValidator('Community Endorsement', 0, 255),
             'notes' => new v\StringLengthValidator('Notes', 0, 65535),
+            'reviewSourceUrl' => new v\UrlValidator('Review Source URL'),
             'reviewSource' => new v\ReviewSourceValidator(),
             'positiveReviewPc' => new v\NumberRangeValidator('Positive Review Scores', 0, 100, false),
             'numberOfReviews' => new v\NumberRangeValidator('Number of Reviews', 0, 65535, false),

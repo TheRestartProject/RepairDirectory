@@ -61,7 +61,6 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
 
         $expected = new ReviewAggregation();
         $expected->setAverageScore(3);
-        $expected->setPositiveReviewPc(50);
 
         self::assertEquals($expected, $reviewAggregation);
     }
