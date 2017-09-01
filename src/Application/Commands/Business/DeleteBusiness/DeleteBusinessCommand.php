@@ -13,15 +13,15 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Delete
  */
 class DeleteBusinessCommand
 {
-    private $uid;
+    private $business;
     
-    public function getUid()
+    public function getBusiness()
     {
-        return $this->uid;
+        return $this->business;
     }
     
-    public function __construct($uid)
+    public function __construct($business)
     {
-        $this->uid = $uid;
+        $this->business = $business;
     }
 }

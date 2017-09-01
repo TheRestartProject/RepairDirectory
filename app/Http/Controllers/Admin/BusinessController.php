@@ -54,8 +54,6 @@ class BusinessController extends Controller
 
     public function update($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
     {
-        $this->authorize('update', Business::class);
-
         try {
             $command = $commandFactory->makeFromRequest($request, $id);
             $commandBus->handle($command);
@@ -74,10 +72,14 @@ class BusinessController extends Controller
         return redirect('map/admin');
     }
     
-    public function delete($id, CommandBus $commandBus)
+    public function delete($id, BusinessRepository $businessRepository, CommandBus $commandBus)
     {
-        $this->authorize('update', Business::class);
-        $commandBus->handle(new DeleteBusinessCommand($id));
+        $business = $businessRepository->findById($id);
+        if (!$business) {
+            return response('', 404);
+        }
+        $this->authorize('update', $business);
+        $commandBus->handle(new DeleteBusinessCommand($business));
         return redirect('map/admin');
     }
 

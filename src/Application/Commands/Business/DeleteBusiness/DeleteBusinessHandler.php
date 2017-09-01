@@ -43,7 +43,7 @@ class DeleteBusinessHandler
      */
     public function handle(DeleteBusinessCommand $command)
     {
-        $business = $this->repository->findById($command->getUid());
+        $business = $command->getBusiness();
         if ($business) {
             $this->repository->remove($business);
         }
