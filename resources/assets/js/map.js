@@ -20,7 +20,10 @@ $(document).ready(() => {
     $('#search').submit(onSearch);
 
     // enable/disable search button
-    $('#location').keyup(function () {
+    $('#location').keyup(function (e) {
+        if (e.which === 13) {
+            return;
+        }
         const $location = $(this);
         if ($location.val()) {
             enableElement($searchButton);
