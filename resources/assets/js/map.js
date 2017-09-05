@@ -166,7 +166,7 @@ function resetMarkers() {
 }
 
 function trackSearch(category) {
-    ga('send', 'event', 'search', 'submit', category, { 'transport': 'beacon' });
+    ga('send', 'event', 'search', 'submit', category || 'All Categories', { 'transport': 'beacon' });
 }
 
 function trackRepairerSelection(business) {
