@@ -185,6 +185,16 @@ class CustomBusinessValidator implements BusinessValidator
 
     }
 
+    /**
+     * Run the validator for a specific field
+     *
+     * @param string $field The name of the Business field to validate
+     * @param mixed  $value The value to validate
+     *
+     * @throws ValidationException
+     *
+     * @return void
+     */
     public function validateField($field, $value)
     {
         if (in_array($field, $this->required) && !$value) {

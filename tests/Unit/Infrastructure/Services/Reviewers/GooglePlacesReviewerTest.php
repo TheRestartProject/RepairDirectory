@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joaquim
- * Date: 24/08/2017
- * Time: 17:01
- */
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Services\Reviewers;
-
 
 use Illuminate\Support\Collection;
 use Mockery;
@@ -16,12 +9,26 @@ use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers\GooglePlacesReviewer;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
+/**
+ * Class GooglePlacesReviewerTest
+ *
+ * @category Test
+ * @package  TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Services\Reviewers
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class GooglePlacesReviewerTest extends IntegrationTestCase
 {
     /**
+     * Test that malformed URL input to the service does not error and returns null
+     *
      * @test
+     *
+     * @return void
      */
-    public function it_returns_null_for_malformed_url() {
+    public function it_returns_null_for_malformed_url() 
+    {
         $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
 
         $malformedUrls = [
@@ -41,9 +48,14 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
     }
 
     /**
+     * Test that a well formed URL to a non-existent place does not error and returns null
+     *
      * @test
+     *
+     * @return void
      */
-    public function it_returns_null_for_an_unknown_place() {
+    public function it_returns_null_for_an_unknown_place() 
+    {
         $url = 'https://www.google.co.uk/maps/place/Nowhere/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
         $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
         $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
@@ -52,9 +64,14 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
     }
 
     /**
+     * Test that a real URL returns a ReviewAggregation
+     *
      * @test
+     *
+     * @return void
      */
-    public function it_returns_a_review_aggregation_for_good_url() {
+    public function it_returns_a_review_aggregation_for_good_url() 
+    {
         $url = 'https://www.google.co.uk/maps/place/KFC/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
         $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
         $reviewAggregation = $googlePlacesReviewer->getReviewAggregation($url);
@@ -66,9 +83,12 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
     }
 
     /**
+     * Set up a mocked instance of the PlacesApi library
+     *
      * @return PlacesApi
      */
-    private function getPlacesApi() {
+    private function getPlacesApi() 
+    {
 
         $placesApi = Mockery::mock(PlacesApi::class);
 
@@ -93,15 +113,18 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
             ->andReturn($nearbySearchResponse);
 
         $placeDetailsResponse = new Collection();
-        $placeDetailsResponse->put('result', [
+        $placeDetailsResponse->put(
+            'result', [
             'rating' => 3,
             'reviews' => [
                 [ 'rating' => 2 ],
                 [ 'rating' => 4 ]
             ]
-        ]);
+            ]
+        );
         $placesApi->shouldReceive('placeDetails')->andReturn($placeDetailsResponse);
 
+        /** @var PlacesApi $placesApi */
         return $placesApi;
     }
 

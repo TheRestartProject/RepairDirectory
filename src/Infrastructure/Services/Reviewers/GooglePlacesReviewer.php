@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joaquim
- * Date: 24/08/2017
- * Time: 12:32
- */
-
 namespace TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers;
 
 
@@ -13,18 +6,43 @@ use SKAgarwal\GoogleApi\PlacesApi;
 use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Domain\Services\Reviewers\Reviewer;
 
+/**
+ * Interface to the Google Places API
+ *
+ * @category Class
+ * @package  TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers
+ * @author   Joaquim d'Souza <joaquim@outlandish.com>
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU General Public License
+ * @link     http://www.outlandish.com/
+ */
 class GooglePlacesReviewer implements Reviewer
 {
-    /** @var PlacesApi */
+    /**
+     * An instance of the PlacesApi library
+     * The interface to the Google Places API
+     *
+     * @var PlacesApi
+     */
     private $googlePlaces;
 
+    /**
+     * GooglePlacesReviewer constructor.
+     *
+     * @param PlacesApi $googlePlaces An instance of the PlacesApi library
+     */
     public function __construct(PlacesApi $googlePlaces)
     {
         $this->googlePlaces = $googlePlaces;
     }
+
     /**
-     * @param string $url
-     * @return ReviewAggregation
+     * Create a ReviewAggregation based on data fetched from
+     * the Google Places API, for the place referred to
+     * by the provided URL
+     *
+     * @param string $url The Google Places URL
+     *
+     * @return ReviewAggregation|null
      */
     public function getReviewAggregation($url)
     {
@@ -35,7 +53,8 @@ class GooglePlacesReviewer implements Reviewer
 
         // call the places API
         $places = $this->googlePlaces->nearbySearch(
-            $nameAndLocation['location'], 10, ['name' => $nameAndLocation['name']])->get('results');
+            $nameAndLocation['location'], 10, ['name' => $nameAndLocation['name']]
+        )->get('results');
         $place = $places->get(0);
         if (!$place) {
             return null;
@@ -50,6 +69,13 @@ class GooglePlacesReviewer implements Reviewer
         return $reviewAggregation;
     }
 
+    /**
+     * Parse a Google Places URL to return the name of the place and its lat/lng
+     *
+     * @param string $url The Google Places URL
+     *
+     * @return array|null
+     */
     private function extractNameAndLocationFromGooglePlaceUrl($url)
     {
         $parsedUrl = parse_url($url);

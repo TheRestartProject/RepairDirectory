@@ -2,6 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\DeleteBusiness;
 
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
+
 /**
  * Command to delete a business by id
  *
@@ -14,12 +16,22 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Delete
 class DeleteBusinessCommand
 {
     private $business;
-    
+
+    /**
+     * Return the Business to be deleted
+     *
+     * @return Business
+     */
     public function getBusiness()
     {
         return $this->business;
     }
-    
+
+    /**
+     * DeleteBusinessCommand constructor.
+     *
+     * @param Business $business The business to be deleted
+     */
     public function __construct($business)
     {
         $this->business = $business;

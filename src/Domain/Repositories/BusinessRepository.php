@@ -66,7 +66,7 @@ interface BusinessRepository
     /**
      * Remove a business from the repository
      * 
-     * @param Business $business
+     * @param Business $business The business to remove
      * 
      * @return void
      */

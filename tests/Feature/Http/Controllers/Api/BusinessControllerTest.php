@@ -20,6 +20,11 @@ class BusinessControllerTest extends IntegrationTestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * Seed the database before we test the Business search API
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();

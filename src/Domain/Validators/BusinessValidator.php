@@ -3,7 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Domain\Validators;
 
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
-use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 
 /**
  * Validates a business
@@ -27,6 +27,16 @@ interface BusinessValidator
      * @throws BusinessValidationException Thrown if the business is invalid
      */
     public function validate($business);
-    
+
+    /**
+     * Run the validator for a specific field
+     *
+     * @param string $field The name of the Business field to validate
+     * @param mixed  $value The value to validate
+     *
+     * @throws ValidationException
+     *
+     * @return void
+     */
     public function validateField($field, $value);
 }

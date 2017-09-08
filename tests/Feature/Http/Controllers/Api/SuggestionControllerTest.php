@@ -19,6 +19,11 @@ class SuggestionControllerTest extends IntegrationTestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * Seed the database before we test the Suggestion search api
+     *
+     * @return void
+     */
     public function setUp()
     {
         parent::setUp();

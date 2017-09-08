@@ -21,7 +21,7 @@ class UrlValidator implements Validator
     /**
      * StringLengthValidator constructor.
      *
-     * @param string  $fieldNameTitleCase A readable label for the value being tested. Used to form the error message
+     * @param string $fieldNameTitleCase A readable label for the value being tested. Used to form the error message
      */
     public function __construct($fieldNameTitleCase)
     {
