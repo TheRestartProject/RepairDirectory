@@ -149,7 +149,7 @@ class CreateBusinessTest extends IntegrationTestCase
 
         $this->assertDatabaseHas('businesses', $data);
 
-        $this;
+        return $this;
     }
 
     /**
@@ -261,6 +261,7 @@ class CreateBusinessTest extends IntegrationTestCase
             'qualifications' => $business->getQualifications(),
             'communityEndorsement' => $business->getCommunityEndorsement(),
             'notes' => $business->getNotes(),
+            'reviewSourceUrl' => $business->getReviewSourceUrl(),
             'positiveReviewPc' => $business->getPositiveReviewPc(),
             'reviewSource' => $business->getReviewSource(),
             'numberOfReviews' => $business->getNumberOfReviews(),

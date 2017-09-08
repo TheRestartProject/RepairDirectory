@@ -2,8 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
+use BusinessesTableSeeder;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
-use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
@@ -19,6 +19,13 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 class BusinessControllerTest extends IntegrationTestCase
 {
     use DatabaseMigrations;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->app->make(BusinessesTableSeeder::class)->run();
+    }
+
     /**
      * Asserts that the BusinessController->search returns no businesses
      * when no query parameters are present on the request
@@ -29,8 +36,6 @@ class BusinessControllerTest extends IntegrationTestCase
      */
     public function i_can_search_without_location()
     {
-        entity(Business::class, 3)->create();
-
         $response = $this->get(route('business.search'));
         $response->assertStatus(200);
         $response->assertJson(
@@ -51,12 +56,10 @@ class BusinessControllerTest extends IntegrationTestCase
      */
     public function i_can_search_with_category()
     {
-        entity(Business::class, 3)->create();
-
         $response = $this->get(
             route(
                 'business.search', [
-                    'categories' => [Category::DESKTOP, Category::LAPTOP]
+                    'category' => Category::DESKTOP
                 ]
             )
         );
@@ -64,7 +67,14 @@ class BusinessControllerTest extends IntegrationTestCase
         $response->assertJson(
             [
                 'searchLocation' => null,
-                'businesses' => []
+                'businesses' => [
+                    [
+                        'uid' => 1,
+                    ],
+                    [
+                        'uid' => 3
+                    ]
+                ]
             ]
         );
     }
@@ -75,7 +85,7 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * todo: don't seed this in advance create the businesses for this specific test
+     * @test
      */
     public function i_can_search_with_location()
     {
@@ -103,7 +113,11 @@ class BusinessControllerTest extends IntegrationTestCase
                             'latitude' => 51.583626,
                             'longitude' => 0.163757
                         ],
-                        'description' => 'Laptop, PC, and Netbook repairs, mobile service.'
+                        'description' => 'PC repairs'
+                    ],
+                    [
+                        'uid' => 2,
+                        'description' => 'Laptop repairs'
                     ]
                 ]
             ]
@@ -116,14 +130,14 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * todo: don't seed this in advance create the businesses for this specific test
+     * @test
      */
     public function i_can_search_with_category_and_location()
     {
         $response = $this->get(
             route(
                 'business.search', [
-                    'categories' => [Category::DESKTOP],
+                    'category' => Category::DESKTOP,
                     'location' => 'RM7 7JN'
                 ]
             )

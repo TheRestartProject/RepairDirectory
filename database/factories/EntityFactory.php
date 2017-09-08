@@ -37,13 +37,9 @@ $factory->define(Business::class, function (Faker\Generator $faker) {
         'mobile' => '077657784333',
         'website' => $faker->url,
         'email' => $faker->companyEmail,
-        'categories' => ['Fan'],
         'qualifications' => $faker->sentence,
         'communityEndorsement' => $faker->sentence,
-        'notes' => $faker->sentence,
-        'warrantyOffered' => true,
-        'warranty' => $faker->sentence,
-        'publishingStatus' => PublishingStatus::DRAFT
+        'notes' => $faker->sentence
     ];
 });
 
@@ -90,13 +86,9 @@ $factory->defineAs(Business::class, 'real', function (Faker\Generator $faker) {
         'mobile' => '077657784333',
         'website' => $faker->domainName,
         'email' => $faker->companyEmail,
-        'categories' => ['Fan'],
         'qualifications' => $faker->sentence,
         'communityEndorsement' => $faker->sentence,
-        'notes' => $faker->sentence,
-        'warrantyOffered' => true,
-        'warranty' => $faker->sentence,
-        'publishingStatus' => PublishingStatus::DRAFT
+        'notes' => $faker->sentence
     ];
 });
 

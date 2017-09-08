@@ -31,7 +31,7 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * @todo: this doesn't its test elsewhere.
+     * @test
      */
     public function i_can_create()
     {
@@ -53,13 +53,14 @@ class BusinessControllerTest extends IntegrationTestCase
 
         $this->assertDatabaseHas(
             'businesses', [
-                'uid' => $business->getUid(),
+                'uid' => 1,
+                'name' => $business->getName()
             ]
         );
 
         $businessRepository = $this->app->make(BusinessRepository::class);
 
-        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->findById(7)->getGeolocation());
+        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->findById(1)->getGeolocation());
     }
 
     /**
@@ -68,7 +69,7 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @return void
      *
-     * @todo: this doesn't work its tested elsewhere
+     * @test
      */
     public function i_can_update()
     {
@@ -104,7 +105,7 @@ class BusinessControllerTest extends IntegrationTestCase
      *
      * @param Business $business The business to convert
      *
-     * @return data
+     * @return array
      */
     protected function convertBusinessToHttpData(Business $business)
     {

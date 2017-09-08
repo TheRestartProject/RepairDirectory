@@ -10,7 +10,6 @@ namespace TheRestartProject\RepairDirectory\Infrastructure\Services\Reviewers;
 
 
 use SKAgarwal\GoogleApi\PlacesApi;
-use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Models\ReviewAggregation;
 use TheRestartProject\RepairDirectory\Domain\Services\Reviewers\Reviewer;
 

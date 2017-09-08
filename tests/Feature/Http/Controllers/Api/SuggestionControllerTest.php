@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
+use SuggestionsTableSeeder;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 
@@ -17,12 +18,19 @@ use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 class SuggestionControllerTest extends IntegrationTestCase
 {
     use DatabaseMigrations;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->app->make(SuggestionsTableSeeder::class)->run();
+    }
+
     /**
      * Asserts that the SuggestionController->search returns the correct suggestions
      *
      * @return void
      *
-     * @todo: seed in the test not before.
+     * @test
      */
     public function i_can_search()
     {

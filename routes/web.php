@@ -11,18 +11,8 @@
 |
 */
 
-use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 
-Route::get('/', function () {
-    $allowedIps = getenv('ALLOWED_IPS');
-    if ($allowedIps) {
-        $allowedIps = explode(',', $allowedIps);
-        if (!in_array(getenv('REMOTE_ADDR'), $allowedIps)) {
-            return response('', 403);
-        }
-    }
-    return view('map', [ 'categories' => Category::values() ]);
-})->name('map');
+Route::get('/', 'MapController@index')->name('map');
 
 Route::prefix('admin')
     ->middleware('auth')

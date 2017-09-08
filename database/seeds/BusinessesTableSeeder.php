@@ -17,11 +17,23 @@ class BusinessesTableSeeder extends Seeder
     {
         entity(Business::class)->create([
             'name' => 'Link Computer Services',
-            'description' => 'Laptop, PC, and Netbook repairs, mobile service.',
+            'description' => 'PC repairs',
             'address' => '203 Mawney Road',
             'postcode' => 'RM7 8BX',
             'geolocation' => new Point(51.583626,0.163757),
             'categories' => [Category::DESKTOP],
+            'positiveReviewPc' => 82,
+            'publishingStatus' => PublishingStatus::PUBLISHED,
+            'warranty' => '3 year warranty'
+        ]);
+
+        entity(Business::class)->create([
+            'name' => 'Link Laptop Services',
+            'description' => 'Laptop repairs',
+            'address' => '203 Mawney Road',
+            'postcode' => 'RM7 8BX',
+            'geolocation' => new Point(51.583626,0.163757),
+            'categories' => [Category::LAPTOP],
             'positiveReviewPc' => 82,
             'publishingStatus' => PublishingStatus::PUBLISHED,
             'warranty' => '3 year warranty'
