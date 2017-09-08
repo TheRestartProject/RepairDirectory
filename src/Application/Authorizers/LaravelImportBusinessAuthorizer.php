@@ -63,7 +63,7 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
          */
         $user = $this->getUser();
 
-        if ($this->isUserLoggedIn($user)) {
+        if ($this->isUserLoggedOut($user)) {
             throw new ImportBusinessUnauthorizedException('User not logged in');
         }
 
@@ -116,7 +116,7 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
      *
      * @return bool
      */
-    protected function isUserLoggedIn($user)
+    protected function isUserLoggedOut($user)
     {
         return $user === null;
     }

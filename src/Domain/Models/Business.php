@@ -831,8 +831,6 @@ class Business
      * Set a URL that points to a review (or collection of reviews) of the Business
      * 
      * @param string $reviewSourceUrl The value to set
-     *
-     * @return void
      */
     public function setReviewSourceUrl($reviewSourceUrl)
     {
