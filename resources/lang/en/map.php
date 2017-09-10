@@ -2,10 +2,10 @@
 
 return [
     'title' => 'Repair Directory',
-    'location' => 'Your location',
-    'category' => 'Category',
-    'category_all' => 'All',
+    'location' => 'Where do you live?',
+    'category' => 'What do you need to fix?',
+    'category_all' => 'Please select',
     'search' => 'Search',
-    'header_copy' => 'Find a local business to repair your stuff.',
-    'header_title' => 'Restart repair directory'
+    'header_copy' => 'Find a local business to repair your broken devices.',
+    'header_title' => 'Restart Repair Directory'
 ];
