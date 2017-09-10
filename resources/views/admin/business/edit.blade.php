@@ -238,11 +238,6 @@
             </div>
 
             <div class="form-group">
-                <label for="colour">Colour</label>
-                <input id="colour" name="colour" value="{{ old('colour') ?: $business->getColour() }}">
-            </div>
-
-            <div class="form-group">
 
                 <label for="publishingStatus">{{ __('admin.publishing_status') }}</label>
                 @can('update', $business)
