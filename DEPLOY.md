@@ -32,6 +32,10 @@ Additionally you can also delete the following folders
 Once you've done this, zip it up and ftp it onto the server and give it the name
 of `repairmap.zip`.
 
+e.g.
+    
+    zip -r ../repairmap.zip .
+
 ## Deployment
 
 With a built version of the site in a zip file called `repairmap.zip`, you can now
