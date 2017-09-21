@@ -2,7 +2,6 @@ stages:
   - build
   - test
   - cleanup
-  - deploy
 
 build:php:
   image: registry.outlandish.com/the-restart-project/repair-directory/composer
