@@ -2,7 +2,7 @@ stages:
   - build
   - test
   - cleanup
-#  - deploy
+  - deploy
 
 build:php:
  image: reg
