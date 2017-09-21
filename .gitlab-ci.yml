@@ -2,11 +2,10 @@ stages:
   - build
   - test
   - cleanup
-  - deploy
+#  - deploy
 
 build:php:
- image: reg
-  istry.outlandish.com/the-restart-project/repair-directory/composer
+  image: registry.outlandish.com/the-restart-project/repair-directory/composer
   stage: build
   script:
   - composer run-script fixometer:config
