@@ -18,6 +18,7 @@ to download the latest version if it exists
 Alternatively you can provide your own artifact by uploading a zip file of the project,
 making sure that you have run the following build commands
 
+* Copy dummy fixometer config: `composer fixometer:config`
 * Install composer dependencies `composer install`
 * Install node dependencies `yarn` or `npm install`
 * Build front-end assets `npm run production`
