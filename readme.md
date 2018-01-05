@@ -26,4 +26,4 @@ The following users are created
 
 ### Staging
 
-http://community-staging.therestartproject.org/
+http://community-staging.therestartproject.org/map
