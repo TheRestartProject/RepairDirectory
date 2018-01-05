@@ -23,3 +23,7 @@ The following users are created
 | host@restartproject.com | secret | Host |
 | restarter@restartproject.com | secret | Restarter |
 | guest@restartproject.com | secret | Guest |
+
+### Staging
+
+http://community-staging.therestartproject.org/
