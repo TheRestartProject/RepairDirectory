@@ -97,6 +97,10 @@
   .business__heading > h2 {
     color: #606060;
   }
+
+  .business__extra-details {
+    display: none;
+  }
 }
 
 .business-list__item.business-list__item--inactive {
@@ -106,5 +110,11 @@
   }
   h2 {
     color: #333;
+  }
+}
+
+.business-list__item.business-list__item--active {
+  .business__extra-details {
+    display: block;
   }
 }

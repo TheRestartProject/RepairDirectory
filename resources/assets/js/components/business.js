@@ -56,13 +56,14 @@ function formatBusinessDetails(business, compact = false) {
 
     let $columns = $('<div class="row"></div>');
     let $leftColumn = $(`<div class="${compact ? 'col-xs-12' : 'col-xs-12 col-sm-6'}"></div>`);
-    let $rightColumn = $(`<div class="${compact ? 'col-xs-12' : 'col-xs-12 col-sm-6'}"></div>`);
+    let $rightColumn = $(`<div class="${compact ? 'col-xs-12 business__extra-details' : 'col-xs-12 col-sm-6'}"></div>`);
 
     if (business.website) {
+        const website = business.website.indexOf('http') === 0 ? business.website : ('http://' + business.website);
         $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-globe"></span>
-                <a href="${business.website}" onclick="trackOutboundLink('${business.website}'); return false;">
+                <a href="${website}" onclick="trackOutboundLink('${website}'); return false;">
                     ${business.website}
                 </a>
             </p>
@@ -125,15 +126,13 @@ function formatBusinessDetails(business, compact = false) {
         `)
     }
 
-    if (!compact) {
-        $columns.append($rightColumn);
-    }
+    $columns.append($rightColumn);
 
     $details.append($columns);
 
-    if (!compact && business.communityEndorsement) {
+    if (business.communityEndorsement) {
         $details.append(`
-            <div class="row">
+            <div class="row business__extra-details">
                 <div class="col-xs-12">
                     <p class="business-detail">
                         <span class="fa fa-comments"></span>

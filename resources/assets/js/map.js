@@ -143,9 +143,11 @@ function showRepairer(business, marker) {
     $('.business-list__item').each(function () {
         const $item = $(this);
         if ($item.attr('id') === 'business-' + business.uid) {
-            $item.removeClass('business-list__item--inactive');
+          $item.addClass('business-list__item--active');
+          $item.removeClass('business-list__item--inactive');
         } else {
-            $item.addClass('business-list__item--inactive')
+          $item.addClass('business-list__item--inactive');
+          $item.removeClass('business-list__item--active');
         }
     })
 }
@@ -154,7 +156,8 @@ function hideRepairer() {
     hideElement($businessPopup);
     $('.business-list__item').each(function () {
         const $item = $(this);
-        $item.removeClass('business-list__item--inactive')
+        $item.removeClass('business-list__item--inactive');
+        $item.removeClass('business-list__item--active');
     });
     resetMarkers();
 }

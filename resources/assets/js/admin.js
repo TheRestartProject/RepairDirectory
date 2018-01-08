@@ -16,7 +16,7 @@ $sliderValue.blur(function () {
 const $localArea = $('#localArea');
 const $productsRepaired = $('#productsRepaired');
 const $authorisedBrands = $('#authorisedBrands');
-combobox($localArea, 'localArea');
+combobox($localArea, 'localArea', false);
 combobox($productsRepaired, 'productsRepaired');
 combobox($authorisedBrands, 'authorisedBrands');
 
@@ -59,10 +59,15 @@ $reviewSourceUrl.blur(
                         })
                 }
                 if (response.reviewAggregation) {
-                    $('#positiveReviewPc').val(response.reviewAggregation.positiveReviewPc || 0);
-                    $('#positiveReviewPcRange').val(response.reviewAggregation.positiveReviewPc || 0);
-                    $('#averageScore').val(response.reviewAggregation.averageScore || 0);
-                    $('#numberOfReviews').val(response.reviewAggregation.numberOfReviews || '');
+                  const $positiveReviewPc = $('#positiveReviewPc');
+                  const $positiveReviewPcRange = $('#positiveReviewPcRange');
+                  const $averageScore = $('#averageScore');
+                  const $numberOfReviews = $('#numberOfReviews');
+
+                  $positiveReviewPc.val(response.reviewAggregation.positiveReviewPc || $positiveReviewPc.val() || 0);
+                  $positiveReviewPcRange.val(response.reviewAggregation.positiveReviewPc || $positiveReviewPc.val() || 0);
+                  $averageScore.val(response.reviewAggregation.averageScore || $averageScore.val() || 0);
+                  $numberOfReviews.val(response.reviewAggregation.numberOfReviews || $numberOfReviews.val() || '');
                 }
                 enableElement($derivedElements);
             },

@@ -21,6 +21,7 @@ class ReviewSource extends Enum
     const YELL = "Yell";
     const CHECKATRADE = "Checkatrade";
     const FREEINDEX = "Freeindex";
+    const OTHER = "Other";
 
     /**
      * Return a ReviewSource value based on a URL.
@@ -51,6 +52,6 @@ class ReviewSource extends Enum
         if (strpos($reviewUrl, 'freeindex.co') !== false) {
             return self::FREEINDEX;
         }
-        return null;
+        return self::OTHER;
     }
 }
