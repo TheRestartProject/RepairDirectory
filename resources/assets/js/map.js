@@ -4,6 +4,7 @@ const {hideElement, showElement, enableElement, disableElement} = require('./uti
 
 let isMobile;
 let map;
+let businesses = [];
 let markers = [];
 let $businessPopup;
 let $businessListContainer;
@@ -34,6 +35,30 @@ $(document).ready(() => {
 
     // close button should hide the displayed business
     $closeButton.click(hideRepairer);
+
+    // back and forward browser button support
+    window.onhashchange = function () {
+      if (window.location.hash && window.location.hash.length > 1) {
+          let business = null;
+          let marker = null;
+          const uid = parseInt(window.location.hash.substring(1), 10);
+          businesses.forEach(b => {
+              if (parseInt(b.uid, 10) === uid) {
+                  business = b;
+              }
+          });
+          markers.forEach(m => {
+              if (parseInt(m.businessUid, 10) === uid) {
+                  marker = m;
+              }
+          });
+          if (business && marker) {
+              showRepairer(business, marker)
+          }
+      } else  {
+          hideRepairer();
+      }
+    }
 });
 
 function initMap() {
@@ -65,8 +90,9 @@ function onSearch(e) {
 
 function doSearch(query) {
     disableElement($searchButton);
-    $.get('/map/api/business/search', query, ({searchLocation, businesses}) => {
+    $.get('/map/api/business/search', query, ({searchLocation, businesses: _businesses}) => {
         clearMap();
+        businesses = _businesses;
         if (searchLocation) {
             map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude});
         }
@@ -101,9 +127,11 @@ function addRepairer(business) {
         map: map,
         title: business.name
     });
+    marker.businessUid = business.uid;
+
     marker.addListener('click', function () {
         scrollToRepairer(business);
-        showRepairer(business, marker);
+        triggerShowRepairer(business.uid);
     });
     markers.push(marker);
 
@@ -114,7 +142,7 @@ function addRepairer(business) {
     `);
 
     $business.click(() => {
-        showRepairer(business, marker);
+      triggerShowRepairer(business.uid);
     });
 
     $('.business-list').append($business);
@@ -124,6 +152,10 @@ function scrollToRepairer(business) {
     const $sidebar = $('.sidebar');
     const $business = $sidebar.find('#business-' + business.uid);
     $sidebar.animate(({scrollTop: $business.offset().top - $sidebar.offset().top + $sidebar.scrollTop() - 100}));
+}
+
+function triggerShowRepairer(uid) {
+  window.location.hash = uid;
 }
 
 function showRepairer(business, marker) {
@@ -160,6 +192,7 @@ function hideRepairer() {
         $item.removeClass('business-list__item--active');
     });
     resetMarkers();
+    window.location.hash = '';
 }
 
 function resetMarkers() {
