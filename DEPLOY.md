@@ -18,6 +18,7 @@ to download the latest version if it exists
 Alternatively you can provide your own artifact by uploading a zip file of the project,
 making sure that you have run the following build commands
 
+* Copy dummy fixometer config: `composer fixometer:config`
 * Install composer dependencies `composer install`
 * Install node dependencies `yarn` or `npm install`
 * Build front-end assets `npm run production`
@@ -30,16 +31,21 @@ Additionally you can also delete the following folders
 * `node_modules`
 
 Once you've done this, zip it up and ftp it onto the server and give it the name
-of `repairmap.zip`.
+of `repairdir.zip`.
+
+e.g.
+    
+    zip -r ../repairdir.zip .
 
 ## Deployment
 
-With a built version of the site in a zip file called `repairmap.zip`, you can now
-run the second part of the deployment
+With a built version of the site in a zip file called `repairdir.zip`, you can now
+run the second part of the deployment (assuming the root of the application is 
+public_html, and you are in the folder above this):
 
     ./deploy.sh
     
-This will unzip the build artifact from `repairmap.zip` and zip it into place, and then
+This will unzip the build artifact from `repairdir.zip` and zip it into place, and then
 copy the public part of the application to the appropriate folderin the public directory 
 of the fixometer application. 
 

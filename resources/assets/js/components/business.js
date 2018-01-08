@@ -45,12 +45,14 @@ function formatBusinessHeader(business, compact = false) {
 function formatBusinessDetails(business, compact = false) {
     let $details = $('<div class="business__details"></div>');
 
-    let $categories = $('<ul class="business__categories"></ul>');
-    business.categories.forEach(category => {
-        $categories.append(`<li>${category}</li>`);
-    });
+    if (!compact) {
+        let $categories = $('<ul class="business__categories"></ul>');
+        business.categories.forEach(category => {
+            $categories.append(`<li>${category}</li>`);
+        });
+        $details.append($categories);
+    }
 
-    $details.append($categories);
 
     let $columns = $('<div class="row"></div>');
     let $leftColumn = $(`<div class="${compact ? 'col-xs-12' : 'col-xs-12 col-sm-6'}"></div>`);
