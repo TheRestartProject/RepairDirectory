@@ -20,7 +20,7 @@ $(document).ready(() => {
     $filter.val(window.localStorage.filter)
     const e = $.Event('keyup')
     e.which = 50
-    $('input').trigger(e)
+    $filter.trigger(e)
   }
 
   // set up slider
