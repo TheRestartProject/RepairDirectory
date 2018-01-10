@@ -1,8 +1,6 @@
 const $ = require('jquery')
 const renderBusiness = require('./components/business')
 const {hideElement, showElement, enableElement, disableElement} = require('./util')
-const google = window.google
-const ga = window.ga
 
 window.jQuery = $
 
@@ -70,7 +68,7 @@ $(document).ready(() => {
 function initMap () {
   isMobile = $(window).width() < 768 // matches bootstrap sm/md breakpoint
 
-  map = new google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
+  map = new window.google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
     zoom: 13,
     center: {lat: 51.5715356, lng: 0.1332412}
   })
@@ -127,7 +125,7 @@ function clearMap () {
 }
 
 function addRepairer (business) {
-  const marker = new google.maps.Marker({
+  const marker = new window.google.maps.Marker({
     icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
     position: {lat: business.geolocation.latitude, lng: business.geolocation.longitude},
     map: map,
@@ -208,12 +206,12 @@ function resetMarkers () {
 }
 
 function trackSearch (category) {
-  ga('send', 'event', 'search', 'submit', category || 'All Categories', {'transport': 'beacon'})
+  window.ga('send', 'event', 'search', 'submit', category || 'All Categories', {'transport': 'beacon'})
 }
 
 function trackRepairerSelection (business) {
   const value = [business.name, business.address, business.postcode].join(', ')
-  ga('send', 'event', 'map', 'select', value, {'transport': 'beacon'})
+  window.ga('send', 'event', 'map', 'select', value, {'transport': 'beacon'})
 }
 
 module.exports = {initMap}
