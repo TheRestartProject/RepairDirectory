@@ -31,7 +31,7 @@ class ReviewManagerTest extends TestCase
     public function it_can_handle_unknown_urls()
     {
         $response = $this->constructReviewManager()->getReviewResponse('bbc.com');
-        self::assertEquals(new ReviewResponse(null), $response);
+        self::assertEquals(new ReviewResponse(ReviewSource::OTHER), $response);
     }
 
     /**
