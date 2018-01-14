@@ -63,6 +63,9 @@ $(document).ready(() => {
       hideRepairer()
     }
   }
+
+  // search for businesses on page load
+  onSearch()
 })
 
 function initMap () {
@@ -79,17 +82,24 @@ function initMap () {
 }
 
 function onSearch (e) {
-  e.preventDefault()
-
-  const query = {
-    location: $('[name="location"]').val(),
-    category: $('[name="category"]').val(),
-    radius: 5
+  if (e) {
+    e.preventDefault()
   }
 
-  trackSearch(query.category)
+  const location = $('[name="location"]').val()
+  const category =  $('[name="category"]').val()
 
-  doSearch(query)
+  if (location || category) {
+    const query = {
+      location,
+      category,
+      radius: 5
+    }
+
+    trackSearch(query.category)
+
+    doSearch(query)
+  }
 }
 
 function doSearch (query) {
