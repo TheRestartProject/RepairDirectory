@@ -91,6 +91,15 @@ class AddSuggestionsListener
             $suggestion->setValue($authorisedBrand);
             $this->addSuggestion($suggestion, $entityManager, $newSuggestions);
         }
+
+        $localArea = $business->getLocalArea();
+        if ($localArea) {
+            $suggestion = new Suggestion();
+            $suggestion->setField('localArea');
+            $suggestion->setValue($localArea);
+            $this->addSuggestion($suggestion, $entityManager, $newSuggestions);
+        }
+
         return $newSuggestions;
     }
 

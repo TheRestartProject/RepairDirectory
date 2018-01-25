@@ -2,7 +2,7 @@ stages:
   - build
   - test
   - cleanup
-  - deploy
+#  - deploy
 
 build:php:
   image: registry.outlandish.com/the-restart-project/repair-directory/composer
@@ -68,25 +68,6 @@ test:unittests:
   - master
   - /^feature-.*$/
 
-deploy:heroku:
-  dependencies:
-    - build:php
-    - build:node
-  image: ruby:2.2
-  stage: deploy
-  tags:
-    - docker
-  before_script:
-    - gem install dpl
-  script:
-    - "echo 'web: php artisan doctrine:migrations:refresh && php artisan restart:import:businesses data/all.csv && $(composer config bin-dir)/heroku-php-apache2 public/' > ./Procfile"
-    - dpl --provider=heroku --app=restartproject --api-key=$HEROKU_STAGING_API_KEY --skip-cleanup
-  environment:
-    name: staging
-    url: https://restartproject.herokuapp.com/
-  only:
-    - master
-
 cleanup:
   image: registry.outlandish.com/the-restart-project/repair-directory/composer
   dependencies:
@@ -106,6 +87,25 @@ cleanup:
     - ./
     name: "${CI_BUILD_REF_NAME}"
     expire_in: 1 day
+
+#deploy:heroku:
+#  dependencies:
+#    - build:php
+#    - build:node
+#  image: ruby:2.2
+#  stage: deploy
+#  tags:
+#    - docker
+#  before_script:
+#    - gem install dpl
+#  script:
+#    - "echo 'web: php artisan doctrine:migrations:refresh && php artisan restart:import:businesses data/all.csv && $(composer config bin-dir)/heroku-php-apache2 public/' > ./Procfile"
+#    - dpl --provider=heroku --app=restartproject --api-key=$HEROKU_STAGING_API_KEY --skip-cleanup
+#  environment:
+#    name: staging
+#    url: https://restartproject.herokuapp.com/
+#  only:
+#    - master
 
 #deploy:staging:
 #  dependencies:
