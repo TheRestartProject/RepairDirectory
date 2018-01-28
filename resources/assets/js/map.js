@@ -14,8 +14,6 @@ let $searchButton
 let $closeButton
 
 $(document).ready(() => {
-  window.location.hash = ''
-
   $businessPopup = $('#business-popup')
   $businessListContainer = $('#business-list-container')
   $searchButton = $('#submit')
@@ -38,7 +36,7 @@ $(document).ready(() => {
   })
 
   // close button should hide the displayed business
-  $closeButton.click(hideRepairer)
+  $closeButton.click(triggerHideRepairer)
 
   // back and forward browser button support
   window.onhashchange = function () {
@@ -59,13 +57,17 @@ $(document).ready(() => {
       if (business && marker) {
         showRepairer(business, marker)
       }
+      window.localStorage.hash = uid
     } else {
       hideRepairer()
+      window.localStorage.hash = ''
     }
   }
 
   // search for businesses on page load
-  onSearch()
+  onSearch(null, () => {
+    window.location.hash = (window.localStorage && window.localStorage.hash) || ''
+  })
 })
 
 function initMap () {
@@ -77,11 +79,11 @@ function initMap () {
   })
 
   map.addListener('click', function () {
-    hideRepairer()
+    triggerHideRepairer()
   })
 }
 
-function onSearch (e) {
+function onSearch (e, callback) {
   if (e) {
     e.preventDefault()
   }
@@ -98,11 +100,11 @@ function onSearch (e) {
 
     trackSearch(query.category)
 
-    doSearch(query)
+    doSearch(query, callback)
   }
 }
 
-function doSearch (query) {
+function doSearch (query, callback) {
   disableElement($searchButton)
   $.get('/map/api/business/search', query, ({searchLocation, businesses: _businesses}) => {
     clearMap()
@@ -122,11 +124,14 @@ function doSearch (query) {
     $businessListContainer
       .find('.business-list-container__result-count')
       .text(resultCountText)
+    if (callback && typeof callback === 'function') {
+      callback()
+    }
   })
 }
 
 function clearMap () {
-  hideRepairer()
+  triggerHideRepairer()
   markers.forEach(marker => {
     marker.setMap(null)
   })
@@ -198,6 +203,10 @@ function showRepairer (business, marker) {
   })
 }
 
+function triggerHideRepairer () {
+  window.location.hash = ''
+}
+
 function hideRepairer () {
   hideElement($businessPopup)
   $('.business-list__item').each(function () {
@@ -206,7 +215,6 @@ function hideRepairer () {
     $item.removeClass('business-list__item--active')
   })
   resetMarkers()
-  window.location.hash = ''
 }
 
 function resetMarkers () {
