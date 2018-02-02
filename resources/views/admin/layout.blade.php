@@ -26,7 +26,7 @@
 
     <footer class="text-muted">
         <div class="container">
-            <p>Created by the <a href="https://therestartproject.org">The Restart Project</a> and <a href="https://outlandish.com">Outlandish</a>.</p>
+            <p>Created by <a href="https://therestartproject.org">The Restart Project</a> and <a href="https://outlandish.com">Outlandish</a>.</p>
         </div>
     </footer>
 
