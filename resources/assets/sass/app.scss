@@ -1,6 +1,6 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Patua+One:300,400,600");
 
 // Variables
 @import "variables";
@@ -8,17 +8,18 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+@import "node_modules/font-awesome/scss/font-awesome";
+// Fonts
+@import "fonts";
+
 // Admin
 @import "admin";
 
 .header__link {
-  float: right;
-  margin-top: 3rem;
+    float: right;
+    margin-top: 3rem;
 }
 
-@import "node_modules/font-awesome/scss/font-awesome";
-// Fonts
-@import "fonts";
 
 // Components
 @import "sidebar";
@@ -34,4 +35,13 @@
     padding-right: 0;
     padding-left: 0;
   }
+}
+
+footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+footer p {
+    margin-bottom: .25rem;
 }
