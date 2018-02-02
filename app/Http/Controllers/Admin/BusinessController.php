@@ -69,6 +69,8 @@ class BusinessController extends Controller
                 ->withInput();
         }
 
+        $request->session()->flash('alert-success', 'Your edits to the business were saved successfully.');
+
         return redirect()->route('admin.business.edit', $id);
     }
     

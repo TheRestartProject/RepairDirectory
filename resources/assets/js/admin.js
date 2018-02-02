@@ -4,6 +4,8 @@ const {showElement, hideElement, enableElement, disableElement} = require('./uti
 
 window.jQuery = $
 
+require('bootstrap-sass')
+
 $(document).ready(() => {
   const $filter = $('#DataTables_Table_0_filter').find('input')
   // remember admin table filter

@@ -3,6 +3,15 @@
 @section('content')
     <h2>{{ __($isCreate ? 'admin.new_business' : 'admin.edit_business') }}</h2>
 
+    <div class="flash-message">
+    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+        @if(Session::has('alert-' . $msg))
+
+        <p class="alert alert-{{ $msg }} alert-dismissable">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
+        @endif
+    @endforeach
+    </div>
+
     <form action="{{ $formAction }}" method="post" autocomplete="off">
 
         <div class="row">
