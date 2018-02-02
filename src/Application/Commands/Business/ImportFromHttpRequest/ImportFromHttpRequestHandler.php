@@ -83,6 +83,7 @@ class ImportFromHttpRequestHandler
 
         $this->updateValues($business, $data);
 
+        $business->setUpdatedAt(new \DateTime("now"));
         $business->setGeolocation($this->createPoint($data));
 
         if ($isCreate) {

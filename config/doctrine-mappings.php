@@ -114,6 +114,14 @@ return [
             'publishingStatus' => [
                 'type' => 'string',
                 'nullable' => false
+            ],
+            'createdAt' => [
+                'type' => 'datetime',
+                'nullable' => true
+            ],
+            'updatedAt' => [
+                'type' => 'datetime',
+                'nullable' => true
             ]
         ]
     ],

@@ -204,13 +204,26 @@ class Business
      */
     private $pricingInformation;
 
-
     /**
      * The publishing status of the business
      *
      * @var string
      */
     private $publishingStatus = PublishingStatus::DRAFT;
+
+    /**
+     * The date/time the business was created
+     *
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * The date/time the business was last modified
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
 
     /**
      * Return the business's unique id
@@ -837,4 +850,35 @@ class Business
         $this->reviewSourceUrl = $reviewSourceUrl;
     }
 
+
+    /**
+     * Return the date/time the business was created
+     * 
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * Return the date/time the business was last modified
+     * 
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set the date/time the business was last modified
+     * 
+     * @param \DateTime $updatedAt The value to set
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
 }

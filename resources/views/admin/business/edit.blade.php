@@ -3,7 +3,9 @@
 @section('content')
     <h2>{{ __($isCreate ? 'admin.new_business' : 'admin.edit_business') }}</h2>
 
-    <form class="row" action="{{ $formAction }}" method="post" autocomplete="off">
+    <form action="{{ $formAction }}" method="post" autocomplete="off">
+
+        <div class="row">
 
         {{ csrf_field() }}
 
@@ -236,43 +238,76 @@
                     <small class="business-error">{{ $errors->first('warranty') }}</small>
                 @endif
             </div>
+        </div>
+        </div>
 
-            <div class="form-group">
+        <hr/>
 
-                <label for="publishingStatus">{{ __('admin.publishing_status') }}</label>
-                @can('update', $business)
-                    <select id="publishingStatus" name="publishingStatus" class="form-control">
-                        @foreach($publishingStatuses as $status)
-                            @if(in_array($status, $authorizedStatuses, false))
-                                <option value="{{ $status }}"
-                                        {{ old('publishingStatus') ? (old('publishingStatus') == $status ? 'selected' : '') : ($business->getPublishingStatus() == $status ? 'selected' : '') }}>
-                                    {{ $status }}
-                                </option>
-                            @endif
-                        @endforeach
-                    </select>
-                @else
-                    <input id="publishingStatus" name="publishingStatus" class="form-control" readonly
-                           value="{{ old('publishingStatus') ?: $business->getPublishingStatus() }}"/>
-                @endcan
-                @if($errors->has('publishingStatus'))
-                    <small class="business-error">{{ $errors->first('publishingStatus') }}</small>
+        <div class="row">
+
+            <div class="col-md-4 col-md-offset-4">
+                @if (!$isCreate)
+                <div class="row">
+                    <div class="col-md-4">
+                        Created:
+                    </div>
+                    <div class="col-md-8">
+                        {{ $business->getCreatedAt()->format('d/m/Y H:i:s') }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Last updated:
+                    </div>
+                    <div class="col-md-8">
+                        {{ $business->getUpdatedAt()->format('d/m/Y H:i:s') }}
+                    </div>
+                </div>
                 @endif
             </div>
-            @can('update', $business)
-                <div class="clearfix actions">
-                    {!! $isCreate ? '' : '<button id="delete" type="button" class="btn btn-danger">' . __('admin.delete') . '</button>' !!}
-                    <button id="submit" class="btn btn-success">{{ __('admin.save') }}</button>
+
+            <div class="col-md-4">
+
+                <div class="form-group">
+
+                    <label for="publishingStatus">{{ __('admin.publishing_status') }}</label>
+                    @can('update', $business)
+                        <select id="publishingStatus" name="publishingStatus" class="form-control">
+                            @foreach($publishingStatuses as $status)
+                                @if(in_array($status, $authorizedStatuses, false))
+                                    <option value="{{ $status }}"
+                                            {{ old('publishingStatus') ? (old('publishingStatus') == $status ? 'selected' : '') : ($business->getPublishingStatus() == $status ? 'selected' : '') }}>
+                                        {{ $status }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    @else
+                        <input id="publishingStatus" name="publishingStatus" class="form-control" readonly
+                            value="{{ old('publishingStatus') ?: $business->getPublishingStatus() }}"/>
+                    @endcan
+                    @if($errors->has('publishingStatus'))
+                        <small class="business-error">{{ $errors->first('publishingStatus') }}</small>
+                    @endif
                 </div>
-            @endcan
-            @if($errors->has('business'))
-                <small class="business-error">{{ $errors->first('business') }}</small>
-            @endif
-            @if($errors->has('authorization'))
-                <small class="business-error">{{ $errors->first('authorization') }}</small>
-            @endif
+                @can('update', $business)
+                    <div class="clearfix actions">
+                        {!! $isCreate ? '' : '<button id="delete" type="button" class="btn btn-danger">' . __('admin.delete') . '</button>' !!}
+                        <button id="submit" class="btn btn-success">{{ __('admin.save') }}</button>
+                    </div>
+                @endcan
+                @if($errors->has('business'))
+                    <small class="business-error">{{ $errors->first('business') }}</small>
+                @endif
+                @if($errors->has('authorization'))
+                    <small class="business-error">{{ $errors->first('authorization') }}</small>
+                @endif
+
+            </div>
         </div>
     </form>
+
     <div id="delete-popup" class="hidden">
         <form class="delete-popup__form" action="/map/admin/business/{{ $business->getUid() }}" method="post">
 
