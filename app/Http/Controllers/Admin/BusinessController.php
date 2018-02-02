@@ -34,9 +34,10 @@ class BusinessController extends Controller
     {
         $this->authorize('create', Business::class);
 
+        $business = null;
         try {
             $command = $commandFactory->makeFromRequest($request);
-            $commandBus->handle($command);
+            $business = $commandBus->handle($command);
         } catch (BusinessValidationException $e) {
             return redirect()
                 ->route('admin.business.edit')
@@ -49,7 +50,9 @@ class BusinessController extends Controller
                 ->withInput();
         }
 
-        return redirect('map/admin');
+        $request->session()->flash('alert-success', 'The business was created successfully.');
+
+        return redirect()->route('admin.business.edit', $business->getUid());
     }
 
     public function update($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
