@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="row no-gutter">
-        <div class="col-xs-12 col-sm-3 sidebar">
+        <div class="col-xs-12 col-sm-4 col-md-3 sidebar">
             <div class="sidebar__logo">
                 <img src="/images/map/logo.png">
             </div>
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div id="map-desktop-container" class="col-xs-12 col-sm-9">
+        <div id="map-desktop-container" class="col-xs-12 col-sm-8 col-md-9">
             <div id="map-desktop"></div>
             <div id="business-popup" class="business-popup hidden">
                 <button id="business-popup-close" type="button" class="btn btn-default fa fa-times business-popup__close"></button>
