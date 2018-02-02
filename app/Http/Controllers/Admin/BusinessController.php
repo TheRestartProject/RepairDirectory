@@ -69,7 +69,7 @@ class BusinessController extends Controller
                 ->withInput();
         }
 
-        return redirect('map/admin');
+        return redirect()->route('admin.business.edit', $id);
     }
     
     public function delete($id, BusinessRepository $businessRepository, CommandBus $commandBus)
