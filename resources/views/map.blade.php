@@ -16,7 +16,7 @@
                             <div class="form-group">
                                 <label for="location">{{ __('map.location') }}</label>
                                 <input id="location" name="location" class="form-control sidebar__input"
-                                placeholder="E.G. Postcode">
+                                placeholder="e.g. Hackney, London">
                             </div>
                         </div>
                     </div>
