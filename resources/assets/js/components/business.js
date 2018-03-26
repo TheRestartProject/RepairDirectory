@@ -60,7 +60,7 @@ function formatBusinessDetails (business, compact = false) {
     $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-globe"></span>
-                <a href="${website}" onclick="trackOutboundLink('${website}'); return false;">
+                <a target="_blank" href="${website}" onclick="trackOutboundLink('${website}');">
                     ${business.website}
                 </a>
             </p>
@@ -72,7 +72,7 @@ function formatBusinessDetails (business, compact = false) {
     $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-envelope-o"></span>
-                <a href="${href}" onclick="trackOutboundLink('${href}'; return false;">
+                <a href="${href}" onclick="trackOutboundLink('${href}';">
                     ${business.email}
                 </a>
             </p>
@@ -85,7 +85,7 @@ function formatBusinessDetails (business, compact = false) {
     $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-phone"></span>
-                <a href="${href}" onclick="trackOutboundLink('${href}'); return false;">
+                <a href="${href}" onclick="trackOutboundLink('${href}');">
                     ${phoneNumber}
                 </a>
             </p>

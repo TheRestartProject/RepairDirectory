@@ -69,16 +69,16 @@ $(document).ready(() => {
 })
 
 function initMap () {
-  isMobile = $(window).width() < 768 // matches bootstrap sm/md breakpoint
+    isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
 
-  map = new window.google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
-    zoom: 13,
-    center: {lat: 51.5715356, lng: 0.1332412}
-  })
+    map = new window.google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
+        zoom: 13,
+        center: {lat: 51.5715356, lng: 0.1332412}
+    });
 
-  map.addListener('click', function () {
-    hideRepairer()
-  })
+    map.addListener('click', function () {
+        hideRepairer();
+    });
 }
 
 function onSearch (e) {
