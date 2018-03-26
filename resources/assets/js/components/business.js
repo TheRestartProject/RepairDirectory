@@ -27,12 +27,17 @@ function formatBusinessHeader (business, compact = false) {
         `)
   }
   if (business.positiveReviewPc) {
-    $heading.append(`
+      reviewText = `
             <div class="business__positive-review-percentage">
                 <h2>${business.positiveReviewPc}%</h2>
-                <span>positive reviews</span>
+                <span>positive reviews</span>`;
+      if (!compact && business.reviewSourceUrl) {
+          reviewText += ` <a class="business__review-source-url" target="_blank" href="` + business.reviewSourceUrl + `">(source)</a>`;
+      }
+      reviewText += `
             </div>
-        `)
+      `;
+      $heading.append(reviewText);
   }
   if (!compact) {
     $heading.append(`<p class="business__description">${business.description}</p>`)
