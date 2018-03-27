@@ -32,7 +32,8 @@ function formatBusinessHeader (business, compact = false) {
                 <h2>${business.positiveReviewPc}%</h2>
                 <span>positive reviews</span>`;
       if (!compact && business.reviewSourceUrl) {
-          reviewText += ` <a class="business__review-source-url" target="_blank" href="` + business.reviewSourceUrl + `">(source)</a>`;
+          const reviewSourceUrl = business.reviewSourceUrl.indexOf('http') === 0 ? business.reviewSourceUrl : ('http://' + business.reviewSourceUrl);
+          reviewText += ` <a class="business__review-source-url" target="_blank" href="` + reviewSourceUrl + `">(source)</a>`;
       }
       reviewText += `
             </div>
