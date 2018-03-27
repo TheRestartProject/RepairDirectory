@@ -20,7 +20,7 @@ function formatBusinessHeader (business, compact = false) {
   $heading.append(`<h2>${business.name}</h2>`)
   if (business.averageScore && !compact) {
     $heading.append(`
-            <div class="business__average-score">
+            <div class="hidden business__average-score">
                 <h2>${business.averageScore} / 5</h2>
                 <span>stars</span>
             </div>
