@@ -270,7 +270,9 @@
                         Last updated:
                     </div>
                     <div class="col-md-8">
+                        @if (!empty($business->getUpdatedAt()))
                         {{ $business->getUpdatedAt()->format('d/m/Y H:i:s') }}
+                        @endif
                     </div>
                 </div>
                 @endif
