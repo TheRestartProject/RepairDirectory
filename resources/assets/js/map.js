@@ -136,7 +136,7 @@ function clearMap () {
 
 function addRepairer (business) {
   const marker = new window.google.maps.Marker({
-    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
     position: {lat: business.geolocation.latitude, lng: business.geolocation.longitude},
     map: map,
     title: business.name
@@ -211,7 +211,7 @@ function hideRepairer () {
 
 function resetMarkers () {
   markers.forEach(marker => {
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+    marker.setIcon('https://maps.google.com/mapfiles/ms/icons/blue-dot.png')
   })
 }
 
