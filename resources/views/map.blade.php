@@ -8,7 +8,7 @@
                 <img src="/images/map/logo.png">
             </div>
             <div class="sidebar__content">
-                <h3 class="sidebar__header">{{ __('map.header_title') }}</h3>
+                <h3 class="hidden sidebar__header">{{ __('map.header_title') }}</h3>
                 <p class="sidebar__copy">{{ __('map.header_copy') }}</p>
                 <form id="search" class="sidebar__search">
                     <div class="row no-gutter">
