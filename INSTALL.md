@@ -19,6 +19,11 @@ See DEPLOY.md for deployment instructions.
 12. If necessary, run migrations for the fixometer database `php artisan doctrine:migrations:migrate --connection=fixometer`
     * You may already have a Fixometer DB locally, in which case you don't need to run these migrations.
 13. Add the users to log in with to visit the admin section `php artisan db:seed --class=UserSeeder`.
+14. Run `npm install` 
+    * This install front-end dependencies.
+15. Run `npm run dev`
+    * This builds front-end files.
+16. Run the app locally with `php artisan serve`
 
 The following users are created:
 
