@@ -1,18 +1,25 @@
 ## Installation
 
-1. Create a MySQL database (and, optionally, a user for that database)
-2. Copy .env.example to .env, and replace the values that are incorrect
-3. Run `php artisan key:generate` to generate an `APP_KEY` env var (required for SSL)
-4. Run `php artisan config:clear` to reload the config cache
-5. Run `php artisan doctrine:migrations:migrate`
-6. Seed the database with `php artisan restart:import:businesses data/test.csv`
-7. Ensure that the fixometer database connections in the `.env` file are set
+These are instructions for setting up a development environment only.
+See DEPLOY.md for deployment instructions.
+
+1. Clone this repository
+2. Copy the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`
+3. Run `composer install`
+4. Create a MySQL database (and, optionally, a user for that database)
+5. Copy .env.example to .env, and replace the values that are incorrect
+6. Run `php artisan key:generate` to generate an `APP_KEY` env var (required for SSL)
+7. Run `php artisan config:clear` to reload the config cache
+8. Ensure that the fixometer database connections in the `.env` file are set
     * FIXOMETER_DB_* can be set to the same database as your normal one, or a new database
     can be created for fixometer users and sessions.
-8. Run migrations for the fixometer database `php artisan doctrine:migrations:migrate --connection=fixometer`
-9a. Copy the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`, or
-9b. Change the path to the fixometer config to somewhere else by setting in your `.env` as `FIXOMETER_CONFIG_PATH`.
-10. Add the users to log in with to visit the admin section `php artisan db:seed --class=UserSeeder`.
+9. Run `php artisan doctrine:migrations:migrate`
+10. Seed the database with `php artisan restart:import:businesses data/test.csv`
+11. If necessary, run migrations for the fixometer database `php artisan doctrine:migrations:migrate --connection=fixometer`
+    * You may already have a Fixometer DB locally, in which case you don't need to run these migrations.
+12a. Copy the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`, or
+12b. Change the path to the fixometer config to somewhere else by setting in your `.env` as `FIXOMETER_CONFIG_PATH`.
+13. Add the users to log in with to visit the admin section `php artisan db:seed --class=UserSeeder`.
 
 The following users are created:
 
