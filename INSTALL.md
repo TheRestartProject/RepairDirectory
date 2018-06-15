@@ -15,10 +15,9 @@ See DEPLOY.md for deployment instructions.
     can be created for fixometer users and sessions.
 9. Run `php artisan doctrine:migrations:migrate`
 10. Seed the database with `php artisan restart:import:businesses data/test.csv`
-11. If necessary, run migrations for the fixometer database `php artisan doctrine:migrations:migrate --connection=fixometer`
+11. Update the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`, OR change the path to the fixometer config to somewhere else by setting in your `.env` as `FIXOMETER_CONFIG_PATH`.
+12. If necessary, run migrations for the fixometer database `php artisan doctrine:migrations:migrate --connection=fixometer`
     * You may already have a Fixometer DB locally, in which case you don't need to run these migrations.
-12a. Copy the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`, or
-12b. Change the path to the fixometer config to somewhere else by setting in your `.env` as `FIXOMETER_CONFIG_PATH`.
 13. Add the users to log in with to visit the admin section `php artisan db:seed --class=UserSeeder`.
 
 The following users are created:
