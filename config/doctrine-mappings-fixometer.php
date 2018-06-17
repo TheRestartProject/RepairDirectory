@@ -7,7 +7,7 @@ return [
         'id'     => [
             'uid' => [
                 'type'     => 'integer',
-                'column' => 'idusers',
+                'column' => 'id',
                 'generator' => [
                     'strategy' => 'auto'
                 ]
@@ -50,7 +50,7 @@ return [
             ],
             'modifiedAt' => [
                 'type' => 'datetime',
-                'column' => 'modified_at',
+                'column' => 'updated_at',
                 'nullable' => true
             ]
         ]
