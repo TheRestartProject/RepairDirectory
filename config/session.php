@@ -127,7 +127,6 @@ return [
         str_slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
 
-
     /*
     |--------------------------------------------------------------------------
     | Session Cookie Path
