@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700|Patua+One');
+
+// Body
+$body-bg: #f5f8fa;
+$brand: #0394A6;
+
+// Typography
+$font-family-sans-serif: 'Patua One', cursive, sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+$font-family-second: 'Open Sans', sans-serif;
+
+.clear {
+
+    &:after, &:before {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+}
+
+$focus1 : #0062cc;
