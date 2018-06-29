@@ -19,7 +19,7 @@
 
     <h2>{{ __('admin.form_title') }}</h2>
 
-    <table class="table table-hover">
+    <table class="table table-bordered table-hover">
         <thead>
         <tr>
             <th>{{ __('admin.name') }}</th>
