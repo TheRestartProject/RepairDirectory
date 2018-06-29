@@ -38,8 +38,8 @@
                             <li class="nav-item dropdown">
 
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <img src="" alt="user" class="avatar">
-                                   {{ auth()->user()->getName() }}  <span class="caret"></span>
+                                <img src="{{ asset('/images/placeholder-avatar.png') }}" alt="user" class="avatar">
+                                <span class="user-name">{{ auth()->user()->getName() }}</span>  <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu collapse navbar-dropdown" aria-labelledby="navbarDropdown">
