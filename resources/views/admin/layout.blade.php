@@ -97,7 +97,7 @@
     </main>
 
     <footer class="text-muted">
-        <div class="container">
+        <div class="container-fluid">
             <p>Created by <a href="https://therestartproject.org">The Restart Project</a> and <a href="https://outlandish.com">Outlandish</a>.</p>
         </div>
     </footer>
