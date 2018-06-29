@@ -66,10 +66,9 @@
                         <li>
                             <strong><svg width="11" height="14" viewBox="0 0 9 11" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8.55 0H0v10.687l4.253-3.689 4.297 3.689V0z" fill="#0394a6"/></svg> Community Tools</strong>
                             <ul>
-                                <li><a href="{{ url('/') }}/fixometer/">Fixometer</a></li>
-                                <li><a href="{{ url('/') }}/community/">Community</a></li>
-                                <li><a href="{{ url('/') }}/wiki/Main_Page">Restart Wiki</a></li>
-                                <li><a href="{{ url('/') }}/repairdirectory/">The Repair Directory</a></li>
+                                <li><a href="{{ env('FIXOMETER_URL') }}">Fixometer</a></li>
+                                <li><a href="{{ env('DISCOURSE_URL') }}">Discussion</a></li>
+                                <li><a href="{{ env('WIKI_URL') }}">Restart Wiki</a></li>
                             </ul>
                         </li>
 
