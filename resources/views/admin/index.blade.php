@@ -1,11 +1,25 @@
 @extends('admin.layout')
 
 @section('content')
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-between align-content-center">
+                <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">REPAIR DIRECTORY</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Businesses</li>
+                </ol>
+                </nav>
+                <div class="btn-group">
+                    <a class="btn btn-primary btn-save" href="{{ route('admin.business.edit') }}">Create new business</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <h2>{{ __('admin.form_title') }}</h2>
-    <a class="btn btn-primary" href="{{ route('admin.business.edit') }}">Add repairer</a>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>{{ __('admin.name') }}</th>

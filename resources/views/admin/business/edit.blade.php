@@ -254,7 +254,7 @@
 
         <div class="row">
 
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-4 offset-md-4">
                 @if (!$isCreate)
                 <div class="row">
                     <div class="col-md-4">
@@ -304,7 +304,7 @@
                 </div>
                 @can('update', $business)
                     <div class="clearfix actions">
-                        {!! $isCreate ? '' : '<button id="delete" type="button" class="btn btn-danger">' . __('admin.delete') . '</button>' !!}
+                        {!! $isCreate ? '' : '<button id="delete" type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-popup">' . __('admin.delete') . '</button>' !!}
                         <button id="submit" class="btn btn-success">{{ __('admin.save') }}</button>
                     </div>
                 @endcan
@@ -319,18 +319,22 @@
         </div>
     </form>
 
-    <div id="delete-popup" class="hidden">
-        <form class="delete-popup__form" action="/map/admin/business/{{ $business->getUid() }}" method="post">
+    <div id="delete-popup" class="modal">
+        <div class="modal-dialog"  role="document">
+            <div class="modal-content">
 
-            {{ csrf_field() }}
-
-            {{ method_field('delete') }}
-
-            <p>Are you sure you wish to delete this business?</p>
-            <div class="clearfix actions">
-                <button id="cancel-delete" type="button" class="btn btn-default">{{ __('admin.cancel') }}</button>
-                <button id="confirm-delete" class="btn btn-danger">{{ __('admin.delete') }}</button>
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure you wish to delete this business?</h5>
             </div>
-        </form>
+            <div class="modal-footer">
+                <form action="/map/admin/business/{{ $business->getUid() }}" method="post">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button id="cancel-delete" class="btn btn-secondary mr-auto" data-dismiss="modal" type="button">{{ __('admin.cancel') }}</button>
+                    <button id="confirm-delete" class="btn btn-danger">{{ __('admin.delete') }}</button>
+                </form>
+            </div>
+            </div>
+        </div>
     </div>
 @endsection
