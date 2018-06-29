@@ -58,8 +58,8 @@ function formatBusinessDetails (business, compact = false) {
   }
 
   let $columns = $('<div class="row"></div>')
-  let $leftColumn = $(`<div class="${compact ? 'col-xs-12' : 'col-xs-12 col-sm-6'}"></div>`)
-  let $rightColumn = $(`<div class="${compact ? 'col-xs-12 business__extra-details' : 'col-xs-12 col-sm-6'}"></div>`)
+  let $leftColumn = $(`<div class="${compact ? 'col-md-12' : 'col-md-12 col-sm-6'}"></div>`)
+  let $rightColumn = $(`<div class="${compact ? 'col-md-12 business__extra-details' : 'col-md-12 col-sm-6'}"></div>`)
 
   if (business.website) {
     const website = business.website.indexOf('http') === 0 ? business.website : ('http://' + business.website)

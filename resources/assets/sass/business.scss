@@ -48,6 +48,7 @@ a.business__review-source-url {
 
   /* Display a font awesome icon on the left, and the business information on the right */
 .business-detail {
+    margin-bottom: 0.3rem;
   .fa {
     color: #0094a7;
     float: left;
@@ -56,8 +57,12 @@ a.business__review-source-url {
     text-align: center;
   }
   :last-child {
-    margin-left: 1rem;
+    margin-left: 0.3rem;
     word-wrap: break-word;
+  }
+
+  a {
+      color: #23527c;
   }
 }
 .business-detail.business-detail--scrollable {

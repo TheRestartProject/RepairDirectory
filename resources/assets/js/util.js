@@ -1,9 +1,9 @@
 function showElement ($el) {
-  $el.removeClass('hidden')
+  $el.removeClass('d-none')
 }
 
 function hideElement ($el) {
-  $el.addClass('hidden')
+  $el.addClass('d-none')
 }
 
 function enableElement ($el) {
