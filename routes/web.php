@@ -16,6 +16,7 @@ Route::get('/', 'MapController@index')->name('map');
 
 Route::prefix('admin')
     ->middleware('auth')
+    ->middleware('can:accessAdmin')
     ->namespace('Admin')
     ->group(function () {
         Route::get('/', 'AdminController@index')->name('admin.index');
@@ -26,5 +27,3 @@ Route::prefix('admin')
         Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
         Route::delete('business/{id}', 'BusinessController@delete')->name('admin.business.delete');
     });
-
-
