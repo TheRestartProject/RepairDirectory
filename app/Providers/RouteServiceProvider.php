@@ -59,8 +59,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::namespace($this->namespace)
             ->middleware('web')
             ->group(function () {
-                Route::prefix('')->group(base_path('routes/local.php'));
-                Route::prefix('map')
+                Route::prefix('local')->group(base_path('routes/local.php'));
+                Route::prefix('')
                     ->group(base_path('routes/web.php'));
             });
 
