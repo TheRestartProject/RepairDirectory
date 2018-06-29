@@ -5,7 +5,7 @@ return [
     'title' => 'Repair Directory Admin',
     'go_to_map' => 'Go to the Map',
 
-    'form_title' => 'All Repairers',
+    'form_title' => 'All Repair Businesses',
     'new_business' => 'New Business',
     'edit_business' => 'Edit Business',
 
@@ -35,5 +35,7 @@ return [
 
     'save' => 'Save',
     'delete' => 'Delete',
-    'cancel' => 'Cancel'
+    'cancel' => 'Cancel',
+
+    'your_profile' => 'Your profile'
 ];
