@@ -7,7 +7,7 @@
 
         <link rel="stylesheet" type="text/css" href="/css/map/app.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <title>@lang('admin.title')</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
             <div class="container">
                 <a class="navbar-brand" role="button" data-toggle="collapse" aria-expanded="false" href="#startMenu" aria-controls="startMenu" aria-label="Toggle start menu">
                     @include('admin.logo-large')
-                    <span class="caret">&#9660;</span>
+                    <span class="caret"></span>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,8 +25,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav navbar-nav__left">
-                         <li><a class="nav-link" href="{{ route('admin.index') }}">Businesses</a></li>
-      <li><a class="nav-link" href="{{ route('map') }}">Map</a></li>
+                        <li><a class="nav-link" href="{{ route('admin.index') }}"><i class="fas fa-store-alt"></i> Businesses</a></li>
+                         <li><a class="nav-link" href="{{ route('map') }}"><i class="fas fa-map"></i> Map</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
