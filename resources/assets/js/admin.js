@@ -4,7 +4,7 @@ const {showElement, hideElement, enableElement, disableElement} = require('./uti
 
 window.jQuery = $
 
-require('bootstrap-sass')
+require('bootstrap')
 
 $(document).ready(() => {
   const $filter = $('#DataTables_Table_0_filter').find('input')
