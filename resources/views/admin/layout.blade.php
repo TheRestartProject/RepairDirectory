@@ -33,23 +33,26 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
 
-                            <!--<li><a class="nav-link" href="{{ url('/') }}/login">@lang('general.login')</a></li>
-                            <li><a class="nav-link" href="{{ url('/') }}/register">@lang('general.register')</a></li>-->
-
                             <li class="nav-item dropdown">
+                                @php( $user = Auth::user() )
 
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <img src="{{ asset('/images/placeholder-avatar.png') }}" alt="user" class="avatar">
-                                <span class="user-name">{{ auth()->user()->getName() }}</span>  <span class="caret"></span>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-target="#account-nav" aria-controls="account-nav" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-label="Toggle account navigation" v-pre>
+                                    {{-- @if ( isset( $user->getProfile($user->id)->path ) && !is_null( $user->getProfile($user->id)->path ) )--}}
+                                    @if ( false )
+                                        <img src="/uploads/thumbnail_{{ $user->getProfile($user->id)->path }}" alt="{{ $user->getName() }} Profile Picture" class="avatar">
+                                    @else
+                                        <img src="{{ asset('/images/placeholder-avatar.png') }}" alt="{{ $user->getName() }} Profile Picture" class="avatar">
+                                    @endif
+                                    <span class="user-name">{{ $user->getName() }}</span> <span class="caret"></span>
                                 </a>
 
-                                <div class="dropdown-menu collapse navbar-dropdown" aria-labelledby="navbarDropdown">
+                                <div id="account-nav" class="dropdown-menu collapse navbar-dropdown" aria-labelledby="navbarDropdown">
 
                                     <ul>
                                         <li>
                                             <ul>
-                                                <li><a href="{{ env('FIXOMETER_URL')}}/profile/{{ Auth::id() }}">@lang('admin.your_profile')</a></li>
-                                                <!-- <li><a href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">@lang('general.logout')</a></li>-->
+                                                <!-- <li><a href="{{ env('FIXOMETER_URL') }}/profile/{{ Auth::id() }}">@lang('admin.your_profile')</a></li>-->
+                                                <li><a href="{{ env('FIXOMETER_URL') }}/logout">@lang('admin.logout')</a></li>
                                             </ul>
                                         </li>
                                     </ul>

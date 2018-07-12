@@ -28,6 +28,7 @@
 }
 
 .user-name {
+    display: none;
     font-size: 16px;
     font-family: $font-family-sans-serif;
     text-decoration: underline;
@@ -35,9 +36,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow:hidden;
-    display: inline-block;
     padding-left: 1px;
-    margin: auto;
+    margin: auto auto auto 9px;
+    @include media-breakpoint-up(lg) {
+        display: inline-block;
+    }
 }
 
 .nav-link:focus,  {
@@ -77,8 +80,12 @@
         background-color: #EC7F00;
         font-weight:400;
 
-        &:hover, &:focus {
+        &:hover, &:focus, &:active {
             background-color: #AF6713;
+        }
+
+        &:active, &:focus {
+            outline-color:rgba(3, 148, 166, 0.5);
         }
 
         span {
@@ -98,11 +105,11 @@
 
     .caret {
         float: right;
-        margin: -27px 0 0 0;
+        margin: -25px 0 0 0;
         font-size: 10px;
         font-family: $font-family-sans-serif;
         position: relative;
-        left: 13px;
+        left: 16px;
         z-index: 1;
     }
 
@@ -118,23 +125,36 @@
 
     .navbar-brand {
         margin:auto 0;
-        padding: 11px 32px;
+        padding: 11px 15px;
+        padding-right: 25px;
 
-        // Equalise padding to right
-        padding-right: 37px;
 
-        border:1px solid #D9D9D9;
-        border-top:0;
-        border-left:0;
-        border-bottom:0;
+        margin:auto 0;
+        
+        @include media-breakpoint-up(sm) {
+            padding: 11px 32px 11px 30px;
+
+            // Equalise padding to right
+            padding-right: 45px;
+
+            border:1px solid #D9D9D9;
+            border-top:0;
+            border-left:0;
+            border-bottom:0;
+
+        }
+
+
 
         svg {
             display: block;
+            height: 40px;
+            width: auto;
         }
 
         .caret {
             font-size: 18px;
-            top: -7px;
+            top: -6px;
             &:after {
                 display: inline-block;
                 width: 0;
@@ -148,6 +168,24 @@
                 border-left: 0.3em solid transparent;
             }
         }
+
+        &:focus {
+            background-color: #F3F3F3;
+            outline: 0;
+        }
+
+        &:hover, &:active {
+            background-color: #0394A6;
+            color: #FFF;
+
+            svg {
+                path {
+                    fill:#FFF !important;
+                }
+            }
+        }
+
+
     }
 
     .navbar-nav {
@@ -158,13 +196,13 @@
             position: relative;
             z-index: 1;
             font-family: $font-family-sans-serif;
-            @include media-breakpoint-up(sm) {
+            //@include media-breakpoint-up(sm) {
                 padding: 11px 15px;
                 border:1px solid #D9D9D9;
                 border-top:0;
                 border-right:0;
                 border-bottom:0;
-            }
+            //}
             &:hover, &:focus {
                 background-color: #fff;
                 text-decoration: none;
@@ -172,17 +210,43 @@
         }
 
         &__left {
+
+            @include media-breakpoint-down(md) {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                display: flex;
+                flex-flow: row wrap;
+                z-index: 1000;
+                background-color: #fff;
+                border-top:2px solid #D9D9D9;
+
+                li {
+                    flex: 1 0 33.333%;
+                    max-width: 33.333%;
+                    flex-direction: column;
+                    text-align: center;
+                }
+
+            }
+
             .nav-link {
-                @include media-breakpoint-up(sm) {
+                //@include media-breakpoint-up(sm) {
                     border-right:1px solid #D9D9D9;
                     border-left: 0;
                     padding-top: 18px;
                     padding-bottom: 18px;
-                    padding-left: 35px;
+                    padding-left: 50px;
                     padding-right: 35px;
-                }
+                    @include media-breakpoint-down(md) {
+                        padding-left: 10px;
+                        padding-right: 10px;
+                        height: 100%;
+                    }
+                //}
 
-                padding-left: 40px;
+                //padding-left: 40px;
 
                 svg {
                     display: block;
@@ -191,6 +255,16 @@
                     top: 50%;
                     z-index: 1;
                     margin-top: -7px;
+
+                    @include media-breakpoint-down(md) {
+                        position: relative;
+                        display: inline-block;
+                        left: auto;
+                        top: auto;
+                        margin: 0 5px 0 0;
+                        top: 3px;
+                        z-index: 1;
+                    }
                 }
 
                 &:focus {
@@ -198,7 +272,7 @@
                     outline: 0;
                 }
 
-                &:hover {
+                &:hover, &:active {
                     background-color: #0394A6;
                     color: #FFF;
 
@@ -209,9 +283,17 @@
                     }
                 }
 
-                i {
-                    margin-right: 8px;
-                }
+            }
+        }
+
+        &:last-child {
+
+            @include media-breakpoint-down(md) {                
+                margin: 0;
+                flex: 1 0 100%;
+                justify-content: flex-end;
+                display: flex;
+                flex-flow: row wrap;
             }
         }
 
@@ -309,6 +391,27 @@
                 }
             }
         }
+    }
+
+}
+
+#navbarSupportedContent {
+
+    @include media-breakpoint-down(md) {
+        flex: auto;
+        display: block;
+        justify-content: flex-end;
+    }
+
+}
+
+#account-nav {
+
+    @include media-breakpoint-down(md) {
+        position: absolute;
+        right: 0;
+        left: auto;
+        z-index: 1001;
     }
 
 }

@@ -37,5 +37,6 @@ return [
     'delete' => 'Delete',
     'cancel' => 'Cancel',
 
-    'your_profile' => 'Your profile'
+    'your_profile' => 'Your profile',
+    'logout' => 'Logout'
 ];
