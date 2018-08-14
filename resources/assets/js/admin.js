@@ -67,7 +67,7 @@ $(document).ready(() => {
   $reviewSourceUrl.blur(
     function () {
       disableElement($derivedElements)
-      $.ajax('/map/admin/business/scrape-review', {
+      $.ajax('/admin/business/scrape-review', {
         data: {'url': $reviewSourceUrl.val()},
         success: function (response) {
           if (response.reviewSource) {
@@ -94,7 +94,8 @@ $(document).ready(() => {
           }
           enableElement($derivedElements)
         },
-        error: function () {
+        error: function (response) {
+            console.log("my object: %o", response);
           enableElement($derivedElements)
         }
       })
