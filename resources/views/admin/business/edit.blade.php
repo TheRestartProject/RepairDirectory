@@ -327,7 +327,7 @@
                 <h5 class="modal-title">Are you sure you wish to delete this business?</h5>
             </div>
             <div class="modal-footer">
-                <form action="/map/admin/business/{{ $business->getUid() }}" method="post">
+                <form action="/admin/business/{{ $business->getUid() }}" method="post">
                     {{ csrf_field() }}
                     {{ method_field('delete') }}
                     <button id="cancel-delete" class="btn btn-secondary mr-auto" data-dismiss="modal" type="button">{{ __('admin.cancel') }}</button>

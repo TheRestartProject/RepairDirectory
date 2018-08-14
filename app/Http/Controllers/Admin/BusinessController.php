@@ -85,7 +85,7 @@ class BusinessController extends Controller
         }
         $this->authorize('update', $business);
         $commandBus->handle(new DeleteBusinessCommand($business));
-        return redirect('map/admin');
+        return redirect('admin');
     }
 
     public function validateField(Request $request, BusinessValidator $businessValidator)
