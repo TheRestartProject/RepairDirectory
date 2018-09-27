@@ -63,10 +63,12 @@ $(document).ready(() => {
 
   // set up review url scraping
   const $reviewSourceUrl = $('#reviewSourceUrl')
+  const $scrapeButton = $('#scrapeButton');
   const $derivedElements = $('#reviewSourceUrl,#reviewSource,#positiveReviewPc,#positiveReviewPcRange,#averageScore')
-  $reviewSourceUrl.blur(
-    function () {
+    $scrapeButton.on('click', function (e) {
+      e.preventDefault();
       disableElement($derivedElements)
+      
       $.ajax('/admin/business/scrape-review', {
         data: {'url': $reviewSourceUrl.val()},
         success: function (response) {
