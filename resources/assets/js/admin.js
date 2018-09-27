@@ -50,7 +50,7 @@ $(document).ready(() => {
     const $error = $(`<small class="business-error hidden" id="${field}-error"></small>`)
     $error.insertAfter($input)
     $input.blur(function () {
-      $.get('/map/admin/business/validate-field', {field: $input.attr('name'), value: $input.val()}, response => {
+      $.get('/admin/business/validate-field', {field: $input.attr('name'), value: $input.val()}, response => {
         if (response) {
           $error.text(response)
           showElement($error)
