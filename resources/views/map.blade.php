@@ -28,6 +28,16 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="category">{{ __('map.radius') }}</label>
+                        <select id="category" name="category" class="form-control sidebar__select">
+                            @foreach($radiusOptions as $option)
+                                <option value="{{ $option }}">
+                                    {{ $option }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <button id="submit" class="btn btn-primary sidebar__button" disabled>
                             {{ __('map.search') }}
                         </button>
