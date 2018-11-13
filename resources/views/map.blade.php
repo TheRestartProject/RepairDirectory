@@ -31,7 +31,7 @@
                         <label for="radius">{{ __('map.radius') }}</label>
                         <select id="radius" name="radius" class="form-control sidebar__select">
                             @foreach($radiusOptions as $option)
-                                <option value="{{ $option }}">
+                                <option value="{{ $option }}" {{ $option == $selectedRadius ? 'selected' : '' }}>
                                     {{ $option }}
                                 </option>
                             @endforeach
