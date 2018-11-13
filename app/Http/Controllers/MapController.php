@@ -12,7 +12,7 @@ class MapController extends Controller
         {
             return response('', 403);
         }
-        return view('map', ['categories' => Category::values()]);
+        return view('map', ['categories' => Category::values(), 'radiusOptions' => [1, 3, 5, 7, 10]]);
     }
 
     private function isIpRestricted()
