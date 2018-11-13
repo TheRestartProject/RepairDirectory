@@ -28,8 +28,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="category">{{ __('map.radius') }}</label>
-                        <select id="category" name="category" class="form-control sidebar__select">
+                        <label for="radius">{{ __('map.radius') }}</label>
+                        <select id="radius" name="radius" class="form-control sidebar__select">
                             @foreach($radiusOptions as $option)
                                 <option value="{{ $option }}">
                                     {{ $option }}

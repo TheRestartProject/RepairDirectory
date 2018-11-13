@@ -88,12 +88,13 @@ function onSearch (e) {
 
   const location = $('[name="location"]').val()
   const category =  $('[name="category"]').val()
+  const radius =  $('[name="radius"]').val()
 
   if (location || category) {
     const query = {
       location,
       category,
-      radius: 5
+      radius: radius
     }
 
     trackSearch(query.category)
