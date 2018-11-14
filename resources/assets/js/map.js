@@ -101,21 +101,28 @@ function onSearch (e) {
 
     trackSearch(query.category)
 
-      console.log(location, location == 'London, UK');
       let zoom = radius == 18 ? 11 : 13;
 
-    doSearch(query, zoom)
+    doSearch(query, zoom, function () {
+        window.history.pushState({
+            query: query,
+            zoom: 13
+        },
+          'Searching for Repair Shops in ' + query.location,
+          '/?' + $.param(query)
+      );
+    })
   }
 }
 
-function doSearch (query, zoom = 13) {
+function doSearch (query, zoom, cb) {
   disableElement($searchButton)
   $.get('/map/api/business/search', query, ({searchLocation, businesses: _businesses}) => {
     clearMap()
     businesses = _businesses
     if (searchLocation) {
       map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude})
-      map.setZoom(zoom)
+      map.setZoom(zoom ? zoom : 13)
     }
     enableElement($searchButton)
     showElement($businessListContainer)
@@ -129,6 +136,10 @@ function doSearch (query, zoom = 13) {
     $businessListContainer
       .find('.business-list-container__result-count')
       .text(resultCountText)
+
+      if (cb){
+          cb();
+      }
   })
 }
 
