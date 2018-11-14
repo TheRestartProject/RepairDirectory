@@ -64,6 +64,7 @@ $(document).ready(() => {
     }
   }
 
+
   // search for businesses on page load
   onSearch()
 })
@@ -72,13 +73,23 @@ function initMap () {
     isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
 
     map = new window.google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
-        zoom: 13,
-        center: {lat: 51.5715356, lng: 0.1332412}
+        zoom: 11,
+        center: {lat: 51.5073509, lng: -0.1277583}
     });
 
     map.addListener('click', function () {
         hideRepairer();
     });
+}
+
+function defaultSearch() {
+    const query = {
+        location: 'London, UK',
+        category: '',
+        radius: 15
+    };
+
+    doSearch(query)
 }
 
 function onSearch (e) {
@@ -100,6 +111,8 @@ function onSearch (e) {
     trackSearch(query.category)
 
     doSearch(query)
+  } else {
+      defaultSearch();
   }
 }
 
