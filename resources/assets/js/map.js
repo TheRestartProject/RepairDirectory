@@ -89,7 +89,8 @@ function defaultSearch() {
         radius: 15
     };
 
-    doSearch(query)
+
+    doSearch(query, 11)
 }
 
 function onSearch (e) {
@@ -110,19 +111,21 @@ function onSearch (e) {
 
     trackSearch(query.category)
 
-    doSearch(query)
+    doSearch(query, 13)
+
   } else {
       defaultSearch();
   }
 }
 
-function doSearch (query) {
+function doSearch (query, zoom = 13) {
   disableElement($searchButton)
   $.get('/map/api/business/search', query, ({searchLocation, businesses: _businesses}) => {
     clearMap()
     businesses = _businesses
     if (searchLocation) {
       map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude})
+      map.setZoom(zoom)
     }
     enableElement($searchButton)
     showElement($businessListContainer)
