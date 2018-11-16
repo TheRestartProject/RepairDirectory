@@ -11,5 +11,7 @@ return [
         18,
     ],
     'default_radius' => 18,
-    'base_url' => env('MAP_BASE_URL', 'https://map.restarters.org')
+    'share' => [
+        'base_url' => env('MAP_SHARE_BASE_URL', 'https://map.restarters.org')
+    ]
 ];

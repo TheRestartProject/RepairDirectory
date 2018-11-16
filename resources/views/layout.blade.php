@@ -10,7 +10,7 @@
 
     <script>
         window.__env = {
-            mapBaseUrl: '{{ config('map.base_url') }}'
+            mapShareBaseUrl: '{{ config('map.share.base_url') }}'
         }
     </script>
 
