@@ -144,8 +144,10 @@ function onSearch (query, cb) {
 
       doSearch(query, zoom, cb)
 
+      $('#share-url').val(window.__env.mapBaseUrl + '?' + $.param(query));
   }
 }
+
 
 function getQueryParameters (str) {
     return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
