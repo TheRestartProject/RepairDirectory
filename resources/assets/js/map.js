@@ -102,6 +102,23 @@ function initMap () {
     map.addListener('click', function () {
         hideRepairer();
     });
+
+    $('#copy-url').click(function () {
+        $('#share-url').select();
+        document.execCommand('copy');
+    });
+
+    $('#close-share-url').click(function () {
+       $('#share-url-container').hide();
+    });
+
+    $('#open-share-url').click(function (event) {
+        event.preventDefault();
+        $('#share-url-container').show();
+        $('#share-url').select();
+    });
+
+
 }
 
 function createQuery () {
