@@ -82,17 +82,6 @@ function initMap () {
     });
 }
 
-function defaultSearch() {
-    const query = {
-        location: 'London, UK',
-        category: '',
-        radius: 15
-    };
-
-
-    doSearch(query, 11)
-}
-
 function onSearch (e) {
   if (e) {
     e.preventDefault()
@@ -102,19 +91,20 @@ function onSearch (e) {
   const category =  $('[name="category"]').val()
   const radius =  $('[name="radius"]').val()
 
-  if (location || category) {
     const query = {
-      location,
-      category,
-      radius: radius
+        location,
+        category,
+        radius: radius
     }
+
+  if (location || category) {
 
     trackSearch(query.category)
 
-    doSearch(query, 13)
+      console.log(location, location == 'London, UK');
+      let zoom = location == 'London, UK' ? 11 : 13;
 
-  } else {
-      defaultSearch();
+    doSearch(query, zoom)
   }
 }
 

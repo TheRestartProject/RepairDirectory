@@ -10560,13 +10560,23 @@ function initMap() {
   isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
 
   map = new window.google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
-    zoom: 13,
-    center: { lat: 51.5715356, lng: 0.1332412 }
+    zoom: 11,
+    center: { lat: 51.5073509, lng: -0.1277583 }
   });
 
   map.addListener('click', function () {
     hideRepairer();
   });
+}
+
+function defaultSearch() {
+  var query = {
+    location: 'London, UK',
+    category: '',
+    radius: 15
+  };
+
+  doSearch(query, 11);
 }
 
 function onSearch(e) {
@@ -10578,20 +10588,26 @@ function onSearch(e) {
   var category = $('[name="category"]').val();
   var radius = $('[name="radius"]').val();
 
+  var query = {
+    location: location,
+    category: category,
+    radius: radius
+  };
+
   if (location || category) {
-    var query = {
-      location: location,
-      category: category,
-      radius: radius
-    };
 
     trackSearch(query.category);
 
-    doSearch(query);
+    console.log(location, location == 'London, UK');
+    var zoom = location == 'London, UK' ? 11 : 13;
+
+    doSearch(query, zoom);
   }
 }
 
 function doSearch(query) {
+  var zoom = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 13;
+
   disableElement($searchButton);
   $.get('/map/api/business/search', query, function (_ref) {
     var searchLocation = _ref.searchLocation,
@@ -10601,6 +10617,7 @@ function doSearch(query) {
     businesses = _businesses;
     if (searchLocation) {
       map.setCenter({ lat: searchLocation.latitude, lng: searchLocation.longitude });
+      map.setZoom(zoom);
     }
     enableElement($searchButton);
     showElement($businessListContainer);

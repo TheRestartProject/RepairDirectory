@@ -8,7 +8,7 @@ return [
         5,
         7,
         10,
-        15
+        18,
     ],
-    'default_radius' => 7
+    'default_radius' => 18
 ];
