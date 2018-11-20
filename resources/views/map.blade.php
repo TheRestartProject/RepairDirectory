@@ -16,7 +16,7 @@
                             <div class="form-group">
                                 <label for="location">{{ __('map.location.label') }}</label>
                                 <input id="location" name="location" class="form-control sidebar__input"
-                                       value="London, UK"
+                                       value="{{ $selectedLocation }}"
                                        placeholder="{{ __('map.location.placeholder') }}">
                             </div>
                         </div>
@@ -38,9 +38,9 @@
                             <div class="form-group">
                                 <label for="category">{{ __('map.category') }}</label>
                                 <select id="category" name="category" class="form-control sidebar__select">
-                                    <option value="" selected>{{ __('map.category_all') }}</option>
+                                    <option value="" {{ empty($selectedCategory) ? 'selected' : '' }}>{{ __('map.category_all') }}</option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category }}">
+                                        <option value="{{ $category }}" {{ $category == $selectedCategory ? 'selected' : '' }}>
                                             {{ $category }}
                                         </option>
                                     @endforeach

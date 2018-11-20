@@ -15,7 +15,7 @@ class MapController extends Controller
         }
 
         return view('map', [
-            'selectedLocation' => $request->input('location', ''),
+            'selectedLocation' => $request->input('location', 'London, UK'),
             'categories' => Category::values(),
             'selectedCategory' => $request->input('category', ''),
             'radiusOptions' => config('map.radiuses'),
