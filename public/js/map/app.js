@@ -10569,16 +10569,6 @@ function initMap() {
   });
 }
 
-function defaultSearch() {
-  var query = {
-    location: 'London, UK',
-    category: '',
-    radius: 15
-  };
-
-  doSearch(query, 11);
-}
-
 function onSearch(e) {
   if (e) {
     e.preventDefault();
@@ -10599,7 +10589,7 @@ function onSearch(e) {
     trackSearch(query.category);
 
     console.log(location, location == 'London, UK');
-    var zoom = location == 'London, UK' ? 11 : 13;
+    var zoom = radius == 18 ? 11 : 13;
 
     doSearch(query, zoom);
   }

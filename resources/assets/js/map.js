@@ -102,7 +102,7 @@ function onSearch (e) {
     trackSearch(query.category)
 
       console.log(location, location == 'London, UK');
-      let zoom = location == 'London, UK' ? 11 : 13;
+      let zoom = radius == 18 ? 11 : 13;
 
     doSearch(query, zoom)
   }
