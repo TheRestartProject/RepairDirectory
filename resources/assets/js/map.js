@@ -140,7 +140,7 @@ function onSearch (query, cb) {
 
       trackSearch(query.category)
 
-      let zoom = query.radius == 18 ? 11 : 13;
+      let zoom = query.radius > 10 ? 11 : 13;
 
       doSearch(query, zoom, cb)
 
