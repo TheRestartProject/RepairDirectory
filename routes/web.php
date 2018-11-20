@@ -13,6 +13,7 @@
 
 
 Route::get('/', 'MapController@index')->name('map');
+Route::get('/businesses/{business}', 'BusinessController@view')->name('business');
 
 Route::prefix('admin')
     ->middleware('auth')
