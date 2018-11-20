@@ -76,6 +76,11 @@
   border-radius: 0;
   @include button-variant(#f9a33f, #f9a33f, #958751);
   color:white;
+  padding: 9px 25px 10px;
+}
+
+.sidebar__button-label {
+  visibility: hidden;
 }
 
 #business-list-container {
