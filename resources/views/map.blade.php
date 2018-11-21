@@ -12,7 +12,7 @@
             <div class="sidebar__content">
                 <h3 class="d-none sidebar__header">{{ __('map.header_title') }}</h3>
                 <p class="sidebar__copy">{{ __('map.header_copy') }}</p>
-                <form id="search" action="{{ route('map') }}" method="get" class="sidebar__search">
+                <form id="search" action="{{ config('map.share.base_url') }}" method="get" class="sidebar__search">
                     <div class="row">
                         <div class="col-12 col-xl-8">
                             <div class="form-group">
