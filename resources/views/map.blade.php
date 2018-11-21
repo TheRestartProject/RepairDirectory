@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', __('map.title'))
+
 @section('content')
 
     <div class="row no-gutter">
@@ -10,7 +12,7 @@
             <div class="sidebar__content">
                 <h3 class="d-none sidebar__header">{{ __('map.header_title') }}</h3>
                 <p class="sidebar__copy">{{ __('map.header_copy') }}</p>
-                <form id="search" class="sidebar__search">
+                <form id="search" action="{{ config('map.share.base_url') }}" method="get" class="sidebar__search">
                     <div class="row">
                         <div class="col-12 col-xl-8">
                             <div class="form-group">
@@ -61,12 +63,12 @@
                 <div id="business-list-container" class="row no-gutter d-none">
                     <div class="business-list-container__results-header">
                         <div class="business-list-container__result-count"></div>
-                        <div class="business-list-container__result-link">
-                            <a href="" id="open-share-url">Share results <i class="fa fa-share"></i></a>
-                            <div id="share-url-container" class="business-list-container__result-url">
-                                <button id="close-share-url">x</button>
+                        <div class="share-link">
+                            <a href="" id="open-share-url">Share result <i class="fa fa-share"></i></a>
+                            <div id="share-url-container" class="share-link__container">
+                                <button id="close-share-url" class="share-link__close-button">x</button>
                                 <label>Share this link to share results</label>
-                                <div class="business-list-container__result-url-input">
+                                <div class="share-link__input">
                                     <input id="share-url" value="{{ route('map') }}" readonly /><button id="copy-url"><i class="fa fa-fw fa-copy"></i></button>
                                 </div>
                             </div>
@@ -85,7 +87,11 @@
         </div>
     </div>
 
-    <script async defer onload="initMap()"
+@endsection
+
+@section('scripts')
+
+    <script async defer onload="search()"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzOdSRgPAZO6wC_oxOOkb7lkarq0PjT8"></script>
 
 @endsection

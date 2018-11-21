@@ -16,12 +16,13 @@
 
     <script type="text/javascript" src="/js/map/app.js"></script>
 
-    <title>{{ __('map.title') }}</title>
+    <title>@yield('title')</title>
 </head>
 <body>
 <div>
     @yield('content')
     @include('footer')
+    @yield('scripts')
 </div>
 </body>
 </html>
