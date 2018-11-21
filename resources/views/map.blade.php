@@ -64,7 +64,7 @@
                     <div class="business-list-container__results-header">
                         <div class="business-list-container__result-count"></div>
                         <div class="share-link">
-                            <a href="" id="open-share-url">Share result <i class="fa fa-share"></i></a>
+                            <a href="" id="open-share-url">Share results <i class="fa fa-share"></i></a>
                             <div id="share-url-container" class="share-link__container">
                                 <button id="close-share-url" class="share-link__close-button">x</button>
                                 <label>Share this link to share results</label>
