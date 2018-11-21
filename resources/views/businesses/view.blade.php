@@ -1,5 +1,8 @@
 @extends('map')
 
+
+@section('title', "{$business->getName()} - " . __('map.title'))
+
 @section('scripts')
 
     <script async defer onload="loadBusiness('{{ $business->getUid() }}')"
