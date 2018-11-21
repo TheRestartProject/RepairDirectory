@@ -3,11 +3,11 @@
 return [
     'title' => 'Repair Directory',
     'location' => [
-        'label' => 'Where do you live?',
+        'label' => 'Where are you looking?',
         'placeholder' => 'Enter a postcode or area'
     ],
     'category' => 'What do you need to fix?',
-    'category_all' => 'Everything',
+    'category_all' => 'Show all product categories',
     'search' => 'Search',
     'header_copy' => 'Find a local business to repair your broken devices.',
     'header_title' => 'Restart Repair Directory',
