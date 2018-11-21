@@ -12,7 +12,7 @@
                 <p class="sidebar__copy">{{ __('map.header_copy') }}</p>
                 <form id="search" class="sidebar__search">
                     <div class="row">
-                        <div class="col-12 col-lg-8">
+                        <div class="col-12 col-xl-8">
                             <div class="form-group">
                                 <label for="location">{{ __('map.location.label') }}</label>
                                 <input id="location" name="location" class="form-control sidebar__input"
@@ -20,7 +20,7 @@
                                        placeholder="{{ __('map.location.placeholder') }}">
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12 col-xl-4">
                             <div class="form-group">
                                 <label for="radius">{{ __('map.radius') }}</label>
                                 <select id="radius" name="radius" class="form-control sidebar__select">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-lg-8">
+                        <div class="col-12 col-xl-8">
                             <div class="form-group">
                                 <label for="category">{{ __('map.category') }}</label>
                                 <select id="category" name="category" class="form-control sidebar__select">
@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12 col-xl-4">
                             <div class="form-group">
                                 <label class="sidebar__button-label d-none d-lg-inline-block">Search</label>
                                 <button id="submit" class="btn btn-primary sidebar__button" disabled>
@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div id="map-desktop-container" class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+        <div id="map-desktop-container" class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
             <div id="map-desktop"></div>
             <div id="business-popup" class="business-popup d-none">
                 <button id="business-popup-close" type="button" class="btn btn-default business-popup__close"><i class="fa fa-times"></i></button>
