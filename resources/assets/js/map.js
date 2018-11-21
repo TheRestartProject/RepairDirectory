@@ -319,7 +319,7 @@ function showRepairer (business, marker) {
     var mapHeightPercent = 50.0 * mapHeight / 100.0;
     const latOffset = isMobile ? 0 : mapHeightPercent / dpPerDegree;
 
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+    marker.setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png')
     map.setCenter({lat: business.geolocation.latitude + latOffset, lng: business.geolocation.longitude})
 
     $businessPopup.find('.business-popup__content').html(renderBusiness(business))
