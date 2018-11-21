@@ -63,12 +63,12 @@
                 <div id="business-list-container" class="row no-gutter d-none">
                     <div class="business-list-container__results-header">
                         <div class="business-list-container__result-count"></div>
-                        <div class="business-list-container__result-link">
-                            <a href="" id="open-share-url">Share results <i class="fa fa-share"></i></a>
-                            <div id="share-url-container" class="business-list-container__result-url">
-                                <button id="close-share-url">x</button>
+                        <div class="share-link">
+                            <a href="" id="open-share-url">Share result <i class="fa fa-share"></i></a>
+                            <div id="share-url-container" class="share-link__container">
+                                <button id="close-share-url" class="share-link__close-button">x</button>
                                 <label>Share this link to share results</label>
-                                <div class="business-list-container__result-url-input">
+                                <div class="share-link__input">
                                     <input id="share-url" value="{{ route('map') }}" readonly /><button id="copy-url"><i class="fa fa-fw fa-copy"></i></button>
                                 </div>
                             </div>

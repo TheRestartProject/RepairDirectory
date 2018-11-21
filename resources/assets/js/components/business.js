@@ -11,8 +11,36 @@ module.exports = function (business, compact = false) {
       <div class="business">
           ${formatBusinessHeader(business, compact)}
           ${formatBusinessDetails(business, compact)}
+          ${formatBusinessFooter(business, compact)}
       </div>
   `
+}
+
+function formatBusinessFooter(business, compact = false) {
+  if (!compact) {
+      let $footer = $('<div class="business__footer"></div>');
+
+      $footer.append(`
+    <div class="row">
+        <div class="col-12">
+            <div class="share-link">
+                <a href="" id="open-share-business-url">Share business <i class="fa fa-share"></i></a>
+                <div id="share-business-url-container" class="share-link__container">
+                    <button id="close-share-business-url" class="share-link__close-button">x</button>
+                    <label>Share search results</label>
+                    <div class="share-link__input">
+                        <input id="share-business-url" value="${window.__env.mapShareBaseUrl}/businesses/${business.uid}" readonly />
+                        <button id="copy-business-url"><i class="fa fa-fw fa-copy"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`);
+
+      return $footer[0].outerHTML
+  }
+
 }
 
 function formatBusinessHeader (business, compact = false) {

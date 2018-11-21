@@ -5,6 +5,15 @@
   }
 }
 
+.business__footer {
+  padding: 0 1rem 1rem 1rem;
+  .share-link__container {
+    bottom: -68px;
+    top: 0;
+    right: 0;
+  }
+}
+
 .business__average-score {
   margin-bottom: 1rem;
   > span {
