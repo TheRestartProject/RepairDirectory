@@ -311,12 +311,16 @@ function triggerShowRepairer (uid) {
 function showRepairer (business, marker) {
     trackRepairerSelection(business)
 
-    const mapOffset = isMobile ? 0 : 0.025
-
     resetMarkers()
 
+    var zoomLevel = map.getZoom();
+    var dpPerDegree = 256.0 * Math.pow(2, zoomLevel) / 170.0;
+    var mapHeight = $('#map-desktop-container').height();
+    var mapHeightPercent = 50.0 * mapHeight / 100.0;
+    const latOffset = isMobile ? 0 : mapHeightPercent / dpPerDegree;
+
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
-    map.setCenter({lat: business.geolocation.latitude + mapOffset, lng: business.geolocation.longitude})
+    map.setCenter({lat: business.geolocation.latitude + latOffset, lng: business.geolocation.longitude})
 
     $businessPopup.find('.business-popup__content').html(renderBusiness(business))
 
