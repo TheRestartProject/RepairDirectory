@@ -9,7 +9,7 @@ return [
     'category' => 'What do you need to fix?',
     'category_all' => 'Show all product categories',
     'search' => 'Search',
-    'header_copy' => 'Find a local business to repair your broken devices.',
+    'header_copy' => 'Find a London business to repair your broken devices.',
     'header_title' => 'Restart Repair Directory',
     'radius' => 'Search radius',
     'radius_labels' => [
