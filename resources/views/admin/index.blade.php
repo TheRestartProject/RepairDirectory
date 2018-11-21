@@ -50,15 +50,6 @@
 
 @push('scripts')
     <script defer>
-        jQuery('table').DataTable({
-            "columns": [
-                null,
-                null,
-                null,
-                { "visible": false },
-                null,
-                null,
-                null
-            ] } );
+        jQuery('table').DataTable();
     </script>
 @endpush
