@@ -3,24 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
 class BusinessController extends Controller
 {
-    public function view(Business $business, Request $request)
+    public function view($id, BusinessRepository $repository)
     {
         if ($this->isIpRestricted())
         {
             return response('', 403);
         }
 
-        return view('map', [
-            'selectedLocation' => $request->input('location', ''),
+        $business = $repository->findById($id);
+
+        return view('businesses.view', [
+            'business' => $business,
+            'selectedLocation' => $business->getPostcode(),
             'categories' => Category::values(),
-            'selectedCategory' => $request->input('category', ''),
+            'selectedCategory' => '',
             'radiusOptions' => config('map.radiuses'),
-            'selectedRadius' => $this->selectedRadius($request)
+            'selectedRadius' => 2
         ]);
     }
 

@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', __('map.title'))
+
 @section('content')
 
     <div class="row no-gutter">
@@ -10,7 +12,7 @@
             <div class="sidebar__content">
                 <h3 class="d-none sidebar__header">{{ __('map.header_title') }}</h3>
                 <p class="sidebar__copy">{{ __('map.header_copy') }}</p>
-                <form id="search" class="sidebar__search">
+                <form id="search" action="{{ route('map') }}" method="get" class="sidebar__search">
                     <div class="row">
                         <div class="col-12 col-xl-8">
                             <div class="form-group">
@@ -85,7 +87,11 @@
         </div>
     </div>
 
-    <script async defer onload="initMap()"
+@endsection
+
+@section('scripts')
+
+    <script async defer onload="search()"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqzOdSRgPAZO6wC_oxOOkb7lkarq0PjT8"></script>
 
 @endsection
