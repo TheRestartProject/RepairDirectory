@@ -13,6 +13,10 @@ let $businessListContainer
 let $searchButton
 let $closeButton
 
+let $moreInfoPopup
+let $moreInfoLink
+let $moreInfoCloseButton
+
 function findBusiness(uid) {
     let business = null;
     businesses.forEach(b => {
@@ -39,6 +43,15 @@ function setupElements() {
     $searchButton = $('#submit')
     $closeButton = $('#business-popup-close')
 
+    $moreInfoPopup = $('#more-info-popup')
+    $moreInfoLink = $('#more-info')
+    $moreInfoCloseButton = $('#more-info-popup-close')
+    $moreInfoLink.on('click', function() {
+        showElement($moreInfoPopup)
+    });
+    $moreInfoCloseButton.on('click', function() {
+        hideElement($moreInfoPopup)
+    });
 
     $businessPopup.on('click', '#copy-business-url', function () {
         $('#share-business-url').select();
@@ -112,6 +125,7 @@ function search() {
         // when embedded in iframe
         if (top != self) {
             hideElement($('.sidebar__logo'));
+            hideElement($('#more-info'));
         }
 
         setupElements();
