@@ -65,7 +65,7 @@
                             <a href="" id="open-share-url">Share results <i class="fa fa-share"></i></a>
                             <div id="share-url-container" class="business-list-container__result-url">
                                 <button id="close-share-url">x</button>
-                                <label>Share search results</label>
+                                <label>Share this link to share results</label>
                                 <div class="business-list-container__result-url-input">
                                     <input id="share-url" value="{{ route('map') }}" readonly /><button id="copy-url"><i class="fa fa-fw fa-copy"></i></button>
                                 </div>
