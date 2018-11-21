@@ -17,8 +17,10 @@ module.exports = function (business, compact = false) {
 }
 
 function formatBusinessFooter(business, compact = false) {
-  if (!compact) {
-      let $footer = $('<div class="business__footer"></div>');
+
+    let $footer = $('<div class="business__footer"></div>');
+
+    if (!compact) {
 
       $footer.append(`
     <div class="row">
@@ -38,8 +40,8 @@ function formatBusinessFooter(business, compact = false) {
     </div>
 `);
 
-      return $footer[0].outerHTML
   }
+    return $footer[0].outerHTML
 
 }
 
