@@ -29,7 +29,7 @@ function formatBusinessFooter(business, compact = false) {
                 <a href="" id="open-share-business-url">Share business <i class="fa fa-share"></i></a>
                 <div id="share-business-url-container" class="share-link__container">
                     <button id="close-share-business-url" class="share-link__close-button">x</button>
-                    <label>Share search results</label>
+                    <label>Share business</label>
                     <div class="share-link__input">
                         <input id="share-business-url" value="${window.__env.mapShareBaseUrl}/businesses/${business.uid}" readonly />
                         <button id="copy-business-url"><i class="fa fa-fw fa-copy"></i></button>
