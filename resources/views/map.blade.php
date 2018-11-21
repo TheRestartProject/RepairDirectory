@@ -7,7 +7,7 @@
     <div class="row no-gutter">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 sidebar">
             <div class="sidebar__logo">
-                <img src="/images/map/logo.png">
+                <a target="_blank" href="https://therestartproject.org"><img src="/images/map/logo.png"></a>
             </div>
             <div class="sidebar__content">
                 <h3 class="d-none sidebar__header">{{ __('map.header_title') }}</h3>
