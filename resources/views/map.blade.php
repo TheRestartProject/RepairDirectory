@@ -16,7 +16,7 @@
                             <div class="form-group">
                                 <label for="location">{{ __('map.location.label') }}</label>
                                 <input id="location" name="location" class="form-control sidebar__input"
-                                       value="London, UK"
+                                       value="{{ $selectedLocation }}"
                                        placeholder="{{ __('map.location.placeholder') }}">
                             </div>
                         </div>
@@ -38,9 +38,9 @@
                             <div class="form-group">
                                 <label for="category">{{ __('map.category') }}</label>
                                 <select id="category" name="category" class="form-control sidebar__select">
-                                    <option value="" selected>{{ __('map.category_all') }}</option>
+                                    <option value="" {{ empty($selectedCategory) ? 'selected' : '' }}>{{ __('map.category_all') }}</option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category }}">
+                                        <option value="{{ $category }}" {{ $category == $selectedCategory ? 'selected' : '' }}>
                                             {{ $category }}
                                         </option>
                                     @endforeach
@@ -59,7 +59,19 @@
                 </form>
                 <div id="map-mobile"></div>
                 <div id="business-list-container" class="row no-gutter d-none">
-                    <p class="business-list-container__result-count"></p>
+                    <div class="business-list-container__results-header">
+                        <div class="business-list-container__result-count"></div>
+                        <div class="business-list-container__result-link">
+                            <a href="" id="open-share-url">Share result <i class="fa fa-share"></i></a>
+                            <div id="share-url-container" class="business-list-container__result-url">
+                                <button id="close-share-url">x</button>
+                                <label>Share search results</label>
+                                <div class="business-list-container__result-url-input">
+                                    <input id="share-url" value="{{ route('map') }}" readonly /><button id="copy-url"><i class="fa fa-fw fa-copy"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <ul class="business-list col-xs-12"></ul>
                 </div>
             </div>

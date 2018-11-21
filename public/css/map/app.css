@@ -11778,10 +11778,81 @@ h6 {
   background-color: #606060;
 }
 
+.business-list-container__results-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+}
+
+.business-list-container__results-header > * {
+  padding: 1rem;
+}
+
 .business-list-container__result-count {
-  margin: 1rem;
   font-family: "PatuaOne", serif;
   font-size: 1rem;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.business-list-container__result-link {
+  font-weight: bold;
+  text-align: right;
+  position: relative;
+}
+
+.business-list-container__result-link a {
+  color: inherit;
+}
+
+.business-list-container__result-link .business-list-container__result-url {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 1rem;
+  background: #535353;
+}
+
+.business-list-container__result-link .business-list-container__result-url #close-share-url {
+  line-height: 0rem;
+  width: 1rem;
+  height: 1rem;
+  text-align: center;
+  display: block;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.business-list-container__result-link .business-list-container__result-url label {
+  text-align: left;
+  display: block;
+}
+
+.business-list-container__result-link .business-list-container__result-url input {
+  padding: 0 0.5rem;
+  line-height: 2;
+  border: none;
+}
+
+.business-list-container__result-link .business-list-container__result-url .business-list-container__result-url-input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.business-list-container__result-link .business-list-container__result-url button {
+  color: white;
+  background: #f89522;
+  border: 0;
 }
 
 .business-list {

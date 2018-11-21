@@ -87,10 +87,76 @@
   background-color: #606060;
 }
 
+.business-list-container__results-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  & > * {
+    padding: 1rem;
+  }
+}
+
 .business-list-container__result-count {
-  margin: 1rem;
   font-family: "PatuaOne", serif;
   font-size: 1rem;
+  flex: 1;
+}
+
+.business-list-container__result-link {
+  font-weight: bold;
+  text-align: right;
+
+  position: relative;
+
+  a {
+    color: inherit;
+  }
+
+  .business-list-container__result-url {
+    display: none;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 1rem;
+
+    background: darken(#606060, 5%);
+
+    #close-share-url {
+      line-height: 0rem;
+      width: 1rem;
+      height: 1rem;
+      text-align: center;
+      display: block;
+      padding: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+    }
+
+    label {
+      text-align: left;
+      display: block;
+    }
+
+    input {
+      padding: 0 0.5rem;
+      line-height: 2;
+      border: none;
+    }
+
+    .business-list-container__result-url-input {
+      display: flex;
+    }
+
+    button {
+      color: white;
+      background: rgb(248, 149, 34);
+      border: 0;
+    }
+
+  }
 }
 
 .business-list {

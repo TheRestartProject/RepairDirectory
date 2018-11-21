@@ -22,7 +22,21 @@ $(document).ready(() => {
   $closeButton = $('#business-popup-close')
 
   // add form handler
-  $('#search').submit(onSearch)
+  $('#search').submit(function (event) {
+      event.preventDefault()
+
+      let query = createQuery();
+
+      onSearch(query, function () {
+          window.history.pushState({
+                  query: query,
+                  zoom: 13
+              },
+              'Searching for Repair Shops in ' + query.location,
+              '/?' + $.param(query)
+          );
+      });
+  });
 
   // enable/disable search button
   $('#location').keyup(function (e) {
@@ -41,7 +55,7 @@ $(document).ready(() => {
   $closeButton.click(hideRepairer)
 
   // back and forward browser button support
-  window.onhashchange = function () {
+  window.onpopstate = function () {
     if (window.location.hash && window.location.hash.length > 1) {
       let business = null
       let marker = null
@@ -61,12 +75,20 @@ $(document).ready(() => {
       }
     } else {
       hideRepairer()
+
+
+        let query = getQueryParameters()
+
+        $('[name="location"]').val(query.location ? decodeURIComponent(query.location) : '');
+        $('[name="category"]').val(query.category ? decodeURIComponent(query.category) : '');
+        $('[name="radius"]').val(query.radius ? query.radius : 7);
+
+        onSearch(createQuery())
     }
   }
 
-
   // search for businesses on page load
-  onSearch()
+  onSearch(createQuery())
 })
 
 function initMap () {
@@ -80,42 +102,65 @@ function initMap () {
     map.addListener('click', function () {
         hideRepairer();
     });
+
+    $('#copy-url').click(function () {
+        $('#share-url').select();
+        document.execCommand('copy');
+    });
+
+    $('#close-share-url').click(function () {
+       $('#share-url-container').hide();
+    });
+
+    $('#open-share-url').click(function (event) {
+        event.preventDefault();
+        $('#share-url-container').show();
+        $('#share-url').select();
+    });
+
+
 }
 
-function onSearch (e) {
-  if (e) {
-    e.preventDefault()
-  }
+function createQuery () {
 
-  const location = $('[name="location"]').val()
-  const category =  $('[name="category"]').val()
-  const radius =  $('[name="radius"]').val()
+    const location = $('[name="location"]').val()
+    const category =  $('[name="category"]').val()
+    const radius =  $('[name="radius"]').val()
 
-    const query = {
+    return {
         location,
         category,
         radius: radius
-    }
+    };
+}
 
-  if (location || category) {
+function onSearch (query, cb) {
 
-    trackSearch(query.category)
+  if (query.location || query.category) {
 
-      console.log(location, location == 'London, UK');
-      let zoom = radius == 18 ? 11 : 13;
+      trackSearch(query.category)
 
-    doSearch(query, zoom)
+      let zoom = query.radius > 10 ? 11 : 13;
+
+      doSearch(query, zoom, cb)
+
+      $('#share-url').val(window.__env.mapBaseUrl + '?' + $.param(query));
   }
 }
 
-function doSearch (query, zoom = 13) {
+
+function getQueryParameters (str) {
+    return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+}
+
+function doSearch (query, zoom, cb) {
   disableElement($searchButton)
   $.get('/map/api/business/search', query, ({searchLocation, businesses: _businesses}) => {
     clearMap()
     businesses = _businesses
     if (searchLocation) {
       map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude})
-      map.setZoom(zoom)
+      map.setZoom(zoom ? zoom : 13)
     }
     enableElement($searchButton)
     showElement($businessListContainer)
@@ -129,6 +174,10 @@ function doSearch (query, zoom = 13) {
     $businessListContainer
       .find('.business-list-container__result-count')
       .text(resultCountText)
+
+      if (cb){
+          cb();
+      }
   })
 }
 
