@@ -247,7 +247,7 @@ function doSearch (query, zoom, cb) {
         businesses.forEach(addRepairer)
         let resultCountText
         if (!businesses.length) {
-            resultCountText = 'Unfortunately, there are no results in your area'
+            resultCountText = 'Unfortunately, there are currently no results for your search'
         } else {
             resultCountText = businesses.length + ((businesses.length === 1) ? ' result ' : ' results ') + 'in your area'
         }
