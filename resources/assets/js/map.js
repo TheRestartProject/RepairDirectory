@@ -224,7 +224,7 @@ function onSearch (query, cb) {
 
         doSearch(query, zoom, cb)
 
-        $('#share-url').val(window.__env.mapBaseUrl + '?' + $.param(query));
+        $('#share-url').val(window.__env.mapShareBaseUrl + '?' + $.param(query));
     }
 }
 
