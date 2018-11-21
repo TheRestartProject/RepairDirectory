@@ -81,7 +81,7 @@ $(document).ready(() => {
 
         $('[name="location"]').val(query.location ? decodeURIComponent(query.location) : '');
         $('[name="category"]').val(query.category ? decodeURIComponent(query.category) : '');
-        $('[name="radius"]').val(query.radius ? query.radius : 7);
+        $('[name="radius"]').val(query.radius ? query.radius : 10);
 
         onSearch(createQuery())
     }
