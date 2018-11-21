@@ -11,26 +11,49 @@
                 <h3 class="d-none sidebar__header">{{ __('map.header_title') }}</h3>
                 <p class="sidebar__copy">{{ __('map.header_copy') }}</p>
                 <form id="search" class="sidebar__search">
-                    <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-lg-8">
+                            <div class="form-group">
                                 <label for="location">{{ __('map.location') }}</label>
                                 <input id="location" name="location" class="form-control sidebar__input"
-                                placeholder="e.g. Hackney, London">
+                                       placeholder="e.g. Hackney, London">
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="form-group">
+                                <label for="radius">{{ __('map.radius') }}</label>
+                                <select id="radius" name="radius" class="form-control sidebar__select">
+                                    @foreach($radiusOptions as $option)
+                                        <option value="{{ $option }}" {{ $option == $selectedRadius ? 'selected' : '' }}>
+                                            {{ __("map.radius_labels.$option") }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="category">{{ __('map.category') }}</label>
-                        <select id="category" name="category" class="form-control sidebar__select">
-                            <option value="" selected>{{ __('map.category_all') }}</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category }}">
-                                    {{ $category }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <button id="submit" class="btn btn-primary sidebar__button" disabled>
-                            {{ __('map.search') }}
-                        </button>
+                    <div class="row">
+                        <div class="col-12 col-lg-8">
+                            <div class="form-group">
+                                <label for="category">{{ __('map.category') }}</label>
+                                <select id="category" name="category" class="form-control sidebar__select">
+                                    <option value="" selected>{{ __('map.category_all') }}</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category }}">
+                                            {{ $category }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="form-group">
+                                <label class="sidebar__button-label d-none d-lg-inline-block">Search</label>
+                                <button id="submit" class="btn btn-primary sidebar__button" disabled>
+                                    {{ __('map.search') }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 <div id="map-mobile"></div>
