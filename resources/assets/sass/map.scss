@@ -58,3 +58,7 @@
 .business-popup .business__details {
   padding: 0 1rem 1rem 1rem;
 }
+
+.form-control#location::placeholder {
+    color: #ccc;
+}
