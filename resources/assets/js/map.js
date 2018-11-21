@@ -109,6 +109,11 @@ function search() {
     $(document).ready(() => {
         window.location.hash = ''
 
+        // when embedded in iframe
+        if (top != self) {
+            hideElement($('.sidebar__logo'));
+        }
+
         setupElements();
 
         // add form handler
