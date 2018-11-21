@@ -64,6 +64,7 @@ $(document).ready(() => {
     }
   }
 
+
   // search for businesses on page load
   onSearch()
 })
@@ -72,8 +73,8 @@ function initMap () {
     isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
 
     map = new window.google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
-        zoom: 13,
-        center: {lat: 51.5715356, lng: 0.1332412}
+        zoom: 11,
+        center: {lat: 51.5073509, lng: -0.1277583}
     });
 
     map.addListener('click', function () {
@@ -90,26 +91,31 @@ function onSearch (e) {
   const category =  $('[name="category"]').val()
   const radius =  $('[name="radius"]').val()
 
-  if (location || category) {
     const query = {
-      location,
-      category,
-      radius: radius
+        location,
+        category,
+        radius: radius
     }
+
+  if (location || category) {
 
     trackSearch(query.category)
 
-    doSearch(query)
+      console.log(location, location == 'London, UK');
+      let zoom = radius == 18 ? 11 : 13;
+
+    doSearch(query, zoom)
   }
 }
 
-function doSearch (query) {
+function doSearch (query, zoom = 13) {
   disableElement($searchButton)
   $.get('/map/api/business/search', query, ({searchLocation, businesses: _businesses}) => {
     clearMap()
     businesses = _businesses
     if (searchLocation) {
       map.setCenter({lat: searchLocation.latitude, lng: searchLocation.longitude})
+      map.setZoom(zoom)
     }
     enableElement($searchButton)
     showElement($businessListContainer)

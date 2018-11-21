@@ -2,7 +2,10 @@
 
 return [
     'title' => 'Repair Directory',
-    'location' => 'Where do you live?',
+    'location' => [
+        'label' => 'Where do you live?',
+        'placeholder' => 'Enter a postcode or area'
+    ],
     'category' => 'What do you need to fix?',
     'category_all' => 'Everything',
     'search' => 'Search',
@@ -16,6 +19,6 @@ return [
         5 => '5 miles',
         7 => '7 miles',
         10 => '10 miles',
-        15 => 'All of London',
+        18 => 'All of London',
     ]
 ];

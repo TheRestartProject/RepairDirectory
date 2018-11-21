@@ -14,9 +14,10 @@
                     <div class="row">
                         <div class="col-12 col-lg-8">
                             <div class="form-group">
-                                <label for="location">{{ __('map.location') }}</label>
+                                <label for="location">{{ __('map.location.label') }}</label>
                                 <input id="location" name="location" class="form-control sidebar__input"
-                                       placeholder="e.g. Hackney, London">
+                                       value="London, UK"
+                                       placeholder="{{ __('map.location.placeholder') }}">
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
