@@ -77,7 +77,7 @@ function formatBusinessDetails (business, compact = false) {
     const href = `mailto:${business.email}`
     $leftColumn.append(`
             <p class="business-detail">
-                <span class="fa fa-envelope-o"></span>
+                <span class="fa fa-envelope"></span>
                 <a href="${href}" onclick="trackOutboundLink('${href}';">
                     ${business.email}
                 </a>
