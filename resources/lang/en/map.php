@@ -19,6 +19,6 @@ return [
         5 => '5 miles',
         7 => '7 miles',
         10 => '10 miles',
-        18 => 'All of London',
+        18 => 'All London',
     ]
 ];
