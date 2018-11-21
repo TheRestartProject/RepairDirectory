@@ -76,7 +76,7 @@ function initMap () {
     isMobile = $(window).width() < 768; // matches bootstrap sm/md breakpoint
 
     map = new window.google.maps.Map(document.getElementById(isMobile ? 'map-mobile' : 'map-desktop'), {
-        zoom: 11,
+        zoom: 10,
         center: {lat: 51.5073509, lng: -0.1277583}
     });
 
@@ -220,7 +220,7 @@ function onSearch (query, cb) {
 
         trackSearch(query.category)
 
-        let zoom = query.radius > 10 ? 11 : 13;
+        let zoom = query.radius > 10 ? 10 : 13;
 
         doSearch(query, zoom, cb)
 
