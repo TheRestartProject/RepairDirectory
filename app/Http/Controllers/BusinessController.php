@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use TheRestartProject\RepairDirectory\Application\CommandBus\Exceptions\NotFoundException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
@@ -18,6 +20,10 @@ class BusinessController extends Controller
         }
 
         $business = $repository->findById($id);
+
+        if (!$business->isPublished() || $business->getPublishingStatus() === PublishingStatus::HIDDEN) {
+            throw new NotFoundException();
+        }
 
         return view('businesses.view', [
             'business' => $business,
