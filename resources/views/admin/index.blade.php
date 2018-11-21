@@ -25,6 +25,7 @@
             <th>{{ __('admin.name') }}</th>
             <th>{{ __('admin.address') }}</th>
             <th>{{ __('admin.postcode') }}</th>
+            <th>{{ __('admin.local_area') }}</th>
             <th>{{ __('admin.categories') }}</th>
             <th>{{ __('admin.average_scores') }}</th>
             <th>{{ __('admin.publishing_status') }}</th>
@@ -37,6 +38,7 @@
                 <td>{{ $business->getName() }}</td>
                 <td>{{ $business->getAddress() }}</td>
                 <td>{{ $business->getPostcode() }}</td>
+                <td>{{ $business->getLocalArea() }}</td>
                 <td>{{ implode(', ', $business->getCategories()) }}</td>
                 <td>{{ $business->getAverageScore() }}</td>
                 <td>{{ $business->getPublishingStatus() }}</td>
@@ -48,6 +50,15 @@
 
 @push('scripts')
     <script defer>
-        jQuery('table').DataTable();
+        jQuery('table').DataTable({
+            "columns": [
+                null,
+                null,
+                null,
+                { "visible": false },
+                null,
+                null,
+                null
+            ] } );
     </script>
 @endpush
