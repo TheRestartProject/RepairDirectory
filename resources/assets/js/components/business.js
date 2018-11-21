@@ -49,10 +49,27 @@ function formatBusinessHeader (business, compact = false) {
   let $heading = $('<div class="business__heading"></div>')
   $heading.append(`<h2>${business.name}</h2>`)
   if (business.averageScore && !compact) {
+      var stars = business.averageScore * 20;
     $heading.append(`
             <div class="hidden business__average-score">
-                <h2>${business.averageScore} / 5</h2>
-                <span>stars</span>
+                <span class="score" title="${business.averageScore} out of 5 stars">
+                <div class="score-wrap">
+                    <span class="stars-active" style="width:${stars}%">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </span>
+                    <span class="stars-inactive">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    </span>
+                </div>
+                </span>
             </div>
         `)
   }
