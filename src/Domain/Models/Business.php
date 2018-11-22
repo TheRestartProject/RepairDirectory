@@ -220,7 +220,7 @@ class Business
     private $createdAt;
 
     /**
-     * The user this business was created by
+     * The primary id of the user this business was created by
      *
      * @var User
      */
@@ -234,9 +234,9 @@ class Business
     private $updatedAt;
 
     /**
-     * The user that last updated this business
+     * The primary id of the user that last updated this business
      *
-     * @var User
+     * @var int
      */
     private $updatedBy;
 
@@ -877,7 +877,9 @@ class Business
     }
 
     /**
-     * @return User
+     * Get the primary id of the user that created this business
+     *
+     * @return int
      */
     public function getCreatedBy()
     {
@@ -886,12 +888,37 @@ class Business
 
 
     /**
-     * @return User
+     * Set the primary id of the user that created this business
+     *
+     * @param int $userId
+     */
+    public function setCreatedBy($userId)
+    {
+        $this->createdBy = $userId;
+    }
+
+
+    /**
+     * Get the primary id of the user that last updated this business
+     *
+     * @return int
      */
     public function getUpdatedBy()
     {
         return $this->updatedBy;
     }
+
+
+    /**
+     * Set the primary id of the user that last updated this business
+     *
+     * @param int $userId
+     */
+    public function setUpdatedBy($userId)
+    {
+        $this->updatedBy = $userId;
+    }
+
 
     /**
      * Return the date/time the business was last modified
