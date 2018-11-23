@@ -269,6 +269,16 @@
                         {{ $business->getCreatedAt()->format('d/m/Y H:i:s') }}
                     </div>
                 </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            Created by:
+                        </div>
+                        <div class="col-md-8">
+                            @if (!empty($business->getCreatedBy()))
+                                {{ $business->getCreatedBy() }}
+                            @endif
+                        </div>
+                    </div>
 
                 <div class="row">
                     <div class="col-md-4">
@@ -280,6 +290,17 @@
                         @endif
                     </div>
                 </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            Last updated by:
+                        </div>
+                        <div class="col-md-8">
+                            @if (!empty($business->getUpdatedBy()))
+                                {{ $business->getUpdatedBy() }}
+                            @endif
+                        </div>
+                    </div>
                 @endif
             </div>
 

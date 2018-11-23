@@ -83,8 +83,14 @@ class ImportFromHttpRequestHandler
 
         $this->updateValues($business, $data);
 
+        $business->setUpdatedBy(auth()->user()->getAuthIdentifier());
         $business->setUpdatedAt(new \DateTime("now"));
+
         $business->setGeolocation($this->createPoint($data));
+
+        if (is_null($business->getCreatedBy())) {
+            $business->setCreatedBy(auth()->user()->getAuthIdentifier());
+        }
 
         if ($isCreate) {
             $this->repository->add($business);

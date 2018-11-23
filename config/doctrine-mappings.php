@@ -122,6 +122,14 @@ return [
             'updatedAt' => [
                 'type' => 'datetime',
                 'nullable' => true
+            ],
+            'createdBy' => [
+                'type' => 'integer',
+                'nullable' => true
+            ],
+            'updatedBy' => [
+                'type' => 'integer',
+                'nullable' => true
             ]
         ]
     ],

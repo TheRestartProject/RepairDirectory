@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Domain\Models;
 
+use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 
 /**
@@ -219,11 +220,25 @@ class Business
     private $createdAt;
 
     /**
+     * The primary id of the user this business was created by
+     *
+     * @var User
+     */
+    private $createdBy;
+
+    /**
      * The date/time the business was last modified
      *
      * @var \DateTime
      */
     private $updatedAt;
+
+    /**
+     * The primary id of the user that last updated this business
+     *
+     * @var int
+     */
+    private $updatedBy;
 
     /**
      * Return the business's unique id
@@ -859,6 +874,49 @@ class Business
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Get the primary id of the user that created this business
+     *
+     * @return int
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+
+    /**
+     * Set the primary id of the user that created this business
+     *
+     * @param int $userId
+     */
+    public function setCreatedBy($userId)
+    {
+        $this->createdBy = $userId;
+    }
+
+
+    /**
+     * Get the primary id of the user that last updated this business
+     *
+     * @return int
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updatedBy;
+    }
+
+
+    /**
+     * Set the primary id of the user that last updated this business
+     *
+     * @param int $userId
+     */
+    public function setUpdatedBy($userId)
+    {
+        $this->updatedBy = $userId;
     }
 
 
