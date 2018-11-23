@@ -9,7 +9,6 @@ use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromC
 use TheRestartProject\RepairDirectory\Application\Commands\Business\DeleteBusiness;
 use \TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
-
 return [
 
     'handlers' => [

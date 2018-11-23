@@ -27,7 +27,7 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function it_returns_null_for_malformed_url() 
+    public function it_returns_null_for_malformed_url()
     {
         $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
 
@@ -54,7 +54,7 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function it_returns_null_for_an_unknown_place() 
+    public function it_returns_null_for_an_unknown_place()
     {
         $url = 'https://www.google.co.uk/maps/place/Nowhere/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
         $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
@@ -70,7 +70,7 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function it_returns_a_review_aggregation_for_good_url() 
+    public function it_returns_a_review_aggregation_for_good_url()
     {
         $url = 'https://www.google.co.uk/maps/place/KFC/@51.3963959,-2.4904243,12z/data=!4m8!1m2!2m1!1skfc!3m4!1s0x0:0xdf6f3803ac00dc83!8m2!3d51.3795758!4d-2.3584342';
         $googlePlacesReviewer = new GooglePlacesReviewer($this->getPlacesApi());
@@ -87,7 +87,7 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
      *
      * @return PlacesApi
      */
-    private function getPlacesApi() 
+    private function getPlacesApi()
     {
 
         $placesApi = Mockery::mock(PlacesApi::class);
@@ -114,7 +114,8 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
 
         $placeDetailsResponse = new Collection();
         $placeDetailsResponse->put(
-            'result', [
+            'result',
+            [
             'rating' => 3,
             'reviews' => [
                 [ 'rating' => 2 ],
@@ -127,5 +128,4 @@ class GooglePlacesReviewerTest extends IntegrationTestCase
         /** @var PlacesApi $placesApi */
         return $placesApi;
     }
-
 }

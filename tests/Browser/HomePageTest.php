@@ -32,7 +32,6 @@ class HomePageTest extends DuskTestCase
     {
         parent::setUp();
         $this->app->make('session')->flush();
-
     }
 
 

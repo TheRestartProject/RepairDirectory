@@ -29,5 +29,4 @@ class LocationServiceProvider extends ServiceProvider
             return new PlacesApi($key);
         });
     }
-
 }

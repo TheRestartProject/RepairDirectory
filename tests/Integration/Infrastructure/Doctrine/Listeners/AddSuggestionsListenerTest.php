@@ -26,7 +26,7 @@ class AddSuggestionsListenerTest extends IntegrationTestCase
      * be used to create and update entities and persist
      * the changes.
      *
-     * @var EntityManager 
+     * @var EntityManager
      */
     private $entityManager;
 
@@ -117,5 +117,4 @@ class AddSuggestionsListenerTest extends IntegrationTestCase
             ]
         );
     }
-
 }

@@ -122,7 +122,8 @@ class ImportFromCsvRowTest extends TestCase
                 'PC Accessory',
                 'Portable radio',
                 'Tablet'
-            ], $business->getCategories()
+            ],
+            $business->getCategories()
         );
         $this->assertEquals(['Phones'], $business->getProductsRepaired());
         $this->assertEquals([], $business->getAuthorisedBrands());

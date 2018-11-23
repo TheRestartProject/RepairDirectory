@@ -65,5 +65,4 @@ class CategoriesValidatorTest extends ValidationTestCase
             self::fail('Should not throw exception');
         }
     }
-
 }

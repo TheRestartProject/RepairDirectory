@@ -19,4 +19,3 @@ Route::prefix('api')
         Route::get('suggestion/search', 'SuggestionController@search')->name('suggestion.search');
         Route::post('suggestion/add', 'SuggestionController@add')->name('suggestion.add');
     });
-

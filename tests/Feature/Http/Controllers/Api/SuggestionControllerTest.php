@@ -44,7 +44,8 @@ class SuggestionControllerTest extends IntegrationTestCase
 
         $response = $this->get(
             route(
-                'suggestion.search', [
+                'suggestion.search',
+                [
                 'field' => 'foo'
                 ]
             )
@@ -53,7 +54,8 @@ class SuggestionControllerTest extends IntegrationTestCase
 
         $response = $this->get(
             route(
-                'suggestion.search', [
+                'suggestion.search',
+                [
                 'prefix' => 'foo'
                 ]
             )
@@ -62,7 +64,8 @@ class SuggestionControllerTest extends IntegrationTestCase
 
         $response = $this->get(
             route(
-                'suggestion.search', [
+                'suggestion.search',
+                [
                 'field' => 'test',
                 'prefix' => 'foo'
                 ]

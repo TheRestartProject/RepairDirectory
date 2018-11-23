@@ -31,7 +31,7 @@ class PostcodeValidatorTest extends ValidationTestCase
      *
      * @return void
      */
-    public function setUp() 
+    public function setUp()
     {
         $this->validator = new PostcodeValidator();
     }
@@ -72,5 +72,4 @@ class PostcodeValidatorTest extends ValidationTestCase
             self::fail('Should not throw exception');
         }
     }
-
 }

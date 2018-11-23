@@ -166,7 +166,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Tinker\TinkerServiceProvider::class,
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
         LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
         Geocoder\Laravel\Providers\GeocoderService::class,

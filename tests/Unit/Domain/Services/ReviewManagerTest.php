@@ -78,5 +78,4 @@ class ReviewManagerTest extends TestCase
         $googlePlacesReviewer = $mock;
         return new ReviewManager($googlePlacesReviewer);
     }
-
 }

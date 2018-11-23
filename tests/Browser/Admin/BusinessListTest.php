@@ -102,5 +102,4 @@ class BusinessListTest extends DuskTestCase
             }
         );
     }
-
 }

@@ -63,7 +63,8 @@ class BusinessControllerTest extends IntegrationTestCase
     {
         $response = $this->get(
             route(
-                'business.search', [
+                'business.search',
+                [
                     'category' => Category::DESKTOP
                 ]
             )
@@ -96,7 +97,8 @@ class BusinessControllerTest extends IntegrationTestCase
     {
         $response = $this->get(
             route(
-                'business.search', [
+                'business.search',
+                [
                     'location' => 'RM7 7JN'
                 ]
             )
@@ -141,7 +143,8 @@ class BusinessControllerTest extends IntegrationTestCase
     {
         $response = $this->get(
             route(
-                'business.search', [
+                'business.search',
+                [
                     'category' => Category::DESKTOP,
                     'location' => 'RM7 7JN'
                 ]
