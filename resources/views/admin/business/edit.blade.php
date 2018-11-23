@@ -275,7 +275,7 @@
                         </div>
                         <div class="col-md-8">
                             @if (!empty($business->getCreatedBy()))
-                                {{ $business->getCreatedBy() }}
+                                {{ $business->userWhoCreated->getName() }}
                             @endif
                         </div>
                     </div>
@@ -297,7 +297,7 @@
                         </div>
                         <div class="col-md-8">
                             @if (!empty($business->getUpdatedBy()))
-                                {{ $business->getUpdatedBy() }}
+                                {{ $business->userWhoLastUpdated->getName() }}
                             @endif
                         </div>
                     </div>

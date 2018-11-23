@@ -18,12 +18,18 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
 use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
+use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 
 class BusinessController extends Controller
 {
-    public function edit($id = null, BusinessRepository $repository)
+    public function edit($id = null, BusinessRepository $repository, DoctrineUserRepository $userRepository)
     {
         $business = $id ? $repository->findById($id) : new Business();
+
+        if (!empty($business->getCreatedBy()))
+            $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
+        if (!empty($business->getUpdatedBy()))
+            $business->userWhoLastUpdated = $userRepository->find($business->getUpdatedBy());
 
         $this->authorize('view', $business);
 
