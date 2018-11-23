@@ -5,7 +5,7 @@
 
     <div class="flash-message">
     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-        @if(Session::filled('alert-' . $msg))
+        @if(Session::has('alert-' . $msg))
 
         <p class="alert alert-{{ $msg }} alert-dismissable">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
         @endif
@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label for="name">{{ __('admin.name') }}</label>
                 <input id="name" name="name" class="form-control validate" value="{{ old('name') ?: $business->getName() }}"/>
-                @if($errors->filled('name'))
+                @if($errors->has('name'))
                     <small class="business-error">{{ $errors->first('name') }}</small>
                 @endif
             </div>
@@ -33,7 +33,7 @@
                 <label for="address">{{ __('admin.address') }}</label>
                 <input id="address" name="address" class="form-control validate"
                        value="{{ old('address') ?: $business->getAddress() }}"/>
-                @if($errors->filled('address'))
+                @if($errors->has('address'))
                     <small class="business-error">{{ $errors->first('address') }}</small>
                 @endif
             </div>
@@ -41,7 +41,7 @@
             <div class="form-group">
                 <label for="city">{{ __('admin.city') }}</label>
                 <input id="city" name="city" class="form-control validate" value="{{ old('city') ?: $business->getCity() }}"/>
-                @if($errors->filled('city'))
+                @if($errors->has('city'))
                     <small class="business-error">{{ $errors->first('city') }}</small>
                 @endif
             </div>
@@ -50,10 +50,10 @@
                 <label for="postcode">{{ __('admin.postcode') }}</label>
                 <input id="postcode" name="postcode" class="form-control validate"
                        value="{{ old('postcode') ?: $business->getPostcode() }}"/>
-                @if($errors->filled('postcode'))
+                @if($errors->has('postcode'))
                     <small class="business-error">{{ $errors->first('postcode') }}</small>
                 @endif
-                @if($errors->filled('geolocation'))
+                @if($errors->has('geolocation'))
                     <small class="business-error">{{ $errors->first('geolocation') }}</small>
                 @endif
             </div>
@@ -62,7 +62,7 @@
                 <label for="localArea">{{ __('admin.local_area') }}</label>
                 <input id="localArea" name="localArea" class="form-control validate" autocomplete="off"
                        value="{{ old('localArea') ?: $business->getLocalArea() }}">
-                @if($errors->filled('localArea'))
+                @if($errors->has('localArea'))
                     <small class="business-error">{{ $errors->first('localArea') }}</small>
                 @endif
             </div>
@@ -71,7 +71,7 @@
                 <label for="description">{{ __('admin.description') }}</label>
                 <textarea id="description" name="description"
                           class="form-control validate">{{ old('description') ?: $business->getDescription() }}</textarea>
-                @if($errors->filled('description'))
+                @if($errors->has('description'))
                     <small class="business-error">{{ $errors->first('description') }}</small>
                 @endif
             </div>
@@ -80,7 +80,7 @@
                 <label for="landline">{{ __('admin.phone') }}</label>
                 <input id="landline" name="landline" class="form-control validate"
                        value="{{ old('landline') ?: $business->getLandline() }}">
-                @if($errors->filled('landline'))
+                @if($errors->has('landline'))
                     <small class="business-error">{{ $errors->first('landline') }}</small>
                 @endif
             </div>
@@ -89,7 +89,7 @@
                 <label for="mobile">{{ __('admin.mobile') }}</label>
                 <input id="mobile" name="mobile" class="form-control validate"
                        value="{{ old('mobile') ?: $business->getMobile() }}">
-                @if($errors->filled('mobile'))
+                @if($errors->has('mobile'))
                     <small class="business-error">{{ $errors->first('mobile') }}</small>
                 @endif
             </div>
@@ -98,7 +98,7 @@
                 <label for="website">{{ __('admin.website') }}</label>
                 <input id="website" name="website" class="form-control validate"
                        value="{{ old('website') ?: $business->getWebsite() }}">
-                @if($errors->filled('website'))
+                @if($errors->has('website'))
                     <small class="business-error">{{ $errors->first('website') }}</small>
                 @endif
             </div>
@@ -106,7 +106,7 @@
             <div class="form-group">
                 <label for="email">{{ __('admin.email') }}</label>
                 <input id="email" name="email" class="form-control validate" value="{{ old('email') ?: $business->getEmail() }}">
-                @if($errors->filled('email'))
+                @if($errors->has('email'))
                     <small class="business-error">{{ $errors->first('email') }}</small>
                 @endif
             </div>
@@ -123,7 +123,7 @@
                         </option>
                     @endforeach
                 </select>
-                @if($errors->filled('categories'))
+                @if($errors->has('categories'))
                     <small class="business-error">{{ $errors->first('categories') }}</small>
                 @endif
             </div>
@@ -132,7 +132,7 @@
                 <label for="productsRepaired">{{ __('admin.products_repaired') }}</label>
                 <input id="productsRepaired" name="productsRepaired" class="form-control" autocomplete="off"
                        value="{{ old('productsRepaired') ?: implode(',', $business->getProductsRepaired()) }}">
-                @if($errors->filled('productsRepaired'))
+                @if($errors->has('productsRepaired'))
                     <small class="business-error">{{ $errors->first('productsRepaired') }}</small>
                 @endif
             </div>
@@ -141,7 +141,7 @@
                 <label for="authorisedBrands">{{ __('admin.authorised_brands') }}</label>
                 <input id="authorisedBrands" name="authorisedBrands" class="form-control" autocomplete="off"
                        value="{{ old('authorisedBrands') ?: implode(',', $business->getAuthorisedBrands()) }}">
-                @if($errors->filled('authorisedBrands'))
+                @if($errors->has('authorisedBrands'))
                     <small class="business-error">{{ $errors->first('authorisedBrands') }}</small>
                 @endif
             </div>
@@ -150,7 +150,7 @@
                 <label for="qualifications">{{ __('admin.qualifications') }}</label>
                 <textarea id="qualifications" name="qualifications"
                           class="form-control validate">{{ old('qualifications') ?: $business->getQualifications() }}</textarea>
-                @if($errors->filled('qualifications'))
+                @if($errors->has('qualifications'))
                     <small class="business-error">{{ $errors->first('qualifications') }}</small>
                 @endif
             </div>
@@ -159,7 +159,7 @@
                 <label for="communityEndorsement">{{ __('admin.community_endorsement') }}</label>
                 <textarea id="communityEndorsement" name="communityEndorsement"
                           class="form-control validate">{{ old('communityEndorsement') ?: $business->getCommunityEndorsement() }}</textarea>
-                @if($errors->filled('communityEndorsement'))
+                @if($errors->has('communityEndorsement'))
                     <small class="business-error">{{ $errors->first('communityEndorsement') }}</small>
                 @endif
             </div>
@@ -168,7 +168,7 @@
                 <label for="notes">{{ __('admin.notes') }}</label>
                 <textarea id="notes" name="notes"
                           class="form-control validate">{{ old('notes') ?: $business->getNotes() }}</textarea>
-                @if($errors->filled('notes'))
+                @if($errors->has('notes'))
                     <small class="business-error">{{ $errors->first('notes') }}</small>
                 @endif
             </div>
@@ -185,7 +185,7 @@
                             <button id="scrapeButton" class="btn btn-primary"><i class="fa fa-sync" ></i></button>
                         </div>
                     </div>
-                    @if($errors->filled('reviewSourceUrl'))
+                    @if($errors->has('reviewSourceUrl'))
                         <small class="business-error">{{ $errors->first('reviewSourceUrl') }}</small>
                     @endif
                 </div>
@@ -200,7 +200,7 @@
                         </option>
                     @endforeach
                 </select>
-                @if($errors->filled('reviewSource'))
+                @if($errors->has('reviewSource'))
                     <small class="business-error">{{ $errors->first('reviewSource') }}</small>
                 @endif
             </div>
@@ -209,7 +209,7 @@
                 <label for="numberOfReviews">{{ __('admin.number_of_reviews') }}</label>
                 <input id="numberOfReviews" name="numberOfReviews" class="form-control validate"
                        value="{{ old('numberOfReviews') ?: $business->getNumberOfReviews() }}">
-                @if($errors->filled('numberOfReviews'))
+                @if($errors->has('numberOfReviews'))
                     <small class="business-error">{{ $errors->first('numberOfReviews') }}</small>
                 @endif
             </div>
@@ -221,7 +221,7 @@
                 <input id="positiveReviewPc" name="positiveReviewPc" type="number" class="form-control slider-input validate"
                        value={{ old('positiveReviewPc') ?: $business->getPositiveReviewPc()}}>
                 <span>%</span>
-                @if($errors->filled('positiveReviewPc'))
+                @if($errors->has('positiveReviewPc'))
                     <small class="business-error">{{ $errors->first('positiveReviewPc') }}</small>
                 @endif
             </div>
@@ -230,7 +230,7 @@
                 <label for="averageScore">{{ __('admin.average_scores') }}</label>
                 <input id="averageScore" name="averageScore" class="form-control validate"
                        value="{{ old('averageScore') ?: $business->getAverageScore() }}">
-                @if($errors->filled('averageScore'))
+                @if($errors->has('averageScore'))
                     <small class="business-error">{{ $errors->first('averageScore') }}</small>
                 @endif
             </div>
@@ -239,7 +239,7 @@
                 <label for="warrantyOffered">{{ __('admin.warranty_offered') }}</label>
                 <input type="checkbox" name="warrantyOffered" id="warrantyOffered" class="form-control"
                        {{ old('warrantyOffered') ? (old('warrantyOffered') === 'Yes' ? 'checked' : '') : ($business->isWarrantyOffered() ? 'checked' : '') }} value="Yes">
-                @if($errors->filled('warrantyOffered'))
+                @if($errors->has('warrantyOffered'))
                     <small class="business-error">{{ $errors->first('warrantyOffered') }}</small>
                 @endif
             </div>
@@ -248,7 +248,7 @@
                 <label for="warranty">{{ __('admin.warranty_details') }}</label>
                 <textarea name="warranty" id="warranty" cols="30" rows="10"
                           class="form-control validate">{{ old('warranty') ?: $business->getWarranty() }}</textarea>
-                @if($errors->filled('warranty'))
+                @if($errors->has('warranty'))
                     <small class="business-error">{{ $errors->first('warranty') }}</small>
                 @endif
             </div>
@@ -324,7 +324,7 @@
                         <input id="publishingStatus" name="publishingStatus" class="form-control" readonly
                             value="{{ old('publishingStatus') ?: $business->getPublishingStatus() }}"/>
                     @endcan
-                    @if($errors->filled('publishingStatus'))
+                    @if($errors->has('publishingStatus'))
                         <small class="business-error">{{ $errors->first('publishingStatus') }}</small>
                     @endif
                 </div>
@@ -334,10 +334,10 @@
                         <button id="submit" class="btn btn-success">{{ __('admin.save') }}</button>
                     </div>
                 @endcan
-                @if($errors->filled('business'))
+                @if($errors->has('business'))
                     <small class="business-error">{{ $errors->first('business') }}</small>
                 @endif
-                @if($errors->filled('authorization'))
+                @if($errors->has('authorization'))
                     <small class="business-error">{{ $errors->first('authorization') }}</small>
                 @endif
 
