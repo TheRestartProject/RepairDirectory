@@ -183,7 +183,7 @@ function formatBusinessDetails (business, compact = false) {
   if (business.communityEndorsement) {
     $details.append(`
             <div class="row business__extra-details">
-                <div class="col-xs-12">
+                <div class="col-12">
                     <p class="business-detail">
                         <span class="fa fa-comments"></span>
                         <span>Restart Community Endorsement:<br>${business.communityEndorsement}</span>
