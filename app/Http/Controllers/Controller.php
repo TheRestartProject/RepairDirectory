@@ -11,5 +11,4 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
 }

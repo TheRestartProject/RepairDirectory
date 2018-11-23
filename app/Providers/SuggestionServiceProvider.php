@@ -39,5 +39,4 @@ class SuggestionServiceProvider extends ServiceProvider
     {
         $this->app->singleton(SuggestionRepository::class, DoctrineSuggestionRepository::class);
     }
-
 }

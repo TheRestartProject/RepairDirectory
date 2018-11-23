@@ -41,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         // the 'accessAdmin' right.  The 'can' middleware is used in routes/web.php
         // on the admin routes to check for presence of the 'accessAdmin' right
         // for the current user.
-        Gate::define('accessAdmin', function($user) {
+        Gate::define('accessAdmin', function ($user) {
             $allowedUsersEmails = getenv('ALLOWED_USERS');
             $currentUserEmail = $user->getEmail();
             if ($allowedUsersEmails && $currentUserEmail) {
@@ -72,7 +72,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->app->singleton(UserRepository::class, DoctrineUserRepository::class);
         $this->app->singleton(FixometerSessionRepository::class, DoctrineFixometerSessionRepository::class);
-        $this->app->singleton(FixometerSessionService::class, function($app) {
+        $this->app->singleton(FixometerSessionService::class, function ($app) {
             return new FixometerSessionService(
                 'PHPSESSID',
                 $app->make(CommandBus::class),

@@ -31,7 +31,7 @@ class WebsiteValidatorTest extends ValidationTestCase
      *
      * @return void
      */
-    public function setUp() 
+    public function setUp()
     {
         $this->validator = new WebsiteValidator();
     }
@@ -72,5 +72,4 @@ class WebsiteValidatorTest extends ValidationTestCase
             self::fail('Should not throw exception');
         }
     }
-
 }

@@ -9,8 +9,7 @@ class MapController extends Controller
 {
     public function index(Request $request)
     {
-        if ($this->isIpRestricted())
-        {
+        if ($this->isIpRestricted()) {
             return response('', 403);
         }
 

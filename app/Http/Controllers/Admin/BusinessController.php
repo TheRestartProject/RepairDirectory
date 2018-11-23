@@ -26,10 +26,12 @@ class BusinessController extends Controller
     {
         $business = $id ? $repository->findById($id) : new Business();
 
-        if (!empty($business->getCreatedBy()))
+        if (!empty($business->getCreatedBy())) {
             $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
-        if (!empty($business->getUpdatedBy()))
+        }
+        if (!empty($business->getUpdatedBy())) {
             $business->userWhoLastUpdated = $userRepository->find($business->getUpdatedBy());
+        }
 
         $this->authorize('view', $business);
 
@@ -120,7 +122,8 @@ class BusinessController extends Controller
         return response('', 404);
     }
 
-    private function renderEdit(Business $business, $errors) {
+    private function renderEdit(Business $business, $errors)
+    {
         $isCreate = $business->getUid() === null;
 
         $formAction = $isCreate ? route('admin.business.create') : route('admin.business.update', ['id' => $business->getUid()]);

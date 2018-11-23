@@ -31,7 +31,7 @@ class EmailValidatorTest extends ValidationTestCase
      *
      * @return void
      */
-    public function setUp() 
+    public function setUp()
     {
         $this->validator = new EmailValidator();
     }
@@ -79,5 +79,4 @@ class EmailValidatorTest extends ValidationTestCase
             self::fail('Should not throw exception');
         }
     }
-
 }

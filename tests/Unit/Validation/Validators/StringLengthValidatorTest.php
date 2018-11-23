@@ -31,7 +31,7 @@ class StringLengthValidatorTest extends ValidationTestCase
      *
      * @return void
      */
-    public function setUp() 
+    public function setUp()
     {
         $this->validator = new StringLengthValidator('Address', 2, 255);
     }
@@ -65,5 +65,4 @@ class StringLengthValidatorTest extends ValidationTestCase
             self::fail('Should not throw exception');
         }
     }
-
 }

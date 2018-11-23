@@ -39,5 +39,4 @@ class BusinessServiceProvider extends ServiceProvider
         $this->app->singleton(BusinessValidator::class, CustomBusinessValidator::class);
         $this->app->singleton(ImportBusinessAuthorizer::class, LaravelImportBusinessAuthorizer::class);
     }
-
 }

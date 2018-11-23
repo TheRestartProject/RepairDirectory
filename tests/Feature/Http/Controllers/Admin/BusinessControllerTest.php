@@ -52,7 +52,8 @@ class BusinessControllerTest extends IntegrationTestCase
         $response->assertStatus(302);
 
         $this->assertDatabaseHas(
-            'businesses', [
+            'businesses',
+            [
                 'uid' => 1,
                 'name' => $business->getName()
             ]
@@ -92,7 +93,8 @@ class BusinessControllerTest extends IntegrationTestCase
         $response->assertStatus(302);
 
         $this->assertDatabaseHas(
-            'businesses', [
+            'businesses',
+            [
                 'uid' => 1,
                 'name' => 'This is a new name',
                 'description' => 'This is a new description.'

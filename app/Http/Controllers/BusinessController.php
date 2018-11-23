@@ -14,8 +14,7 @@ class BusinessController extends Controller
 {
     public function view($id, BusinessRepository $repository)
     {
-        if ($this->isIpRestricted())
-        {
+        if ($this->isIpRestricted()) {
             return response('', 403);
         }
 

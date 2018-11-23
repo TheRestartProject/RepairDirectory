@@ -63,8 +63,6 @@ class RouteServiceProvider extends ServiceProvider
                 Route::prefix('')
                     ->group(base_path('routes/web.php'));
             });
-
-
     }
 
     /**

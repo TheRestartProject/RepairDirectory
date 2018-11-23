@@ -46,7 +46,8 @@ class LaravelContainerAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container();
         $container->singleton(
-            'existingService', function () {
+            'existingService',
+            function () {
                 return new \stdClass();
             }
         );
@@ -67,7 +68,8 @@ class LaravelContainerAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container();
         $container->singleton(
-            'service', function () {
+            'service',
+            function () {
                 $service = new \stdClass();
                 $service->foo = 'bar';
                 return $service;
@@ -111,7 +113,8 @@ class LaravelContainerAdapterTest extends \PHPUnit_Framework_TestCase
 
         $container = new Container();
         $container->singleton(
-            'existingService', function () {
+            'existingService',
+            function () {
                 throw new \RuntimeException('Something went wrong');
             }
         );

@@ -28,13 +28,15 @@ class ImportBusinessesCommandTest extends IntegrationTestCase
     public function it_persists_businesses()
     {
         Artisan::call(
-            'restart:import:businesses', [
+            'restart:import:businesses',
+            [
                 'file' => base_path('data/test.csv')
             ]
         );
 
         $this->assertDatabaseHas(
-            'businesses', [
+            'businesses',
+            [
                 'name' => 'iRepair Centre Bath',
                 'address' => '12 Westgate St',
                 'city' => 'Bath',

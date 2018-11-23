@@ -37,5 +37,4 @@ class PhantomServiceProvider extends ServiceProvider
             return $phantom;
         });
     }
-
 }

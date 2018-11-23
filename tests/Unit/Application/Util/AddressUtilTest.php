@@ -1,6 +1,7 @@
 <?php
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Application\Util;
+
 use TheRestartProject\RepairDirectory\Application\Util\AddressUtil;
 use TheRestartProject\RepairDirectory\Tests\TestCase;
 

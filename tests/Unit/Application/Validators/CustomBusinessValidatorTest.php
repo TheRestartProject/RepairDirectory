@@ -123,6 +123,4 @@ class CustomBusinessValidatorTest extends TestCase
         }
         return $business;
     }
-
-
 }

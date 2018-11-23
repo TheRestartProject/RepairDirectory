@@ -31,7 +31,7 @@ class PhoneNumberValidatorTest extends ValidationTestCase
      *
      * @return void
      */
-    public function setUp() 
+    public function setUp()
     {
         $this->validator = new PhoneNumberValidator('Landline');
     }
@@ -72,5 +72,4 @@ class PhoneNumberValidatorTest extends ValidationTestCase
             self::fail('Should not throw exception');
         }
     }
-
 }
