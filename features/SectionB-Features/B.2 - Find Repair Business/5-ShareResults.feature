@@ -1,4 +1,4 @@
-Feature: 
+Feature: B.2.5 - Sharing the results
   As a user
   They can be able to share the search results easily.
 

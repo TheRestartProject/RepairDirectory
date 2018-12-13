@@ -1,4 +1,4 @@
-Feature: 
+Feature: B.1.9 - Auditing the changes
   As a user
   I should be able to see the changes made to the businesses in the database.
 
