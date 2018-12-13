@@ -13,3 +13,7 @@ The Repair Directory has been developed in partnership with fantastic support fr
 ### Setup
 
 See the [INSTALL](INSTALL.md) file.
+
+### Specifications
+
+Compiled version of the specs is available at: https://therestartproject.github.io/RepairDirectory/Index.html
