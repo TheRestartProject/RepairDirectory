@@ -69,127 +69,6 @@ jsonPWrapper ({
       }
     },
     {
-      "RelativeFolder": "SectionB-Features\\AuditingTheChanges.feature",
-      "Feature": {
-        "Name": "",
-        "Description": "As a user\r\nI should be able to see the changes made to the businesses in the database.",
-        "FeatureElements": [
-          {
-            "Name": "Auditing the changes made tobusinesses",
-            "Slug": "auditing-the-changes-made-tobusinesses",
-            "Description": "",
-            "Steps": [
-              {
-                "Keyword": "When",
-                "NativeKeyword": "When ",
-                "Name": "a user wants to edit or add a new business",
-                "StepComments": [],
-                "AfterLastStepComments": []
-              },
-              {
-                "Keyword": "Then",
-                "NativeKeyword": "Then ",
-                "Name": "the name of the user, and who last updated details should be logged in the database along with the date.",
-                "StepComments": [],
-                "AfterLastStepComments": []
-              }
-            ],
-            "Tags": [],
-            "Result": {
-              "WasExecuted": false,
-              "WasSuccessful": false
-            }
-          }
-        ],
-        "Result": {
-          "WasExecuted": false,
-          "WasSuccessful": false
-        },
-        "Tags": []
-      },
-      "Result": {
-        "WasExecuted": false,
-        "WasSuccessful": false
-      }
-    },
-    {
-      "RelativeFolder": "SectionB-Features\\ShareResults.feature",
-      "Feature": {
-        "Name": "",
-        "Description": "As a user\r\nThey can be able to share the search results easily.",
-        "FeatureElements": [
-          {
-            "Name": "Sharing search results",
-            "Slug": "sharing-search-results",
-            "Description": "",
-            "Steps": [
-              {
-                "Keyword": "When",
-                "NativeKeyword": "When ",
-                "Name": "a user wants to share the list of search results",
-                "StepComments": [],
-                "AfterLastStepComments": []
-              },
-              {
-                "Keyword": "Then",
-                "NativeKeyword": "Then ",
-                "Name": "the user can click on the share results button and copy the URL and share it.",
-                "StepComments": [],
-                "AfterLastStepComments": []
-              }
-            ],
-            "Tags": [],
-            "Result": {
-              "WasExecuted": false,
-              "WasSuccessful": false
-            }
-          },
-          {
-            "Name": "Sharing specific repair business",
-            "Slug": "sharing-specific-repair-business",
-            "Description": "",
-            "Steps": [
-              {
-                "Keyword": "When",
-                "NativeKeyword": "When ",
-                "Name": "a user wants to share the result of a sepecific repair business",
-                "StepComments": [],
-                "AfterLastStepComments": []
-              },
-              {
-                "Keyword": "Then",
-                "NativeKeyword": "Then ",
-                "Name": "the user can click on the share results button on the pop up screen of the business",
-                "StepComments": [],
-                "AfterLastStepComments": []
-              },
-              {
-                "Keyword": "And",
-                "NativeKeyword": "And ",
-                "Name": "share the repair business.",
-                "StepComments": [],
-                "AfterLastStepComments": []
-              }
-            ],
-            "Tags": [],
-            "Result": {
-              "WasExecuted": false,
-              "WasSuccessful": false
-            }
-          }
-        ],
-        "Result": {
-          "WasExecuted": false,
-          "WasSuccessful": false
-        },
-        "Tags": []
-      },
-      "Result": {
-        "WasExecuted": false,
-        "WasSuccessful": false
-      }
-    },
-    {
       "RelativeFolder": "SectionB-Features\\B.1 - Directory Management\\1-LogInToDirectory.feature",
       "Feature": {
         "Name": "B.1.1 - Log in to directory & permissions",
@@ -331,6 +210,50 @@ jsonPWrapper ({
         "Tags": [
           "@mvp"
         ]
+      },
+      "Result": {
+        "WasExecuted": false,
+        "WasSuccessful": false
+      }
+    },
+    {
+      "RelativeFolder": "SectionB-Features\\B.1 - Directory Management\\9-AuditingTheChanges.feature",
+      "Feature": {
+        "Name": "B.1.9 - Auditing the changes",
+        "Description": "As a user\r\nI should be able to see the changes made to the businesses in the database.",
+        "FeatureElements": [
+          {
+            "Name": "Auditing the changes made tobusinesses",
+            "Slug": "auditing-the-changes-made-tobusinesses",
+            "Description": "",
+            "Steps": [
+              {
+                "Keyword": "When",
+                "NativeKeyword": "When ",
+                "Name": "a user wants to edit or add a new business",
+                "StepComments": [],
+                "AfterLastStepComments": []
+              },
+              {
+                "Keyword": "Then",
+                "NativeKeyword": "Then ",
+                "Name": "the name of the user, and who last updated details should be logged in the database along with the date.",
+                "StepComments": [],
+                "AfterLastStepComments": []
+              }
+            ],
+            "Tags": [],
+            "Result": {
+              "WasExecuted": false,
+              "WasSuccessful": false
+            }
+          }
+        ],
+        "Result": {
+          "WasExecuted": false,
+          "WasSuccessful": false
+        },
+        "Tags": []
       },
       "Result": {
         "WasExecuted": false,
@@ -598,6 +521,83 @@ jsonPWrapper ({
       }
     },
     {
+      "RelativeFolder": "SectionB-Features\\B.2 - Find Repair Business\\5-ShareResults.feature",
+      "Feature": {
+        "Name": "B.2.5 - Sharing the results",
+        "Description": "As a user\r\nThey can be able to share the search results easily.",
+        "FeatureElements": [
+          {
+            "Name": "Sharing search results",
+            "Slug": "sharing-search-results",
+            "Description": "",
+            "Steps": [
+              {
+                "Keyword": "When",
+                "NativeKeyword": "When ",
+                "Name": "a user wants to share the list of search results",
+                "StepComments": [],
+                "AfterLastStepComments": []
+              },
+              {
+                "Keyword": "Then",
+                "NativeKeyword": "Then ",
+                "Name": "the user can click on the share results button and copy the URL and share it.",
+                "StepComments": [],
+                "AfterLastStepComments": []
+              }
+            ],
+            "Tags": [],
+            "Result": {
+              "WasExecuted": false,
+              "WasSuccessful": false
+            }
+          },
+          {
+            "Name": "Sharing specific repair business",
+            "Slug": "sharing-specific-repair-business",
+            "Description": "",
+            "Steps": [
+              {
+                "Keyword": "When",
+                "NativeKeyword": "When ",
+                "Name": "a user wants to share the result of a sepecific repair business",
+                "StepComments": [],
+                "AfterLastStepComments": []
+              },
+              {
+                "Keyword": "Then",
+                "NativeKeyword": "Then ",
+                "Name": "the user can click on the share results button on the pop up screen of the business",
+                "StepComments": [],
+                "AfterLastStepComments": []
+              },
+              {
+                "Keyword": "And",
+                "NativeKeyword": "And ",
+                "Name": "share the repair business.",
+                "StepComments": [],
+                "AfterLastStepComments": []
+              }
+            ],
+            "Tags": [],
+            "Result": {
+              "WasExecuted": false,
+              "WasSuccessful": false
+            }
+          }
+        ],
+        "Result": {
+          "WasExecuted": false,
+          "WasSuccessful": false
+        },
+        "Tags": []
+      },
+      "Result": {
+        "WasExecuted": false,
+        "WasSuccessful": false
+      }
+    },
+    {
       "RelativeFolder": "SectionB-Features\\B.3 - Non-functional\\1-ResponsiveDesign.feature",
       "Feature": {
         "Name": "B.3.1 - Responsive design",
@@ -693,6 +693,6 @@ jsonPWrapper ({
   "Configuration": {
     "SutName": "Restart Community Software",
     "SutVersion": "4.0.0(Beta)",
-    "GeneratedOn": "13 December 2018 15:42:14"
+    "GeneratedOn": "13 December 2018 16:21:47"
   }
 });
