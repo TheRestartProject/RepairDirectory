@@ -31,6 +31,7 @@ class BusinessController extends Controller
         $searchLocation = null;
 
         if ($location) {
+            $location .= ", London, UK";
             $searchLocation = $geocoder->geocode($location);
             if ($searchLocation) {
                 $businesses = $repository->findByLocation($searchLocation, $radius, $criteria);
