@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c53c047d89f7b49bf7dbd0230b59d8a",
+    "content-hash": "6baaf6cf4fd18d09fb04736e779efc89",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -737,12 +737,12 @@
             "version": "v2.6.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8",
                 "shasum": ""
             },
@@ -1616,31 +1616,38 @@
         },
         {
             "name": "laravel-doctrine/migrations",
-            "version": "1.1.5",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-doctrine/migrations.git",
-                "reference": "e39fb353ff374f45fd8c715a6b0b159f7cd7b2e7"
+                "reference": "3fa4ebc8cd5e4ce4c029c4c2a8d7cb5bf8f5f645"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-doctrine/migrations/zipball/e39fb353ff374f45fd8c715a6b0b159f7cd7b2e7",
-                "reference": "e39fb353ff374f45fd8c715a6b0b159f7cd7b2e7",
+                "url": "https://api.github.com/repos/laravel-doctrine/migrations/zipball/3fa4ebc8cd5e4ce4c029c4c2a8d7cb5bf8f5f645",
+                "reference": "3fa4ebc8cd5e4ce4c029c4c2a8d7cb5bf8f5f645",
                 "shasum": ""
             },
             "require": {
-                "doctrine/migrations": "~1.1",
+                "doctrine/migrations": "~1.8",
                 "illuminate/config": "~5.1",
                 "illuminate/console": "~5.1",
                 "illuminate/contracts": "~5.1",
                 "laravel-doctrine/orm": "~1.0",
-                "php": ">=5.5.9"
+                "php": "^7.1"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
                 "phpunit/phpunit": "~4.0"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelDoctrine\\Migrations\\MigrationsServiceProvider"
+                    ]
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "LaravelDoctrine\\Migrations\\": "src/"
@@ -1665,7 +1672,7 @@
                 "migrations",
                 "orm"
             ],
-            "time": "2017-04-03T16:00:02+00:00"
+            "time": "2018-09-03T11:46:53+00:00"
         },
         {
             "name": "laravel-doctrine/orm",
