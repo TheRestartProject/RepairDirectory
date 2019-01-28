@@ -15,10 +15,14 @@
     "cross-env": "^5.0.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
-    "laravel-mix": "^1.7.2",
+    "laravel-mix": "^4.0.14",
     "lodash": "^4.17.5",
     "popper.js": "^1.12",
-    "vue": "^2.1.10"
+    "resolve-url-loader": "^2.3.1",
+    "sass": "^1.16.1",
+    "sass-loader": "^7.1.0",
+    "vue": "^2.1.10",
+    "vue-template-compiler": "^2.5.22"
   },
   "dependencies": {
     "atob": "^2.1.0",
