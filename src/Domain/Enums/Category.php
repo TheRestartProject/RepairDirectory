@@ -41,6 +41,7 @@ class Category extends Enum
     const POWER_TOOL = 'Power tool';
     const PRINTER_SCANNER = 'Printer/scanner';
     const PROJECTOR = 'Projector';
+    const SEWING_MACHINE = 'Sewing machine';
     const SMALL_KITCHEN_ITEM = 'Small kitchen item';
     const TABLET = 'Tablet';
     const TOASTER = 'Toaster';
