@@ -24,7 +24,12 @@ function formatBusinessFooter(business, compact = false) {
 
       $footer.append(`
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
+            <div class="survey-link">
+                <a href="${window.__env.surveyUrl}" target="_blank">Helpful? Let us know!</a>
+            </div>
+        </div>
+        <div class="col-6">
             <div class="share-link">
                 <a href="" id="open-share-business-url">Share business <i class="fa fa-share"></i></a>
                 <div id="share-business-url-container" class="share-link__container">

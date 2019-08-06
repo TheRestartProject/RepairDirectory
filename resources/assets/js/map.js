@@ -359,6 +359,17 @@ function showRepairer (business, marker) {
             $item.removeClass('business-list__item--active')
         }
     })
+
+    showSurveyLink($businessPopup);
+}
+
+function showSurveyLink($businessPopup) {
+    var $survey = $businessPopup.find(".survey-link");
+    $survey.hide();
+
+    setTimeout(function() {
+        $survey.fadeIn('slow');
+    }, 500);
 }
 
 function hideRepairer () {
