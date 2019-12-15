@@ -24,7 +24,7 @@ function formatBusinessFooter(business, compact = false) {
 
       $footer.append(`
     <div class="row">
-        <div class="col-12">
+        <div class="col-6 offset-6">
             <div class="share-link">
                 <a href="" id="open-share-business-url">Share business <i class="fa fa-share"></i></a>
                 <div id="share-business-url-container" class="share-link__container">
@@ -175,6 +175,18 @@ function formatBusinessDetails (business, compact = false) {
             </p>
         `)
   }
+
+  if (business.updatedAt) {
+        let updatedAt = new Date(business.updatedAt.date).toLocaleDateString('en-GB');
+        $rightColumn.append(`
+        <p class="business-detail">
+            <span class="fa fa-calendar"></span>
+            <span>Last updated: ${updatedAt}</span>
+        </p>
+    `)
+  }
+
+
 
   $columns.append($rightColumn)
 
