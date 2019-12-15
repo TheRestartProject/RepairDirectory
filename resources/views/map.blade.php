@@ -103,6 +103,9 @@
                 <button id="business-popup-close" type="button" class="btn btn-default business-popup__close"><i class="fa fa-times"></i></button>
                 <div class="business-popup__content"></div>
             </div>
+            <div id="survey-link">
+                Help us improve!  <a target="_blankl" href="{{ config('map.survey_url') }}">Take our survey</a>.
+            </div>
         </div>
     </div>
 

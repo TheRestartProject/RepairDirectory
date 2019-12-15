@@ -56,6 +56,16 @@
   }
 }
 
+.survey-link {
+  font-size: 12px;
+  line-height: 23px;
+  font-weight: bold;
+
+  & > a {
+    color: inherit;
+  }
+}
+
 
 .sidebar {
   height: 100vh;

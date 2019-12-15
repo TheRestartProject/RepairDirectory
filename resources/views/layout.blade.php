@@ -11,7 +11,8 @@
 
     <script>
         window.__env = {
-            mapShareBaseUrl: '{{ config('map.share.base_url') }}'
+            mapShareBaseUrl: '{{ config('map.share.base_url') }}',
+            surveyUrl: '{{ config('map.survey_url') }}'
         }
     </script>
 
