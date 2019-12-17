@@ -61,6 +61,11 @@
                 </form>
                 <div id="map-mobile"></div>
                 <div id="business-list-container" class="row no-gutter d-none">
+                    <div class="business-list-cta business-list-container__results-header">
+                        <div class="business-list-cta__inner">
+                            Help us improve!  <a target="_blank" href="{{ config('map.survey_url') }}">Take our survey</a>
+                        </div>
+                    </div>
                     <div class="business-list-container__results-header">
                         <div class="business-list-container__result-count"></div>
                         <div class="share-link">
@@ -102,9 +107,6 @@
             <div id="business-popup" class="business-popup d-none">
                 <button id="business-popup-close" type="button" class="btn btn-default business-popup__close"><i class="fa fa-times"></i></button>
                 <div class="business-popup__content"></div>
-            </div>
-            <div id="survey-link">
-                Help us improve!  <a target="_blankl" href="{{ config('map.survey_url') }}">Take our survey</a>.
             </div>
         </div>
     </div>

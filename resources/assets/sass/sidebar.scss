@@ -215,3 +215,15 @@
     display: block;
   }
 }
+
+.business-list-cta {
+    background-color: white;
+
+    &__inner {
+        font-family: 'Patua One';
+        color: #606060;
+        padding:0.5rem;
+        width:100%;
+        text-align:center;
+    }
+}
