@@ -9,12 +9,6 @@ const trackOutboundLink = function (url) {
     'transport': 'beacon',
     'hitCallback': function () {}
   });
-
-  showSurvey();
-};
-
-const showSurvey = function () {
-  window.location.href = window.__env.surveyUrl;
 };
 
 module.exports = { trackOutboundLink }
