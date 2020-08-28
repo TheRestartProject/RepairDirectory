@@ -63,7 +63,7 @@
                 <div id="business-list-container" class="row no-gutter d-none">
                     <div class="business-list-cta business-list-container__results-header">
                         <div class="business-list-cta__inner">
-                            Help us improve!  <a target="_blank" href="{{ config('map.survey_url') }}">Take our survey</a>
+                            Help us grow!  <a target="_blank" href="{{ config('map.survey_url') }}">Submit a business</a>
                         </div>
                     </div>
                     <div class="business-list-container__results-header">
