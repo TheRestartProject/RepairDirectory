@@ -80,7 +80,7 @@ function formatBusinessHeader (business, compact = false) {
                 <span>positive reviews</span>`;
       if (!compact && business.reviewSourceUrl) {
           const reviewSourceUrl = business.reviewSourceUrl.indexOf('http') === 0 ? business.reviewSourceUrl : ('http://' + business.reviewSourceUrl);
-          reviewText += ` <a class="business__review-source-url" target="_blank" href="` + reviewSourceUrl + `">(source)</a>`;
+          reviewText += ` <a class="business__review-source-url" target="_blank" rel="noopener" href="` + reviewSourceUrl + `">(source)</a>`;
       }
       reviewText += `
             </div>
@@ -113,7 +113,7 @@ function formatBusinessDetails (business, compact = false) {
     $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-globe"></span>
-                <a target="_blank" href="${website}" onclick="trackOutboundLink('${website}');">
+                <a target="_blank" rel="noopener" href="${website}" onclick="trackOutboundLink('${website}');">
                     ${business.website}
                 </a>
             </p>
@@ -125,7 +125,7 @@ function formatBusinessDetails (business, compact = false) {
     $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-envelope"></span>
-                <a href="${href}" onclick="trackOutboundLink('${href}';">
+                <a href="${href}" rel="noopener" onclick="trackOutboundLink('${href}';">
                     ${business.email}
                 </a>
             </p>
@@ -138,7 +138,7 @@ function formatBusinessDetails (business, compact = false) {
     $leftColumn.append(`
             <p class="business-detail">
                 <span class="fa fa-phone"></span>
-                <a href="${href}" onclick="trackOutboundLink('${href}');">
+                <a href="${href}" rel="noopener" onclick="trackOutboundLink('${href}');">
                     ${phoneNumber}
                 </a>
             </p>
