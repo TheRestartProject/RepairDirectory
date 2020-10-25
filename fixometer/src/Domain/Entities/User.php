@@ -354,4 +354,13 @@ class User implements Authenticatable
     {
         return 'recovery';
     }
+
+    public function isSuperAdmin()
+    {
+        $role = $this->getRepairDirectoryRole();
+        if (empty($role))
+            return false;
+
+        return $role->getName() == 'SuperAdmin';
+    }
 }
