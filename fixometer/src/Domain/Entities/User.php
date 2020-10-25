@@ -92,6 +92,14 @@ class User implements Authenticatable
      *
      * @return string
      */
+
+
+    private $repairDirectoryRole = null;
+    public function getRepairDirectoryRole()
+    {
+        return $this->repairDirectoryRole;
+    }
+
     public function getEmail()
     {
         return $this->email;
