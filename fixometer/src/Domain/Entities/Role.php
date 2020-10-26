@@ -6,8 +6,8 @@ namespace TheRestartProject\Fixometer\Domain\Entities;
  * The user who can be logged into the application
  *
  * @category Entity
- * @package  TheRestartProject\RepairDirectory\Domain\Models
- * @author   Matthew Kendon <matt@outlandish.com>
+ * @package  TheRestartProject\Fixometer\Domain\Entities
+ * @author   Neil Mather <neil@therestartproject.org>
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk
  */
