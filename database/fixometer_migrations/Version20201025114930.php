@@ -14,7 +14,7 @@ class Version20201025114930 extends AbstractMigration
      */
     public function up(Schema $schema)
     {
-        (new Builder($schema))->create('rd_roles', function (Table $table) {
+        (new Builder($schema))->create('repairdir_roles', function (Table $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
@@ -26,6 +26,6 @@ class Version20201025114930 extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        (new Builder($schema))->drop('rd_roles');
+        (new Builder($schema))->drop('repairdir_roles');
     }
 }
