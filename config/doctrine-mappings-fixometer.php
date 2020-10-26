@@ -57,7 +57,7 @@ return [
                 'nullable' => true
             ],
         ],
-        'oneToOne' => [
+        'manyToOne' => [
             'repairDirectoryRole' => [
                 'targetEntity' => 'Role',
                 'joinColumn' => [
