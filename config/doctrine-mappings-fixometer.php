@@ -30,6 +30,9 @@ return [
             'name' => [
                 'type' => 'string'
             ],
+            'username' => [
+                'type' => 'string'
+            ],
             'role' => [
                 'type' => 'integer'
             ],
@@ -52,8 +55,17 @@ return [
                 'type' => 'datetime',
                 'column' => 'updated_at',
                 'nullable' => true
+            ],
+        ],
+        'manyToOne' => [
+            'repairDirectoryRole' => [
+                'targetEntity' => 'Role',
+                'joinColumn' => [
+                    'name' => 'repairdir_role',
+                    'referencedColumnName' => 'id',
+                ]
             ]
-        ]
+        ],
     ],
     'TheRestartProject\Fixometer\Domain\Entities\FixometerSession' => [
         'type'   => 'entity',
@@ -88,5 +100,23 @@ return [
                 'column' => 'modified_at'
             ]
         ]
-    ]
+    ],
+    'TheRestartProject\Fixometer\Domain\Entities\Role' => [
+        'type'   => 'entity',
+        'table' => 'repairdir_roles',
+        'id' => [
+            'uid' => [
+                'type'     => 'integer',
+                'column' => 'id',
+                'generator' => [
+                    'strategy' => 'auto'
+                ]
+            ],
+        ],
+        'fields' => [
+            'name' => [
+                'type' => 'string'
+            ],
+        ]
+    ],
 ];
