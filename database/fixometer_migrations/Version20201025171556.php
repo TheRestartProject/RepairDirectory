@@ -15,7 +15,7 @@ class Version20201025171556 extends AbstractMigration
     public function up(Schema $schema)
     {
         (new Builder($schema))->table('users', function (Table $table) {
-            $table->smallInteger('repairdir_role', false, true)
+            $table->smallInteger('repairdir_role', false, true)->setNotnull(false)->setDefault(null);
 ;
         });
     }
