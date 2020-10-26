@@ -51,6 +51,15 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
+        Gate::define('assignRole', function ($user, $nameOfRoleToAssign) {
+            // At present, only superadmins can assign any of the existing roles.
+            // This will change when Editor role introduced.
+            if ($user->isSuperAdmin())
+                return true;
+
+            return false;
+        });
+
         Auth::extend('fixometer', function ($app, $name, array $config) {
             // Return an instance of Illuminate\Contracts\Auth\Guard...
 

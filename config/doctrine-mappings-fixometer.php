@@ -30,6 +30,9 @@ return [
             'name' => [
                 'type' => 'string'
             ],
+            'username' => [
+                'type' => 'string'
+            ],
             'role' => [
                 'type' => 'integer'
             ],
@@ -100,7 +103,7 @@ return [
     ],
     'TheRestartProject\Fixometer\Domain\Entities\Role' => [
         'type'   => 'entity',
-        'table' => 'rd_roles',
+        'table' => 'repairdir_roles',
         'id' => [
             'uid' => [
                 'type'     => 'integer',

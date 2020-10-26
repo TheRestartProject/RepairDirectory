@@ -2,6 +2,8 @@
 
 namespace TheRestartProject\Fixometer\Domain\Entities;
 
+use TheRestartProject\Fixometer\Domain\Entities\Role;
+
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
@@ -52,6 +54,8 @@ class User implements Authenticatable
      */
     private $name;
 
+    private $username;
+
     /**
      * The role for the user
      *
@@ -98,6 +102,10 @@ class User implements Authenticatable
     public function getRepairDirectoryRole()
     {
         return $this->repairDirectoryRole;
+    }
+    public function setRepairDirectoryRole(Role $role)
+    {
+        $this->repairDirectoryRole = $role;
     }
 
     public function getEmail()
@@ -181,6 +189,16 @@ class User implements Authenticatable
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
     }
 
     /**
@@ -362,5 +380,14 @@ class User implements Authenticatable
             return false;
 
         return $role->getName() == 'SuperAdmin';
+    }
+
+    public function isRegionalAdmin()
+    {
+        $role = $this->getRepairDirectoryRole();
+        if (empty($role))
+            return false;
+
+        return $role->getName() == 'RegionalAdmin';
     }
 }
