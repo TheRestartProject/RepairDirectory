@@ -4,6 +4,7 @@ namespace Database\Migrations\Fixometer;
 
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema as Schema;
+use LaravelDoctrine\Migrations\Schema\Builder;
 
 class Version20170823211259 extends AbstractMigration
 {
@@ -15,38 +16,22 @@ class Version20170823211259 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql(
-            'create table sessions
-            (
-              idsessions int auto_increment
-                primary key,
-              session varchar(255) not null,
-              user int not null,
-              created_at timestamp null,
-              modified_at timestamp default CURRENT_TIMESTAMP not null,
-              constraint session_UNIQUE
-              unique (session)
-            );'
-        );
-
-        $this->addSql(
-            'create index idxSessionsUsers
-            on sessions (user);'
-        );
+        $builder = new Builder($schema);
+        $this->abortIf($builder->hasTable('users'));
 
         $this->addSql(
             'CREATE TABLE users
             (
-              idusers INT AUTO_INCREMENT
+              id INT AUTO_INCREMENT
                 PRIMARY KEY,
               email VARCHAR(255) NOT NULL,
               password VARCHAR(60) NOT NULL,
               name VARCHAR(255) NOT NULL,
-              role INT DEFAULT 3 not null,
+              role INT not null,
               recovery varchar(45) null,
               recovery_expires timestamp null,
               created_at timestamp null,
-              modified_at timestamp default CURRENT_TIMESTAMP not null,
+              updated_at datetime default CURRENT_TIMESTAMP not null,
               constraint email_UNIQUE
               unique (email)
             );'
@@ -61,7 +46,8 @@ class Version20170823211259 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE users');
-        $this->addSql('DROP TABLE sessions');
+        // NGM: removing this for now, as I'm wary of a Repair Directory rollback
+        // trashing the users table when the connection is pointing at a shared database.
+        // $this->addSql('DROP TABLE users');
     }
 }
