@@ -105,4 +105,50 @@ return [
             'filter' => '/^(?!password_resets|failed_jobs).*$/'
         ]
     ],
+    'restarters_testing' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Migration Repository Table
+        |--------------------------------------------------------------------------
+        |
+        | This table keeps track of all the migrations that have already run for
+        | your application. Using this information, we can determine which of
+        | the migrations on disk haven't actually been run in the database.
+        |
+        */
+        'table'     => 'map_migrations',
+        /*
+        |--------------------------------------------------------------------------
+        | Migration Directory
+        |--------------------------------------------------------------------------
+        |
+        | This directory is where all migrations will be stored for this entity
+        | manager. Use different directories for each entity manager.
+        |
+        */
+        'directory' => database_path('fixometer_migrations'),
+        /*
+        |--------------------------------------------------------------------------
+        | Migration Namespace
+        |--------------------------------------------------------------------------
+        |
+        | This namespace will be used on all migrations. To prevent collisions, add
+        | the entity manager name (connection name).
+        |
+        */
+        'namespace' => 'Database\\Migrations\\Fixometer',
+        /*
+        |--------------------------------------------------------------------------
+        | Migration Repository Table
+        |--------------------------------------------------------------------------
+        |
+        | Tables which are filtered by Regular Expression. You optionally
+        | exclude or limit to certain tables. The default will
+        | filter all tables.
+        |
+        */
+        'schema'    => [
+            'filter' => '/^(?!password_resets|failed_jobs).*$/'
+        ]
+    ],
 ];

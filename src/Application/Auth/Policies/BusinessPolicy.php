@@ -26,7 +26,7 @@ class BusinessPolicy
      */
     public function before(User $user)
     {
-        if ($this->userIsAdmin($user)) {
+        if ($this->userIsSuperAdmin($user)) {
             return true;
         }
     }
@@ -77,7 +77,6 @@ class BusinessPolicy
         return $this->userIsRestarter($user) && !$business->isPublished();
     }
 
-
     /**
      * Checks that user can view the business
      *
@@ -97,9 +96,9 @@ class BusinessPolicy
      *
      * @return bool
      */
-    protected function userIsAdmin(User $user)
+    protected function userIsSuperAdmin(User $user)
     {
-        return in_array($user->getRole(), [1, 2, 3], true);
+        return $user->isSuperAdmin();
     }
 
     /**

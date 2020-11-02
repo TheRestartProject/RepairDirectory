@@ -69,6 +69,21 @@ return [
             'engine' => null,
         ],
 
+        'restarters_testing' => [
+            'driver' => 'mysql',
+            'host' => '127.0.0.1',
+            'port' => '3306',
+            'database' => 'restarters_db_test',
+            'username' => 'tester',
+            'password' => 'tester',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
