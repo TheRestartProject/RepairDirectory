@@ -177,7 +177,8 @@ function formatBusinessDetails (business, compact = false) {
   }
 
   if (business.updatedAt) {
-        let updatedAt = new Date(business.updatedAt.date).toLocaleDateString('en-GB');
+        // Parse of full date fails on Safari; we only want the date anyway, so trim it.
+        let updatedAt = new Date(business.updatedAt.date.substring(0, 10)).toLocaleDateString('en-GB');
         $rightColumn.append(`
         <p class="business-detail">
             <span class="fa fa-calendar"></span>
