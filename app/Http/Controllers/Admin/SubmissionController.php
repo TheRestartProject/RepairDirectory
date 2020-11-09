@@ -9,11 +9,18 @@ use TheRestartProject\RepairDirectory\Infrastructure\Services\GravityFormsSubmis
 
 class SubmissionController extends Controller
 {
+    private $submissionsRetriever;
+
+    public function __construct()
+    {
+        $this->submissionsRetriever = new GravityFormsSubmissionsRetriever();
+    }
+
     public function index()
     {
-        $retriever = new GravityFormsSubmissionsRetriever();
+        $this->authorize('index', Submission::class);
 
-        $submissions = $retriever->retrieveAll();
+        $submissions = $this->submissionsRetriever->retrieveAll();
 
         return view('admin.submissions.index', [
             'submissions' => $submissions
@@ -22,9 +29,9 @@ class SubmissionController extends Controller
 
     public function view($id)
     {
-        $retriever = new GravityFormsSubmissionsRetriever();
+        $this->authorize('view', Submission::class);
 
-        $submission = $retriever->retrieve($id);
+        $submission = $this->submissionsRetriever->retrieve($id);
 
         return view('admin.submissions.view', [
             'submission' => $submission
