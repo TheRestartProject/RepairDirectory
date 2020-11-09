@@ -27,7 +27,17 @@ class GravityFormsSubmissionsRetriever
 
     }
 
-    public function retrieve()
+    public function retrieve($entryId)
+    {
+        $response = $this->client->request('GET', "entries/{$entryId}");
+        $json = json_decode($response->getBody()->getContents());
+
+        $submission = new Submission($json);
+
+        return $submission;
+    }
+
+    public function retrieveAll()
     {
         $response = $this->client->request('GET', "forms/{$this->submissionsFormId}/entries");
         $json = json_decode($response->getBody()->getContents());

@@ -4,6 +4,7 @@ namespace TheRestartProject\RepairDirectory\Domain\Models;
 
 class Submission
 {
+    private $externalId;
     private $businessName;
     private $businessWebsite;
     private $businessBorough;
@@ -12,15 +13,21 @@ class Submission
     private $createdAt;
     private $submittedByEmployee;
 
-    public function __construct($businessData)
+    public function __construct($submissionData)
     {
-        $this->businessName = $businessData->{'1'};
-        $this->businessWebsite = $businessData->{'5'};
-        $this->businessBorough = $businessData->{'2'};
-        $this->reviewSource = $businessData->{'3'};
-        $this->extraInfo = $businessData->{'4'};
-        $this->submittedByEmployee = $businessData->{'6'};
-        $this->createdAt = $businessData->date_created;
+        $this->externalId = $submissionData->id;
+        $this->businessName = $submissionData->{'1'};
+        $this->businessWebsite = $submissionData->{'5'};
+        $this->businessBorough = $submissionData->{'2'};
+        $this->reviewSource = $submissionData->{'3'};
+        $this->extraInfo = $submissionData->{'4'};
+        $this->submittedByEmployee = $submissionData->{'6'};
+        $this->createdAt = $submissionData->date_created;
+    }
+
+    public function getExternalId()
+    {
+        return $this->externalId;
     }
 
     public function getBusinessName()
@@ -48,7 +55,7 @@ class Submission
         return $this->createdAt;
     }
 
-    public function getSubmittedByBusiness()
+    public function getSubmittedByEmployee()
     {
         return $this->submittedByEmployee;
     }

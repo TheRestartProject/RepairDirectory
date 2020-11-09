@@ -10,12 +10,24 @@ class GravityFormsSubmissionsTest extends IntegrationTestCase
     /**
      * @test
      */
-    public function it_pulls_back_submissions()
+    public function it_pulls_back_all_submissions()
     {
         $submissionsRetriever = new GravityFormsSubmissionsRetriever();
 
-        $submissions = $submissionsRetriever->retrieve();
+        $submissions = $submissionsRetriever->retrieveAll();
 
         dd($submissions);
+    }
+
+    /**
+     * @test
+     */
+    public function it_pulls_back_single_submission()
+    {
+        $submissionsRetriever = new GravityFormsSubmissionsRetriever();
+
+        $submission = $submissionsRetriever->retrieve(5949);
+
+        dd($submission);
     }
 }
