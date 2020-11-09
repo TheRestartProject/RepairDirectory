@@ -68,6 +68,13 @@
             </div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">@lang('admin.submission_extra_info')</label>
+            <div class="col-sm-10">
+                <textarea readonly class="form-control-plaintext" rows=4>{{ $submission->getExtraInfo() }}</textarea>
+            </div>
+        </div>
+
         <p class="form-text text-muted">Note: links are not automatically clickable, in case malicious data has been submitted.</p>
 
     </form>

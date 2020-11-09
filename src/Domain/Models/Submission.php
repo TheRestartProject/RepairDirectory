@@ -50,13 +50,19 @@ class Submission
         return $this->reviewSource;
     }
 
-    public function getCreatedAt()
+    public function getExtraInfo()
     {
-        return $this->createdAt;
+        return $this->extraInfo;
     }
 
     public function getSubmittedByEmployee()
     {
         return $this->submittedByEmployee;
     }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
 }
