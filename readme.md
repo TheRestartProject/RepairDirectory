@@ -4,7 +4,7 @@ The Restart Repair Directory is a tool for encouraging repair through local busi
 
 ### Status
 
-The Repair Directory is currently in alpha and is undergoing active testing and development.  Please get in touch at tech@therestartproject.org if you would like to collaborate.
+The Repair Directory is currently in beta and is undergoing active testing and development.  Please get in touch at tech@therestartproject.org if you would like to collaborate.
 
 ### Credits
 
