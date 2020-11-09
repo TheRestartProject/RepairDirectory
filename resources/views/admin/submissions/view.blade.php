@@ -20,9 +20,12 @@
 
     <h2>@lang('admin.submission'): {{ $submission->getBusinessName() }}</h2> 
 
-    <p>Links are not automatically clickable, in case malicious data has been submitted.</p>
-
     <form>
+        <style>
+         .col-form-label {
+             font-weight: bold;
+         }
+        </style>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">@lang('admin.name')</label>
             <div class="col-sm-10">
@@ -64,6 +67,9 @@
                 <input type="text" readonly class="form-control-plaintext" value="{{ $submission->getSubmittedByEmployee() }}">
             </div>
         </div>
+
+        <p class="form-text text-muted">Note: links are not automatically clickable, in case malicious data has been submitted.</p>
+
     </form>
 
 @endsection
