@@ -26,6 +26,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav navbar-nav__left">
                         <li><a class="nav-link" href="{{ route('admin.index') }}"><i class="fas fa-store-alt"></i> Businesses</a></li>
+                        <li><a class="nav-link" href="{{ route('admin.submissions.index') }}"><i class="fas fa-store-alt"></i> Submissions</a></li>
                          <li><a class="nav-link" href="{{ route('map') }}"><i class="fas fa-map"></i> Map</a></li>
                     </ul>
 
@@ -101,6 +102,10 @@
 
     <footer class="text-muted">
         <div class="container-fluid">
+            @if (!empty(Auth::user()->getRepairDirectoryRole())) 
+                <p>@lang('admin.your_role_is'): {{ Auth::user()->getRepairDirectoryRole()->getName() }}.</p>
+            @endif
+
             <p>Created by <a href="https://therestartproject.org">The Restart Project</a> and <a href="https://outlandish.com">Outlandish</a>.</p>
         </div>
     </footer>

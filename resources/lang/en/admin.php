@@ -33,6 +33,15 @@ return [
     'warranty_details' => 'Warranty Details',
     'publishing_status' => 'Publishing Status',
 
+    'submissions' => 'Submissions',
+    'submissions_via_gravity_forms' => 'Submissions via Gravity Forms',
+    'submission' => 'Gravity Form submission',
+    'submission_date' => 'Submission date',
+    'submitted_by_employee' => 'Submitted by employee?',
+    'submission_extra_info' => 'Anything else we should know about this business?',
+
+    'your_role_is' => 'Your role is',
+
     'save' => 'Save',
     'delete' => 'Delete',
     'cancel' => 'Cancel',

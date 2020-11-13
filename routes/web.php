@@ -27,4 +27,7 @@ Route::prefix('admin')
         Route::post('business', 'BusinessController@create')->name('admin.business.create');
         Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
         Route::delete('business/{id}', 'BusinessController@delete')->name('admin.business.delete');
+        Route::get('submissions', 'SubmissionController@index')->name('admin.submissions.index');
+        Route::get('submissions/{id}', 'SubmissionController@view')->name('admin.submissions.view');
     });
+

@@ -139,64 +139,36 @@ return [
                 'point' => 'point'
             ]
         ],
-        'restarters_testing' => [
-            'dev'           => env('APP_DEBUG'),
-            'meta'          => 'config',
-            'mapping_file'  => 'doctrine-mappings-fixometer',
-            'connection'    => 'restarters_testing',
-            'namespaces'    => [
-                'TheRestartProject\\Fixometer\\Domain\\Entities'
-            ],
-            'paths'         => [
-                base_path('config')
-            ],
-            'repository'    => Doctrine\ORM\EntityRepository::class,
-            'proxies'       => [
-                'namespace'     => false,
-                'path'          => storage_path('proxies'),
-                'auto_generate' => env('DOCTRINE_PROXY_AUTOGENERATE', false)
-            ],
-            /*
-            |--------------------------------------------------------------------------
-            | Doctrine events
-            |--------------------------------------------------------------------------
-            |
-            | The listener array expects the key to be a Doctrine event
-            | e.g. Doctrine\ORM\Events::onFlush
-            |
-            */
-            'events'        => [
-                'listeners'   => [],
-                'subscribers' => []
-            ],
-            'filters'       => [],
-            /*
-            |--------------------------------------------------------------------------
-            | Doctrine mapping types
-            |--------------------------------------------------------------------------
-            |
-            | Link a Database Type to a Local Doctrine Type
-            |
-            | Using 'enum' => 'string' is the same of:
-            | $doctrineManager->extendAll(function (\Doctrine\ORM\Configuration $configuration,
-            |         \Doctrine\DBAL\Connection $connection,
-            |         \Doctrine\Common\EventManager $eventManager) {
-            |     $connection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
-            | });
-            |
-            | References:
-            | http://doctrine-orm.readthedocs.org/en/latest/cookbook/custom-mapping-types.html
-            | http://doctrine-dbal.readthedocs.org/en/latest/reference/types.html#custom-mapping-types
-            | http://doctrine-orm.readthedocs.org/en/latest/cookbook/advanced-field-value-conversion-using-custom-mapping-types.html
-            | http://doctrine-orm.readthedocs.org/en/latest/reference/basic-mapping.html#reference-mapping-types
-            | http://symfony.com/doc/current/cookbook/doctrine/dbal.html#registering-custom-mapping-types-in-the-schematool
-            |--------------------------------------------------------------------------
-            */
+        // NGM: commenting out for now, as just it's presence seems to cause Doctrine to parse it
+        // at startup, which fails on prod because the tester DB doesn't exist.
+        // TODO: make this conditional on being in test environment.
 
-            'mapping_types' => [
-                'point' => 'point'
-            ]
-        ]
+        // 'restarters_testing' => [
+        //     'dev'           => env('APP_DEBUG'),
+        //     'meta'          => 'config',
+        //     'mapping_file'  => 'doctrine-mappings-fixometer',
+        //     'connection'    => 'restarters_testing',
+        //     'namespaces'    => [
+        //         'TheRestartProject\\Fixometer\\Domain\\Entities'
+        //     ],
+        //     'paths'         => [
+        //         base_path('config')
+        //     ],
+        //     'repository'    => Doctrine\ORM\EntityRepository::class,
+        //     'proxies'       => [
+        //         'namespace'     => false,
+        //         'path'          => storage_path('proxies'),
+        //         'auto_generate' => env('DOCTRINE_PROXY_AUTOGENERATE', false)
+        //     ],
+        //     'events'        => [
+        //         'listeners'   => [],
+        //         'subscribers' => []
+        //     ],
+        //     'filters'       => [],
+        //     'mapping_types' => [
+        //         'point' => 'point'
+        //     ]
+        // ]
     ],
     /*
     |--------------------------------------------------------------------------

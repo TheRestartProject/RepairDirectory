@@ -17,10 +17,6 @@
         </div>
     </div>
 
-    @if (!empty(Auth::user()->getRepairDirectoryRole())) 
-        <p>Your role is: {{ Auth::user()->getRepairDirectoryRole()->getName() }}.</p>
-    @endif
-
     <h2>{{ __('admin.form_title') }}</h2>
 
     <table class="table table-bordered table-hover">

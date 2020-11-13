@@ -375,19 +375,25 @@ class User implements Authenticatable
 
     public function isSuperAdmin()
     {
-        $role = $this->getRepairDirectoryRole();
-        if (empty($role))
-            return false;
-
-        return $role->getName() == 'SuperAdmin';
+        return $this->hasRole('SuperAdmin');
     }
 
     public function isRegionalAdmin()
+    {
+        return $this->hasRole('RegionalAdmin');
+    }
+
+    public function isEditor()
+    {
+        return $this->hasRole('Editor');
+    }
+
+    public function hasRole($roleName)
     {
         $role = $this->getRepairDirectoryRole();
         if (empty($role))
             return false;
 
-        return $role->getName() == 'RegionalAdmin';
+        return $role->getName() == $roleName;
     }
 }
