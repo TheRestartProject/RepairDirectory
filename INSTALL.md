@@ -27,7 +27,6 @@ See DEPLOY.md for deployment instructions.
 10. Run `php artisan doctrine:migrations:migrate`
 11. Seed the database with `php artisan restart:import:businesses data/test.csv`
 12. If necessary, run migrations for the fixometer database `php artisan doctrine:migrations:migrate --connection=fixometer`
-    * You may already have a Fixometer DB locally, in which case you don't need to run these migrations.
 13. If you do not already have a Fixometer DB locally, add the users to log in with to visit the admin section `php artisan db:seed --class=UserSeeder`.
 14. Run `npm install` 
     * This install front-end dependencies.
