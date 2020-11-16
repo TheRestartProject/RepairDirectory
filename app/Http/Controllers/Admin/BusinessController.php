@@ -136,8 +136,7 @@ class BusinessController extends Controller
         $publishingStatuses = PublishingStatus::values();
         $authorizedStatuses = $publishingStatuses;
 
-
-        if (auth()->user()->getRole() === 4) {
+        if (auth()->user()->can('update', $business)) {
             $authorizedStatuses = [
                 PublishingStatus::DRAFT,
                 PublishingStatus::READY_FOR_REVIEW

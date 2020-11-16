@@ -66,15 +66,8 @@ class BusinessPolicy
      */
     public function update(User $user, Business $business)
     {
-        if ($this->userIsGuest($user)) {
-            return false;
-        }
-
-        if ($business->isPublished() && $this->userIsRestarter($user)) {
-            return false;
-        }
-
-        return $this->userIsRestarter($user) && !$business->isPublished();
+        // SuperAdmins, RegionalAdmins and Editors can update.
+        return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
     }
 
     /**
