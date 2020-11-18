@@ -91,7 +91,16 @@ class BusinessController extends Controller
         if (!$business) {
             return response('', 404);
         }
-        $this->authorize('update', $business);
+
+        if ($business->getPublishingStatus() === PublishingStatus::DRAFT ||
+            $business->getPublishingStatus() === PublishingStatus::READY_FOR_REVIEW) {
+            // Not live on the site yet.
+            $this->authorize('update', $business);
+        } else {
+            // Live on the site, and therefore require higher permissions.
+            $this->authorize('publish', $business);
+        }
+
         $commandBus->handle(new DeleteBusinessCommand($business));
         return redirect('admin');
     }
@@ -134,13 +143,16 @@ class BusinessController extends Controller
         }
 
         $publishingStatuses = PublishingStatus::values();
-        $authorizedStatuses = $publishingStatuses;
 
-        if (auth()->user()->can('update', $business)) {
+        if (auth()->user()->can('publish', $business)) {
+            $authorizedStatuses = $publishingStatuses;
+        } else if (auth()->user()->can('update', $business)) {
             $authorizedStatuses = [
                 PublishingStatus::DRAFT,
                 PublishingStatus::READY_FOR_REVIEW
             ];
+        } else {
+            $authorizedStatuses = [];
         }
 
         return view('admin.business.edit', [

@@ -57,7 +57,8 @@ class BusinessPolicy
     }
 
     /**
-     * Checks that user can update the business
+     * Checks that user can update the business.  This allows editing of the business, but not making the
+     * business visible on the site, which is controlled by publish below.
      *
      * @param User     $user     The user to check
      * @param Business $business The business that is being updated
@@ -67,6 +68,20 @@ class BusinessPolicy
     public function update(User $user, Business $business)
     {
         // SuperAdmins, RegionalAdmins and Editors can update.
+        return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
+    }
+
+    /**
+     * Checks that user can publish the business.  This is a higher permission than update above.
+     *
+     * @param User     $user     The user to check
+     * @param Business $business The business that is being updated
+     *
+     * @return bool
+     */
+    public function publish(User $user, Business $business)
+    {
+        // SuperAdmins, RegionalAdmins and Editors can publish.
         return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
     }
 
