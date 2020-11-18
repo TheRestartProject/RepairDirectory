@@ -67,8 +67,12 @@ class BusinessPolicy
      */
     public function update(User $user, Business $business)
     {
-        // SuperAdmins, RegionalAdmins and Editors can update.
-        return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
+        // If we have publish permission, which is higher, we can update.
+        // Otherwise we can update if we are an editor and this business is not yet published.
+        return $this->publish($user, $business) ||
+            ($user->isEditor() &&
+                ($business->getPublishingStatus() === PublishingStatus::DRAFT ||
+                $business->getPublishingStatus() === PublishingStatus::READY_FOR_REVIEW));
     }
 
     /**
@@ -81,8 +85,8 @@ class BusinessPolicy
      */
     public function publish(User $user, Business $business)
     {
-        // SuperAdmins, RegionalAdmins and Editors can publish.
-        return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
+        // SuperAdmins and RegionalAdmins can publish.
+        return $user->isSuperAdmin() || $user->isRegionalAdmin();
     }
 
     /**
