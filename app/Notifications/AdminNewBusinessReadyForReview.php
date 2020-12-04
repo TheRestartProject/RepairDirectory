@@ -6,21 +6,22 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 class AdminNewBusinessReadyForReview extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $arr;
+    protected $business;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($arr)
+    public function __construct(Business $business)
     {
-        $this->arr = $arr;
+        $this->business = $business;
     }
 
     /**
@@ -44,27 +45,14 @@ class AdminNewBusinessReadyForReview extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            // TODO insert name
-            ->subject(__('notification.business_ready_for_review_subject'))
+            ->subject(__('notification.business_ready_for_review_subject', [
+                'business' => $this->business->getName()
+            ]))
             ->greeting(__('notification.greeting'))
-            // TODO insert names
-            ->line(__('notification.business_ready_for_review_body'))
-            ->action(__('business_ready_for_review_button'), url('/'));
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        // TODO These values need to change.
-        return [
-            'title' => __('notification.business_ready_for_review_subject'),
-            'name' => '',
-            'url' => url('/'),
-        ];
+            ->line(__('notification.business_ready_for_review_body', [
+                'by' => $notifiable->getName(),
+                'business' => $this->business->getName()
+            ]))
+            ->action(__('notification.business_ready_for_review_button'), route('admin.business.edit', $this->business->getUid()));
     }
 }

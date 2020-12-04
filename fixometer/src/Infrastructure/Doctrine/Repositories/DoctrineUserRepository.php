@@ -4,6 +4,7 @@ namespace TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories;
 
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
+use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 
 /**
  * Class DoctrineUserRepository
@@ -46,6 +47,47 @@ class DoctrineUserRepository extends DoctrineRepository implements UserRepositor
     public function find($uid)
     {
         return $this->repository->find($uid);
+    }
+
+    /**
+     * Finds users that match an array of [ property => value ].
+     *
+     * @param array $criteria The [ property => value ] array to match against users
+     *
+     * @return array All matching users
+     */
+    public function findBy($criteria)
+    {
+        $query = $this->queryFromCriteria($criteria);
+        return $query->getResult();
+    }
+
+    /**
+     * Converts a [ property => value] array to a doctrine query that can be executed.
+     *
+     * @param array $criteria The [ property => value ] array to convert to a query
+     *
+     * @return Query
+     */
+    private function queryFromCriteria($criteria)
+    {
+        $queryBuilder = $this->repository->createQueryBuilder('b');
+        $queryBuilder->select('b');
+        foreach ($criteria as $criterion) {
+            $field = $criterion['field'];
+            $operator = $criterion['operator'];
+            $value = $criterion['value'];
+
+            // handle array contains operator
+            if ($operator === Operators::CONTAINS) {
+                $operator = 'LIKE';
+                $value = '%' . $value . '%';
+            }
+
+            $queryBuilder->andWhere("b.$field $operator :$field");
+            $queryBuilder->setParameter($field, $value);
+        }
+        return $queryBuilder->getQuery();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace TheRestartProject\Fixometer\Domain\Entities;
 use TheRestartProject\Fixometer\Domain\Entities\Role;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * The user who can be logged into the application
@@ -17,6 +18,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
  */
 class User implements Authenticatable
 {
+    use Notifiable;
+
     /**
      * The role Ids
      */
