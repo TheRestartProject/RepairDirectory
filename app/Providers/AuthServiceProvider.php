@@ -45,13 +45,7 @@ class AuthServiceProvider extends ServiceProvider
         // on the admin routes to check for presence of the 'accessAdmin' right
         // for the current user.
         Gate::define('accessAdmin', function ($user) {
-            $allowedUsersEmails = getenv('ALLOWED_USERS');
-            $currentUserEmail = $user->getEmail();
-            if ($allowedUsersEmails && $currentUserEmail) {
-                $allowedUsersEmails = explode(',', $allowedUsersEmails);
-                return in_array($currentUserEmail, $allowedUsersEmails);
-            }
-            return false;
+            return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
         });
 
         Gate::define('assignRole', function ($user, $nameOfRoleToAssign) {
