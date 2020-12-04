@@ -39,11 +39,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // In the absence of user-definable permissions, this is a
-        // basic (and temporary) gate to only give users defined in an env var
-        // the 'accessAdmin' right.  The 'can' middleware is used in routes/web.php
-        // on the admin routes to check for presence of the 'accessAdmin' right
-        // for the current user.
+        // Only users set with valid Repair Directory roles (via Restarters)
+        // can access the admin section.
         Gate::define('accessAdmin', function ($user) {
             return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
         });
