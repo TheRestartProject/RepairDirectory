@@ -7,14 +7,29 @@ See DEPLOY.md for deployment instructions.
 2. Copy the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`
 3. Copy `.env.example` to `.env`, and replace the values that are incorrect
     - (e.g. MAIL_DRIVER)
-    - Ensure that the fixometer database connections in the `.env` file are set.  FIXOMETER_DB_* can be set to the same database as your normal one, or a new database
-    can be created for fixometer users and sessions.
+    - Ensure that the FIXOMETER_* database connections in the `.env` file are set to the **same** database as your restarters one, e.g.:
+        - `FIXOMETER_DB_CONNECTION=mysql`
+        - `FIXOMETER_DB_HOST=db`        
+        - `FIXOMETER_DB_PORT=3306`
+        - `FIXOMETER_DB_DATABASE=restarters_db`
+        - `FIXOMETER_DB_USERNAME=restarters`
+        - `FIXOMETER_DB_PASSWORD=s3cr3t`
+    - Ensure that the DB_* database connections for the Repair Directory are set to **different** ones from restarters, e.g.:
+        - `DB_DATABASE=repairdir_dev`
+        - `DB_USERNAME=repairdir_dev`
+        - `DB_PASSWORD=secret`
+    - Ensure that restarters is set to store sessions in the database
+        - `SESSION_DRIVER=database`       
+        - `SESSION_COOKIE=restarters_session`
+        - `SESSION_DOMAIN=.restarters.test`
+        - `SESSION_LIFETIME=10080`
+
 4. Edit /etc/hosts and add `map.restarters.test` for `127.0.0.1`
 5. Run `composer install`
-6. Create a MySQL database:
-    - `CREATE DATABASE restart`
-    - `CREATE USER 'restart'@'localhost' IDENTIFIED BY 'secret';` 
-    - `GRANT ALL PRIVILEGES ON restart.* TO 'restart'@'localhost';`
+6. Create the MySQL database:
+    - `CREATE DATABASE repairdir_dev`;
+    - `CREATE USER 'repairdir_dev'@'localhost' IDENTIFIED BY 'secret';` 
+    - `GRANT ALL PRIVILEGES ON repairdir_dev.* TO 'repairdir_dev'@'localhost';`
 7.  Add spatial function missing from MariaDB:
     - `CREATE FUNCTION st_distance_sphere(pt1 POINT, pt2 POINT) RETURNS 
     decimal(10,2)
