@@ -18,7 +18,11 @@ use Illuminate\Notifications\Notifiable;
  */
 class User implements Authenticatable
 {
+    // We want to be able to send notifications.
     use Notifiable;
+
+    // Use the Authorizable trait so that we can call can() on a user to evaluation policies.
+    use \Illuminate\Foundation\Auth\Access\Authorizable;
 
     /**
      * The role Ids
