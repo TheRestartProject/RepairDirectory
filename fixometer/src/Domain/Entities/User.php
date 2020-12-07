@@ -17,6 +17,9 @@ use Illuminate\Contracts\Auth\Authenticatable;
  */
 class User implements Authenticatable
 {
+    // Use the Authorizable trait so that we can call can() on a user to evaluation policies.
+    use \Illuminate\Foundation\Auth\Access\Authorizable;
+
     /**
      * The role Ids
      */
