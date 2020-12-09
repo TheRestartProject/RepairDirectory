@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
 class AdminNewBusinessReadyForReview extends Notification implements ShouldQueue
@@ -13,15 +14,17 @@ class AdminNewBusinessReadyForReview extends Notification implements ShouldQueue
     use Queueable;
 
     protected $business;
+    protected $by;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Business $business)
+    public function __construct(Business $business, User $by)
     {
         $this->business = $business;
+        $this->by = $by;
     }
 
     /**
@@ -50,7 +53,7 @@ class AdminNewBusinessReadyForReview extends Notification implements ShouldQueue
             ]))
             ->greeting(__('notification.greeting'))
             ->line(__('notification.business_ready_for_review_body', [
-                'by' => $notifiable->getName(),
+                'by' => $this->by->getName(),
                 'business' => $this->business->getName()
             ]))
             ->action(__('notification.business_ready_for_review_button'), route('admin.business.edit', $this->business->getUid()));

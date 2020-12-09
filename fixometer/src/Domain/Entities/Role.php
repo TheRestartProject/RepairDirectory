@@ -13,6 +13,11 @@ namespace TheRestartProject\Fixometer\Domain\Entities;
  */
 class Role
 {
+    const NONE = 0;
+    const SUPERADMIN = 1;
+    const REGIONAL_ADMIN = 2;
+    const EDITOR = 3;
+
     /**
      * Unique Id for the role
      *

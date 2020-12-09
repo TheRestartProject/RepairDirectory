@@ -6,6 +6,7 @@ namespace TheRestartProject\RepairDirectory\Application\Commands\Business\Import
 use App\Notifications\AdminNewBusinessReadyForReview;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Access\Gate;
+use TheRestartProject\Fixometer\Domain\Entities\Role;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
@@ -123,13 +124,12 @@ class ImportFromHttpRequestHandler
                 [
                     'field' => 'repairDirectoryRole',
                     'operator' => Operators::EQUAL,
-                    'value' => 2
-
+                    'value' => Role::REGIONAL_ADMIN
                 ]
             ]);
 
             foreach ($admins as $admin) {
-                $admin->notify(new AdminNewBusinessReadyForReview($business));
+                $admin->notify(new AdminNewBusinessReadyForReview($business, auth()->user()));
             }
         }
 
