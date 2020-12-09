@@ -3,16 +3,23 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
+use App\Notifications\AdminNewBusinessReadyForReview;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Access\Gate;
+use TheRestartProject\Fixometer\Domain\Entities\Role;
+use TheRestartProject\Fixometer\Domain\Entities\User;
+use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Application\Util\StringUtil;
 use TheRestartProject\RepairDirectory\Application\Validators\CustomBusinessValidator;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
+use Doctrine\ORM\EntityManager;
+use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 
 /**
  * Handles the ImportFromCsvRowCommand to import a Business
@@ -30,7 +37,14 @@ class ImportFromHttpRequestHandler
      *
      * @var BusinessRepository
      */
-    private $repository;
+    private $businessRepository;
+
+    /**
+     * An implementation of the UserRepository
+     *
+     * @var UserRepository
+     */
+    private $userRepository;
 
     /**
      * The geocoder to get [lat, lng] of business
@@ -42,14 +56,16 @@ class ImportFromHttpRequestHandler
     /**
      * Creates the handler for the ImportBusinessFromCsvRowCommand
      *
-     * @param BusinessRepository $repository An implementation of the BusinessRepository
+     * @param BusinessRepository $businessRepository An implementation of the BusinessRepository
+     * @param UserRepository     $userRepository An implementation of the UserRepository
      * @param Geocoder           $geocoder   Geocoder to get [lat, lng] of business
      *
      * @return $this
      */
-    public function __construct(BusinessRepository $repository, Geocoder $geocoder)
+    public function __construct(BusinessRepository $businessRepository, UserRepository $userRepository, Geocoder $geocoder)
     {
-        $this->repository = $repository;
+        $this->businessRepository = $businessRepository;
+        $this->userRepository = $userRepository;
         $this->geocoder = $geocoder;
     }
 
@@ -72,9 +88,10 @@ class ImportFromHttpRequestHandler
 
         $business = new Business();
         $isCreate = true;
+        $currentPublishingStatus = $business->getPublishingStatus();
 
         if ($businessUid !== null) {
-            $business = $this->repository->findById($businessUid);
+            $business = $this->businessRepository->findById($businessUid);
         }
 
         if (!$business) {
@@ -93,7 +110,27 @@ class ImportFromHttpRequestHandler
         }
 
         if ($isCreate) {
-            $this->repository->add($business);
+            $this->businessRepository->add($business);
+        }
+
+        $newPublishingStatus = $business->getPublishingStatus();
+
+        if ($currentPublishingStatus !== PublishingStatus::READY_FOR_REVIEW && $newPublishingStatus === PublishingStatus::READY_FOR_REVIEW
+            && auth()->user()->isEditor()
+        ) {
+            // We have published the business as an Editor.  We want to alert regional admin.  At the moment
+            // editors are not restricted to a region and therefore we alert all of them.
+            $admins = $this->userRepository->findBy([
+                [
+                    'field' => 'repairDirectoryRole',
+                    'operator' => Operators::EQUAL,
+                    'value' => Role::REGIONAL_ADMIN
+                ]
+            ]);
+
+            foreach ($admins as $admin) {
+                $admin->notify(new AdminNewBusinessReadyForReview($business, auth()->user()));
+            }
         }
 
         return $business;

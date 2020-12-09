@@ -31,6 +31,14 @@ interface UserRepository
      */
     public function find($uid);
 
+    /**
+     * Finds users that match an array of [ property => value ].
+     *
+     * @param array $criteria The [ property => value ] array to match against users
+     *
+     * @return array
+     */
+    public function findBy($criteria);
 
     /**
      * Returns true if the user exists
