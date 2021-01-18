@@ -67,7 +67,8 @@ class Cluster extends Enum
                     Category::TOASTER,
                     Category::TOY,
                     Category::VACUUM,
-                    Category::WHITE_GOODS
+                    Category::WHITE_GOODS,
+                    Category::SEWING_MACHINE
                 ];
         }
 
