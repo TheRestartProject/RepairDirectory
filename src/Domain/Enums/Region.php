@@ -82,7 +82,18 @@ class Region extends Enum
             Category::TV,
             Category::VACUUM,
             Category::XBOX_CONSOLE,
-            Category::WHITE_GOODS
+            Category::WHITE_GOODS,
+            Category::REFRIGERATOR_FRIDGE,
+            Category::FREEZER,
+            Category::DISHWASHER,
+            Category::WASHING_MACHINE,
+            Category::TUMBLE_DRYER,
+            Category::COOKER_HOB_OVEN,
+            Category::SEWING_REPAIRS,
+            Category::CLOTHES_CLOTHING,
+            Category::SHOES_FOOTWEAR,
+            Category::BICYCLE_BIKE_CYCLE,
+            Category::FURNITURE_UPHOLSTERY,
         ]
     ];
 }

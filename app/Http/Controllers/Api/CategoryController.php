@@ -12,9 +12,11 @@ class CategoryController extends Controller
     {
         // We have a potentially different list of categories to return depending on the map region we're showing.
         $region = $request->input('region', Region::LONDON);
+        $categories = Region::CATEGORIES[$region];
+        usort($categories, 'strcasecmp');
 
         return [
-            'categories' => Region::CATEGORIES[$region]
+            'categories' => array_values($categories)
         ];
     }
 }
