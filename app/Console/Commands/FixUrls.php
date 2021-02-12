@@ -47,8 +47,6 @@ class FixUrls extends Command
             $oldurl = $url;
 
             if ($url) {
-                $url = str_replace('http://', 'https://', $url);
-
                 if (strpos($url, 'https://') === FALSE) {
                     $url = "https://$url";
                 }
