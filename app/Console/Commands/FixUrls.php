@@ -24,16 +24,6 @@ class FixUrls extends Command
     protected $description = 'Fix business URLs to be in correct format';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
