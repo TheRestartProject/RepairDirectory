@@ -168,7 +168,10 @@ class ImportBusinessesSpreadsheet extends Command
                             $business->setAddress($address);
                             $business->setCity($city);
                             $business->setDescription($description);
-                            $business->setAverageScore($average_score);
+
+                            if ($average_score) {
+                                $business->setAverageScore($average_score);
+                            }
 
                             if ($landline) {
                                 $business->setLandline($landline);
