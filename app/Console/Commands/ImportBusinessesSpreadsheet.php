@@ -94,7 +94,7 @@ class ImportBusinessesSpreadsheet extends Command
                         'name', 'address', 'postcode', 'borough', 'city', 'description', 'landline', 'mobile', 'website',
                         'email',
                         'ignored1', 'ignored2', 'ignored3', 'ignored4', 'ignored5',
-                        'notes', 'review_url', 'review_source', 'review_count', 'positive_percent', 'average_scores',
+                        'notes', 'review_url', 'review_source', 'review_count', 'positive_percent', 'average_score',
                         'warranty_offered', 'warranty_details', 'publish'
                     ];
 
@@ -168,6 +168,7 @@ class ImportBusinessesSpreadsheet extends Command
                             $business->setAddress($address);
                             $business->setCity($city);
                             $business->setDescription($description);
+                            $business->setAverageScore($average_score);
 
                             if ($landline) {
                                 $business->setLandline($landline);
