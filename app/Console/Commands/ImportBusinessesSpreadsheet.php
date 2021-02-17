@@ -33,7 +33,7 @@ class ImportBusinessesSpreadsheet extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Import data from a multi-tabbed Excel spreadsheet';
 
     /**
      * Create a new command instance.
@@ -52,7 +52,7 @@ class ImportBusinessesSpreadsheet extends Command
      */
     public function handle(EntityManagerInterface $em, Geocoder $geocoder, BusinessRepository $repository, ManagerRegistry $managerRegistry)
     {
-        // Delete any existing businesses within the bounding box.
+        // Delete any existing businesses within the bounding box for Wales.
         $conn = $em->getConnection();
         $swlat = 51.32990102458417;
         $swlng = -5.371793182658548;
@@ -118,6 +118,7 @@ class ImportBusinessesSpreadsheet extends Command
                                 $website = "https://$website";
                             }
 
+                            // Ensure we don't end in /, or /#.
                             $website = preg_replace('/\/#$/', '', $website);
                             $website = preg_replace('/\/$/', '', $website);
                         }
@@ -151,6 +152,8 @@ class ImportBusinessesSpreadsheet extends Command
                             $point = $geocoder->geocode("$address,$city,$borough,$postcode");
 
                             if ($point && ($point->getLatitude() < $swlat || $point->getLatitude() > $nelat || $point->getLongitude() < $swlng || $point->getLongitude() > $nelng)) {
+                                // The address doesn't geocode.  Log an error, with the expectation that the spreadsheet
+                                // will then get fixed.
                                 $this->error("$name address $address geocodes to invalid lat/lng " . $point->getLatitude() . "," . $point->getLongitude());
                                 $point = null;
                             }
