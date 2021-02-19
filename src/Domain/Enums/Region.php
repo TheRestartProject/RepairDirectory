@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Domain\Enums;
 
 use MyCLabs\Enum\Enum;
+use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 
 class Region extends Enum
 {
@@ -95,5 +96,64 @@ class Region extends Enum
             Category::BICYCLE_BIKE_CYCLE,
             Category::FURNITURE_UPHOLSTERY,
         ]
+    ];
+
+    const CRITERIA = [
+        self::LONDON =>
+         [
+            [
+                'field' => 'address',
+                'operator' => Operators::NOT_EQUAL,
+                'value' => ''
+            ],
+            [
+                'field' => 'postcode',
+                'operator' => Operators::NOT_EQUAL,
+                'value' => ''
+            ],
+            [
+                'field' => 'city',
+                'operator' => Operators::NOT_EQUAL,
+                'value' => ''
+            ],
+            [
+                'field' => 'warrantyOffered',
+                'operator' => Operators::EQUAL,
+                'value' => true
+            ],
+            [
+                'field' => 'positiveReviewPc',
+                'operator' => Operators::GREATER_THAN_OR_EQUAL,
+                'value' => '80'
+            ],
+            [
+                'field' => 'publishingStatus',
+                'operator' => Operators::EQUAL,
+                'value' => PublishingStatus::PUBLISHED
+            ]
+        ],
+        self::WALES =>
+            [
+                [
+                    'field' => 'address',
+                    'operator' => Operators::NOT_EQUAL,
+                    'value' => ''
+                ],
+                [
+                    'field' => 'postcode',
+                    'operator' => Operators::NOT_EQUAL,
+                    'value' => ''
+                ],
+                [
+                    'field' => 'city',
+                    'operator' => Operators::NOT_EQUAL,
+                    'value' => ''
+                ],
+                [
+                    'field' => 'publishingStatus',
+                    'operator' => Operators::EQUAL,
+                    'value' => PublishingStatus::PUBLISHED
+                ]
+            ],
     ];
 }
