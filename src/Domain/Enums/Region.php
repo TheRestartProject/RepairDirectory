@@ -91,7 +91,7 @@ class Region extends Enum
             Category::TUMBLE_DRYER,
             Category::COOKER_HOB_OVEN,
             Category::SEWING_REPAIRS,
-            Category::CLOTHES_CLOTHING,
+            Category::CLOTHES_TEXTILES,
             Category::SHOES_FOOTWEAR,
             Category::BICYCLE_BIKE_CYCLE,
             Category::FURNITURE_UPHOLSTERY,
