@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
+use TheRestartProject\RepairDirectory\Domain\Enums\Region;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
@@ -16,8 +17,10 @@ class BusinessController extends Controller
         $location = $request->input('location');
         $category = $request->input('category');
         $radius = $request->input('radius') ?: 5;
-        
-        $criteria = config('business-criteria.public');
+        $region = $request->input('region', Region::LONDON);
+
+        // There are different criteria for different regions.
+        $criteria = Region::CRITERIA[$region];
         
         if ($category) {
             $criteria[] = [
@@ -30,14 +33,12 @@ class BusinessController extends Controller
         $businesses = [];
         $searchLocation = null;
 
-        if ($location) {
-            $location .= ", London, UK";
-            $searchLocation = $geocoder->geocode($location);
-            if ($searchLocation) {
-                $businesses = $repository->findByLocation($searchLocation, $radius, $criteria);
-            }
-        } else {
-            $businesses = $repository->findBy($criteria);
+        // The region is a hint for geocoding.
+        $location = $location ? "$location, $region, UK" : "$region, UK";
+
+        $searchLocation = $geocoder->geocode($location);
+        if ($searchLocation) {
+            $businesses = $repository->findByLocation($searchLocation, $radius, $criteria);
         }
 
         $businessesAsArrays = array_map(

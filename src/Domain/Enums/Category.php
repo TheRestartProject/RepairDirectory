@@ -15,6 +15,7 @@ use MyCLabs\Enum\Enum;
  */
 class Category extends Enum
 {
+    // Basic categories, as used by London.
     const APPLE_IPHONE = 'Apple iPhone';
     const APPLE_IPAD = 'Apple iPad';
     const AIRCON_DEHUMIDIFIER = 'Aircon/Dehumidifier';
@@ -50,4 +51,18 @@ class Category extends Enum
     const VACUUM = 'Vacuum';
     const XBOX_CONSOLE = 'Xbox console';
     const WHITE_GOODS = 'White goods';
+
+    // Additional categories for Wales.
+    const REFRIGERATOR_FRIDGE = 'Refrigerator / Fridge';
+    const FREEZER = 'Freezer';
+    const DISHWASHER = 'Dishwasher';
+    const WASHING_MACHINE = 'Washing machine';
+    const TUMBLE_DRYER = 'Tumble dryer';
+    const COOKER_HOB_OVEN = 'Cooker / Hob oven';
+
+    const SEWING_REPAIRS = 'Sewing repairs';
+    const CLOTHES_CLOTHING = 'Clothes / clothing';
+    const SHOES_FOOTWEAR = 'Shoes / footwear';
+    const BICYCLE_BIKE_CYCLE = 'Bicycle / bike / cycle';
+    const FURNITURE_UPHOLSTERY = 'Furniture / upholstery';
 }

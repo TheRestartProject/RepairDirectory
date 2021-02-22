@@ -119,8 +119,8 @@ class AddSuggestionsListener
         $repository = $entityManager->getRepository(Suggestion::class);
         $existing = $repository->findBy([ 'field' => $suggestion->getField(), 'value' => $suggestion->getValue() ]);
         if (empty($existing)) {
-            $entityManager->persist($suggestion);
-            $newSuggestions[] = $suggestion;
+                $entityManager->persist($suggestion);
+                $newSuggestions[] = $suggestion;
         }
     }
 
