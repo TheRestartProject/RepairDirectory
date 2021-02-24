@@ -117,16 +117,6 @@ class Region extends Enum
                 'value' => ''
             ],
             [
-                'field' => 'warrantyOffered',
-                'operator' => Operators::EQUAL,
-                'value' => true
-            ],
-            [
-                'field' => 'positiveReviewPc',
-                'operator' => Operators::GREATER_THAN_OR_EQUAL,
-                'value' => '80'
-            ],
-            [
                 'field' => 'publishingStatus',
                 'operator' => Operators::EQUAL,
                 'value' => PublishingStatus::PUBLISHED
