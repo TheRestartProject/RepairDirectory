@@ -91,7 +91,7 @@ class Region extends Enum
             Category::TUMBLE_DRYER,
             Category::COOKER_HOB_OVEN,
             Category::SEWING_REPAIRS,
-            Category::CLOTHES_CLOTHING,
+            Category::CLOTHES_TEXTILES,
             Category::SHOES_FOOTWEAR,
             Category::BICYCLE_BIKE_CYCLE,
             Category::FURNITURE_UPHOLSTERY,
@@ -115,16 +115,6 @@ class Region extends Enum
                 'field' => 'city',
                 'operator' => Operators::NOT_EQUAL,
                 'value' => ''
-            ],
-            [
-                'field' => 'warrantyOffered',
-                'operator' => Operators::EQUAL,
-                'value' => true
-            ],
-            [
-                'field' => 'positiveReviewPc',
-                'operator' => Operators::GREATER_THAN_OR_EQUAL,
-                'value' => '80'
             ],
             [
                 'field' => 'publishingStatus',
