@@ -11,6 +11,7 @@ use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 
 /**
  * Class DoctrineBusinessRepository
@@ -38,15 +39,45 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
     /**
      * Get all businesses from the repository.
      *
+     * @param User $user
+     *
      * @return array
      */
-    public function findAll()
+    public function findAll($user = null)
     {
-        return $this->repository->findAll();
+        // TODO It may be bad practice to get the current user inside a repository.
+        $me = $user ? $user : \Auth::user();
+
+        if (!$me->isSuperAdmin()) {
+            // If we are a superadmin we can see all businesses.
+            return $this->repository->findAll();
+        } else {
+            // If we are a regional admin or an editor then we can only see businesses within regions that we have been
+            // assigned.
+            //
+            // "Within a region" means that the geolocation of the business is inside the polygon of the region.
+            $rsm = new ResultSetMappingBuilder($this->entityManager);
+            $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation FROM businesses b
+            INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
+            INNER JOIN users_regions ON regions.uid = users_regions.region
+            WHERE users_regions.user = " . intval($me->getUid());
+
+            $query = $this->entityManager->createNativeQuery(
+                $sql,
+                $rsm
+            );
+
+            return $query->getResult();
+        }
     }
 
     /**
-     * Finds the business or returns null
+     * Finds the business or returns null.
+     *
+     * We should not be trying to find businesses outside the region which we have access to, but if we do,
+     * BusinessPolicy will protect us.  So it's ok to return them here.
      *
      * @param integer $uid The id of the business to find
      *
@@ -71,6 +102,9 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      *
      * It then also checks that these businesses are within the bounding circle.
      * This is done by ST_Distance_Sphere
+     *
+     * This is for end-users on the public site - so we do not need to apply any restrictions based on
+     * regions as we would if this was for the admin section.
      *
      * @param Point   $geolocation The location to search by
      * @param integer $radius      The radius, in miles, that Businesses must be within
@@ -125,6 +159,9 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
 
     /**
      * Finds businesses that match an array of [ property => value ].
+     *
+     * This is for end-users on the public site - so we do not need to apply any restrictions based on
+     * regions as we would if this was for the admin section.
      *
      * @param array $criteria The [ property => value ] array to match against businesses
      *

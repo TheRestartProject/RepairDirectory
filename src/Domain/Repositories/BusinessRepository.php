@@ -30,9 +30,11 @@ interface BusinessRepository
     /**
      * Get all Businesses from the repository.
      *
+     * @param User $user
+     *
      * @return array
      */
-    public function findAll();
+    public function findAll($user = null);
 
     /**
      * Finds the business or returns null
