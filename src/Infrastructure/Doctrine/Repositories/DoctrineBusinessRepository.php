@@ -48,7 +48,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         // TODO It may be bad practice to get the current user inside a repository.
         $me = $user ? $user : \Auth::user();
 
-        if (!$me->isSuperAdmin()) {
+        if ($me->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
             return $this->repository->findAll();
         } else {
