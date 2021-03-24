@@ -30,7 +30,7 @@ class FixUrls extends Command
      */
     public function handle(EntityManagerInterface $em, BusinessRepository $businessRepository)
     {
-        $businesses = $businessRepository->findAll();
+        $businesses = $businessRepository->findAll(null, TRUE);
 
         foreach ($businesses as $business) {
             $url = $business->getWebsite();

@@ -40,15 +40,13 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      * Get all businesses from the repository.
      *
      * @param User $user
+     * @param bool $seeall
      *
      * @return array
      */
-    public function findAll($user = null)
+    public function findAll($user, $seeall = FALSE)
     {
-        // TODO It may be bad practice to get the current user inside a repository.
-        $me = $user ? $user : \Auth::user();
-
-        if ($me->isSuperAdmin()) {
+        if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
             return $this->repository->findAll();
         } else {
@@ -62,7 +60,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
             $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation FROM businesses b
             INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
             INNER JOIN users_regions ON regions.uid = users_regions.region
-            WHERE users_regions.user = " . intval($me->getUid());
+            WHERE users_regions.user = " . intval($user->getUid());
 
             $query = $this->entityManager->createNativeQuery(
                 $sql,
@@ -79,16 +77,16 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      * This will only find businesses within a region that we have access to.
      *
      * @param integer $uid The id of the business to find
+     * @param User $user
+     * @param bool $seeall
      *
      * @return Business|null
      */
-    public function findById($uid, $user = null)
+    public function findById($uid, $user, $seeall = FALSE)
     {
         $ret = null;
 
-        $me = $user ? $user : \Auth::user();
-
-        if ($me->isSuperAdmin()) {
+        if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
             $ret = $this->repository->find($uid);
         } else {
@@ -98,7 +96,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
             $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation FROM businesses b
                 INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
                 INNER JOIN users_regions ON regions.uid = users_regions.region
-                WHERE users_regions.user = " . intval($me->getUid()) . " AND b.uid = " . intval($uid);
+                WHERE users_regions.user = " . intval($user->getUid()) . " AND b.uid = " . intval($uid);
 
             $query = $this->entityManager->createNativeQuery(
                 $sql,

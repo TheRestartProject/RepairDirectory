@@ -18,7 +18,7 @@ class BusinessController extends Controller
             return response('', 403);
         }
 
-        $business = $repository->findById($id);
+        $business = $repository->findById($id, Auth::user());
 
         if (!$business) {
             return response('', 404);

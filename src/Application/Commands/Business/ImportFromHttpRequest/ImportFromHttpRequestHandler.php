@@ -20,6 +20,7 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 use Doctrine\ORM\EntityManager;
 use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Handles the ImportFromCsvRowCommand to import a Business
@@ -91,7 +92,7 @@ class ImportFromHttpRequestHandler
         $currentPublishingStatus = $business->getPublishingStatus();
 
         if ($businessUid !== null) {
-            $business = $this->businessRepository->findById($businessUid);
+            $business = $this->businessRepository->findById($businessUid, Auth::user());
         }
 
         if (!$business) {
