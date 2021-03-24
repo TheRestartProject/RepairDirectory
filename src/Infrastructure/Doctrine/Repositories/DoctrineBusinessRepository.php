@@ -76,22 +76,43 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
     /**
      * Finds the business or returns null.
      *
-     * We should not be trying to find businesses outside the region which we have access to, but if we do,
-     * BusinessPolicy will protect us.  So it's ok to return them here.
+     * This will only find businesses within a region that we have access to.
      *
      * @param integer $uid The id of the business to find
      *
      * @return Business|null
      */
-    public function findById($uid)
+    public function findById($uid, $user = null)
     {
-        /**
-         * The business to update
-         *
-         * @var Business $business
-         */
-        $business = $this->repository->find($uid);
-        return $business;
+        $ret = null;
+
+        $me = $user ? $user : \Auth::user();
+
+        if ($me->isSuperAdmin()) {
+            // If we are a superadmin we can see all businesses.
+            $ret = $this->repository->find($uid);
+        } else {
+            $rsm = new ResultSetMappingBuilder($this->entityManager);
+            $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation FROM businesses b
+                INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
+                INNER JOIN users_regions ON regions.uid = users_regions.region
+                WHERE users_regions.user = " . intval($me->getUid()) . " AND b.uid = " . intval($uid);
+
+            $query = $this->entityManager->createNativeQuery(
+                $sql,
+                $rsm
+            );
+
+            $businesses = $query->getResult();
+
+            foreach ($businesses as $business) {
+                $ret = $business;
+            }
+        }
+
+        return $ret;
     }
 
     /**

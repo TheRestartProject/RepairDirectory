@@ -20,6 +20,10 @@ class BusinessController extends Controller
 
         $business = $repository->findById($id);
 
+        if (!$business) {
+            return response('', 404);
+        }
+
         if (!$business->isPublished() || $business->getPublishingStatus() === PublishingStatus::HIDDEN) {
             throw new NotFoundException();
         }

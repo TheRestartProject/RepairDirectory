@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
+use TheRestartProject\RepairDirectory\Application\Exceptions\EntityNotFoundException;
 use TheRestartProject\RepairDirectory\Domain\Authorizers\ImportBusinessAuthorizer;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
@@ -60,6 +61,10 @@ class ImportFromHttpRequestAuthorizer
         $business = null;
         if ($uid !== null) {
             $business = $this->repository->findById($uid);
+        }
+
+        if (!$business) {
+            throw new EntityNotFoundException("Business with id of {$uid} could not be found");
         }
 
         $this->authorizer->authorize($command->getData(), $business);
