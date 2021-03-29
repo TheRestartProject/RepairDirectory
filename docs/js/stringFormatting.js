@@ -41,7 +41,7 @@ function renderMarkdownBlock(markdownText) {
 
         setupMarkdownExtraWithBootstrapTableStyles(converter);
 
-        var transformed = '<p>' + converter.makeHtml(markdownText); + '</p>'
+        var transformed = '<p>' + converter.makeHtml(markdownText) + '</p>';
         return transformed;
     }
     return markdownText;
