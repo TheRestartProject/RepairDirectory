@@ -1,7 +1,5 @@
 <?php
 
-use TheRestartProject\Fixometer\Domain\Entities\User;
-
 return [
 
     /*
@@ -68,8 +66,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'doctrine',
-            'model' => User::class,
+            'driver' => 'eloquent',
+            'model' => App\User::class,
         ],
 
         // 'users' => [
