@@ -23,6 +23,7 @@ Route::prefix('admin')
         Route::get('/', 'AdminController@index')->name('admin.index');
         Route::get('business/validate-field', 'BusinessController@validateField')->name('admin.business.validate-field');
         Route::get('business/scrape-review', 'BusinessController@scrapeReview')->name('admin.business.scrape-review');
+        Route::get('business/from-submission/{id}', 'BusinessController@createFromSubmission')->name('admin.business.createFromSubmission');
         Route::get('business/{id?}', 'BusinessController@edit')->name('admin.business.edit');
         Route::post('business', 'BusinessController@create')->name('admin.business.create');
         Route::put('business/{id}', 'BusinessController@update')->name('admin.business.update');
