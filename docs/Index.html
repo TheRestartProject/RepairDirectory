@@ -131,8 +131,8 @@
             </div>
         </div>
         <div class="navbar-below" data-bind="style: { height: overviewVisible() ? '0px' : '22px' }">
-            <div data-bind="click: $root.hideShowNavigation"><i class="icon-white" data-bind="css: { 'icon-minus-sign': $root.navIsShown(), 'icon-plus-sign': !$root.navIsShown() }"></i> Navigation</div>
-            <div data-bind="click: $root.hideShowNavigationTree"><i class="icon-white" data-bind="css: { 'icon-minus-sign': $root.ShowAllLinks(), 'icon-plus-sign': !$root.ShowAllLinks() }"></i> Links</div>
+            <div data-bind="click: $root.hideShowNavigation"><span class="icon-white" data-bind="css: { 'icon-minus-sign': $root.navIsShown(), 'icon-plus-sign': !$root.navIsShown() }"></span> Navigation</div>
+            <div data-bind="click: $root.hideShowNavigationTree"><span class="icon-white" data-bind="css: { 'icon-minus-sign': $root.ShowAllLinks(), 'icon-plus-sign': !$root.ShowAllLinks() }"></span> Links</div>
         </div>
     </div>
 
@@ -159,7 +159,7 @@
                     <div data-bind="with: Feature" id="featureDetails">
                         <div data-bind="template: { name: 'testResults-template', data: Result }"></div>
                         <div data-bind="if: Tags.length > 0" class="canHighlight inline">
-                            <i class="icon-tags"></i>
+                            <span class="icon-tags"></span>
                             <!-- ko foreach: Tags.sort() -->
                             <span class="tags" data-bind="text: $data" class="inline"></span>
                             <!-- /ko -->
@@ -179,7 +179,7 @@
 
                         <div id="scenarios" data-bind="foreach: FeatureElements">
                             <div data-bind="if: Tags.length > 0" class="canHighlight inline">
-                                <i class="icon-tags"></i><em>
+                                <span class="icon-tags"></span><em>
                                 <!-- ko foreach: Tags.sort() -->
                                 <span class="tags" data-bind="text: $data" class="inline"></span>
                                 <!-- /ko -->
@@ -202,7 +202,7 @@
                                       <li class="step">
                                           <div class="tags">
                                               <span data-bind="if: Tags.length > 0" class="canHighlight inline">
-                                            <i class="icon-tags"></i>
+                                            <span class="icon-tags"></span>
                                             <span data-bind="foreach: Tags">
                                               <span data-bind="text: $data" class="inline"></span>
                                             </span>
@@ -224,28 +224,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Enable to dump JSON to the screen -->
-                    <!--<div class="row-fluid">
-                        Current originalFeaturesList JSON:
-                        <pre data-bind="text: ko.toJSON($parent.originalFeaturesList())"></pre>
-                    </div>
-                    <br /><br />
-                    <div class="row-fluid">
-                        Current featuresByFolder List JSON:
-                        <pre data-bind="text: ko.toJSON($parent.featuresByFolder())"></pre>
-                    </div>-->
                 </div>
                 <!--/span-->
 
             </div>
         </div>
-        <!--/row-->
-        <!--<hr>
-
-        <footer>
-            <p></p>
-        </footer>-->
-
     </div>
     <!--/.fluid-container-->
 
@@ -292,7 +275,7 @@
                         <textarea id="clipboardText" data-bind="text: link, click: $root.followLink" rows="5" readonly></textarea>
                     </div>
                     <div class="modal-footer">
-                        <i class="icon-ok" data-bind="visible: $root.linkCopied"></i>
+                        <span class="icon-ok" data-bind="visible: $root.linkCopied"></span>
                         <button type="button" class="btn btn-primary" data-bind="click: $root.copyLinkToClipboard">Copy to Clipboard</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>

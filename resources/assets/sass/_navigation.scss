@@ -129,8 +129,6 @@
         padding-right: 25px;
 
 
-        margin:auto 0;
-        
         @include media-breakpoint-up(sm) {
             padding: 11px 32px 11px 30px;
 
@@ -260,7 +258,6 @@
                         position: relative;
                         display: inline-block;
                         left: auto;
-                        top: auto;
                         margin: 0 5px 0 0;
                         top: 3px;
                         z-index: 1;
@@ -359,7 +356,6 @@
             list-style: none;
             font-size: 12px;
             display: block;
-            padding-bottom: 10px;
             padding: 15px 20px 15px 20px;
             border-bottom:1px solid #D9D9D9;
 
