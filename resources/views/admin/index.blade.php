@@ -19,16 +19,16 @@
 
     <h2>{{ __('admin.form_title') }}</h2>
 
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" aria-label="Table of businesses">
         <thead>
         <tr>
-            <th>{{ __('admin.name') }}</th>
-            <th>{{ __('admin.address') }}</th>
-            <th>{{ __('admin.postcode') }}</th>
-            <th>{{ __('admin.local_area') }}</th>
-            <th>{{ __('admin.categories') }}</th>
-            <th>{{ __('admin.average_scores') }}</th>
-            <th>{{ __('admin.publishing_status') }}</th>
+            <th scope="col">{{ __('admin.name') }}</th>
+            <th scope="col">{{ __('admin.address') }}</th>
+            <th scope="col">{{ __('admin.postcode') }}</th>
+            <th scope="col">{{ __('admin.local_area') }}</th>
+            <th scope="col">{{ __('admin.categories') }}</th>
+            <th scope="col">{{ __('admin.average_scores') }}</th>
+            <th scope="col">{{ __('admin.publishing_status') }}</th>
         </tr>
         </thead>
         <tbody>

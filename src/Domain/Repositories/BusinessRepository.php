@@ -30,18 +30,23 @@ interface BusinessRepository
     /**
      * Get all Businesses from the repository.
      *
+     * @param User $user
+     * @param bool $seeall
+     *
      * @return array
      */
-    public function findAll();
+    public function findAll($user, $seeall = FALSE);
 
     /**
      * Finds the business or returns null
      *
      * @param integer $uid The uid of the business to find
+     * @param User $user
+     * @param bool $seeall
      *
      * @return Business|null
      */
-    public function findById($uid);
+    public function findById($uid, $user, $seeall = FALSE);
 
     /**
      * Finds businesses that match an array of [ property => value ].
