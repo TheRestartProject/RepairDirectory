@@ -19,10 +19,18 @@ use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
 use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
+use TheRestartProject\RepairDirectory\Infrastructure\Services\GravityFormsSubmissionsRetriever;
 use Illuminate\Support\Facades\Auth;
 
 class BusinessController extends Controller
 {
+    private $submissionsRetriever;
+
+    public function __construct()
+    {
+        $this->submissionsRetriever = new GravityFormsSubmissionsRetriever();
+    }
+
     public function edit($id = null, BusinessRepository $repository, DoctrineUserRepository $userRepository)
     {
         $business = $id ? $repository->findById($id, Auth::user()) : new Business();
@@ -66,6 +74,25 @@ class BusinessController extends Controller
         $request->session()->flash('alert-success', 'The business was created successfully.');
 
         return redirect()->route('admin.business.edit', $business->getUid());
+    }
+
+    public function createFromSubmission($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
+    {
+        $this->authorize('create', Business::class);
+
+        $submission = $this->submissionsRetriever->retrieve($id);
+        $business = new Business();
+        $business->setName($submission->getBusinessName());
+        $business->setWebsite($submission->getBusinessWebsite());
+        $business->setLocalArea($submission->getBusinessBorough());
+        $business->setReviewSourceUrl($submission->getReviewSource());
+        $business->setNotes(
+            "Submission date: " . $submission->getCreatedAt() . "\n" .
+            "Submitted by employee: " . $submission->getSubmittedByEmployee() . "\n" .
+            "Anything else we should know: " . $submission->getExtraInfo()
+        );
+
+        return $this->renderEdit($business, []);
     }
 
     public function update($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)

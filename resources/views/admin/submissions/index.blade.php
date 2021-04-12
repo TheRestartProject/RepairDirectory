@@ -20,13 +20,13 @@
 
     <h2>@lang('admin.submissions_via_gravity_forms')</h2>
 
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" aria-label="Table of submissions">
         <thead>
         <tr>
-            <th>@lang('admin.name')</th>
-            <th>@lang('admin.website')</th>
-            <th>@lang('admin.local_area')</th>
-            <th>@lang('admin.submission_date')</th>
+            <th scope="col">@lang('admin.name')</th>
+            <th scope="col">@lang('admin.website')</th>
+            <th scope="col">@lang('admin.local_area')</th>
+            <th scope="col">@lang('admin.submission_date')</th>
         </tr>
         </thead>
         <tbody>
