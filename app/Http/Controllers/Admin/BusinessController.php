@@ -20,6 +20,7 @@ use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
 use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 use TheRestartProject\RepairDirectory\Infrastructure\Services\GravityFormsSubmissionsRetriever;
+use Illuminate\Support\Facades\Auth;
 
 class BusinessController extends Controller
 {
@@ -32,7 +33,13 @@ class BusinessController extends Controller
 
     public function edit($id = null, BusinessRepository $repository, DoctrineUserRepository $userRepository)
     {
-        $business = $id ? $repository->findById($id) : new Business();
+        $business = $id ? $repository->findById($id, Auth::user()) : new Business();
+
+        if (!$business) {
+            return response('', 404);
+        }
+
+        $this->authorize('view', $business);
 
         if (!empty($business->getCreatedBy())) {
             $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
@@ -40,8 +47,6 @@ class BusinessController extends Controller
         if (!empty($business->getUpdatedBy())) {
             $business->userWhoLastUpdated = $userRepository->find($business->getUpdatedBy());
         }
-
-        $this->authorize('view', $business);
 
         return $this->renderEdit($business, []);
     }
@@ -111,10 +116,10 @@ class BusinessController extends Controller
 
         return redirect()->route('admin.business.edit', $id);
     }
-    
+
     public function delete($id, BusinessRepository $businessRepository, CommandBus $commandBus)
     {
-        $business = $businessRepository->findById($id);
+        $business = $businessRepository->findById($id, Auth::user());
         if (!$business) {
             return response('', 404);
         }
