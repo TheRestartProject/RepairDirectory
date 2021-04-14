@@ -169,8 +169,8 @@ return [
         App\Providers\SuggestionServiceProvider::class,
         App\Providers\PhantomServiceProvider::class,
         App\Providers\FixometerServiceProvider::class,
-        App\Providers\LocationServiceProvider::class
-
+        App\Providers\LocationServiceProvider::class,
+        App\Providers\ScheduleServiceProvider::class,
     ],
 
     /*
