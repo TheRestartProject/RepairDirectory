@@ -72,7 +72,7 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
         }
 
         // Normal restarters can't edit.
-        $editallowed = $user->isEditor() || !$user->isRegionalAdmin() || !$user->isSuperAdmin();
+        $editallowed = $user->isEditor() || $user->isRegionalAdmin() || $user->isSuperAdmin();
 
         if (!$editallowed) {
             if ($this->isUserRestarter($user) && $this->dataIsPublished($data)) {
