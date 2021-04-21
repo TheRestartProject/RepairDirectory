@@ -12,7 +12,7 @@
                     </ol>
                 </nav>
                 <div class="btn-group">
-                    <a class="btn btn-primary btn-save" href="{{ route('admin.business.edit') }}">Create new business</a>
+                    <a class="btn btn-primary btn-save" href="{{ route('admin.business.edit') . '/from-submission/' . $submission->getExternalId() }}">Create this business</a>
                 </div>
             </div>
         </div>

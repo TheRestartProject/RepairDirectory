@@ -71,12 +71,17 @@ class LaravelImportBusinessAuthorizer implements ImportBusinessAuthorizer
             throw new ImportBusinessUnauthorizedException('User is a guest.');
         }
 
-        if ($this->isUserRestarter($user) && $this->dataIsPublished($data)) {
-            throw new ImportBusinessUnauthorizedException('User is a restarter and cannot publish businesses');
-        }
+        // Normal restarters can't edit.
+        $editallowed = $user->isEditor() || $user->isRegionalAdmin() || $user->isSuperAdmin();
 
-        if ($this->isUserRestarter($user) && $this->businessIsPublished($business)) {
-            throw new ImportBusinessUnauthorizedException('User is a restarter and cannot update a published business');
+        if (!$editallowed) {
+            if ($this->isUserRestarter($user) && $this->dataIsPublished($data)) {
+                throw new ImportBusinessUnauthorizedException('User is a restarter and cannot publish businesses');
+            }
+
+            if ($this->isUserRestarter($user) && $this->businessIsPublished($business)) {
+                throw new ImportBusinessUnauthorizedException('User is a restarter and cannot update a published business');
+            }
         }
     }
 
