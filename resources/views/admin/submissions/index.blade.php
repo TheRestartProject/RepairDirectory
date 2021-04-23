@@ -27,6 +27,7 @@
             <th scope="col">@lang('admin.website')</th>
             <th scope="col">@lang('admin.local_area')</th>
             <th scope="col">@lang('admin.submission_date')</th>
+            <th scope="col">@lang('admin.submission_status')</th>
         </tr>
         </thead>
         <tbody>
@@ -36,6 +37,13 @@
                 <td>{{ $submission->getBusinessWebsite() }}</td>
                 <td>{{ $submission->getBusinessBorough() }}</td>
                 <td>{{ $submission->getCreatedAt() }}</td>
+                <td>
+                    <select class='form-control select2 submission-status' name='hobby'>
+                        @foreach ((new ReflectionClass("TheRestartProject\RepairDirectory\Domain\Enums\SubmissionStatus"))->getConstants() as $val)
+                            <option value="{{$val}}" selected="">{{$val}}</option>
+                        @endforeach
+                    </select>
+                </td>
             </tr>
         @endforeach
         </tbody>
@@ -49,5 +57,15 @@
        "ordering": true,
        "order": [[3, 'desc']]
      });
+
+     jQuery('.submission-status').click(function(e) {
+         e.stopPropagation()
+         return false
+     })
+
+     jQuery('.submission-status').change(function(e) {
+         e.stopPropagation()
+         return false
+     })
     </script>
 @endpush
