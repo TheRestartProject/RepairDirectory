@@ -158,5 +158,47 @@ return [
                 'type' => 'string'
             ]
         ]
+    ],
+    'TheRestartProject\RepairDirectory\Domain\Models\Submission' => [
+        'type'   => 'entity',
+        'table'  => 'submissions',
+        'id'     => [
+            'externalId' => [
+                'type'     => 'string',
+            ],
+        ],
+        'uniqueConstraints' => [
+            [
+                'name' => 'submission_unique_idx',
+                'columns' => ['uid']
+            ]
+        ],
+        'fields' => [
+            'businessName' => [
+                'type' => 'string'
+            ],
+            'businessWebsite' => [
+                'type' => 'string'
+            ],
+            'businessBorough' => [
+                'type' => 'string'
+            ],
+            'reviewSource' => [
+                'type' => 'string'
+            ],
+            'extraInfo' => [
+                'type' => 'string'
+            ],
+            'createdAt' => [
+                'type' => 'datetime'
+            ],
+            'submittedByEmployee' => [
+                'type' => 'boolean'
+            ],
+            'status' => [
+                'type' => 'string',
+                'columnDefinition' => "ENUM('added', 'duplicate', 'outside', 'spam', 'other')"
+            ]
+        ]
     ]
 ];
