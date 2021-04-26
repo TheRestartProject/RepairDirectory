@@ -38,7 +38,7 @@
                 <td>{{ $submission->getBusinessBorough() }}</td>
                 <td>{{ $submission->getCreatedAt() }}</td>
                 <td>
-                    <select class='form-control select2 submission-status' name='hobby' data-external-id="{{ $submission->getExternalId() }}">
+                    <select class='form-control select2 submission-status' name='status' data-external-id="{{ $submission->getExternalId() }}">
                         <option value="null">-</option>
                         @foreach ((new ReflectionClass("TheRestartProject\RepairDirectory\Domain\Enums\SubmissionStatus"))->getConstants() as $val)
                             <option value="{{$val}}" {{ ($submission->getStatus() == $val) ? 'selected="selected"' : '' }}">{{$val}}</option>
