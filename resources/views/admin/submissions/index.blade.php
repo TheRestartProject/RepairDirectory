@@ -38,9 +38,10 @@
                 <td>{{ $submission->getBusinessBorough() }}</td>
                 <td>{{ $submission->getCreatedAt() }}</td>
                 <td>
-                    <select class='form-control select2 submission-status' name='hobby'>
+                    <select class='form-control select2 submission-status' name='hobby' data-external-id="{{ $submission->getExternalId() }}">
+                        <option value="null">-</option>
                         @foreach ((new ReflectionClass("TheRestartProject\RepairDirectory\Domain\Enums\SubmissionStatus"))->getConstants() as $val)
-                            <option value="{{$val}}" selected="">{{$val}}</option>
+                            <option value="{{$val}}" {{ ($submission->getStatus() == $val) ? 'selected="selected"' : '' }}">{{$val}}</option>
                         @endforeach
                     </select>
                 </td>
@@ -64,8 +65,13 @@
      })
 
      jQuery('.submission-status').change(function(e) {
-         e.stopPropagation()
-         return false
+         var externalId = jQuery(e.target).closest('select').data('external-id')
+         var newVal = this.value
+
+         jQuery.ajax({
+             url: '/map/api/submission/' + externalId + '/status/' + newVal,
+             type: 'PATCH'
+         })
      })
     </script>
 @endpush

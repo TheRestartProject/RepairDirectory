@@ -27,6 +27,13 @@ class SubmissionController extends Controller
 
         // Make sure they exist in our repository, which is currently used purely for status tracking.
         foreach ($submissions as $submission) {
+            // We need to ensure that the status field is not overwritten by merge() for existing entries.
+            $existing = $repository->findByExternalId($submission->getExternalId());
+
+            if ($existing) {
+                $submission->setStatus($existing->getStatus());
+            }
+
             $em->merge($submission);
         }
 

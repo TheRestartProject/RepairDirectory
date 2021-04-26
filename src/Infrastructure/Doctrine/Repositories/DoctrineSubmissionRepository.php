@@ -37,4 +37,28 @@ class DoctrineSubmissionRepository extends DoctrineRepository implements Submiss
     {
         return Submission::class;
     }
+
+    /**
+     * Finds the submission by the internal id or returns null.
+     *
+     * @param integer $uid The id of the submission to find
+     *
+     * @return Submission|null
+     */
+    public function findById($uid)
+    {
+        return $this->repository->find($uid);
+    }
+
+    /**
+     * Finds the submission by external id or returns null.
+     *
+     * @param integer $externalId The id of the submission to find
+     *
+     * @return Submission|null
+     */
+    public function findByExternalId(int $externalId)
+    {
+        return $this->repository->findOneBy([ 'externalId' => $externalId ]);
+    }
 }

@@ -12,7 +12,6 @@ use TheRestartProject\RepairDirectory\Domain\Models\Submission;
  */
 interface SubmissionRepository
 {
-
     /**
      * Add a Submission to the repository.
      *
@@ -21,4 +20,13 @@ interface SubmissionRepository
      * @return void
      */
     public function add(Submission $submission);
+
+    /**
+     * Find a submission.
+     *
+     * @param integer $uid The Submission id
+     *
+     * @return Submission
+     */
+    public function findById($uid);
 }
