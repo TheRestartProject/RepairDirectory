@@ -49,5 +49,6 @@ return [
     'cancel' => 'Cancel',
 
     'your_profile' => 'Your profile',
+    'homepage' => 'Restarters Homepage',
     'logout' => 'Logout'
 ];
