@@ -58,15 +58,17 @@ class ImportFromHttpRequestAuthorizer
     public function authorize(ImportFromHttpRequestCommand $command)
     {
         $uid = $command->getBusinessUid();
-        $business = null;
+
+        // Only authorise access to the business if we are looking at an existing business; if uid is null then
+        // we are creating a business.
         if ($uid !== null) {
             $business = $this->repository->findById($uid, Auth::user());
 
             if (!$business) {
                 throw new EntityNotFoundException("Business with id of {$uid} could not be found");
             }
-        }
 
-        $this->authorizer->authorize($command->getData(), $business);
+            $this->authorizer->authorize($command->getData(), $business);
+        }
     }
 }

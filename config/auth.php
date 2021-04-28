@@ -69,7 +69,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'doctrine',
-            'model' => User::class,
+            'model' => TheRestartProject\Fixometer\Domain\Entities\User::class,
         ],
 
         // 'users' => [
