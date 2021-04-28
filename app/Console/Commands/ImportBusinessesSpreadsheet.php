@@ -197,6 +197,7 @@ class ImportBusinessesSpreadsheet extends Command
                             $business->setReviewSource($review_source);
 
                             $business->setPositiveReviewPc((int)$positive_percent);
+                            $business->setNumberOfReviews((int)$review_count);
 
                             if ($warranty_details) {
                                 $business->setWarranty($warranty_details);

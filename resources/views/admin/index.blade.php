@@ -27,7 +27,8 @@
             <th scope="col">{{ __('admin.postcode') }}</th>
             <th scope="col">{{ __('admin.local_area') }}</th>
             <th scope="col">{{ __('admin.categories') }}</th>
-            <th scope="col">{{ __('admin.average_scores') }}</th>
+            <th scope="col">{{ __('admin.review_count') }}</th>
+            <th scope="col">{{ __('admin.review_percent') }}</th>
             <th scope="col">{{ __('admin.publishing_status') }}</th>
         </tr>
         </thead>
@@ -40,7 +41,8 @@
                 <td>{{ $business->getPostcode() }}</td>
                 <td>{{ $business->getLocalArea() }}</td>
                 <td>{{ implode(', ', $business->getCategories()) }}</td>
-                <td>{{ $business->getAverageScore() }}</td>
+                <td>{{ $business->getNumberOfReviews() }}</td>
+                <td>{{ $business->getPositiveReviewPc() }}</td>
                 <td>{{ $business->getPublishingStatus() }}</td>
             </tr>
         @endforeach

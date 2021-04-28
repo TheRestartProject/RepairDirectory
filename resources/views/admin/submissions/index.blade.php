@@ -27,6 +27,7 @@
             <th scope="col">@lang('admin.website')</th>
             <th scope="col">@lang('admin.local_area')</th>
             <th scope="col">@lang('admin.submission_date')</th>
+            <th scope="col">@lang('admin.submission_status')</th>
         </tr>
         </thead>
         <tbody>
@@ -36,6 +37,14 @@
                 <td>{{ $submission->getBusinessWebsite() }}</td>
                 <td>{{ $submission->getBusinessBorough() }}</td>
                 <td>{{ $submission->getCreatedAt() }}</td>
+                <td>
+                    <select class='form-control select2 submission-status' name='status' data-external-id="{{ $submission->getExternalId() }}">
+                        <option value="null">-</option>
+                        @foreach ((new ReflectionClass("TheRestartProject\RepairDirectory\Domain\Enums\SubmissionStatus"))->getConstants() as $val)
+                            <option value="{{$val}}" {{ ($submission->getStatus() == $val) ? 'selected="selected"' : '' }}">{{$val}}</option>
+                        @endforeach
+                    </select>
+                </td>
             </tr>
         @endforeach
         </tbody>
@@ -49,5 +58,20 @@
        "ordering": true,
        "order": [[3, 'desc']]
      });
+
+     jQuery('.submission-status').click(function(e) {
+         e.stopPropagation()
+         return false
+     })
+
+     jQuery('.submission-status').change(function(e) {
+         var externalId = jQuery(e.target).closest('select').data('external-id')
+         var newVal = this.value
+
+         jQuery.ajax({
+             url: '/map/api/submission/' + externalId + '/status/' + newVal,
+             type: 'PATCH'
+         })
+     })
     </script>
 @endpush

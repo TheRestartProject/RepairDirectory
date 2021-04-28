@@ -61,10 +61,10 @@ class ImportFromHttpRequestAuthorizer
         $business = null;
         if ($uid !== null) {
             $business = $this->repository->findById($uid, Auth::user());
-        }
 
-        if (!$business) {
-            throw new EntityNotFoundException("Business with id of {$uid} could not be found");
+            if (!$business) {
+                throw new EntityNotFoundException("Business with id of {$uid} could not be found");
+            }
         }
 
         $this->authorizer->authorize($command->getData(), $business);

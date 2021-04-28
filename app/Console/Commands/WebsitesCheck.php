@@ -82,7 +82,7 @@ class WebsitesCheck extends Command
             ]
         ];
 
-        $businesses = $repository->findAll();
+        $businesses = $repository->findBy($criteria);
         $this->info(count($businesses) . " businesses");
 
         $errors = [];
