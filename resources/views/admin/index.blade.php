@@ -55,6 +55,7 @@
 @push('scripts')
     <script defer>
         jQuery('table').DataTable({
+            stateSave: true,
             columnDefs: [
                 {
                     // Hide the notes field, but leave it searchable.
