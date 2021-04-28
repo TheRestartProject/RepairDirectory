@@ -27,7 +27,6 @@
                     <ul class="navbar-nav navbar-nav__left">
                         <li><a class="nav-link" href="{{ route('admin.index') }}"><i class="fas fa-store-alt"></i> Businesses</a></li>
                         <li><a class="nav-link" href="{{ route('admin.submissions.index') }}"><i class="fas fa-store-alt"></i> Submissions</a></li>
-                         <li><a class="nav-link" href="{{ route('map') }}"><i class="fas fa-map"></i> Map</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
