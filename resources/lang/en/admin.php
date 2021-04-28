@@ -28,7 +28,8 @@ return [
     'positive_review_percentage' => 'Positive Review Percentage',
     'review_source' => 'Review Source',
     'number_of_reviews' => 'Number of Reviews',
-    'average_scores' => 'Average Scores',
+    'review_count' => 'Review Count',
+    'review_percent' => 'Review %',
     'warranty_offered' => 'Warranty Offered',
     'warranty_details' => 'Warranty Details',
     'publishing_status' => 'Publishing Status',
@@ -39,6 +40,7 @@ return [
     'submission_date' => 'Submission date',
     'submitted_by_employee' => 'Submitted by employee?',
     'submission_extra_info' => 'Anything else we should know about this business?',
+    'submission_status' => 'Status',
 
     'your_role_is' => 'Your role is',
 

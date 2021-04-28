@@ -19,4 +19,5 @@ Route::prefix('api')
         Route::get('category/list', 'CategoryController@list')->name('category.list');
         Route::get('suggestion/search', 'SuggestionController@search')->name('suggestion.search');
         Route::post('suggestion/add', 'SuggestionController@add')->name('suggestion.add');
+        Route::patch('submission/{id}/status/{status}', 'SubmissionController@status')->name('suggestion.status');
     });
