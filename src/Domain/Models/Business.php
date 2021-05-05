@@ -99,11 +99,18 @@ class Business
     private $email;
 
     /**
+     * UID of the local area
+     *
+     * @var int
+     */
+    private $localArea;
+
+    /**
      * Name of the local area, e.g. 'Brixton'
      *
      * @var string
      */
-    private $localArea;
+    private $localAreaName;
 
     /**
      * Categories of products repaired by the business, e.g. ['Desktop computer', 'Laptop']
@@ -421,6 +428,16 @@ class Business
      *
      * @return string
      */
+    public function getLocalAreaName()
+    {
+        return $this->localAreaName;
+    }
+
+    /**
+     * Return the UID of the local area of the Business
+     *
+     * @return integer
+     */
     public function getLocalArea()
     {
         return $this->localArea;
@@ -429,7 +446,7 @@ class Business
     /**
      * Set the local area of the Business
      *
-     * @param string $localArea The value to set
+     * @param integer $localArea
      *
      * @return void
      */

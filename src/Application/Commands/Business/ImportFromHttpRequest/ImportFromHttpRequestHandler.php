@@ -104,7 +104,14 @@ class ImportFromHttpRequestHandler
         $business->setUpdatedBy(auth()->user()->getAuthIdentifier());
         $business->setUpdatedAt(new \DateTime("now"));
 
-        $business->setGeolocation($this->createPoint($data));
+        // We need to re-geocode the address in case it's changed.
+        $point = $this->geocoder->geocode($business->getAddress() . "," . $business->getCity() . "," . $business->getPostcode());
+
+        if ($point) {
+            $business->setGeolocation($point);
+            $localArea = $this->businessRepository->findLocalArea($point->getLatitude(), $point->getLongitude());
+            $business->setLocalArea($localArea);
+        }
 
         if (is_null($business->getCreatedBy())) {
             $business->setCreatedBy(auth()->user()->getAuthIdentifier());

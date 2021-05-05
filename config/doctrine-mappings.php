@@ -54,8 +54,12 @@ return [
                 'type' => 'string',
                 'nullable' => true
             ],
-            'localArea' => [
+            'localAreaName' => [
                 'type' => 'string',
+                'nullable' => true
+            ],
+            'localArea' => [
+                'type' => 'integer',
                 'nullable' => true
             ],
             'categories' => [

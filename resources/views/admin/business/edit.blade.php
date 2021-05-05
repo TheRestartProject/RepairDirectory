@@ -59,12 +59,9 @@
             </div>
 
             <div class="form-group">
-                <label for="localArea">{{ __('admin.local_area') }}</label>
-                <input id="localArea" name="localArea" class="form-control validate" autocomplete="off"
-                       value="{{ old('localArea') ?: $business->getLocalArea() }}">
-                @if($errors->has('localArea'))
-                    <small class="business-error">{{ $errors->first('localArea') }}</small>
-                @endif
+                <label for="localAreaAuto">{{ __('admin.local_area') }}</label>
+                <input id="localAreaAuto" readonly class="form-control"
+                       value="{{ old('localAreaName') ?: $business->getLocalAreaName() }}">
             </div>
 
             <div class="form-group">

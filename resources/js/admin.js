@@ -36,10 +36,8 @@ $(document).ready(() => {
   })
 
   // set up comboboxes
-  const $localArea = $('#localArea')
   const $productsRepaired = $('#productsRepaired')
   const $authorisedBrands = $('#authorisedBrands')
-  combobox($localArea, 'localArea', false)
   combobox($productsRepaired, 'productsRepaired')
   combobox($authorisedBrands, 'authorisedBrands')
 

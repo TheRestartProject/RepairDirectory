@@ -92,7 +92,7 @@ class AddSuggestionsListener
             $this->addSuggestion($suggestion, $entityManager, $newSuggestions);
         }
 
-        $localArea = $business->getLocalArea();
+        $localArea = $business->getLocalAreaName();
         if ($localArea) {
             $suggestion = new Suggestion();
             $suggestion->setField('localArea');
