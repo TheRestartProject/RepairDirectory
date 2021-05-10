@@ -308,6 +308,10 @@
 
                 <div class="form-group">
 
+                    <div class="vue">
+                        <PublishingStatus />
+                    </div>
+
                     <label for="publishingStatus">{{ __('admin.publishing_status') }}</label>
                     @can('update', $business)
                         <select id="publishingStatus" name="publishingStatus" class="form-control">

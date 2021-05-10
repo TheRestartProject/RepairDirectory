@@ -6,6 +6,12 @@ window.jQuery = $
 
 require('bootstrap')
 
+import Vue from 'vue';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+
 $(document).ready(() => {
   const $filter = $('#DataTables_Table_0_filter').find('input')
   // remember admin table filter
@@ -112,4 +118,21 @@ $(document).ready(() => {
   $delete.click(() => showElement($deletePopup))
   $cancelDelete.click(() => hideElement($deletePopup))
   $confirmDelete.click(() => hideElement($deletePopup))
+
+  // Initialise Vue instances on any divs which have asked for it.
+  //
+  // Normally you'd initialise one instance on a single top-level div.  But we put content directly under body.
+  // Initialising multiple instances is a bit more expensive, but not much.
+  //
+  // We need to list all the components we will use in here; they are stored in resources/assets/js/components.
+  $(".vue").each(function(index) {
+    new Vue({
+      el: $(this).get(0),
+      components: {
+        'publishingstatus': require('./components/PublishingStatus.vue').default,
+      }
+    })
+  })
+
+  $(".vue-placeholder-large").hide()
 })

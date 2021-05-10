@@ -10,5 +10,5 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-mix.js('public/js/map/app.js', 'resources/js/admin.js')
+mix.js('resources/js/admin.js', 'public/js/map/', )
     .sass('resources/sass/app.scss', 'public/css/map');
