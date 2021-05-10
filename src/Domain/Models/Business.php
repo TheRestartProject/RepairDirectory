@@ -213,6 +213,13 @@ class Business
     private $publishingStatus = PublishingStatus::DRAFT;
 
     /**
+     * The reason for hiding the business.
+     *
+     * @var string
+     */
+    private $hideReason = NULL;
+
+    /**
      * The date/time the business was created
      *
      * @var \DateTime
@@ -678,6 +685,28 @@ class Business
     public function setPublishingStatus($publishingStatus)
     {
         $this->publishingStatus = $publishingStatus;
+    }
+
+    /**
+     * Get this business's hide reason
+     *
+     * @return string
+     */
+    public function getHideReason()
+    {
+        return $this->hideReason;
+    }
+
+    /**
+     * Set this business's hide reason
+     *
+     * @param string $hideReason The value to set
+     *
+     * @return void
+     */
+    public function setHideReason(string $hideReason)
+    {
+        $this->hideReason = $hideReason;
     }
 
     /**
