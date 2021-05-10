@@ -30,6 +30,7 @@
             <th scope="col">{{ __('admin.review_count') }}</th>
             <th scope="col">{{ __('admin.review_percent') }}</th>
             <th scope="col">{{ __('admin.publishing_status') }}</th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -44,6 +45,7 @@
                 <td>{{ $business->getNumberOfReviews() }}</td>
                 <td>{{ $business->getPositiveReviewPc() }}</td>
                 <td>{{ $business->getPublishingStatus() }}</td>
+                <td>{{ $business->getNotes() }}</td>
             </tr>
         @endforeach
         </tbody>
@@ -52,6 +54,16 @@
 
 @push('scripts')
     <script defer>
-        jQuery('table').DataTable();
+        jQuery('table').DataTable({
+            stateSave: true,
+            columnDefs: [
+                {
+                    // Hide the notes field, but leave it searchable.
+                    targets: [ 8 ],
+                    searchable: true,
+                    visible: false
+                }
+            ]
+        });
     </script>
 @endpush
