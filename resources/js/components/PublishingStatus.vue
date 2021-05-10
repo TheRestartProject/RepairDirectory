@@ -40,13 +40,6 @@ export default {
       hideReason: null
     }
   },
-  watch: {
-    status(newVal) {
-      if (newVal !== 'Hidden') {
-        this.hideReason = null
-      }
-    }
-  },
   computed: {
     options() {
       return Object.values(this.publishingStatuses)
