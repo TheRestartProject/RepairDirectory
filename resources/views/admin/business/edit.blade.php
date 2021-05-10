@@ -313,7 +313,7 @@
                             :can-update="{{ Auth::user() && Auth::user()->can('update', $business) ? 'true': 'false' }}"
                             value="{{ old('publishingStatus') ?: $business->getPublishingStatus() ?: 'null' }}"
                             :publishing-statuses="{{ json_encode($publishingStatuses, JSON_INVALID_UTF8_IGNORE) }}"
-                            hide-value="null"
+                            hide-value="{{ old('hideReason') ?: $business->getHideReason() ?: 'null' }}"
                             :hide-reasons="{{ json_encode($hideReasons, JSON_INVALID_UTF8_IGNORE) }}"
                         />
                     </div>
