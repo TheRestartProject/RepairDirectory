@@ -101,7 +101,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
             $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
-                LEFT JOIN areas ON b.local_area = areas.uid";
+                LEFT JOIN areas ON b.local_area = areas.uid WHERE b.uid = " . intval($uid);
 
             $query = $this->entityManager->createNativeQuery(
                 $sql,
@@ -123,6 +123,17 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         $businesses = $query->getResult();
 
         foreach ($businesses as $business) {
+            # We have to bypass Doctrine to get the area name.  We can't use Doctrine mapping easily.
+            $conn = $this->entityManager->getConnection();
+            $stmt = $conn->prepare("SELECT areas.name FROM businesses LEFT JOIN areas ON local_area = areas.uid WHERE businesses.uid = ?;");
+            $stmt->bindValue(1, intval($uid));
+            $stmt->execute();
+            $bs = $stmt->fetchAll();
+
+            foreach ($bs as $b) {
+                $business->setLocalAreaName($b['name']);
+            }
+
             $ret = $business;
         }
 

@@ -456,6 +456,18 @@ class Business
     }
 
     /**
+     * Set the local area name of the Business
+     *
+     * @param string $localArea
+     *
+     * @return void
+     */
+    public function setLocalAreaNAme($localArea)
+    {
+        $this->localAreaName = $localArea;
+    }
+
+    /**
      * Return the categories of product repaired by the Business
      *
      * @return array
