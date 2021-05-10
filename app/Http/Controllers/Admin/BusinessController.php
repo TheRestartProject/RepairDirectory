@@ -11,6 +11,7 @@ use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHt
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\HideReason;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Exceptions\ImportBusinessUnauthorizedException;
@@ -175,6 +176,7 @@ class BusinessController extends Controller
         }
 
         $publishingStatuses = PublishingStatus::values();
+        $hideReasons = HideReason::values();
 
         if (auth()->user()->can('publish', $business)) {
             $authorizedStatuses = $publishingStatuses;
@@ -191,6 +193,7 @@ class BusinessController extends Controller
             'categories' => Category::values(),
             'reviewSources' => ReviewSource::values(),
             'publishingStatuses' => $publishingStatuses,
+            'hideReasons' => $hideReasons,
             'authorizedStatuses' => $authorizedStatuses,
             'business' => $business,
             'isCreate' => $isCreate,

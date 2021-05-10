@@ -308,9 +308,14 @@
 
                 <div class="form-group">
 
-                    <label for="publishingStatus">{{ __('admin.publishing_status') }}</label>
                     <div class="vue">
-                        <PublishingStatus :can-update="{{ Auth::user() && Auth::user()->can('update', $business) ? 'true': 'false' }}" value="{{ old('publishingStatus') ?: $business->getPublishingStatus() ?: 'null' }}" :publishing-statuses="{{ json_encode($publishingStatuses, JSON_INVALID_UTF8_IGNORE) }}" />
+                        <PublishingStatus
+                            :can-update="{{ Auth::user() && Auth::user()->can('update', $business) ? 'true': 'false' }}"
+                            value="{{ old('publishingStatus') ?: $business->getPublishingStatus() ?: 'null' }}"
+                            :publishing-statuses="{{ json_encode($publishingStatuses, JSON_INVALID_UTF8_IGNORE) }}"
+                            hide-value="null"
+                            :hide-reasons="{{ json_encode($hideReasons, JSON_INVALID_UTF8_IGNORE) }}"
+                        />
                     </div>
                     @if($errors->has('publishingStatus'))
                         <small class="business-error">{{ $errors->first('publishingStatus') }}</small>

@@ -22,6 +22,7 @@
         "league/tactician-container": "^2.0",
         "league/tactician-doctrine": "^1.1",
         "league/tactician-logger": "^0.10.0",
+        "mariuzzo/laravel-js-localization": "^1.8",
         "myclabs/php-enum": "^1.5",
         "paquettg/php-html-parser": "^1.7",
         "phpoffice/phpspreadsheet": "^1.16",
