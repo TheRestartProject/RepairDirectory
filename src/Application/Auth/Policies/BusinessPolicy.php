@@ -72,7 +72,8 @@ class BusinessPolicy
         return $this->publish($user, $business) ||
             ($user->isEditor() &&
                 ($business->getPublishingStatus() === PublishingStatus::DRAFT ||
-                $business->getPublishingStatus() === PublishingStatus::READY_FOR_REVIEW));
+                $business->getPublishingStatus() === PublishingStatus::READY_FOR_REVIEW ||
+                $business->getPublishingStatus() === PublishingStatus::PUBLISHED));
     }
 
     /**

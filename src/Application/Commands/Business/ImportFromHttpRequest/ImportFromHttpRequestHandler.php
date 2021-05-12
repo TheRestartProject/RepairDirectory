@@ -3,6 +3,7 @@
 namespace TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHttpRequest;
 
 
+use App\Notifications\AdminBusinessHiddenByEditor;
 use App\Notifications\AdminNewBusinessReadyForReview;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -138,6 +139,22 @@ class ImportFromHttpRequestHandler
 
             foreach ($admins as $admin) {
                 $admin->notify(new AdminNewBusinessReadyForReview($business, auth()->user()));
+            }
+        } else if ($currentPublishingStatus !== PublishingStatus::HIDDEN && $newPublishingStatus === PublishingStatus::HIDDEN
+            && auth()->user()->isEditor()
+        ) {
+            // We have hidden the business as an Editor.  We want to alert regional admin.  At the moment
+            // editors are not restricted to a region and therefore we alert all of them.
+            $admins = $this->userRepository->findBy([
+                                                        [
+                                                            'field' => 'repairDirectoryRole',
+                                                            'operator' => Operators::EQUAL,
+                                                            'value' => Role::REGIONAL_ADMIN
+                                                        ]
+                                                    ]);
+
+            foreach ($admins as $admin) {
+                $admin->notify(new AdminBusinessHiddenByEditor($business, auth()->user()));
             }
         }
 
