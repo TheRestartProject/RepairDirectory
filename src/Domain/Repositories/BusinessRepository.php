@@ -35,7 +35,7 @@ interface BusinessRepository
      *
      * @return array
      */
-    public function findAll($user, $seeall = FALSE);
+    public function findAll($user, $seeall = false);
 
     /**
      * Finds the business or returns null
@@ -46,13 +46,13 @@ interface BusinessRepository
      *
      * @return Business|null
      */
-    public function findById($uid, $user, $seeall = FALSE);
+    public function findById($uid, $user, $seeall = false);
 
     /**
      * Finds businesses that match an array of [ property => value ].
-     * 
+     *
      * @param array $criteria The [ property => value ] array to match against businesses
-     * 
+     *
      * @return array
      */
     public function findBy($criteria);
@@ -60,9 +60,9 @@ interface BusinessRepository
     /**
      * Finds businesses within $radius miles of the provided [lat, lng]
      *
-     * @param Point   $geolocation The location to search by
-     * @param integer $radius      The radius in miles
-     * @param array   $criteria    An additional set of properties to match
+     * @param Point $geolocation The location to search by
+     * @param integer $radius The radius in miles
+     * @param array $criteria An additional set of properties to match
      *
      * @return array
      */
@@ -70,10 +70,20 @@ interface BusinessRepository
 
     /**
      * Remove a business from the repository
-     * 
+     *
      * @param Business $business The business to remove
-     * 
+     *
      * @return void
      */
     public function remove(Business $business);
+
+    /**
+     * Find the id of the area which corresponds to a lat/lng.
+     *
+     * @param float $lat
+     * @param float $lng
+     *
+     * @return integer
+     */
+    public function findLocalArea($lat, $lng);
 }

@@ -13,9 +13,8 @@
 <body>
    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" role="button" data-toggle="collapse" aria-expanded="false" href="#startMenu" aria-controls="startMenu" aria-label="Toggle start menu">
+                <a class="navbar-brand" role="button" href="{{ env('FIXOMETER_URL') }}" >
                     @include('admin.logo-large')
-                    <span class="caret"></span>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +26,6 @@
                     <ul class="navbar-nav navbar-nav__left">
                         <li><a class="nav-link" href="{{ route('admin.index') }}"><i class="fas fa-store-alt"></i> Businesses</a></li>
                         <li><a class="nav-link" href="{{ route('admin.submissions.index') }}"><i class="fas fa-store-alt"></i> Submissions</a></li>
-                         <li><a class="nav-link" href="{{ route('map') }}"><i class="fas fa-map"></i> Map</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -37,7 +35,7 @@
                             <li class="nav-item dropdown">
                                 @php( $user = Auth::user() )
 
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-target="#account-nav" aria-controls="account-nav" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" aria-label="Toggle account navigation" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-target="#account-nav" aria-controls="account-nav" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Toggle account navigation" v-pre>
                                     {{-- @if ( isset( $user->getProfile($user->id)->path ) && !is_null( $user->getProfile($user->id)->path ) )--}}
                                     @if ( false )
                                         <img src="/uploads/thumbnail_{{ $user->getProfile($user->id)->path }}" alt="{{ $user->getName() }} Profile Picture" class="avatar">
@@ -47,17 +45,9 @@
                                     <span class="user-name">{{ $user->getName() }}</span> <span class="caret"></span>
                                 </a>
 
-                                <div id="account-nav" class="dropdown-menu collapse navbar-dropdown" aria-labelledby="navbarDropdown">
-
-                                    <ul>
-                                        <li>
-                                            <ul>
-                                                <!-- <li><a href="{{ env('FIXOMETER_URL') }}/profile/{{ Auth::id() }}">@lang('admin.your_profile')</a></li>-->
-                                                <li><a href="{{ env('FIXOMETER_URL') }}/logout">@lang('admin.logout')</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-
+                                <div id="account-nav" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ env('FIXOMETER_URL') }}">@lang('admin.homepage')</a>
+                                    <a class="dropdown-item" href="{{ env('FIXOMETER_URL') }}/logout">@lang('admin.logout')</a>
                                 </div>
                             </li>
 

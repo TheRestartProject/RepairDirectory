@@ -11,6 +11,7 @@ use TheRestartProject\RepairDirectory\Application\Commands\Business\ImportFromHt
 use TheRestartProject\RepairDirectory\Application\Exceptions\BusinessValidationException;
 use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
+use TheRestartProject\RepairDirectory\Domain\Enums\HideReason;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Exceptions\ImportBusinessUnauthorizedException;
@@ -84,13 +85,15 @@ class BusinessController extends Controller
         $business = new Business();
         $business->setName($submission->getBusinessName());
         $business->setWebsite($submission->getBusinessWebsite());
-        $business->setLocalArea($submission->getBusinessBorough());
         $business->setReviewSourceUrl($submission->getReviewSource());
         $business->setNotes(
             "Submission date: " . $submission->getCreatedAt() . "\n" .
             "Submitted by employee: " . $submission->getSubmittedByEmployee() . "\n" .
             "Anything else we should know: " . $submission->getExtraInfo()
         );
+
+        // We drop the borough on the submission - this is now determined automatically from the address, and the
+        // address is supplied when we submit the creation form.
 
         return $this->renderEdit($business, []);
     }
@@ -175,6 +178,7 @@ class BusinessController extends Controller
         }
 
         $publishingStatuses = PublishingStatus::values();
+        $hideReasons = HideReason::values();
 
         if (auth()->user()->can('publish', $business)) {
             $authorizedStatuses = $publishingStatuses;
@@ -191,6 +195,7 @@ class BusinessController extends Controller
             'categories' => Category::values(),
             'reviewSources' => ReviewSource::values(),
             'publishingStatuses' => $publishingStatuses,
+            'hideReasons' => $hideReasons,
             'authorizedStatuses' => $authorizedStatuses,
             'business' => $business,
             'isCreate' => $isCreate,
