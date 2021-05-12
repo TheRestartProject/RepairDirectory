@@ -305,22 +305,15 @@
 
                 <div class="form-group">
 
-                    <label for="publishingStatus">{{ __('admin.publishing_status') }}</label>
-                    @can('update', $business)
-                        <select id="publishingStatus" name="publishingStatus" class="form-control">
-                            @foreach($publishingStatuses as $status)
-                                @if(in_array($status, $authorizedStatuses, false))
-                                    <option value="{{ $status }}"
-                                            {{ old('publishingStatus') ? (old('publishingStatus') == $status ? 'selected' : '') : ($business->getPublishingStatus() == $status ? 'selected' : '') }}>
-                                        {{ $status }}
-                                    </option>
-                                @endif
-                            @endforeach
-                        </select>
-                    @else
-                        <input id="publishingStatus" name="publishingStatus" class="form-control" readonly
-                            value="{{ old('publishingStatus') ?: $business->getPublishingStatus() }}"/>
-                    @endcan
+                    <div class="vue">
+                        <PublishingStatus
+                            :can-update="{{ Auth::user() && Auth::user()->can('update', $business) ? 'true': 'false' }}"
+                            value="{{ old('publishingStatus') ?: $business->getPublishingStatus() ?: 'null' }}"
+                            :publishing-statuses="{{ json_encode($publishingStatuses, JSON_INVALID_UTF8_IGNORE) }}"
+                            hide-value="{{ old('hideReason') ?: $business->getHideReason() ?: 'null' }}"
+                            :hide-reasons="{{ json_encode($hideReasons, JSON_INVALID_UTF8_IGNORE) }}"
+                        />
+                    </div>
                     @if($errors->has('publishingStatus'))
                         <small class="business-error">{{ $errors->first('publishingStatus') }}</small>
                     @endif

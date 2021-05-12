@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8595bd43e0224b94043937870a25980b",
+    "content-hash": "ceb4b450b1c547e37496e6bbc09b4454",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -3006,6 +3006,95 @@
                 }
             ],
             "time": "2020-05-30T13:11:16+00:00"
+        },
+        {
+            "name": "mariuzzo/laravel-js-localization",
+            "version": "v1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmariuzzo/Laravel-JS-Localization.git",
+                "reference": "c3904018c656a11150949aa2ed00dcfcb1dfa3fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmariuzzo/Laravel-JS-Localization/zipball/c3904018c656a11150949aa2ed00dcfcb1dfa3fc",
+                "reference": "c3904018c656a11150949aa2ed00dcfcb1dfa3fc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/console": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/filesystem": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "php": "^5.4 || ^7.0 || ^8.0",
+                "tedivm/jshrink": "~1.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^2.2 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mariuzzo\\LaravelJsLocalization\\LaravelJsLocalizationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rubens Mariuzzo",
+                    "email": "rubens@mariuzzo.com",
+                    "homepage": "https://github.com/rmariuzzo",
+                    "role": "Developer"
+                },
+                {
+                    "name": "German Popoter",
+                    "email": "me@gpopoteur.com",
+                    "homepage": "https://github.com/gpopoteur",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Galievskiy Dmitriy",
+                    "homepage": "https://github.com/xAockd",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Ramon Ackermann",
+                    "homepage": "https://github.com/sboo",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anton Komarev",
+                    "homepage": "https://github.com/antonkomarev",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Pascal Baljet",
+                    "homepage": "https://github.com/pascalbaljetmedia",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Localization in JavaScript",
+            "homepage": "https://github.com/rmariuzzo/laravel-js-localization",
+            "keywords": [
+                "JS",
+                "i18n",
+                "javascript",
+                "lang",
+                "laravel",
+                "laravel 5",
+                "localization"
+            ],
+            "time": "2021-03-06T18:25:22+00:00"
         },
         {
             "name": "markbaker/complex",
@@ -6590,6 +6679,58 @@
                 }
             ],
             "time": "2021-03-27T19:49:03+00:00"
+        },
+        {
+            "name": "tedivm/jshrink",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tedious/JShrink.git",
+                "reference": "0513ba1407b1f235518a939455855e6952a48bbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tedious/JShrink/zipball/0513ba1407b1f235518a939455855e6952a48bbc",
+                "reference": "0513ba1407b1f235518a939455855e6952a48bbc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.8",
+                "php-coveralls/php-coveralls": "^1.1.0",
+                "phpunit/phpunit": "^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JShrink": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Hafner",
+                    "email": "tedivm@tedivm.com"
+                }
+            ],
+            "description": "Javascript Minifier built in PHP",
+            "homepage": "http://github.com/tedious/JShrink",
+            "keywords": [
+                "javascript",
+                "minifier"
+            ],
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/tedivm/jshrink",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-30T18:10:21+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

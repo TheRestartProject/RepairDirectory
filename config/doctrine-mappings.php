@@ -115,6 +115,10 @@ return [
                 'type' => 'string',
                 'nullable' => false
             ],
+            'hideReason' => [
+                'type' => 'string',
+                'nullable' => true
+            ],
             'createdAt' => [
                 'type' => 'datetime',
                 'nullable' => true
