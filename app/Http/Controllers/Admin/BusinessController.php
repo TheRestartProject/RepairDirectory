@@ -84,13 +84,15 @@ class BusinessController extends Controller
         $business = new Business();
         $business->setName($submission->getBusinessName());
         $business->setWebsite($submission->getBusinessWebsite());
-        $business->setLocalArea($submission->getBusinessBorough());
         $business->setReviewSourceUrl($submission->getReviewSource());
         $business->setNotes(
             "Submission date: " . $submission->getCreatedAt() . "\n" .
             "Submitted by employee: " . $submission->getSubmittedByEmployee() . "\n" .
             "Anything else we should know: " . $submission->getExtraInfo()
         );
+
+        // We drop the borough on the submission - this is now determined automatically from the address, and the
+        // address is supplied when we submit the creation form.
 
         return $this->renderEdit($business, []);
     }

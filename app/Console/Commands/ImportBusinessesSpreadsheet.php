@@ -189,7 +189,8 @@ class ImportBusinessesSpreadsheet extends Command
                                 $business->setEmail($email);
                             }
 
-                            $business->setLocalArea($borough);
+                            $localArea = $repository->findLocalArea($business->getGeolocation()->getLatitude(), $business->getGeolocation()->getLongitude());
+                            $business->setLocalArea($localArea);
 
                             $business->setCategories($products);
 

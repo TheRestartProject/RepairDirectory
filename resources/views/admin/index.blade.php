@@ -40,7 +40,7 @@
                 <td>{{ $business->getName() }}</td>
                 <td>{{ $business->getAddress() }}</td>
                 <td>{{ $business->getPostcode() }}</td>
-                <td>{{ $business->getLocalArea() }}</td>
+                <td>{{ $business->getLocalAreaName() }}</td>
                 <td>{{ implode(', ', $business->getCategories()) }}</td>
                 <td>{{ $business->getNumberOfReviews() }}</td>
                 <td>{{ $business->getPositiveReviewPc() }}</td>
