@@ -31,7 +31,7 @@ class PhoneNumberValidatorTest extends ValidationTestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->validator = new PhoneNumberValidator('Landline');
     }
