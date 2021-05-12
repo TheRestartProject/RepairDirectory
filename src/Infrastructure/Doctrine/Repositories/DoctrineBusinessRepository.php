@@ -215,8 +215,6 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         $areas = array_unique($areas);
 
         if (count($areas)) {
-            error_log("Area " . var_export($areas, TRUE));
-
             $conn = $this->entityManager->getConnection();
             $stmt = $conn->prepare("SELECT uid, name FROM areas WHERE uid IN (" . implode(',', $areas) . ");");
             $stmt->execute();
