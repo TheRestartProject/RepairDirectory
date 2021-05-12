@@ -202,7 +202,35 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         );
         $query->setParameters($parameters);
 
-        return $query->getResult();
+        $businesses = $query->getResult();
+
+        # We have to bypass Doctrine to get the area name.  We can't use Doctrine mapping easily.
+        $areas = [];
+
+        foreach ($businesses as $business) {
+            $areas[] = $business->getLocalArea();
+        }
+
+        $areas = array_unique($areas);
+
+        if (count($areas)) {
+            error_log("Area " . var_export($areas, TRUE));
+
+            $conn = $this->entityManager->getConnection();
+            $stmt = $conn->prepare("SELECT uid, name FROM areas WHERE uid IN (" . implode(',', $areas) . ");");
+            $stmt->execute();
+            $areas = $stmt->fetchAll();
+
+            foreach ($businesses as $business) {
+                foreach ($areas as $area) {
+                    if ($area['uid'] == $business->getLocalArea()) {
+                        $business->setLocalAreaName($area['name']);
+                    }
+                }
+            }
+        }
+
+        return $businesses;
     }
 
     /**
