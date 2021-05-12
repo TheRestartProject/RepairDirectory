@@ -99,7 +99,7 @@ class WebsitesCheck extends Command
                 curl_setopt($curl, CURLOPT_TIMEOUT, 60);
 
                 // Some sites require a user agent.
-                curl_setopt($curl,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+                curl_setopt($curl,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36');
 
                 $response = curl_exec($curl);
                 $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);

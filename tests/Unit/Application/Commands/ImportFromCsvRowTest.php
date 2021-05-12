@@ -106,7 +106,7 @@ class ImportFromCsvRowTest extends TestCase
         $this->assertEquals('12 Westgate St', $business->getAddress());
         $this->assertEquals('BA1 1EQ', $business->getPostcode());
         $this->assertEquals('Bath', $business->getCity());
-        $this->assertEquals('Bath', $business->getLocalArea());
+        $this->assertEquals('Bath', $business->getLocalAreaName());
         $this->assertEquals('01225 427538', $business->getLandline());
         $this->assertEquals('07700 900220', $business->getMobile());
         $this->assertEquals('http://irepaircentrebath.co.uk', $business->getWebsite());
