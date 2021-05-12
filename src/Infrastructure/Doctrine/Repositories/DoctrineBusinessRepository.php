@@ -207,7 +207,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         $areas = [];
 
         foreach ($businesses as $business) {
-            if ($business) {
+            if ($business && $business->getLocalArea()) {
                 $areas[] = $business->getLocalArea();
             }
         }
