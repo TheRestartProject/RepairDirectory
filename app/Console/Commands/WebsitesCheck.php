@@ -7,12 +7,14 @@ use App\Notifications\AdminNewBusinessReadyForReview;
 use Illuminate\Console\Command;
 use TheRestartProject\Fixometer\Domain\Entities\Role;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
+use TheRestartProject\RepairDirectory\Application\Exceptions\ValidationException;
 use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Enums\Region;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
+use TheRestartProject\RepairDirectory\Validation\Validators\WebsiteValidator;
 
 class WebsitesCheck extends Command
 {
@@ -87,31 +89,22 @@ class WebsitesCheck extends Command
 
         $errors = [];
 
+        $validate = new WebsiteValidator();
+
         foreach ($businesses as $business) {
             $url = $business->getWebsite();
 
             if ($url) {
-                $curl = curl_init();
-                curl_setopt($curl, CURLOPT_URL, $url);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-                // Time out fairly fast.
-                curl_setopt($curl, CURLOPT_TIMEOUT, 60);
-
-                // Some sites require a user agent.
-                curl_setopt($curl,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36');
-
-                $response = curl_exec($curl);
-                $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-                if ($status !== 200 && $status !== 302) {
-                    $this->error($business->getName() . " url $url returned $status");
+                try {
+                    $validate->validate($url);
+                } catch (ValidationException $e) {
+                    $this->error($business->getName() . " " . $e->getMessage());
 
                     $errors[] = [
                         'uid' => $business->getUid(),
                         'name' => $business->getName(),
                         'url' => $url,
-                        'status' => $status,
+                        'message' => $e->getMessage()
                     ];
                 }
             }
