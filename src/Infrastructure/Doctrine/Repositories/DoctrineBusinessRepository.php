@@ -46,20 +46,29 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      */
     public function findAll($user, $seeall = FALSE)
     {
+        $rsm = new ResultSetMappingBuilder($this->entityManager);
+        $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+
         if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
-            return $this->repository->findAll();
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
+            LEFT JOIN areas ON b.local_area = areas.uid;";
+
+            $query = $this->entityManager->createNativeQuery(
+                $sql,
+                $rsm
+            );
+
+            return $query->getResult();
         } else {
             // If we are a regional admin or an editor then we can only see businesses within regions that we have been
             // assigned.
             //
             // "Within a region" means that the geolocation of the business is inside the polygon of the region.
-            $rsm = new ResultSetMappingBuilder($this->entityManager);
-            $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
-
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation FROM businesses b
-            INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
+            INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)        
             INNER JOIN users_regions ON regions.uid = users_regions.region
+            LEFT JOIN areas ON b.local_area = areas.uid
             WHERE users_regions.user = " . intval($user->getUid());
 
             $query = $this->entityManager->createNativeQuery(
@@ -86,28 +95,46 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
     {
         $ret = null;
 
+        $rsm = new ResultSetMappingBuilder($this->entityManager);
+        $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+
         if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
-            $ret = $this->repository->find($uid);
-        } else {
-            $rsm = new ResultSetMappingBuilder($this->entityManager);
-            $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
+                LEFT JOIN areas ON b.local_area = areas.uid WHERE b.uid = " . intval($uid);
 
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation FROM businesses b
+            $query = $this->entityManager->createNativeQuery(
+                $sql,
+                $rsm
+            );
+        } else {
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
                 INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
                 INNER JOIN users_regions ON regions.uid = users_regions.region
+                LEFT JOIN areas ON b.local_area = areas.uid
                 WHERE users_regions.user = " . intval($user->getUid()) . " AND b.uid = " . intval($uid);
 
             $query = $this->entityManager->createNativeQuery(
                 $sql,
                 $rsm
             );
+        }
 
-            $businesses = $query->getResult();
+        $businesses = $query->getResult();
 
-            foreach ($businesses as $business) {
-                $ret = $business;
+        foreach ($businesses as $business) {
+            # We have to bypass Doctrine to get the area name.  We can't use Doctrine mapping easily.
+            $conn = $this->entityManager->getConnection();
+            $stmt = $conn->prepare("SELECT areas.name FROM businesses LEFT JOIN areas ON local_area = areas.uid WHERE businesses.uid = ?;");
+            $stmt->bindValue(1, intval($uid));
+            $stmt->execute();
+            $bs = $stmt->fetchAll();
+
+            foreach ($bs as $b) {
+                $business->setLocalAreaName($b['name']);
             }
+
+            $ret = $business;
         }
 
         return $ret;
@@ -136,7 +163,8 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b0_');
 
-        $sql = "SELECT *, AsText(b0_.geolocation) AS geolocation FROM businesses b0_ WHERE 
+        $sql = "SELECT *, AsText(b0_.geolocation) AS geolocation FROM businesses b0_
+                WHERE
                   MBRContains(
                     LineString(
                       Point(:x - :radius / (69 * COS(RADIANS(:y))), :y - :radius / 69),
@@ -173,7 +201,37 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         );
         $query->setParameters($parameters);
 
-        return $query->getResult();
+        $businesses = $query->getResult();
+
+        # We have to bypass Doctrine to get the area name.  We can't use Doctrine mapping easily.
+        $areas = [];
+
+        foreach ($businesses as $business) {
+            if ($business && $business->getLocalArea()) {
+                $areas[] = $business->getLocalArea();
+            }
+        }
+
+        $areas = array_unique($areas);
+
+        if (count($areas)) {
+            $conn = $this->entityManager->getConnection();
+            $stmt = $conn->prepare("SELECT uid, name FROM areas WHERE uid IN (" . implode(',', $areas) . ");");
+            $stmt->execute();
+            $areas = $stmt->fetchAll();
+
+            foreach ($businesses as $business) {
+                if ($business) {
+                    foreach ($areas as $area) {
+                        if ($area['uid'] == $business->getLocalArea()) {
+                            $business->setLocalAreaName($area['name']);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $businesses;
     }
 
     /**
@@ -284,5 +342,23 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
     public function remove(Business $business)
     {
         $this->entityManager->remove($business);
+    }
+
+    /**
+     * Find the id of the area which corresponds to a lat/lng.
+     *
+     * @param float $lat
+     * @param float $lng
+     *
+     * @return integer
+     */
+    public function findLocalArea($lat, $lng) {
+        $conn = $this->entityManager->getConnection();
+        $stmt = $conn->prepare("SELECT uid FROM areas WHERE ST_Contains(areas.geometry, POINT(?,?));");
+        $stmt->bindValue(1, $lng);
+        $stmt->bindValue(2, $lat);
+        $stmt->execute();
+        $res = $stmt->fetchAll();
+        return count($res) ? $res[0]['uid'] : NULL;
     }
 }

@@ -55,7 +55,7 @@ return [
                 'nullable' => true
             ],
             'localArea' => [
-                'type' => 'string',
+                'type' => 'integer',
                 'nullable' => true
             ],
             'categories' => [
@@ -114,6 +114,10 @@ return [
             'publishingStatus' => [
                 'type' => 'string',
                 'nullable' => false
+            ],
+            'hideReason' => [
+                'type' => 'string',
+                'nullable' => true
             ],
             'createdAt' => [
                 'type' => 'datetime',

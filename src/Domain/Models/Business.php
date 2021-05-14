@@ -99,11 +99,18 @@ class Business
     private $email;
 
     /**
+     * UID of the local area
+     *
+     * @var int
+     */
+    private $localArea;
+
+    /**
      * Name of the local area, e.g. 'Brixton'
      *
      * @var string
      */
-    private $localArea;
+    private $localAreaName;
 
     /**
      * Categories of products repaired by the business, e.g. ['Desktop computer', 'Laptop']
@@ -211,6 +218,13 @@ class Business
      * @var string
      */
     private $publishingStatus = PublishingStatus::DRAFT;
+
+    /**
+     * The reason for hiding the business.
+     *
+     * @var string
+     */
+    private $hideReason = NULL;
 
     /**
      * The date/time the business was created
@@ -421,6 +435,16 @@ class Business
      *
      * @return string
      */
+    public function getLocalAreaName()
+    {
+        return $this->localAreaName;
+    }
+
+    /**
+     * Return the UID of the local area of the Business
+     *
+     * @return integer
+     */
     public function getLocalArea()
     {
         return $this->localArea;
@@ -429,13 +453,25 @@ class Business
     /**
      * Set the local area of the Business
      *
-     * @param string $localArea The value to set
+     * @param integer $localArea
      *
      * @return void
      */
     public function setLocalArea($localArea)
     {
         $this->localArea = $localArea;
+    }
+
+    /**
+     * Set the local area name of the Business
+     *
+     * @param string $localArea
+     *
+     * @return void
+     */
+    public function setLocalAreaNAme($localArea)
+    {
+        $this->localAreaName = $localArea;
     }
 
     /**
@@ -678,6 +714,28 @@ class Business
     public function setPublishingStatus($publishingStatus)
     {
         $this->publishingStatus = $publishingStatus;
+    }
+
+    /**
+     * Get this business's hide reason
+     *
+     * @return string
+     */
+    public function getHideReason()
+    {
+        return $this->hideReason;
+    }
+
+    /**
+     * Set this business's hide reason
+     *
+     * @param string $hideReason The value to set
+     *
+     * @return void
+     */
+    public function setHideReason(string $hideReason)
+    {
+        $this->hideReason = $hideReason;
     }
 
     /**

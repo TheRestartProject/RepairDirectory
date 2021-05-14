@@ -33,6 +33,7 @@ return [
     'warranty_offered' => 'Warranty Offered',
     'warranty_details' => 'Warranty Details',
     'publishing_status' => 'Publishing Status',
+    'hide_reason' => 'Hide Reason',
 
     'submissions' => 'Submissions',
     'submissions_via_gravity_forms' => 'Submissions via Gravity Forms',
@@ -49,5 +50,6 @@ return [
     'cancel' => 'Cancel',
 
     'your_profile' => 'Your profile',
+    'homepage' => 'Restarters Homepage',
     'logout' => 'Logout'
 ];

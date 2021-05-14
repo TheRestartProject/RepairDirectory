@@ -249,7 +249,6 @@ class CreateBusinessTest extends IntegrationTestCase
             'address' => $business->getAddress(),
             'city' => $business->getCity(),
             'postcode' => $business->getPostcode(),
-            'localArea' => $business->getLocalArea(),
             'description' => $business->getDescription(),
             'landline' => $business->getLandline(),
             'mobile' => $business->getMobile(),

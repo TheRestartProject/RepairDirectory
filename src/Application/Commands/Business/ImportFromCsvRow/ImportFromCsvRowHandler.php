@@ -100,7 +100,10 @@ class ImportFromCsvRowHandler
         if ($this->isTruthy($row['Email'])) {
             $business->setEmail($row['Email']);
         }
-        $business->setLocalArea($row['Borough']);
+
+        $localArea = $this->repository->findLocalArea($business->getGeolocation()->getLatitude(), $business->getGeolocation()->getLongitude());
+
+        $business->setLocalArea($localArea);
 
         try {
             $cluster = new Cluster($row['Category']);
