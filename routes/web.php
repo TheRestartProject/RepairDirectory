@@ -30,5 +30,6 @@ Route::prefix('admin')
         Route::delete('business/{id}', 'BusinessController@delete')->name('admin.business.delete');
         Route::get('submissions', 'SubmissionController@index')->name('admin.submissions.index');
         Route::get('submissions/{id}', 'SubmissionController@view')->name('admin.submissions.view');
+        Route::post('submissions/{id}', 'SubmissionController@update')->name('admin.submissions.update');
     });
 
