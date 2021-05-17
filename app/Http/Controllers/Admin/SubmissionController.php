@@ -33,6 +33,7 @@ class SubmissionController extends Controller
 
             if ($existing) {
                 $submission->setStatus($existing->getStatus());
+                $submission->setNotes($existing->getNotes());
             }
 
             $em->merge($submission);
