@@ -63,6 +63,46 @@ return [
             ]) : [],
         ],
 
+        'fixometer' => [
+            'driver' => 'mysql',
+            'url' => null,
+            'host' => env('FIXOMETER_DB_HOST', '127.0.0.1'),
+            'port' => env('FIXOMETER_DB_PORT', '3306'),
+            'database' => env('FIXOMETER_DB_DATABASE', 'forge'),
+            'username' => env('FIXOMETER_DB_USERNAME', 'forge'),
+            'password' => env('FIXOMETER_DB_PASSWORD', ''),
+            'unix_socket' => env('FIXOMETER_DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                  PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+              ]) : [],
+        ],
+
+        'restarters_testing' => [
+            'driver' => 'mysql',
+            'url' => null,
+            'host' => '127.0.0.1',
+            'port' => '3306',
+            'database' => 'restarters_db_test',
+            'username' => 'tester',
+            'password' => 'tester',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => false,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                  PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+              ]) : [],
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

@@ -72,7 +72,7 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION', null),
+    'connection' => 'fixometer',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'table' => 'sessions',
+    'table' => 'laravel_sessions',
 
     /*
     |--------------------------------------------------------------------------

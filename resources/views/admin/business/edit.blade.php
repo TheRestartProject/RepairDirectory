@@ -271,7 +271,7 @@
                             Created by:
                         </div>
                         <div class="col-md-8">
-                            @if (!empty($business->getCreatedBy()))
+                            @if (!empty($business->getCreatedBy() && $business->userWhoCreated))
                                 {{ $business->userWhoCreated->getName() }}
                             @endif
                         </div>
@@ -293,7 +293,7 @@
                             Last updated by:
                         </div>
                         <div class="col-md-8">
-                            @if (!empty($business->getUpdatedBy()))
+                            @if (!empty($business->getUpdatedBy() && $business->userWhoLastUpdated))
                                 {{ $business->userWhoLastUpdated->getName() }}
                             @endif
                         </div>
