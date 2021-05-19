@@ -143,8 +143,7 @@ class ImportFromHttpRequestHandler
         } else if ($currentPublishingStatus !== PublishingStatus::HIDDEN && $newPublishingStatus === PublishingStatus::HIDDEN
             && auth()->user()->isEditor()
         ) {
-            // We have hidden the business as an Editor.  We want to alert regional admin.  At the moment
-            // editors are not restricted to a region and therefore we alert all of them.
+            // We have hidden the business as an Editor.  We want to alert regional admins.
             $admins = $this->userRepository->findBy([
                                                         [
                                                             'field' => 'repairDirectoryRole',
@@ -154,7 +153,10 @@ class ImportFromHttpRequestHandler
                                                     ]);
 
             foreach ($admins as $admin) {
-                $admin->notify(new AdminBusinessHiddenByEditor($business, auth()->user()));
+                // Check we can see the business as this regional admin, so that we only notify the appropriate ones.
+                if ($this->businessRepository->findById($business->getUid(), $admin)) {
+                    $admin->notify(new AdminBusinessHiddenByEditor($business, auth()->user()));
+                }
             }
         }
 
