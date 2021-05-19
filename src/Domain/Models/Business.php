@@ -469,7 +469,7 @@ class Business
      *
      * @return void
      */
-    public function setLocalAreaNAme($localArea)
+    public function setLocalAreaName($localArea)
     {
         $this->localAreaName = $localArea;
     }
