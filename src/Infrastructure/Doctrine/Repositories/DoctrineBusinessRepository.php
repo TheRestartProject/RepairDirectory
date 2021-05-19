@@ -51,21 +51,19 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
 
         if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
             LEFT JOIN areas ON b.local_area = areas.uid;";
 
             $query = $this->entityManager->createNativeQuery(
                 $sql,
                 $rsm
             );
-
-            return $query->getResult();
         } else {
             // If we are a regional admin or an editor then we can only see businesses within regions that we have been
             // assigned.
             //
             // "Within a region" means that the geolocation of the business is inside the polygon of the region.
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
             INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)        
             INNER JOIN users_regions ON regions.uid = users_regions.region
             LEFT JOIN areas ON b.local_area = areas.uid
@@ -75,9 +73,12 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
                 $sql,
                 $rsm
             );
-
-            return $query->getResult();
         }
+
+        $businesses = $query->getResult();
+        $this->setLocalAreas($businesses);
+
+        return $businesses;
     }
 
     /**
@@ -93,6 +94,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      */
     public function findById($uid, $user, $seeall = FALSE)
     {
+        error_log("Find by id $uid");
         $ret = null;
 
         $rsm = new ResultSetMappingBuilder($this->entityManager);
@@ -100,7 +102,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
 
         if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
                 LEFT JOIN areas ON b.local_area = areas.uid WHERE b.uid = " . intval($uid);
 
             $query = $this->entityManager->createNativeQuery(
@@ -108,7 +110,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
                 $rsm
             );
         } else {
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.name AS local_area_name, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
                 INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
                 INNER JOIN users_regions ON regions.uid = users_regions.region
                 LEFT JOIN areas ON b.local_area = areas.uid
@@ -122,19 +124,9 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
 
         $businesses = $query->getResult();
 
-        foreach ($businesses as $business) {
-            # We have to bypass Doctrine to get the area name.  We can't use Doctrine mapping easily.
-            $conn = $this->entityManager->getConnection();
-            $stmt = $conn->prepare("SELECT areas.name FROM businesses LEFT JOIN areas ON local_area = areas.uid WHERE businesses.uid = ?;");
-            $stmt->bindValue(1, intval($uid));
-            $stmt->execute();
-            $bs = $stmt->fetchAll();
-
-            foreach ($bs as $b) {
-                $business->setLocalAreaName($b['name']);
-            }
-
-            $ret = $business;
+        if (count($businesses)) {
+            $this->setLocalAreas($businesses);
+            $ret = $businesses[0];
         }
 
         return $ret;
@@ -202,7 +194,29 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         $query->setParameters($parameters);
 
         $businesses = $query->getResult();
+        $this->setLocalAreas($businesses);
 
+        return $businesses;
+    }
+
+    /**
+     * Finds businesses that match an array of [ property => value ].
+     *
+     * This is for end-users on the public site - so we do not need to apply any restrictions based on
+     * regions as we would if this was for the admin section.
+     *
+     * @param array $criteria The [ property => value ] array to match against businesses
+     *
+     * @return array All matching businesses
+     */
+    public function findBy($criteria)
+    {
+        $query = $this->queryFromCriteria($criteria);
+        $businesses = $query->getResult();
+        $this->setLocalAreas($businesses);
+    }
+
+    private function setLocalAreas($businesses) {
         # We have to bypass Doctrine to get the area name.  We can't use Doctrine mapping easily.
         $areas = [];
 
@@ -230,24 +244,6 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
                 }
             }
         }
-
-        return $businesses;
-    }
-
-    /**
-     * Finds businesses that match an array of [ property => value ].
-     *
-     * This is for end-users on the public site - so we do not need to apply any restrictions based on
-     * regions as we would if this was for the admin section.
-     *
-     * @param array $criteria The [ property => value ] array to match against businesses
-     *
-     * @return array All matching businesses
-     */
-    public function findBy($criteria)
-    {
-        $query = $this->queryFromCriteria($criteria);
-        return $query->getResult();
     }
 
     /**
