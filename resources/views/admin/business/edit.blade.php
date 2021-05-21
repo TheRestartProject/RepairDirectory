@@ -271,7 +271,7 @@
                             Created by:
                         </div>
                         <div class="col-md-8">
-                            @if (!empty($business->getCreatedBy() && $business->userWhoCreated))
+                            @if (!empty($business->getCreatedBy()) && $business->userWhoCreated)
                                 {{ $business->userWhoCreated->getName() }}
                             @endif
                         </div>
