@@ -35,7 +35,7 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repository = new DoctrineUserRepository(
