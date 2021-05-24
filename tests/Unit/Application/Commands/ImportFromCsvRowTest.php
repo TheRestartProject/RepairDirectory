@@ -42,7 +42,7 @@ class ImportFromCsvRowTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->repository = m::spy(BusinessRepository::class);
 

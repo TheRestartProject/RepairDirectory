@@ -35,7 +35,7 @@ class AddSuggestionsListenerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->entityManager = $this->app->make(EntityManager::class);

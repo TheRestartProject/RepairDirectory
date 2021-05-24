@@ -185,7 +185,8 @@ class BusinessController extends Controller
         } else if (auth()->user()->can('update', $business)) {
             $authorizedStatuses = [
                 PublishingStatus::DRAFT,
-                PublishingStatus::READY_FOR_REVIEW
+                PublishingStatus::READY_FOR_REVIEW,
+                PublishingStatus::HIDDEN
             ];
         } else {
             $authorizedStatuses = [];
