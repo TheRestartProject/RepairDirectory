@@ -47,7 +47,7 @@ class ImportFromHttpRequestCommandTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->bus = $this->app->make(CommandBus::class);

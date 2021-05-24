@@ -31,7 +31,7 @@ class PostcodeValidatorTest extends ValidationTestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         $this->validator = new PostcodeValidator();
     }
