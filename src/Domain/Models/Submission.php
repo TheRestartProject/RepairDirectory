@@ -65,6 +65,11 @@ class Submission
      */
     private $status;
 
+    /**
+     * @var string
+     */
+    private $notes;
+
     public function __construct($submissionData)
     {
         $this->externalId = $submissionData->id;
@@ -125,5 +130,15 @@ class Submission
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    public function setNotes($notes)
+    {
+        $this->notes = $notes;
     }
 }
