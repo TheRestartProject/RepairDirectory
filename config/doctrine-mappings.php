@@ -202,6 +202,10 @@ return [
             'status' => [
                 'type' => 'string',
                 'columnDefinition' => "ENUM('Added to Directory','Duplicate','Outside Area','Spam','Not considered - other')"
+            ],
+            'notes' => [
+                'type' => 'string',
+                'nullable' => true
             ]
         ]
     ]

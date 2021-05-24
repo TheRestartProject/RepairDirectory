@@ -25,4 +25,10 @@ class SubmissionsPolicy
         if ($user->isRegionalAdmin() || $user->isEditor())
             return true;
     }
+
+    public function update(User $user)
+    {
+        if ($user->isSuperAdmin() || $user->isRegionalAdmin())
+            return true;
+    }
 }

@@ -17,6 +17,7 @@ use TheRestartProject\RepairDirectory\Domain\Enums\ReviewSource;
 use TheRestartProject\RepairDirectory\Domain\Exceptions\ImportBusinessUnauthorizedException;
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
+use TheRestartProject\RepairDirectory\Domain\Repositories\SubmissionRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\ReviewManager;
 use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
@@ -77,7 +78,7 @@ class BusinessController extends Controller
         return redirect()->route('admin.business.edit', $business->getUid());
     }
 
-    public function createFromSubmission($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory)
+    public function createFromSubmission($id, Request $request, CommandBus $commandBus, ImportFromHttpRequestFactory $commandFactory, SubmissionRepository $repository)
     {
         $this->authorize('create', Business::class);
 
@@ -86,7 +87,12 @@ class BusinessController extends Controller
         $business->setName($submission->getBusinessName());
         $business->setWebsite($submission->getBusinessWebsite());
         $business->setReviewSourceUrl($submission->getReviewSource());
+
+        $ourSubmission = $repository->findByExternalId($submission->getExternalId());
+        $notes = $ourSubmission && $ourSubmission->getNotes() ? ($ourSubmission->getNotes() . "\n\n") : '';
+
         $business->setNotes(
+            "Notes:\n\n$notes\n\n" .
             "Submission date: " . $submission->getCreatedAt() . "\n" .
             "Submitted by employee: " . $submission->getSubmittedByEmployee() . "\n" .
             "Anything else we should know: " . $submission->getExtraInfo()
