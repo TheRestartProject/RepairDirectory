@@ -26,6 +26,7 @@ return [
     'community_endorsement' => 'Community Endorsement',
     'notes' => 'Notes',
     'positive_review_percentage' => 'Positive Review Percentage',
+    'average_scores' => 'Average score',
     'review_source' => 'Review Source',
     'number_of_reviews' => 'Number of Reviews',
     'review_count' => 'Review Count',

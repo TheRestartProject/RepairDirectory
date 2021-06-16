@@ -72,49 +72,6 @@ $(document).ready(() => {
     })
   })
 
-  // set up review url scraping
-  const $reviewSourceUrl = $('#reviewSourceUrl')
-  const $scrapeButton = $('#scrapeButton');
-  const $derivedElements = $('#reviewSourceUrl,#reviewSource,#positiveReviewPc,#positiveReviewPcRange,#averageScore')
-    $scrapeButton.on('click', function (e) {
-      e.preventDefault();
-      disableElement($derivedElements)
-      
-      $.ajax('/admin/business/scrape-review', {
-        data: {'url': $reviewSourceUrl.val()},
-        success: function (response) {
-          if (response.reviewSource) {
-            $('#reviewSource').find('option')
-              .each(function () {
-                const $option = $(this)
-                if ($option.val() === response.reviewSource) {
-                  $option.attr('selected', '')
-                } else {
-                  $option.removeAttr('selected')
-                }
-              })
-          }
-          if (response.reviewAggregation) {
-            const $positiveReviewPc = $('#positiveReviewPc')
-            const $positiveReviewPcRange = $('#positiveReviewPcRange')
-            const $averageScore = $('#averageScore')
-            const $numberOfReviews = $('#numberOfReviews')
-
-            $positiveReviewPc.val(response.reviewAggregation.positiveReviewPc || $positiveReviewPc.val() || 0)
-            $positiveReviewPcRange.val(response.reviewAggregation.positiveReviewPc || $positiveReviewPc.val() || 0)
-            $averageScore.val(response.reviewAggregation.averageScore || $averageScore.val() || 0)
-            $numberOfReviews.val(response.reviewAggregation.numberOfReviews || $numberOfReviews.val() || '')
-          }
-          enableElement($derivedElements)
-        },
-        error: function (response) {
-            console.log("my object: %o", response);
-          enableElement($derivedElements)
-        }
-      })
-    }
-  )
-
   // set up delete button and popup
   const $delete = $('#delete')
   const $deletePopup = $('#delete-popup')
