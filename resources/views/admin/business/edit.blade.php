@@ -97,6 +97,8 @@
                        value="{{ old('website') ?: $business->getWebsite() }}">
                 @if($errors->has('website'))
                     <small class="business-error">{{ $errors->first('website') }}</small>
+                @elseif($websiteInvalid)
+                    <small class="business-error">{{ $websiteInvalid }}</small>
                 @endif
             </div>
 

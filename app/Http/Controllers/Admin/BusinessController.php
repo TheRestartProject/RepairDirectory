@@ -23,6 +23,7 @@ use TheRestartProject\RepairDirectory\Domain\Validators\BusinessValidator;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
 use TheRestartProject\RepairDirectory\Infrastructure\Services\GravityFormsSubmissionsRetriever;
 use Illuminate\Support\Facades\Auth;
+use TheRestartProject\RepairDirectory\Validation\Validators\WebsiteValidator;
 
 class BusinessController extends Controller
 {
@@ -198,6 +199,18 @@ class BusinessController extends Controller
             $authorizedStatuses = [];
         }
 
+        // We want to indicate whether the website is valid.
+        $v = new WebsiteValidator();
+        $websiteInvalid = NULL;
+
+        try {
+            if ($business->getWebsite()) {
+                $v->validate($business->getWebsite());
+            }
+        } catch (ValidationException $e) {
+            $websiteInvalid = $e->getMessage();
+        }
+
         return view('admin.business.edit', [
             'categories' => Category::values(),
             'reviewSources' => ReviewSource::values(),
@@ -208,6 +221,7 @@ class BusinessController extends Controller
             'isCreate' => $isCreate,
             'formAction' => $formAction,
             'formMethod' => $formMethod,
+            'websiteInvalid' => $websiteInvalid
         ]);
     }
 }
