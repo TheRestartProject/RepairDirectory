@@ -214,6 +214,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         $query = $this->queryFromCriteria($criteria);
         $businesses = $query->getResult();
         $this->setLocalAreas($businesses);
+        return $businesses;
     }
 
     private function setLocalAreas($businesses) {
