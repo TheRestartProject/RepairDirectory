@@ -43,7 +43,7 @@ return [
     'submission_extra_info' => 'Anything else we should know about this business?',
     'submission_status' => 'Status',
 
-    'website_invalid' => 'This website is invalid.  It must be between 5 and 100 characters, contain a domain, and must be accessible without redirection.  Watch out for using \'http\' when the website redirects to \'https\'.',
+    'website_invalid' => 'Please check and update the address:',
 
     'your_role_is' => 'Your role is',
 
