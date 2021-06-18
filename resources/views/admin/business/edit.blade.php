@@ -178,9 +178,6 @@
                     <div class="input-group">
                         <input id="reviewSourceUrl" name="reviewSourceUrl" class="form-control validate"
                             value="{{ old('reviewSourceUrl') ?: $business->getReviewSourceUrl() }}">
-                        <div class="input-group-append">
-                            <button id="scrapeButton" class="btn btn-primary"><i class="fa fa-sync" ></i></button>
-                        </div>
                     </div>
                     @if($errors->has('reviewSourceUrl'))
                         <small class="business-error">{{ $errors->first('reviewSourceUrl') }}</small>

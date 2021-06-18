@@ -161,17 +161,6 @@ class BusinessController extends Controller
         return response('', 200);
     }
 
-    public function scrapeReview(Request $request, ReviewManager $reviewManager)
-    {
-        $url = $request->input("url");
-        $response = $reviewManager->getReviewResponse($url);
-        if ($response) {
-            $data = $response->toArray();
-            return response($data, 200);
-        }
-        return response('', 404);
-    }
-
     private function renderEdit(Business $business, $errors)
     {
         $isCreate = $business->getUid() === null;
