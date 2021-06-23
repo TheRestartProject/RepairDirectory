@@ -61,11 +61,19 @@ class WebsiteValidator implements Validator
         // A small number of sites use unusual certificate authorities which we cannot verify.
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HEADER, true);
 
         $response = curl_exec($curl);
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if ($status !== 200 && $status !== 302) {
+            if ($status === 301) {
+                if (preg_match('~Location: (.*)~i', $response, $match)) {
+                    $location = trim($match[1]);
+                    throw new ValidationException("$website redirected to $location");
+                }
+            }
+
             throw new ValidationException("$website is invalid (fetch returned $status)");
         }
     }
