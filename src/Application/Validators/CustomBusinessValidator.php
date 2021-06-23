@@ -61,7 +61,6 @@ class CustomBusinessValidator implements BusinessValidator
             'city' => new v\StringLengthValidator('City', 2, 100),
             'landline' => new v\PhoneNumberValidator('Landline'),
             'mobile' => new v\PhoneNumberValidator('Mobile'),
-            'website' => new v\WebsiteValidator(),
             'email' => new v\EmailValidator(),
             'categories' => new v\CategoriesValidator(),
             'reviewSourceUrl' => new v\UrlValidator('Review Source URL'),
