@@ -1,12 +1,13 @@
 <?php
 
+use App\Providers\RouteServiceProvider;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 
 /*Route::get('/', function (UserRepository $repository) {
     $users = $repository->findAll();
     $loggedInUser = Auth::user();
-    return view('home', compact('users', 'loggedInUser'));
-    })->name('home');*/
+    return view(RouteServiceProvider::HOME, compact('users', 'loggedInUser'));
+    })->name(RouteServiceProvider::HOME);*/
 
 /*Route::namespace('Auth')
     ->group(function () {

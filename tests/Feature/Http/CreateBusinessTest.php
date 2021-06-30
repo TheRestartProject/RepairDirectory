@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Testing\TestResponse;
 use TheRestartProject\Fixometer\Domain\Entities\User;
@@ -35,7 +36,7 @@ class CreateBusinessTest extends IntegrationTestCase
     {
         $business = entity(Business::class, 'real')->make();
         $this->createBusiness($business)
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route(RouteServiceProvider::HOME));
     }
 
     /**
@@ -51,7 +52,7 @@ class CreateBusinessTest extends IntegrationTestCase
 
         $this->beRole(User::GUEST)
             ->createBusiness($business)
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route(RouteServiceProvider::HOME));
     }
 
     /**

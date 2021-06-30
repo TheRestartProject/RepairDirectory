@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\CommandBus\Middleware;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Tactician\Middleware;
 use Throwable;

@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Browser\Pages;
 
+use App\Providers\RouteServiceProvider;
 use Laravel\Dusk\Browser;
 
 /**
@@ -34,7 +35,7 @@ class HomePage extends Page
      */
     public function assert(Browser $browser)
     {
-        $browser->assertRouteIs('home');
+        $browser->assertRouteIs(RouteServiceProvider::HOME);
     }
 
     /**

@@ -64,6 +64,13 @@ return [
                     'name' => 'repairdir_role',
                     'referencedColumnName' => 'id',
                 ]
+            ],
+            'repairDirectoryRegion' => [
+                'targetEntity' => 'TheRestartProject\RepairDirectory\Domain\Models\Region',
+                'joinColumn' => [
+                    'name' => 'repairdir_region',
+                    'referencedColumnName' => 'id',
+                ]
             ]
         ],
     ],
