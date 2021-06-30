@@ -110,9 +110,11 @@ class User implements Authenticatable
     {
         return $this->repairDirectoryRole;
     }
-    public function setRepairDirectoryRole(Role $role)
+
+    private $repairDirectoryRegion = null;
+    public function getRepairDirectoryRegion()
     {
-        $this->repairDirectoryRole = $role;
+        return $this->repairDirectoryRegion;
     }
 
     public function getEmail()

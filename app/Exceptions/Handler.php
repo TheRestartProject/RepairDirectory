@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Providers\RouteServiceProvider;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -50,7 +51,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof AuthorizationException) {
-            return redirect()->route('home');
+            return redirect()->route(RouteServiceProvider::HOME);
         }
 
         return parent::render($request, $exception);

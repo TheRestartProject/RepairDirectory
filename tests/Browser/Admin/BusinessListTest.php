@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Browser\Admin;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
@@ -39,7 +40,7 @@ class BusinessListTest extends DuskTestCase
         $this->browse(
             function (Browser $browser) {
                 $browser->visitRoute('admin.index')
-                    ->assertRouteIs('home');
+                    ->assertRouteIs(RouteServiceProvider::HOME);
             }
         );
     }
@@ -68,7 +69,7 @@ class BusinessListTest extends DuskTestCase
             function (Browser $browser) use ($user) {
                 $browser->loginAs($user->getAuthIdentifier())
                     ->visitRoute('admin.index')
-                    ->assertRouteIs('home');
+                    ->assertRouteIs(RouteServiceProvider::HOME);
             }
         );
     }

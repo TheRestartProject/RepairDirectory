@@ -2,6 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Browser\Admin;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
@@ -44,7 +45,7 @@ class BusinessCreateTest extends DuskTestCase
         $this->browse(
             function (Browser $browser) {
                 $browser->visitRoute('admin.business.create')
-                    ->assertRouteIs('home');
+                    ->assertRouteIs(RouteServiceProvider::HOME);
             }
         );
     }
@@ -73,7 +74,7 @@ class BusinessCreateTest extends DuskTestCase
             function (Browser $browser) use ($user) {
                 $browser->loginAs($user->getAuthIdentifier())
                     ->visitRoute('admin.business.create')
-                    ->assertRouteIs('home');
+                    ->assertRouteIs(RouteServiceProvider::HOME);
             }
         );
     }

@@ -22,7 +22,7 @@ class PermissionsTest extends TestCase
 {
     private function getRole($roleName)
     {
-        $registry = resolve('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = resolve('Doctrine\Persistence\ManagerRegistry');
         $manager = $registry->getManager('restarters_testing');
         $roleRepo = $manager->getRepository(Role::class);
 
