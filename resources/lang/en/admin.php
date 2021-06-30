@@ -44,6 +44,8 @@ return [
     'submission_extra_info' => 'Anything else we should know about this business?',
     'submission_status' => 'Status',
 
+    'website_invalid' => 'Please check and update the address:',
+
     'your_role_is' => 'Your role is',
 
     'save' => 'Save',
