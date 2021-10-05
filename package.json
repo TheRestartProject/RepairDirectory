@@ -36,6 +36,6 @@
     "lang.js": "^1.1.14",
     "macaddress": "^0.2.9",
     "randomatic": "^3.0.0",
-    "url-parse": "^1.5.0"
+    "url-parse": "^1.5.2"
   }
 }
