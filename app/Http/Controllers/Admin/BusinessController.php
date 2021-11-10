@@ -111,10 +111,15 @@ class BusinessController extends Controller
             $command = $commandFactory->makeFromRequest($request, $id);
             $commandBus->handle($command);
         } catch (BusinessValidationException $e) {
+            // Go back to edit.  We need to override the publishing status, otherwise it may show as Published, which
+            // will be confusing - even though we've had an error, you might think the business has actually been
+            // published.
             return redirect()
                 ->route('admin.business.edit', [ 'id' => $id ])
                 ->withErrors($e->getErrors())
-                ->withInput();
+                ->withInput([
+                                'publishingStatus' => 'Draft'
+                            ]);
         } catch (ImportBusinessUnauthorizedException $e) {
             return redirect()
                 ->route('admin.business.edit', [ 'id' => $id ])
