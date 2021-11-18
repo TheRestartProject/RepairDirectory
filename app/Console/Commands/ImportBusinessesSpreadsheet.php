@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use LaravelDoctrine\ORM\DoctrineManager;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -50,7 +50,7 @@ class ImportBusinessesSpreadsheet extends Command
      *
      * @return mixed
      */
-    public function handle(EntityManagerInterface $em, Geocoder $geocoder, BusinessRepository $repository, ManagerRegistry $managerRegistry)
+    public function handle(EntityManagerInterface $em, Geocoder $geocoder, BusinessRepository $repository, IlluminateRegistry $IlluminateRegistry)
     {
         // Delete any existing businesses within the bounding box for Wales.
         $conn = $em->getConnection();
@@ -218,7 +218,7 @@ class ImportBusinessesSpreadsheet extends Command
                     }
                 } catch (\Exception $e) {
                     $this->error("$name import failed " . $e->getMessage());
-                    $em = $managerRegistry->resetManager();
+                    $em = $IlluminateRegistry->resetManager();
                 }
 
                 $row++;

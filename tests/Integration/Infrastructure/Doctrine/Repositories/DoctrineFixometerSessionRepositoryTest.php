@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Integration\Infrastructure\Doctrine\Repositories;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use Illuminate\Support\Str;
 use TheRestartProject\Fixometer\Domain\Entities\FixometerSession;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineFixometerSessionRepository;
@@ -38,7 +38,7 @@ class DoctrineFixometerSessionRepositoryTest extends IntegrationTestCase
     {
         parent::setUp();
         $this->repository = new DoctrineFixometerSessionRepository(
-            $this->app->make(ManagerRegistry::class)
+            $this->app->make(IlluminateRegistry::class)
         );
     }
 

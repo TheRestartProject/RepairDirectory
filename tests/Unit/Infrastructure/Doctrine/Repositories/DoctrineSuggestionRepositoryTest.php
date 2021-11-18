@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Doctrine\Repositories;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
@@ -48,9 +48,9 @@ class DoctrineSuggestionRepositoryTest extends TestCase
     /**
      * The repository to test
      *
-     * @var ManagerRegistry|MockInterface
+     * @var IlluminateRegistry|MockInterface
      */
-    protected $managerRegistry;
+    protected $IlluminateRegistry;
 
     /**
      * Set up the mocks for the test
@@ -66,18 +66,18 @@ class DoctrineSuggestionRepositoryTest extends TestCase
         $this->entityManager->shouldReceive('getRepository')
             ->andReturn($this->entityRepository);
 
-        $this->managerRegistry = Mockery::mock(ManagerRegistry::class);
-        $this->managerRegistry->shouldReceive('getManagerForClass')->andReturn($this->entityManager);
+        $this->IlluminateRegistry = Mockery::mock(IlluminateRegistry::class);
+        $this->IlluminateRegistry->shouldReceive('getManagerForClass')->andReturn($this->entityManager);
 
         /**
-         * Cast mock to ManagerRegistry.
+         * Cast mock to IlluminateRegistry.
          *
-         * @var ManagerRegistry $managerRegistry
+         * @var IlluminateRegistry $IlluminateRegistry
          */
-        $managerRegistry = $this->managerRegistry;
+        $IlluminateRegistry = $this->IlluminateRegistry;
 
         $this->doctrineSuggestionRepository
-            = new DoctrineSuggestionRepository($managerRegistry);
+            = new DoctrineSuggestionRepository($IlluminateRegistry);
     }
 
     /**
@@ -90,12 +90,12 @@ class DoctrineSuggestionRepositoryTest extends TestCase
     public function it_can_be_instantiated()
     {
         /**
-         * Cast to ManagerRegistry to squash type hint errors.
+         * Cast to IlluminateRegistry to squash type hint errors.
          *
-         * @var ManagerRegistry $managerRegistry
+         * @var IlluminateRegistry $IlluminateRegistry
          */
-        $managerRegistry = $this->managerRegistry;
-        $repository = new DoctrineSuggestionRepository($managerRegistry);
+        $IlluminateRegistry = $this->IlluminateRegistry;
+        $repository = new DoctrineSuggestionRepository($IlluminateRegistry);
 
         self::assertInstanceOf(DoctrineSuggestionRepository::class, $repository);
     }

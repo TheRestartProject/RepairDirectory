@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 
@@ -34,9 +34,9 @@ abstract class DoctrineRepository
     /**
      * Constructs the DoctrineRepository
      *
-     * @param ManagerRegistry $registry The Doctrine Entity Manager (autowired)
+     * @param IlluminateRegistry $registry The Doctrine Entity Manager (autowired)
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(IlluminateRegistry $registry)
     {
         $this->entityManager = $registry->getManagerForClass($this->getEntityClass());
         $this->repository = $this->entityManager->getRepository($this->getEntityClass());
