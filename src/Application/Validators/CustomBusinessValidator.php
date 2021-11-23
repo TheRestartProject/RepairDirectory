@@ -110,7 +110,9 @@ class CustomBusinessValidator implements BusinessValidator
     {
         $messages = [];
 
-        // We no longer place restrictions on what can be published; that is at the discretion of the administrator.
+        if ($business['publishingStatus'] === PublishingStatus::PUBLISHED && !$business['city']) {
+            $messages[] = 'Can\'t publish a business without a city.';
+        }
 
         if (count($messages)) {
             throw new ValidationException(implode(', ', $messages));

@@ -94,7 +94,6 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      */
     public function findById($uid, $user, $seeall = FALSE)
     {
-        error_log("Find by id $uid");
         $ret = null;
 
         $rsm = new ResultSetMappingBuilder($this->entityManager);

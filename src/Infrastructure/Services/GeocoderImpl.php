@@ -50,7 +50,7 @@ class GeocoderImpl implements Geocoder
             $addressCollection = $geocodeResponse->get();
             $address = $addressCollection->get(0);
             if ($address) {
-                return new Point($address->getLatitude(), $address->getLongitude());
+                return new Point($address->getCoordinates()->getLatitude(), $address->getCoordinates()->getLongitude());
             }
         } catch (ChainNoResult $e) {
             return null;
