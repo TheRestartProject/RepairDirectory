@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Repositories;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -34,11 +34,11 @@ abstract class DoctrineRepository
     /**
      * Constructs the DoctrineRepository
      *
-     * @param ManagerRegistry $registry The Doctrine Entity Manager (autowired)
+     * @param IlluminateRegistry $registry The Doctrine Entity Manager (autowired)
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(IlluminateRegistry $registry)
     {
         $this->entityManager = $this->resolveEntityManager($registry);
         $this->repository = $this->resolveRepository();
@@ -54,13 +54,13 @@ abstract class DoctrineRepository
     /**
      * Sets up the Entity manager
      *
-     * @param ManagerRegistry $registry The Manager Registry for Doctrine ORM
+     * @param IlluminateRegistry $registry The Manager Registry for Doctrine ORM
      *
      * @return EntityManagerInterface
      *
      * @throws \InvalidArgumentException
      */
-    protected function resolveEntityManager(ManagerRegistry $registry)
+    protected function resolveEntityManager(IlluminateRegistry $registry)
     {
         /**
          * Ensures that this is an entity manager not an object manager

@@ -10,7 +10,7 @@ class Version20201026110415 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         $this->addSql("insert into repairdir_roles values(1, 'SuperAdmin', now(), now())");
         $this->addSql("insert into repairdir_roles values(2, 'RegionalAdmin', now(), now())");
@@ -20,7 +20,7 @@ class Version20201026110415 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         $this->addSql("delete from repairdir_roles where name in ('SuperAdmin', 'RegionalAdmin', 'Editor')");
     }

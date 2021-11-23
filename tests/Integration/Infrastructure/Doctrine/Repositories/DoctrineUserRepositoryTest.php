@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Integration\Infrastructure\Doctrine\Repositories;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 use TheRestartProject\Fixometer\Domain\Repositories\UserRepository;
 use TheRestartProject\Fixometer\Infrastructure\Doctrine\Repositories\DoctrineUserRepository;
@@ -39,7 +39,7 @@ class DoctrineUserRepositoryTest extends IntegrationTestCase
     {
         parent::setUp();
         $this->repository = new DoctrineUserRepository(
-            $this->app->make(ManagerRegistry::class)
+            $this->app->make(IlluminateRegistry::class)
         );
     }
 

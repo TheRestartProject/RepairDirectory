@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Application\CommandBus\Middleware;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Tactician\Middleware;
 use Throwable;
@@ -24,18 +24,18 @@ class TransactionMiddleware implements Middleware
     /**
      * The manager registry from the Doctrine ORM
      *
-     * @var ManagerRegistry
+     * @var IlluminateRegistry
      */
-    private $managerRegistry;
+    private $IlluminateRegistry;
 
     /**
      * Constructs the middleware
      *
-     * @param ManagerRegistry $managerRegistry Used to run the transactions
+     * @param IlluminateRegistry $IlluminateRegistry Used to run the transactions
      */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(IlluminateRegistry $IlluminateRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
+        $this->IlluminateRegistry = $IlluminateRegistry;
     }
 
     /**
@@ -53,14 +53,14 @@ class TransactionMiddleware implements Middleware
     {
         $connectionName = method_exists($command, 'getConnectionName') ?
             $command->getConnectionName() :
-            $this->managerRegistry->getDefaultManagerName();
+            $this->IlluminateRegistry->getDefaultManagerName();
 
         /**
          * The entity manager for a given connection name
          *
          * @var EntityManagerInterface $entityManager
          */
-        $entityManager = $this->managerRegistry->getManager($connectionName);
+        $entityManager = $this->IlluminateRegistry->getManager($connectionName);
 
         $entityManager->beginTransaction();
 

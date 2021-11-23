@@ -12,7 +12,7 @@ class Version20201025171556 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         (new Builder($schema))->table('users', function (Table $table) {
             $table->smallInteger('repairdir_role', false, true)->setNotnull(false)->setDefault(null);
@@ -23,7 +23,7 @@ class Version20201025171556 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         (new Builder($schema))->table('users', function (Table $table) {
             $table->dropColumn('repairdir_role');
