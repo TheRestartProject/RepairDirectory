@@ -17,5 +17,6 @@ class HideReason extends Enum
     const CLOSED_PERMANENTLY = "Closed permanently";
     const QUALITY = "Doesn't meet quality criteria";
     const ASKED = "Asked to be removed";
+    const NOT_IN_COMMUNICATION = "Not in communication";
     const OTHER = "Other";
 }

@@ -31,6 +31,7 @@
             <th scope="col">{{ __('admin.review_percent') }}</th>
             <th scope="col">{{ __('admin.publishing_status') }}</th>
             <th scope="col"></th>
+            <th scope="col">{{ __('admin.hide_reason') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -46,6 +47,7 @@
                 <td>{{ $business->getPositiveReviewPc() }}</td>
                 <td>{{ $business->getPublishingStatus() }}</td>
                 <td>{{ $business->getNotes() }}</td>
+                <td>{{ $business->getHideReason() }}</td>
             </tr>
         @endforeach
         </tbody>
