@@ -2,7 +2,7 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Unit\Infrastructure\Doctrine\Repositories;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use LaravelDoctrine\ORM\IlluminateRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Mockery;
@@ -46,9 +46,9 @@ class DoctrineBusinessRepositoryTest extends TestCase
     /**
      * The manager registry for doctrine orm
      *
-     * @var MockInterface|ManagerRegistry
+     * @var MockInterface|IlluminateRegistry
      */
-    private $managerRegistry;
+    private $IlluminateRegistry;
 
     /**
      * Set up the mocks for the test
@@ -64,16 +64,16 @@ class DoctrineBusinessRepositoryTest extends TestCase
         $this->entityManager->shouldReceive('getRepository')
             ->andReturn($this->entityRepository);
 
-        $this->managerRegistry = Mockery::mock(ManagerRegistry::class);
-        $this->managerRegistry->shouldReceive('getManagerForClass')->andReturn($this->entityManager);
+        $this->IlluminateRegistry = Mockery::mock(IlluminateRegistry::class);
+        $this->IlluminateRegistry->shouldReceive('getManagerForClass')->andReturn($this->entityManager);
 
         /**
-         * Cast mock to ManagerRegistry.
+         * Cast mock to IlluminateRegistry.
          *
-         * @var ManagerRegistry $managerRegistry
+         * @var IlluminateRegistry $IlluminateRegistry
          */
-        $managerRegistry = $this->managerRegistry;
-        $this->doctrineBusinessRepository = new DoctrineBusinessRepository($managerRegistry);
+        $IlluminateRegistry = $this->IlluminateRegistry;
+        $this->doctrineBusinessRepository = new DoctrineBusinessRepository($IlluminateRegistry);
     }
 
     /**
@@ -86,12 +86,12 @@ class DoctrineBusinessRepositoryTest extends TestCase
     public function it_can_be_instantiated()
     {
         /**
-         * Cast to ManagerRegistry to squash type hint errors.
+         * Cast to IlluminateRegistry to squash type hint errors.
          *
-         * @var ManagerRegistry $managerRegistry
+         * @var IlluminateRegistry $IlluminateRegistry
          */
-        $managerRegistry = $this->managerRegistry;
-        $repository = new DoctrineBusinessRepository($managerRegistry);
+        $IlluminateRegistry = $this->IlluminateRegistry;
+        $repository = new DoctrineBusinessRepository($IlluminateRegistry);
 
         self::assertInstanceOf(DoctrineBusinessRepository::class, $repository);
     }

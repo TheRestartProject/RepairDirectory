@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -47,14 +48,14 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return redirect()->route('home');
+        return redirect()->route(RouteServiceProvider::HOME);
     }
 
     public function logout()
     {
         $this->guard()->logout();
 
-        return redirect()->route('home');
+        return redirect()->route(RouteServiceProvider::HOME);
     }
 
     /**

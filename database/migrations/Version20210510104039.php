@@ -10,7 +10,7 @@ class Version20210510104039 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSQL("ALTER TABLE `businesses` ADD `hide_reason` ENUM('Closed temporarily','Closed permanently','Doesn''t meet quality criteria','Asked to be removed','Other') NULL DEFAULT NULL AFTER `publishing_status`;");
@@ -19,7 +19,7 @@ class Version20210510104039 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'mysql', 'Migration can only be executed safely on \'mysql\'.');
         $this->addSQL("ALTER TABLE `businesses` DROP COLUMN hide_reason;");

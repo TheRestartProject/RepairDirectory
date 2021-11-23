@@ -12,7 +12,7 @@ class Version20201025114930 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function up(Schema $schema)
+    public function up(Schema $schema): void
     {
         (new Builder($schema))->create('repairdir_roles', function (Table $table) {
             $table->increments('id');
@@ -24,7 +24,7 @@ class Version20201025114930 extends AbstractMigration
     /**
      * @param Schema $schema
      */
-    public function down(Schema $schema)
+    public function down(Schema $schema): void
     {
         (new Builder($schema))->drop('repairdir_roles');
     }
