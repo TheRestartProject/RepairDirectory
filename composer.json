@@ -25,6 +25,7 @@
         "mariuzzo/laravel-js-localization": "^1.8",
         "myclabs/php-enum": "^1.5",
         "paquettg/php-html-parser": "^1.7",
+        "php-coveralls/php-coveralls": "^2.5",
         "phpoffice/phpspreadsheet": "^1.19",
         "skagarwal/google-places-api": "^1.1",
         "toin0u/geocoder-laravel": "^4.4.5"
