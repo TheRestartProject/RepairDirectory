@@ -93,7 +93,7 @@ class ImportFromHttpRequestHandler
         $currentPublishingStatus = $business->getPublishingStatus();
 
         if ($businessUid !== null) {
-            $business = $this->businessRepository->findById($businessUid, Auth::user());
+            $business = $this->businessRepository->findBusinessForUser($businessUid, Auth::user());
         }
 
         if (!$business) {
@@ -138,7 +138,10 @@ class ImportFromHttpRequestHandler
             ]);
 
             foreach ($admins as $admin) {
-                $admin->notify(new AdminNewBusinessReadyForReview($business, auth()->user()));
+                // Check we can see the business as this regional admin, so that we only notify the appropriate ones.
+                if ($this->businessRepository->findBusinessForUser($business->getUid(), $admin)) {
+                    $admin->notify(new AdminNewBusinessReadyForReview($business, auth()->user()));
+                }
             }
         } else if ($currentPublishingStatus !== PublishingStatus::HIDDEN && $newPublishingStatus === PublishingStatus::HIDDEN
             && auth()->user()->isEditor()
@@ -154,7 +157,7 @@ class ImportFromHttpRequestHandler
 
             foreach ($admins as $admin) {
                 // Check we can see the business as this regional admin, so that we only notify the appropriate ones.
-                if ($this->businessRepository->findById($business->getUid(), $admin)) {
+                if ($this->businessRepository->findBusinessForUser($business->getUid(), $admin)) {
                     $admin->notify(new AdminBusinessHiddenByEditor($business, auth()->user()));
                 }
             }

@@ -36,7 +36,7 @@ class BusinessController extends Controller
 
     public function edit($id = null, BusinessRepository $repository, DoctrineUserRepository $userRepository)
     {
-        $business = $id ? $repository->findById($id, Auth::user()) : new Business();
+        $business = $id ? $repository->findBusinessForUser($id, Auth::user()) : new Business();
 
         if (!$business) {
             return response('', 404);
@@ -134,7 +134,7 @@ class BusinessController extends Controller
 
     public function delete($id, BusinessRepository $businessRepository, CommandBus $commandBus)
     {
-        $business = $businessRepository->findById($id, Auth::user());
+        $business = $businessRepository->findBusinessForUser($id, Auth::user());
         if (!$business) {
             return response('', 404);
         }

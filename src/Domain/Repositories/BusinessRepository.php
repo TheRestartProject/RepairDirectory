@@ -46,7 +46,7 @@ interface BusinessRepository
      *
      * @return Business|null
      */
-    public function findById($uid, $user, $seeall = false);
+    public function findBusinessForUser($uid, $user, $seeall = false);
 
     /**
      * Finds businesses that match an array of [ property => value ].
