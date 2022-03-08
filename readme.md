@@ -1,19 +1,21 @@
 ## Restart Repair Directory
 
-The Restart Repair Directory is a tool for encouraging repair through local businesses.  It allows for the recording of local repair businesses in a directory and the searching of this directory by the public.  [Find out more](https://therestartproject.org/repairdirectory/about).
+The Restart Repair Directory is a tool for encouraging repair through local businesses.  It allows for the recording of local repair businesses in a directory and the searching of this directory by the public.  See it in action and find out more at https://therestartproject.org/repairdirectory/about.
 
-### Status
+This repository is the backend of the Repair Directory.
 
-The Repair Directory is currently in beta and is undergoing active testing and development.  Please get in touch at tech@therestartproject.org if you would like to collaborate.
+The client-side application can be found at: https://github.com/therestartproject/repair-directory-nuxt
+
+The WordPress plugin can be found at: https://github.com/TheRestartProject/repair-directory-wordpress
+
+### Contributing
+
+Please get in touch at tech@therestartproject.org if you would like to contribute.
 
 ### Credits
 
-The Repair Directory has been developed in partnership with fantastic support from [Outlandish](https://www.outlandish.com/).
+The Repair Directory was originally developed in partnership with fantastic support from [Outlandish](https://www.outlandish.com/).
 
 ### Setup
 
 See the [INSTALL](INSTALL.md) file.
-
-### Specifications
-
-Compiled version of the specs is available at: https://therestartproject.github.io/RepairDirectory/Index.html
