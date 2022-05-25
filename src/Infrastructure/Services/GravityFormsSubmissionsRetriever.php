@@ -39,7 +39,10 @@ class GravityFormsSubmissionsRetriever
 
     public function retrieveAll()
     {
-        $response = $this->client->request('GET', "forms/{$this->submissionsFormId}/entries");
+        // We retrieve 100 entries, sorted by creation date, to ensure we see all recent submissions.
+        // 100 works fine for now, while submission rate is low.  If it increases significantly, we'll likely
+        // switch to an in-app form.
+        $response = $this->client->request('GET', "forms/{$this->submissionsFormId}/entries?paging[page_size]=100&sorting[key]=date_created&sorting[direction]=DESC");
         $json = json_decode($response->getBody()->getContents());
 
         $submissions = [];

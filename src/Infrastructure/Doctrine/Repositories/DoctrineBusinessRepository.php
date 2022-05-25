@@ -84,7 +84,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
     /**
      * Finds the business or returns null.
      *
-     * This will only find businesses within a region that we have access to.
+     * This will only find businesses within a region that the user has access to.
      *
      * @param integer $uid The id of the business to find
      * @param User $user
@@ -92,7 +92,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      *
      * @return Business|null
      */
-    public function findById($uid, $user, $seeall = FALSE)
+    public function findBusinessForUser($uid, $user, $seeall = FALSE)
     {
         $ret = null;
 

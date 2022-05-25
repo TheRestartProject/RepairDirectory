@@ -61,7 +61,7 @@ class BusinessControllerTest extends IntegrationTestCase
 
         $businessRepository = $this->app->make(BusinessRepository::class);
 
-        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->findById(1, NULL, TRUE)->getGeolocation());
+        $this->assertEquals(new Point(51.3813963, -2.3613877), $businessRepository->findBusinessForUser(1, NULL, TRUE)->getGeolocation());
     }
 
     /**

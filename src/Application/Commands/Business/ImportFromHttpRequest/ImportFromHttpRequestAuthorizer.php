@@ -62,7 +62,7 @@ class ImportFromHttpRequestAuthorizer
         // Only authorise access to the business if we are looking at an existing business; if uid is null then
         // we are creating a business.
         if ($uid !== null) {
-            $business = $this->repository->findById($uid, Auth::user());
+            $business = $this->repository->findBusinessForUser($uid, Auth::user());
 
             if (!$business) {
                 throw new EntityNotFoundException("Business with id of {$uid} could not be found");

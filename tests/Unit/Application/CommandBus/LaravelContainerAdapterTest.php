@@ -6,6 +6,7 @@ use Illuminate\Container\Container;
 use TheRestartProject\RepairDirectory\Application\CommandBus\Exceptions\ContainerException;
 use TheRestartProject\RepairDirectory\Application\CommandBus\Exceptions\NotFoundException;
 use TheRestartProject\RepairDirectory\Application\CommandBus\LaravelContainerAdapter;
+use TheRestartProject\RepairDirectory\Tests\TestCase;
 
 /**
  * Test class for the LaravelContainerAdaptor class
@@ -19,7 +20,7 @@ use TheRestartProject\RepairDirectory\Application\CommandBus\LaravelContainerAda
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     http://tactician.thephpleague.com/
  */
-class LaravelContainerAdapterTest extends \PHPUnit_Framework_TestCase
+class LaravelContainerAdapterTest extends TestCase
 {
     /**
      * Tests that the adaptor can be constructed
