@@ -9,6 +9,7 @@ class Region extends Enum
 {
     const LONDON = 'London';
     const WALES = 'Wales';
+    const REUSE_UK = 'UK';
     
     const CATEGORIES = [
         self::LONDON => [
@@ -95,7 +96,21 @@ class Region extends Enum
             Category::SHOES_FOOTWEAR,
             Category::BICYCLE_BIKE_CYCLE,
             Category::FURNITURE_UPHOLSTERY,
-        ]
+        ],
+        self::REUSE_UK => [
+            Category::APPLE_IPHONE,
+            Category::APPLE_IPAD,
+            Category::DESKTOP,
+            Category::FLAT_SCREEN,
+            Category::LAPTOP,
+            Category::MOBILE,
+            Category::NINTENDO_CONSOLE,
+            Category::PC_ACCESSORY,
+            Category::PLAYSTATION_CONSOLE,
+            Category::PRINTER_SCANNER,
+            Category::TABLET,
+            Category::XBOX_CONSOLE,
+        ],
     ];
 
     const CRITERIA = [
@@ -123,6 +138,29 @@ class Region extends Enum
             ]
         ],
         self::WALES =>
+            [
+                [
+                    'field' => 'address',
+                    'operator' => Operators::NOT_EQUAL,
+                    'value' => ''
+                ],
+                [
+                    'field' => 'postcode',
+                    'operator' => Operators::NOT_EQUAL,
+                    'value' => ''
+                ],
+                [
+                    'field' => 'city',
+                    'operator' => Operators::NOT_EQUAL,
+                    'value' => ''
+                ],
+                [
+                    'field' => 'publishingStatus',
+                    'operator' => Operators::EQUAL,
+                    'value' => PublishingStatus::PUBLISHED
+                ]
+            ],
+        self::REUSE_UK =>
             [
                 [
                     'field' => 'address',
