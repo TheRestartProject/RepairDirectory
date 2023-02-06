@@ -43,7 +43,7 @@ $factory->define(Business::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->defineAs(Business::class, 'invalid', function (Faker\Generator $faker) {
+$factory->state(Business::class, 'invalid', function (Faker\Generator $faker) {
     return [
         'name' => 'a',
         'description' => 'abcd',
@@ -69,7 +69,7 @@ $factory->defineAs(Business::class, 'invalid', function (Faker\Generator $faker)
     ];
 });
 
-$factory->defineAs(Business::class, 'real', function (Faker\Generator $faker) {
+$factory->state(Business::class, 'real', function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
         'address' => '12 Westgate St, Bath',
