@@ -50,7 +50,9 @@
         "psr-4": {
             "App\\": "app/",
             "TheRestartProject\\RepairDirectory\\": "src/",
-            "TheRestartProject\\Fixometer\\": "fixometer/src/"
+            "TheRestartProject\\Fixometer\\": "fixometer/src/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
