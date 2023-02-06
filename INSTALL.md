@@ -6,7 +6,7 @@ See DEPLOY.md for deployment instructions.
 1. Clone this repository
 2. Copy the fixometer config in `fixometer/config/config.dist.php` to `fixometer/config/config.php`
 3. Copy `.env.example` to `.env`, and replace the values that are incorrect
-    - (e.g. MAIL_DRIVER)
+    - (e.g. MAIL_MAILER)
     - Ensure that `APP_KEY` is set to the same value as your restarters one.
     - Ensure that the FIXOMETER_* database connections in the `.env` file are set to the **same** database as your restarters one, e.g.:
         - `FIXOMETER_DB_CONNECTION=mysql`
