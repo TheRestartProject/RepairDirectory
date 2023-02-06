@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use Faker\Generator as Faker;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +16,49 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => Str::random(10),
-    ];
-});
+
+
+/** @var LaravelDoctrine\ORM\Testing\Factory $factory */
+
+class UserFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+            'remember_token' => Str::random(10),
+        ];
+    }
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        static $password;
+
+        $createdAt = $this->faker->dateTimeBetween('-10 days');
+
+        $user = [
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => $password ?: $password = bcrypt('secret'),
+            'name' => $this->faker->firstName,
+            'role' => User::GUEST,
+            'recovery' => null,
+            'recoveryExpires' => null,
+            'createdAt' => $createdAt,
+            'modifiedAt' => $createdAt
+        ];
+
+        return $user;
+    }
+}
