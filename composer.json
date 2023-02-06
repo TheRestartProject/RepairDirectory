@@ -28,7 +28,8 @@
         "php-coveralls/php-coveralls": "^2.5",
         "phpoffice/phpspreadsheet": "^1.19",
         "skagarwal/google-places-api": "^1.1",
-        "toin0u/geocoder-laravel": "^4.4.5"
+        "toin0u/geocoder-laravel": "^4.4.5",
+        "laravel/ui": "^2.0"
     },
     "require-dev": {
         "laravel/dusk": "^6.19",
