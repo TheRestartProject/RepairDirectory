@@ -14,20 +14,11 @@ class DuskServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::get('/_dusk/login/{userId}/{guard?}', [
-            'middleware' => 'web',
-            'uses' => 'TheRestartProject\RepairDirectory\Dusk\Http\Controllers\UserController@login',
-        ]);
+        Route::get('/_dusk/login/{userId}/{guard?}', 'TheRestartProject\RepairDirectory\Dusk\Http\Controllers\UserController@login')->middleware('web');
 
-        Route::get('/_dusk/logout/{guard?}', [
-            'middleware' => 'web',
-            'uses' => 'TheRestartProject\RepairDirectory\Dusk\Http\Controllers\UserController@logout',
-        ]);
+        Route::get('/_dusk/logout/{guard?}', 'TheRestartProject\RepairDirectory\Dusk\Http\Controllers\UserController@logout')->middleware('web');
 
-        Route::get('/_dusk/user/{guard?}', [
-            'middleware' => 'web',
-            'uses' => 'TheRestartProject\RepairDirectory\Dusk\Http\Controllers\UserController@user',
-        ]);
+        Route::get('/_dusk/user/{guard?}', 'TheRestartProject\RepairDirectory\Dusk\Http\Controllers\UserController@user')->middleware('web');
     }
 
     /**
