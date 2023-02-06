@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 /*
@@ -13,11 +15,10 @@ use Illuminate\Http\Request;
 |
 */
 Route::prefix('api')
-    ->namespace('Api')
     ->group(function () {
-        Route::get('business/search', 'BusinessController@search')->name('business.search');
-        Route::get('category/list', 'CategoryController@list')->name('category.list');
-        Route::get('suggestion/search', 'SuggestionController@search')->name('suggestion.search');
-        Route::post('suggestion/add', 'SuggestionController@add')->name('suggestion.add');
-        Route::patch('submission/{id}/status/{status}', 'SubmissionController@status')->name('suggestion.status');
+        Route::get('business/search', [Api\BusinessController::class, 'search'])->name('business.search');
+        Route::get('category/list', [Api\CategoryController::class, 'list'])->name('category.list');
+        Route::get('suggestion/search', [Api\SuggestionController::class, 'search'])->name('suggestion.search');
+        Route::post('suggestion/add', [Api\SuggestionController::class, 'add'])->name('suggestion.add');
+        Route::patch('submission/{id}/status/{status}', [Api\SubmissionController::class, 'status'])->name('suggestion.status');
     });
