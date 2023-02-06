@@ -33,19 +33,7 @@ metrics stream measured by PHP Depend.
 To run a Mess Detection test across the project you can use
 
     composer run-script mess
-    
-## Copy-Paste Detection
-
-> Duplicate code is almost always evidence of a design flaw. 
-Therefore you should also check for duplicate code within 
-your project. PHP Copy/Paste Detection 
-(PHPCPD, https://github.com/sebastianbergmann/phpcpd) 
-allows you to do just that.
-
-You can run Copy-Paste Detection by using this command
-
-    composer run-script copypaste
-    
+     
 ## Static Analysis (PHPStan)
 
 > PHPStan focuses on finding errors in your code without actually 
