@@ -36,7 +36,7 @@ class FixometerSessionFactory extends Factory
 
         return [
             'session' => $this->faker->unique()->lexify('?????????????'),
-            'user' => $this->faker->randomDigitNotNull,
+            'user' => $this->faker->randomDigitNotNull(),
             'createdAt' => $createdAt,
             'modifiedAt' => $createdAt
         ];

@@ -35,8 +35,8 @@ class SuggestionFactory extends Factory
     public function definition()
     {
         return [
-            'field' => $this->faker->word,
-            'value' => $this->faker->word,
+            'field' => $this->faker->word(),
+            'value' => $this->faker->word(),
         ];
     }
 }
