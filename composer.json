@@ -28,8 +28,7 @@
         "phpoffice/phpspreadsheet": "^1.19",
         "skagarwal/google-places-api": "^1.7",
         "toin0u/geocoder-laravel": "^4.4.5",
-        "laravel/ui": "^3.0",
-        "fruitcake/laravel-cors": "^2.0"
+        "laravel/ui": "^3.0"
     },
     "require-dev": {
         "laravel/dusk": "^6.19",
