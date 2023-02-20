@@ -37,25 +37,25 @@ class BusinessFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->company,
-            'address' => $this->faker->unique()->address,
-            'postcode' => $this->faker->postcode,
-            'city' => $this->faker->city,
-            'description' => $this->faker->sentence,
+            'name' => $this->faker->company(),
+            'address' => $this->faker->unique()->address(),
+            'postcode' => $this->faker->postcode(),
+            'city' => $this->faker->city(),
+            'description' => $this->faker->sentence(),
             'geolocation' => new Point($this->faker->randomFloat(), $this->faker->randomFloat()),
             'categories' => ['Fan'],
             'publishingStatus' => PublishingStatus::DRAFT,
             'warrantyOffered' => true,
-            'warranty' => $this->faker->sentence,
+            'warranty' => $this->faker->sentence(),
             'positiveReviewPc' => 80,
             'localArea' => $this->faker->words(2, true),
             'landline' => '077657784333',
             'mobile' => '077657784333',
-            'website' => $this->faker->url,
-            'email' => $this->faker->companyEmail,
-            'qualifications' => $this->faker->sentence,
-            'communityEndorsement' => $this->faker->sentence,
-            'notes' => $this->faker->sentence
+            'website' => $this->faker->url(),
+            'email' => $this->faker->companyEmail(),
+            'qualifications' => $this->faker->sentence(),
+            'communityEndorsement' => $this->faker->sentence(),
+            'notes' => $this->faker->sentence()
         ];
     }
 
@@ -92,24 +92,24 @@ class BusinessFactory extends Factory
     {
         return $this->state(function () {
             return [
-                'name' => $this->faker->company,
+                'name' => $this->faker->company(),
                 'address' => '12 Westgate St, Bath',
                 'postcode' => 'BA1 1EQ',
                 'city' => 'Bath',
-                'description' => $this->faker->sentence,
+                'description' => $this->faker->sentence(),
                 'categories' => ['Fan'],
                 'publishingStatus' => PublishingStatus::DRAFT,
                 'warrantyOffered' => true,
-                'warranty' => $this->faker->sentence,
+                'warranty' => $this->faker->sentence(),
                 'positiveReviewPc' => 80,
                 'localArea' => $this->faker->words(2, true),
                 'landline' => '077657784333',
                 'mobile' => '077657784333',
-                'website' => $this->faker->domainName,
-                'email' => $this->faker->companyEmail,
-                'qualifications' => $this->faker->sentence,
-                'communityEndorsement' => $this->faker->sentence,
-                'notes' => $this->faker->sentence
+                'website' => $this->faker->domainName(),
+                'email' => $this->faker->companyEmail(),
+                'qualifications' => $this->faker->sentence(),
+                'communityEndorsement' => $this->faker->sentence(),
+                'notes' => $this->faker->sentence()
             ];
         });
     }

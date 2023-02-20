@@ -30,8 +30,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
             'remember_token' => Str::random(10),
         ];
@@ -49,9 +49,9 @@ class UserFactory extends Factory
         $createdAt = $this->faker->dateTimeBetween('-10 days');
 
         $user = [
-            'email' => $this->faker->unique()->safeEmail,
+            'email' => $this->faker->unique()->safeEmail(),
             'password' => $password ?: $password = bcrypt('secret'),
-            'name' => $this->faker->firstName,
+            'name' => $this->faker->firstName(),
             'role' => User::GUEST,
             'recovery' => null,
             'recoveryExpires' => null,
