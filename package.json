@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@hapi/cryptiles": "^4.2.0",
-    "@hapi/hoek": "^8.1.0",
+    "@hapi/hoek": "^9.0.4",
     "atob": "^2.1.0",
     "bootstrap-vue": "^2.21.2",
     "debug": "^2.6.9",
