@@ -19,7 +19,7 @@ class GravityFormsSubmissionsRetriever
         $this->submissionsFormId = config('gravityforms.submissions_form_id');
 
         $this->client = new Client([
-            'base_uri' => 'https://therestartproject.org/wp-json/gf/v2/',
+            'base_uri' => 'https://londonrepairs.org/wp-json/gf/v2/',
             'headers' => [
                 'Authorization' => 'Basic ' . base64_encode( "{$this->consumerKey}:{$this->consumerSecret}" )
             ]
