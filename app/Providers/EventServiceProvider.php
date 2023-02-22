@@ -25,8 +25,18 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        parent::boot();
 
         //
     }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return false;
+    }
 }
+

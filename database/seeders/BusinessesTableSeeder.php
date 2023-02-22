@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use TheRestartProject\RepairDirectory\Domain\Enums\Category;
 use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;

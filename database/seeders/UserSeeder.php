@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use TheRestartProject\Fixometer\Domain\Entities\User;
 

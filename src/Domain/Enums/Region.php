@@ -98,18 +98,13 @@ class Region extends Enum
             Category::FURNITURE_UPHOLSTERY,
         ],
         self::REUSE_UK => [
-            Category::APPLE_IPHONE,
-            Category::APPLE_IPAD,
             Category::DESKTOP,
             Category::FLAT_SCREEN,
             Category::LAPTOP,
             Category::MOBILE,
-            Category::NINTENDO_CONSOLE,
             Category::PC_ACCESSORY,
-            Category::PLAYSTATION_CONSOLE,
             Category::PRINTER_SCANNER,
             Category::TABLET,
-            Category::XBOX_CONSOLE,
         ],
     ];
 
