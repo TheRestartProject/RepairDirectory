@@ -18,17 +18,18 @@
         "laravel-mix-bundle-analyzer": "^1.0.5",
         "lodash": "^4.17.21",
         "popper.js": "^1.12",
+        "postcss": "^8.2.8",
         "resolve-url-loader": "^2.3.1",
-        "sass": "^1.16.1",
-        "sass-loader": "^7.1.0",
+        "sass": "^1.56.1",
+        "sass-loader": "^12.6.0",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.12",
-        "webpack-shell-plugin": "^0.5.0",
-        "postcss": "^8.2.8"
+        "webpack-shell-plugin-next": "^2.3.1"
     },
     "dependencies": {
         "@hapi/cryptiles": "^4.2.0",
         "@hapi/hoek": "^8.1.0",
+        "add": "^2.0.6",
         "atob": "^2.1.0",
         "bootstrap-vue": "^2.21.2",
         "debug": "^2.6.9",
@@ -36,6 +37,7 @@
         "lang.js": "^1.1.14",
         "macaddress": "^0.2.9",
         "randomatic": "^3.0.0",
-        "url-parse": "^1.5.0"
+        "url-parse": "^1.5.0",
+        "vue-loader": "^15.10.1"
     }
 }
