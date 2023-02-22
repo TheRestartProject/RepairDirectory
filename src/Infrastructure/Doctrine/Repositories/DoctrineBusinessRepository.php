@@ -51,7 +51,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
 
         if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, ST_AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
             LEFT JOIN areas ON b.local_area = areas.uid;";
 
             $query = $this->entityManager->createNativeQuery(
@@ -63,7 +63,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
             // assigned.
             //
             // "Within a region" means that the geolocation of the business is inside the polygon of the region.
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, ST_AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
             INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)        
             INNER JOIN users_regions ON regions.uid = users_regions.region
             LEFT JOIN areas ON b.local_area = areas.uid
@@ -101,7 +101,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
 
         if ($seeall || $user->isSuperAdmin()) {
             // If we are a superadmin we can see all businesses.
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, ST_AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
                 LEFT JOIN areas ON b.local_area = areas.uid WHERE b.uid = " . intval($uid);
 
             $query = $this->entityManager->createNativeQuery(
@@ -109,7 +109,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
                 $rsm
             );
         } else {
-            $sql = "SELECT b.*, AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
+            $sql = "SELECT b.*, ST_AsText(b.geolocation) AS geolocation, areas.uid AS local_area FROM businesses b
                 INNER JOIN regions ON ST_Contains(regions.polygon, b.geolocation)
                 INNER JOIN users_regions ON regions.uid = users_regions.region
                 LEFT JOIN areas ON b.local_area = areas.uid
@@ -154,7 +154,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b0_');
 
-        $sql = "SELECT *, AsText(b0_.geolocation) AS geolocation FROM businesses b0_
+        $sql = "SELECT *, ST_AsText(b0_.geolocation) AS geolocation FROM businesses b0_
                 WHERE
                   MBRContains(
                     LineString(
