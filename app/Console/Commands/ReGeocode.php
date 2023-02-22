@@ -8,21 +8,21 @@ use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 
-class GeocodeCheck extends Command
+class ReGeocode extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'geocode:check';
+    protected $signature = 'geocode:refresh';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Check business addresses to see if they geocode';
+    protected $description = 'Re-gecode all businesses ';
 
     /**
      * Create a new command instance.
@@ -32,6 +32,36 @@ class GeocodeCheck extends Command
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * From https://stackoverflow.com/questions/10053358/measuring-the-distance-between-two-coordinates-in-php with
+     * thanks.
+     *
+     * Calculates the great-circle distance between two points, with
+     * the Haversine formula.
+     * @param float $latitudeFrom Latitude of start point in [deg decimal]
+     * @param float $longitudeFrom Longitude of start point in [deg decimal]
+     * @param float $latitudeTo Latitude of target point in [deg decimal]
+     * @param float $longitudeTo Longitude of target point in [deg decimal]
+     * @param float $earthRadius Mean earth radius in [m]
+     * @return float Distance between points in [m] (same as earthRadius)
+     */
+    function haversineGreatCircleDistance(
+        $latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000)
+    {
+        // convert from degrees to radians
+        $latFrom = deg2rad($latitudeFrom);
+        $lonFrom = deg2rad($longitudeFrom);
+        $latTo = deg2rad($latitudeTo);
+        $lonTo = deg2rad($longitudeTo);
+
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+
+        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+                               cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+        return $angle * $earthRadius;
     }
 
     /**
@@ -73,6 +103,7 @@ class GeocodeCheck extends Command
             foreach ($businesses as $business) {
                 $count++;
                 $address = "{$business->getAddress()},{$business->getCity()},{$business->getLocalAreaName()},{$business->getPostcode()}";
+//                $address = "{$business->getPostcode()}, {$business->getCity()}";
                 $point = $geocoder->geocode($address, $business->getPostcode());
 
                 if (!$point) {
@@ -81,7 +112,15 @@ class GeocodeCheck extends Command
                     $this->error("{$business->getUid()} can't geocode $address");
                     $invalid++;
                 } else {
-                    #$this->info("{$business->getUid()} geocoded $address to " . $point->getLatitude() . "," . $point->getLongitude());
+                    $geolocation = $business->getGeolocation();
+
+                    $dist = round($this->haversineGreatCircleDistance($geolocation->getLatitude(), $geolocation->getLongitude(), $point->getLatitude(), $point->getLongitude()));
+                    $this->info("{$business->getUid()} geocoded $address to " . $point->getLatitude() . "," . $point->getLongitude()) . " distance $dist";
+
+                    if ($dist > 500) {
+                        $this->error("{$business->getUid()} was {$geolocation->getLatitude()}, {$geolocation->getLongitude()} geocoded $address to {$point->getLatitude()},{$point->getLongitude()} distance {$dist}m");
+                        $invalid++;
+                    }
                 }
             }
         } else {

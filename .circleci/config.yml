@@ -54,7 +54,7 @@ jobs:
       - run: sed -i 's/HONEYPOT_DISABLE=.*$/HONEYPOT_DISABLE=TRUE/g' .env
 
       # Add in private values.
-      - run: sudo sed -ie "s/GOOGLE_MAPS_API_KEY=zzz/GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY/g" .env
+      - run: sudo sed -ie "s/MAPBOX_TOKEN=zzz/MAPBOX_TOKEN=$MAPBOX_TOKEN/g" .env
       - run: sudo sed -ie "s/GRAVITYFORMS_KEY=zzz/GRAVITYFORMS_KEY=$GRAVITYFORMS_KEY/g" .env
       - run: sudo sed -ie "s/GRAVITYFORMS_SECRET=zzz/GRAVITYFORMS_SECRET=$GRAVITYFORMS_SECRET/g" .env
       - run: sudo sed -ie "s/GRAVITYFORMS_SUBMISSION_FORM_ID=zzz/GRAVITYFORMS_SUBMISSION_FORM_ID=$GRAVITYFORMS_SUBMISSION_FORM_ID/g" .env

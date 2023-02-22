@@ -149,7 +149,7 @@ class ImportBusinessesSpreadsheet extends Command
                         $point = null;
 
                         try {
-                            $point = $geocoder->geocode("$address,$city,$borough,$postcode");
+                            $point = $geocoder->geocode("$address,$city,$borough,$postcode", $postcode);
 
                             if ($point && ($point->getLatitude() < $swlat || $point->getLatitude() > $nelat || $point->getLongitude() < $swlng || $point->getLongitude() > $nelng)) {
                                 // The address doesn't geocode.  Log an error, with the expectation that the spreadsheet
