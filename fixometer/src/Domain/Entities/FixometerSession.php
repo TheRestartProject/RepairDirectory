@@ -2,6 +2,8 @@
 
 namespace TheRestartProject\Fixometer\Domain\Entities;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * Entity to represent the Fixometer Session table
  *
@@ -13,6 +15,8 @@ namespace TheRestartProject\Fixometer\Domain\Entities;
  */
 class FixometerSession
 {
+    use HasFactory;
+
     /**
      * Unique id for the session
      *

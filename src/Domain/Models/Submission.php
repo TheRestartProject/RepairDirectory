@@ -75,10 +75,10 @@ class Submission
         $this->externalId = $submissionData->id;
         $this->businessName = $submissionData->{'1'};
         $this->businessWebsite = $submissionData->{'5'};
-        $this->businessBorough = $submissionData->{'2'};
-        $this->reviewSource = $submissionData->{'3'};
-        $this->extraInfo = $submissionData->{'4'};
-        $this->submittedByEmployee = $submissionData->{'6'};
+        $this->businessBorough = $submissionData->{'3'};
+        $this->reviewSource = $submissionData->{'6'};
+        $this->extraInfo = $submissionData->{'7'};
+        $this->submittedByEmployee = $submissionData->{'8'};
         $this->createdAt = new \DateTime($submissionData->date_created);
     }
 

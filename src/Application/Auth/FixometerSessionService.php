@@ -93,6 +93,16 @@ class FixometerSessionService implements Session
     }
 
     /**
+     * Set the name of the session.
+     *
+     * @param $name
+     * @return void
+     */
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    /**
      * Get the current session ID.
      *
      * @return string
@@ -172,6 +182,11 @@ class FixometerSessionService implements Session
         // TODO: Implement has() method.
     }
 
+    public function pull($key, $default = null)
+    {
+        // TODO: Implement pull() method.
+    }
+
     /**
      * Get an item from the session.
      *
@@ -243,6 +258,23 @@ class FixometerSessionService implements Session
     public function token()
     {
         return '';
+    }
+
+    public function regenerateToken() {
+        // TODO regenerate CSRF
+    }
+
+    public function regenerate($destroy = false) {
+        if ($destroy) {
+            session_destroy();
+            session_start();
+        }
+
+        $_SESSION[APPNAME][SESSIONKEY] = Str::random(45);
+    }
+
+    public function invalidate() {
+        // TODO invalidate session
     }
 
     /**
