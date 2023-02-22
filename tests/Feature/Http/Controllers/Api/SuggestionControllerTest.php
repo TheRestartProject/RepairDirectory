@@ -2,7 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Tests\Feature\Http\Controllers\Api;
 
-use SuggestionsTableSeeder;
+
+use Database\Seeders\SuggestionsTableSeeder;
 use TheRestartProject\RepairDirectory\Testing\DatabaseMigrations;
 use TheRestartProject\RepairDirectory\Tests\IntegrationTestCase;
 

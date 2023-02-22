@@ -2,6 +2,8 @@
 
 namespace TheRestartProject\RepairDirectory\Domain\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * Class Suggestion
  *
@@ -15,6 +17,8 @@ namespace TheRestartProject\RepairDirectory\Domain\Models;
  */
 class Suggestion
 {
+    use HasFactory;
+
     private $uid;
     private $field;
     private $value;

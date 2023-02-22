@@ -8,39 +8,40 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2|^8.0",
-        "fideloper/proxy": "^4.4",
-        "guzzlehttp/guzzle": "^6.0",
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.2",
         "laracasts/utilities": "^3.2",
-        "laravel-doctrine/migrations": "^2.0",
-        "laravel-doctrine/orm": "1.5.*",
-        "laravel/framework": "^6.20",
-        "laravel/tinker": "^2.5",
+        "laravel-doctrine/migrations": "^3.0",
+        "laravel-doctrine/orm": "^1.8",
+        "laravel/framework": "^9.51",
+        "laravel/tinker": "^2.7",
+        "laravel/ui": "^3.3",
         "league/csv": "^9.7",
         "league/event": "^2.1",
         "league/tactician": "^1.0",
         "league/tactician-container": "^2.0",
         "league/tactician-doctrine": "^1.1",
         "league/tactician-logger": "^0.10.0",
-        "mariuzzo/laravel-js-localization": "^1.8",
+        "mariuzzo/laravel-js-localization": "^1.9",
         "myclabs/php-enum": "^1.5",
         "paquettg/php-html-parser": "^1.7",
         "php-coveralls/php-coveralls": "^2.5",
         "phpoffice/phpspreadsheet": "^1.19",
-        "skagarwal/google-places-api": "^1.1",
-        "toin0u/geocoder-laravel": "^4.4.5"
+        "skagarwal/google-places-api": "^2.0",
+        "symfony/http-client": "^6.2",
+        "symfony/mailgun-mailer": "^6.2",
+        "toin0u/geocoder-laravel": "^4.5"
     },
     "require-dev": {
-        "laravel/dusk": "^6.19",
-        "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^3.0",
+        "laravel/dusk": "^6.21",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^6.3",
         "phpmd/phpmd": "^2.6",
-        "phpstan/phpstan": "^0.10.5",
-        "phpunit/phpunit": "^8.5.8|^9.3.3",
-        "sebastian/phpcpd": "^4.0",
+        "phpstan/phpstan": "^1.0",
+        "phpunit/phpunit": "^9.5.10",
         "squizlabs/php_codesniffer": "^3.6",
         "fakerphp/faker": "^1.9.1",
-        "facade/ignition": "^1.16.4"
+        "spatie/laravel-ignition": "^1.4"
     },
     "autoload": {
         "classmap": [
@@ -49,7 +50,9 @@
         "psr-4": {
             "App\\": "app/",
             "TheRestartProject\\RepairDirectory\\": "src/",
-            "TheRestartProject\\Fixometer\\": "fixometer/src/"
+            "TheRestartProject\\Fixometer\\": "fixometer/src/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
@@ -106,13 +109,19 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     },
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
         "optimize-autoloader": true,
-        "bin-dir": "vendor/bin"
+        "bin-dir": "vendor/bin",
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "extra": {
         "laravel": {
