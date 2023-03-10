@@ -72,16 +72,15 @@ class GeocodeCheck extends Command
         if ($businesses) {
             foreach ($businesses as $business) {
                 $count++;
-                $address = "{$business->getAddress()},{$business->getCity()},{$business->getLocalAreaName()},{$business->getPostcode()}";
-                $point = $geocoder->geocode($address, $business->getPostcode());
+                $point = $geocoder->geocode($business->getPostcode());
 
                 if (!$point) {
                     // The address doesn't geocode.  Log an error, with the expectation that the spreadsheet
                     // will then get fixed.
-                    $this->error("{$business->getUid()} can't geocode $address");
+                    $this->error("{$business->getUid()} can't geocode {$business->getPostcode()}");
                     $invalid++;
                 } else {
-                    #$this->info("{$business->getUid()} geocoded $address to " . $point->getLatitude() . "," . $point->getLongitude());
+                    #$this->info("{$business->getUid()} geocoded {$business->getPostcode()} to " . $point->getLatitude() . "," . $point->getLongitude());
                 }
             }
         } else {

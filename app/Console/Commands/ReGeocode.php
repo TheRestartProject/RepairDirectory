@@ -102,9 +102,8 @@ class ReGeocode extends Command
         if ($businesses) {
             foreach ($businesses as $business) {
                 $count++;
-                $address = "{$business->getAddress()},{$business->getCity()},{$business->getLocalAreaName()},{$business->getPostcode()}";
-//                $address = "{$business->getPostcode()}, {$business->getCity()}";
-                $point = $geocoder->geocode($address, $business->getPostcode());
+                $address = "{$business->getPostcode()}";
+                $point = $geocoder->geocode($address);
 
                 if (!$point) {
                     // The address doesn't geocode.  Log an error, with the expectation that the spreadsheet
@@ -115,7 +114,7 @@ class ReGeocode extends Command
                     $geolocation = $business->getGeolocation();
 
                     $dist = round($this->haversineGreatCircleDistance($geolocation->getLatitude(), $geolocation->getLongitude(), $point->getLatitude(), $point->getLongitude()));
-                    $this->info("{$business->getUid()} geocoded $address to " . $point->getLatitude() . "," . $point->getLongitude()) . " distance $dist";
+                    #$this->info("{$business->getUid()} geocoded $address to " . $point->getLatitude() . "," . $point->getLongitude()) . " distance $dist";
 
                     if ($dist > 500) {
                         $this->error("{$business->getUid()} was {$geolocation->getLatitude()}, {$geolocation->getLongitude()} geocoded $address to {$point->getLatitude()},{$point->getLongitude()} distance {$dist}m");

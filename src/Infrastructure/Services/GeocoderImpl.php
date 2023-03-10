@@ -6,6 +6,7 @@ use Geocoder\Exception\ChainNoResult;
 use Geocoder\Laravel\ProviderAndDumperAggregator;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
+use Geocoder\Query\GeocodeQuery;
 
 /**
  * Implements the Geocoder domain interface using the Laravel Geocoder library.
@@ -39,27 +40,16 @@ class GeocoderImpl implements Geocoder
     /**
      * Find the [lat, lng] of a business
      *
-     * @param string $address The address to geolocate
+     * @param string $address The address to geolocate.  Generally this should be a postcode, since geocoders other
+     * than Google are not very good at handling the more flexible address formats.
      *
      * @return Point|null The location of the address, or null if not found
      */
-    public function geocode($address, $postcode = null)
+    public function geocode($address)
     {
         try {
-            $geocodeResponse = $this->geocoder->geocode($address);
+            $geocodeResponse = $this->geocoder->geocodeQuery(GeocodeQuery::create($address)->withData('location_type', 'postcode'));
             $addressCollection = $geocodeResponse->get();
-
-            if ($postcode) {
-                // Try to find an address which contains the postcode.  Mapbox's geocoder doesn't always return the
-                // right value in the first entry.
-                foreach ($addressCollection as $result) {
-                    if ($result->getPostalCode() == $postcode) {
-                        return new Point($result->getCoordinates()->getLatitude(), $result->getCoordinates()->getLongitude());
-                    }
-                }
-            }
-
-            // We didn't find an exact postcocde match, so just return the first result.
             $address = $addressCollection->get(0);
             if ($address) {
                 return new Point($address->getCoordinates()->getLatitude(), $address->getCoordinates()->getLongitude());
@@ -67,6 +57,7 @@ class GeocoderImpl implements Geocoder
         } catch (ChainNoResult $e) {
             return null;
         }
+
         return null;
     }
 }

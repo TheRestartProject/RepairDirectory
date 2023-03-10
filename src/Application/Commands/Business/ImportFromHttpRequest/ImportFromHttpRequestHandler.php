@@ -106,7 +106,7 @@ class ImportFromHttpRequestHandler
         $business->setUpdatedAt(new \DateTime("now"));
 
         // We need to re-geocode the address in case it's changed.
-        $point = $this->geocoder->geocode($business->getAddress() . "," . $business->getCity() . "," . $business->getPostcode(), $business->getPostcode());
+        $point = $this->geocoder->geocode($business->getPostcode());
 
         if ($point) {
             $business->setGeolocation($point);

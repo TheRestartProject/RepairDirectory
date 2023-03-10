@@ -117,7 +117,7 @@ class ImportFromHttpRequestFactory
     protected function geocodeData($data)
     {
         if (!isset($data['geolocation']) && isset($data['address'], $data['postcode'])) {
-            $point = $this->geocoder->geocode($data['address'] . ', ' . $data['postcode'], $data['postcode']);
+            $point = $this->geocoder->geocode($data['postcode']);
 
             if ($point) {
                 $data['geolocation'] = [
