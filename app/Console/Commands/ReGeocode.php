@@ -102,7 +102,16 @@ class ReGeocode extends Command
         if ($businesses) {
             foreach ($businesses as $business) {
                 $count++;
-                $address = "{$business->getPostcode()}";
+                $address = $business->getPostcode();
+
+                if ($address == 'N23 6HL') {
+                    $address = '13 Market Street, Ebbw Vale NP23 6HL';
+                } else if ($address == 'EC1 Y8QP' || $address == 'EC1Y8QP') {
+                    $address = '195 Whitecross Street, London, EC1Y 8QP';
+                } else if ($address == 'W1T 1BZ') {
+                    $address = '38 Tottenham Court Road, London, W1T 1BZ';
+                }
+
                 $point = $geocoder->geocode($address);
 
                 if (!$point) {
@@ -119,6 +128,8 @@ class ReGeocode extends Command
                     if ($dist > 500) {
                         $this->error("{$business->getUid()} was {$geolocation->getLatitude()}, {$geolocation->getLongitude()} geocoded $address to {$point->getLatitude()},{$point->getLongitude()} distance {$dist}m");
                         $invalid++;
+                    } else {
+                        $business->setGeolocation($point);
                     }
                 }
             }
