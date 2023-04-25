@@ -59,13 +59,13 @@ return [
                 'nullable' => true
             ],
             'categories' => [
-                'type' => 'array'
+                'type' => 'json'
             ],
             'productsRepaired' => [
-                'type' => 'array'
+                'type' => 'json'
             ],
             'authorisedBrands' => [
-                'type' => 'array'
+                'type' => 'json'
             ],
             'communityEndorsement' => [
                 'type' => 'string',
