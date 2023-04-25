@@ -34,8 +34,9 @@ class BusinessController extends Controller
         $this->submissionsRetriever = new GravityFormsSubmissionsRetriever();
     }
 
-    public function edit($id, BusinessRepository $repository, DoctrineUserRepository $userRepository)
+    public function edit(Request $request, BusinessRepository $repository, DoctrineUserRepository $userRepository)
     {
+        $id = $request->route('id');
         $business = $id ? $repository->findBusinessForUser($id, Auth::user()) : new Business();
 
         if (!$business) {
