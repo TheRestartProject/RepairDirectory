@@ -23,10 +23,13 @@ class BusinessController extends Controller
         $criteria = Region::CRITERIA[$region];
         
         if ($category) {
+            // The categories field is JSON-encoded, so any forward slash will be escaped.  We need to escape it here
+            // so that the LIKE matches.  But we can't add a \ as that then confuses Doctrine.  So use the single
+            // character wildcard, so that we will match \/ in the field.
             $criteria[] = [
                 'field' => 'categories',
                 'operator' => Operators::CONTAINS,
-                'value' => $category
+                'value' => str_replace('/', '_/', $category)
             ];
         }
 
