@@ -84,6 +84,26 @@ class BusinessControllerTest extends IntegrationTestCase
                 ]
             ]
         );
+
+        $response = $this->get(
+            route(
+                'business.search',
+                [
+                    'category' => Category::MOBILE
+                ]
+            )
+        );
+        $response->assertStatus(200);
+        $response->assertJson(
+            [
+                'searchLocation' => null,
+                'businesses' => [
+                    [
+                        'uid' => 3
+                    ]
+                ]
+            ]
+        );
     }
 
     /**
