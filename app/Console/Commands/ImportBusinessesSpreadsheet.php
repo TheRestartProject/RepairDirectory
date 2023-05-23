@@ -149,12 +149,12 @@ class ImportBusinessesSpreadsheet extends Command
                         $point = null;
 
                         try {
-                            $point = $geocoder->geocode("$address,$city,$borough,$postcode");
+                            $point = $geocoder->geocode($postcode);
 
                             if ($point && ($point->getLatitude() < $swlat || $point->getLatitude() > $nelat || $point->getLongitude() < $swlng || $point->getLongitude() > $nelng)) {
                                 // The address doesn't geocode.  Log an error, with the expectation that the spreadsheet
                                 // will then get fixed.
-                                $this->error("$name address $address geocodes to invalid lat/lng " . $point->getLatitude() . "," . $point->getLongitude());
+                                $this->error("$name address $postcode geocodes to invalid lat/lng " . $point->getLatitude() . "," . $point->getLongitude());
                                 $point = null;
                             }
                         } catch (\Exception $e) {

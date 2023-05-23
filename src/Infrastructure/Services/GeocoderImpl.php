@@ -6,6 +6,7 @@ use Geocoder\Exception\ChainNoResult;
 use Geocoder\Laravel\ProviderAndDumperAggregator;
 use TheRestartProject\RepairDirectory\Domain\Models\Point;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
+use Geocoder\Query\GeocodeQuery;
 
 /**
  * Implements the Geocoder domain interface using the Laravel Geocoder library.
@@ -39,14 +40,15 @@ class GeocoderImpl implements Geocoder
     /**
      * Find the [lat, lng] of a business
      *
-     * @param string $address The address to geolocate
+     * @param string $address The address to geolocate.  Generally this should be a postcode, since geocoders other
+     * than Google are not very good at handling the more flexible address formats.
      *
      * @return Point|null The location of the address, or null if not found
      */
     public function geocode($address)
     {
         try {
-            $geocodeResponse = $this->geocoder->geocode($address);
+            $geocodeResponse = $this->geocoder->geocodeQuery(GeocodeQuery::create($address)->withData('location_type', 'postcode'));
             $addressCollection = $geocodeResponse->get();
             $address = $addressCollection->get(0);
             if ($address) {
@@ -55,6 +57,7 @@ class GeocoderImpl implements Geocoder
         } catch (ChainNoResult $e) {
             return null;
         }
+
         return null;
     }
 }
