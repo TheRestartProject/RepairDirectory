@@ -17,8 +17,8 @@ class BasicAuth
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
         $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
         if ($has_supplied_credentials) {
-            header('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $AUTH_USER);
-            header('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $AUTH_PASS);
+            error_log('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $AUTH_USER);
+            error_log('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $AUTH_PASS);
         }
 
         $is_not_authenticated = (
@@ -26,7 +26,7 @@ class BasicAuth
             $_SERVER['PHP_AUTH_USER'] != $AUTH_USER ||
             $_SERVER['PHP_AUTH_PW']   != $AUTH_PASS
         );
-        header('X-Not-Auth: '. $is_not_authenticated);
+        error_log('X-Not-Auth: '. $is_not_authenticated);
 
         if ($is_not_authenticated) {
             header('HTTP/1.1 401 Authorization Required');
