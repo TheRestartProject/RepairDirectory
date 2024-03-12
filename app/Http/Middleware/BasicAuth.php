@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 use Closure;
+
 class BasicAuth
 {
     /**
@@ -12,19 +13,34 @@ class BasicAuth
      */
     public function handle($request, Closure $next)
     {
-        $AUTH_USER = config('auth.BASIC_AUTH_USER');
-        $AUTH_PASS = config('auth.BASIC_AUTH_PASS');
+        $user = null;
+        $pass = null;
+
+        try {
+            $config = new Platformsh\ConfigReader\Config();
+
+            if (!$config->isValidPlatform()) {
+                die("Not in a Platform.sh Environment.");
+            }
+
+            $user = $config->credentials('BASIC_AUTH_USER');
+            $pass = $config->credentials('BASIC_AUTH_PASS');
+            error_log("Passed basic auth user and pass " . $user . " " . $pass);
+        } catch (\Exception $e) {
+            error_log("No basic auth user and pass");
+        }
+
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
         $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
         if ($has_supplied_credentials) {
-            error_log('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $AUTH_USER);
-            error_log('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $AUTH_PASS);
+            error_log('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $user);
+            error_log('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $pass);
         }
 
         $is_not_authenticated = (
             !$has_supplied_credentials ||
-            $_SERVER['PHP_AUTH_USER'] != $AUTH_USER ||
-            $_SERVER['PHP_AUTH_PW']   != $AUTH_PASS
+            $_SERVER['PHP_AUTH_USER'] != $user ||
+            $_SERVER['PHP_AUTH_PW']   != $pass
         );
         error_log('X-Not-Auth: '. $is_not_authenticated);
 
