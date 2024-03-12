@@ -21,8 +21,6 @@ try {
     ];
 }
 
-echo "Using database: " . json_encode($creds) . "\n";
-
 return [
 
     /*
