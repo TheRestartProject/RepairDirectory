@@ -23,8 +23,8 @@ class BasicAuth
                 die("Not in a Platform.sh Environment.");
             }
 
-            $user = $config->credentials('BASIC_AUTH_USER');
-            $pass = $config->credentials('BASIC_AUTH_PASS');
+            $user = $config->variable('BASIC_AUTH_USER', '');
+            $pass = $config->variable('BASIC_AUTH_PASS', '');
             error_log("Passed basic auth user and pass " . $user . " " . $pass);
         } catch (\Exception $e) {
             error_log("No basic auth user and pass " . $e->getMessage());
