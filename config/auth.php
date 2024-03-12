@@ -1,5 +1,19 @@
 <?php
 
+try {
+    $config = new Platformsh\ConfigReader\Config();
+
+    if (!$config->isValidPlatform()) {
+        die("Not in a Platform.sh Environment.");
+    }
+
+    $user = $config->credentials('BASIC_AUTH_USER');
+    $pass = $config->credentials('BASIC_AUTH_PASS');
+} catch (Exception $e) {
+    $user = null;
+    $pass = null;
+}
+
 return [
 
     /*
@@ -114,4 +128,6 @@ return [
 
     'password_timeout' => 10800,
 
+    'BASIC_AUTH_USER' => $user,
+    'BASIC_AUTH_PASS' => $pass,
 ];

@@ -12,8 +12,8 @@ class BasicAuth
      */
     public function handle($request, Closure $next)
     {
-        $AUTH_USER = 'admin';
-        $AUTH_PASS = 'admin';
+        $AUTH_USER = config('auth.BASIC_AUTH_USER');
+        $AUTH_PASS = config('auth.BASIC_AUTH_PASS');
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
         $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
         $is_not_authenticated = (
