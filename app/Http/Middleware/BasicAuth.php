@@ -16,8 +16,12 @@ class BasicAuth
         $AUTH_PASS = config('auth.BASIC_AUTH_PASS');
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
         $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
-        echo $_SERVER['PHP_AUTH_USER'] . " vs " . $AUTH_USER . "\n";
-        echo $_SERVER['PHP_AUTH_PW'] . " vs " . $AUTH_PASS . "\n";
+        if ($has_supplied_credentials) {
+            echo $_SERVER['PHP_AUTH_USER'] . " vs " . $AUTH_USER . "\n";
+            echo $_SERVER['PHP_AUTH_PW'] . " vs " . $AUTH_PASS . "\n";
+        } else {
+            echo "No basic auth credentials provided\n";
+        }
         $is_not_authenticated = (
             !$has_supplied_credentials ||
             $_SERVER['PHP_AUTH_USER'] != $AUTH_USER ||
