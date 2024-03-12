@@ -59,6 +59,7 @@ hooks:
     composer install -n
     npm install
     export NODE_OPTIONS=--max-old-space-size=8192;  npm rebuild node-sass; npm run prod
+    ls -ltra
     echo "Our build process is complete"
 
   deploy: |
