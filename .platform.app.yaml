@@ -54,6 +54,7 @@ hooks:
     set -e
     mkdir env
     cp .env.example .env
+    cp fixometer/config/config.dist.php fixometer/config/config.php
     composer install -n
     npm install
     export NODE_OPTIONS=--max-old-space-size=8192;  npm rebuild node-sass; npm run prod
@@ -68,3 +69,9 @@ web:
     '/':
       root: "public"
       passthru: "/index.php"
+
+crons:
+  # Run Laravel's scheduler every 5 minutes.
+  scheduler:
+    spec: '*/5 * * * *'
+    cmd: 'php artisan schedule:run'
