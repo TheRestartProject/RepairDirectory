@@ -18,7 +18,7 @@ try {
         die("Not in a Platform.sh Environment.");
     }
 
-    $api_key = $config->credentials('GOOGLE_MAPS_API_KEY');
+    $api_key = $config->variable('GOOGLE_MAPS_API_KEY', '');
 } catch (Exception $e) {
     # This can happen during build phase.
     $api_key = '';
