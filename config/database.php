@@ -85,13 +85,11 @@ return [
 
         'fixometer' => [
             'driver' => 'mysql',
-            'url' => null,
-            'host' => env('FIXOMETER_DB_HOST', '127.0.0.1'),
-            'port' => env('FIXOMETER_DB_PORT', '3306'),
-            'database' => env('FIXOMETER_DB_DATABASE', 'forge'),
-            'username' => env('FIXOMETER_DB_USERNAME', 'forge'),
-            'password' => env('FIXOMETER_DB_PASSWORD', ''),
-            'unix_socket' => env('FIXOMETER_DB_SOCKET', ''),
+            'database' => $creds['path'],
+            'username' => $creds['username'],
+            'password' => $creds['password'],
+            'host' => $creds['host'],
+            'port' => $creds['port'],
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
@@ -100,6 +98,7 @@ return [
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                   PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                  PDO::MYSQL_ATTR_COMPRESS => !empty($creds['query']['compression'])
               ]) : [],
         ],
 
