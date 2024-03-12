@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/businesses/{id}', [BusinessController::class, 'view'])->name('map.business.view');
 
 Route::prefix('admin')
-// TODO Disabled authentication for now.
-//    ->middleware('auth')
+    ->middleware('basicAuth')
 //    ->middleware('can:accessAdmin')
     ->group(function () {
         Route::get('/', [Admin\AdminController::class, 'index'])->name('admin.index');
