@@ -27,7 +27,7 @@ class BasicAuth
             $pass = $config->credentials('BASIC_AUTH_PASS');
             error_log("Passed basic auth user and pass " . $user . " " . $pass);
         } catch (\Exception $e) {
-            error_log("No basic auth user and pass");
+            error_log("No basic auth user and pass " . $e->getMessage());
         }
 
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
