@@ -28,11 +28,12 @@ class BasicAuth
             $_SERVER['PHP_AUTH_PW']   != $AUTH_PASS
         );
         echo "Not auth " . $is_not_authenticated . "\n";
-//        if ($is_not_authenticated) {
-//            header('HTTP/1.1 401 Authorization Required');
-//            header('WWW-Authenticate: Basic realm="Access denied"');
-//            exit;
-//        }
+        if ($is_not_authenticated) {
+            header('HTTP/1.1 401 Authorization Required');
+            header('WWW-Authenticate: Basic realm="Access denied"');
+            exit;
+        }
+
         return $next($request);
     }
 }
