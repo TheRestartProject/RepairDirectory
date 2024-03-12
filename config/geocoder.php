@@ -12,7 +12,7 @@
 use Geocoder\Provider\GoogleMaps\GoogleMaps;
 
 try {
-    $config = new Platformsh\ConfigReader\Config();
+    $config = new \Platformsh\ConfigReader\Config();
 
     if (!$config->isValidPlatform()) {
         die("Not in a Platform.sh Environment.");
