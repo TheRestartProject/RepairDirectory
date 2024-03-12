@@ -51,6 +51,7 @@ build:
 
 hooks:
   build: |
+    echo "Executing our build process"
     set -e
     mkdir env
     cp .env.example .env
@@ -58,6 +59,7 @@ hooks:
     composer install -n
     npm install
     export NODE_OPTIONS=--max-old-space-size=8192;  npm rebuild node-sass; npm run prod
+    echo "Our build process is complete"
 
   deploy: |
     set -e
