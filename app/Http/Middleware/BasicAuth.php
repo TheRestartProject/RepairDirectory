@@ -17,17 +17,17 @@ class BasicAuth
         header('Cache-Control: no-cache, must-revalidate, max-age=0');
         $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
         if ($has_supplied_credentials) {
-            echo $_SERVER['PHP_AUTH_USER'] . " vs " . $AUTH_USER . "\n";
-            echo $_SERVER['PHP_AUTH_PW'] . " vs " . $AUTH_PASS . "\n";
-        } else {
-            echo "No basic auth credentials provided\n";
+            header('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $AUTH_USER);
+            header('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $AUTH_PASS);
         }
+
         $is_not_authenticated = (
             !$has_supplied_credentials ||
             $_SERVER['PHP_AUTH_USER'] != $AUTH_USER ||
             $_SERVER['PHP_AUTH_PW']   != $AUTH_PASS
         );
-        echo "Not auth " . $is_not_authenticated . "\n";
+        header('X-Not-Auth: '. $is_not_authenticated);
+
         if ($is_not_authenticated) {
             header('HTTP/1.1 401 Authorization Required');
             header('WWW-Authenticate: Basic realm="Access denied"');
