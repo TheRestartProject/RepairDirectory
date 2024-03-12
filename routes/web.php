@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', [MapController::class, 'index'])->name('map');
 Route::get('/businesses/{id}', [BusinessController::class, 'view'])->name('map.business.view');
 
 Route::prefix('admin')
-    ->middleware('auth')
-    ->middleware('can:accessAdmin')
+// TODO Disabled authentication for now.
+//    ->middleware('auth')
+//    ->middleware('can:accessAdmin')
     ->group(function () {
         Route::get('/', [Admin\AdminController::class, 'index'])->name('admin.index');
         Route::get('business/validate-field', [Admin\BusinessController::class, 'validateField'])->name('admin.business.validate-field');
