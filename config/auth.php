@@ -113,7 +113,4 @@ return [
     */
 
     'password_timeout' => 10800,
-
-    'BASIC_AUTH_USER' => $user,
-    'BASIC_AUTH_PASS' => $pass,
 ];

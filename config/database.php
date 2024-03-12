@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 
 try {
-    $config = new Platformsh\ConfigReader\Config();
+    $config = new \Platformsh\ConfigReader\Config();
 
     if (!$config->isValidPlatform()) {
         die("Not in a Platform.sh Environment.");
