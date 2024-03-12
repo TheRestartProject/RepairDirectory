@@ -9,6 +9,7 @@
     "type": "project",
     "require": {
         "php": "^8.0",
+        "platformsh/config-reader": "^2.4.0",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/utilities": "^3.2",
         "laravel-doctrine/migrations": "^3.0",
@@ -107,11 +108,8 @@
         "copypaste": "php bin/phpcpd src app tests",
         "stan": "php bin/phpstan analyse src tests --level=7 -c phpstan.neon",
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ]
     },
     "config": {
