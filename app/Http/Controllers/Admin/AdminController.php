@@ -11,9 +11,13 @@ class AdminController extends Controller
 {
     public function index(BusinessRepository $repository)
     {
+        error_log('Business index');
         $this->authorize('index', Business::class);
+        error_log('Authorised');
 
         $businesses = $repository->findAll(Auth::user());
+
+        error_log('Found');
 
         return view('admin.index', compact('businesses'));
     }
