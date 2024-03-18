@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // TODO Only using Basic Auth at the moment.
-        error_log("Auth service provider boot");
+
         // Only users set with valid Repair Directory roles (via Restarters)
         // can access the admin section.
         Gate::define('accessAdmin', function ($user) {

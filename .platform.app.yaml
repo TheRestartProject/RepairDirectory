@@ -67,7 +67,7 @@ hooks:
 
   deploy: |
     set -e
-    php artisan migrate
+    php artisan doctrine:migrations:migrate
     echo "Migrated"
 
 web:
