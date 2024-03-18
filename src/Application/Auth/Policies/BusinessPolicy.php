@@ -17,6 +17,7 @@ use TheRestartProject\Fixometer\Domain\Entities\User;
  */
 class BusinessPolicy
 {
+    // TODO Policies hacked out as we are just using basic auth.
     /**
      * Runs before any policy action
      *
@@ -26,6 +27,8 @@ class BusinessPolicy
      */
     public function before(User $user)
     {
+        return true;
+
         if ($this->userIsSuperAdmin($user)) {
             return true;
         }
@@ -41,6 +44,7 @@ class BusinessPolicy
      */
     public function create(User $user)
     {
+        return true;
         return !$this->userIsGuest($user);
     }
 
@@ -53,6 +57,7 @@ class BusinessPolicy
      */
     public function index(User $user)
     {
+        return true;
         return !$this->userIsGuest($user);
     }
 
@@ -69,6 +74,7 @@ class BusinessPolicy
     {
         // If we have publish permission, which is higher, we can update.
         // Otherwise we can update if we are an editor and this business is not yet published.
+        return true;
         return $this->publish($user, $business) ||
             ($user->isEditor() &&
                 ($business->getPublishingStatus() === PublishingStatus::DRAFT ||
@@ -87,6 +93,7 @@ class BusinessPolicy
     public function publish(User $user, Business $business)
     {
         // SuperAdmins and RegionalAdmins can publish.
+        return true;
         return $user->isSuperAdmin() || $user->isRegionalAdmin();
     }
 
@@ -99,6 +106,7 @@ class BusinessPolicy
      */
     public function view(User $user)
     {
+        return true;
         return !$this->userIsGuest($user);
     }
 
@@ -111,6 +119,7 @@ class BusinessPolicy
      */
     protected function userIsSuperAdmin(User $user)
     {
+        return true;
         return $user->isSuperAdmin();
     }
 
@@ -123,6 +132,7 @@ class BusinessPolicy
      */
     protected function userIsGuest(User $user)
     {
+        return false;
         return $user->getRole() === 5;
     }
 
@@ -135,6 +145,7 @@ class BusinessPolicy
      */
     protected function userIsRestarter(User $user)
     {
+        return false;
         return $user->getRole() === 4;
     }
 }

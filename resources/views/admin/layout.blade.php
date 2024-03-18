@@ -40,9 +40,9 @@
                                     @if ( false )
                                         <img src="/uploads/thumbnail_{{ $user->getProfile($user->id)->path }}" alt="{{ $user->getName() }} Profile Picture" class="avatar">
                                     @else
-                                        <img src="{{ asset('/images/placeholder-avatar.png') }}" alt="{{ $user->getName() }} Profile Picture" class="avatar">
+                                        <img src="{{ asset('/images/placeholder-avatar.png') }}" alt="{{ $user ? $user->getName() : 'No user' }} Profile Picture" class="avatar">
                                     @endif
-                                    <span class="user-name">{{ $user->getName() }}</span> <span class="caret"></span>
+                                    <span class="user-name">{{ $user ? $user->getName() : 'No user' }}</span> <span class="caret"></span>
                                 </a>
 
                                 <div id="account-nav" class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -92,7 +92,7 @@
 
     <footer class="text-muted">
         <div class="container-fluid">
-            @if (!empty(Auth::user()->getRepairDirectoryRole())) 
+            @if (Auth::user() && !empty(Auth::user()->getRepairDirectoryRole()))
                 <p>@lang('admin.your_role_is'): {{ Auth::user()->getRepairDirectoryRole()->getName() }}.</p>
             @endif
 

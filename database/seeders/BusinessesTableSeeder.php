@@ -47,7 +47,7 @@ class BusinessesTableSeeder extends Seeder
             'address' => '7 Cranbrook Road, Ilford',
             'postcode' => 'IG1 4DU',
             'geolocation' => new Point(51.5589297, -0.1090134),
-            'categories' => [Category::DESKTOP],
+            'categories' => [Category::DESKTOP, Category::MOBILE],
             'positiveReviewPc' => 81,
             'publishingStatus' => PublishingStatus::PUBLISHED,
             'warranty' => 'Yes'

@@ -1,0 +1,83 @@
+# The name of this app. Must be unique within a project.
+name: app
+
+# The runtime the application uses. The 'type' key defines the base container
+# image that will be used to run the application. There is a separate base
+# container image for each primary language for the application,
+# in multiple versions. Check the PHP documentation
+# (https://docs.platform.sh/languages/php.html#supported-versions)
+# to find the supported versions for the 'php' type.
+type: 'php:8.2'
+
+# The following block defines a single writable directory, 'web/uploads'
+# The 'source' specifies where the writable mount is. The 'local' source
+# indicates that the mount point will point to a local directory on the
+# application container. The 'source_path' specifies the subdirectory
+# from within the source that the mount should point at.
+mounts:
+  'public/uploads':
+    source: local
+    source_path: uploads
+  # Laravel uses a directory off the root called "storage" for logs and cache.
+  # We don't support specifying nested directories so make these directories
+  # flat beyond "shared:files"
+  "/storage/app/public": "shared:files/app-public"
+  "/storage/framework/views": "shared:files/framework-views"
+  "/storage/framework/sessions": "shared:files/framework-sessions"
+  "/storage/framework/cache": "shared:files/framework-cache"
+  "/storage/logs": "shared:files/logs"
+  # And another cache directory here.
+  "/bootstrap/cache": "shared:files/bootstrap_cache"
+
+# The size of the persistent disk of the application (in MB).
+disk: 3900
+
+# The relationships of the application with services or other applications.
+#
+# The left-hand side is the name of the relationship as it will be exposed
+# to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+# side is in the form '<service name>:<endpoint name>'.
+relationships:
+  mysqldatabase: 'dbmysql:mysql'
+
+variables:
+  php:
+    extension: /app/xmlrpc.so
+
+# Don't run composer early on in the build phase because it won't work yet.
+# TODO Surely that's not right, but I had trouble with accessing DB keys.
+build:
+  flavor: none
+
+hooks:
+  build: |
+    echo "Executing our build process"
+    set -e
+    mkdir env
+    cp .env.example .env
+    sed -i 's/DB_DATABASE=.*$/DB_DATABASE=main/g' .env
+    sed -i 's/DB_USERNAME=.*$/DB_USERNAME=root/g' .env
+    sed -i 's/DB_PASSWORD=.*$/DB_PASSWORD=/g' .env
+    cp fixometer/config/config.dist.php fixometer/config/config.php
+    composer install -n
+    npm install
+    export NODE_OPTIONS=--max-old-space-size=8192;  npm rebuild node-sass; npm run prod
+    ls -ltra
+    echo "Our build process is complete"
+
+  deploy: |
+    set -e
+    php artisan doctrine:migrations:migrate
+    echo "Migrated"
+
+web:
+  locations:
+    '/':
+      root: "public"
+      passthru: "/index.php"
+
+crons:
+  # Run Laravel's scheduler every 5 minutes.
+  scheduler:
+    spec: '*/5 * * * *'
+    cmd: 'php artisan schedule:run'

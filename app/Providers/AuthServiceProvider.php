@@ -39,13 +39,17 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // TODO Only using Basic Auth at the moment.
+
         // Only users set with valid Repair Directory roles (via Restarters)
         // can access the admin section.
         Gate::define('accessAdmin', function ($user) {
+            return true;
             return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
         });
 
         Gate::define('assignRole', function ($user, $nameOfRoleToAssign) {
+            return true;
             // At present, only superadmins can assign any of the existing roles.
             // This will change when Editor role introduced.
             if ($user->isSuperAdmin())
@@ -54,15 +58,15 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-        Auth::extend('fixometer', function ($app, $name, array $config) {
-            // Return an instance of Illuminate\Contracts\Auth\Guard...
-
-            return new FixometerSessionGuard(
-                $name,
-                Auth::createUserProvider($config['provider']),
-                $app->make(FixometerSessionService::class)
-            );
-        });
+//        Auth::extend('fixometer', function ($app, $name, array $config) {
+//            // Return an instance of Illuminate\Contracts\Auth\Guard...
+//
+//            return new FixometerSessionGuard(
+//                $name,
+//                Auth::createUserProvider($config['provider']),
+//                $app->make(FixometerSessionService::class)
+//            );
+//        });
     }
 
 
