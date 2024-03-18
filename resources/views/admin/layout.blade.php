@@ -42,7 +42,7 @@
                                     @else
                                         <img src="{{ asset('/images/placeholder-avatar.png') }}" alt="{{ $user->getName() }} Profile Picture" class="avatar">
                                     @endif
-                                    <span class="user-name">{{ $user->getName() }}</span> <span class="caret"></span>
+                                    <span class="user-name">{{ $user ? $user->getName() : 'No user' }}</span> <span class="caret"></span>
                                 </a>
 
                                 <div id="account-nav" class="dropdown-menu" aria-labelledby="navbarDropdown">
