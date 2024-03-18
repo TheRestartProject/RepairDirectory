@@ -9,7 +9,7 @@
     "type": "project",
     "require": {
         "php": "^8.0",
-        "barryvdh/laravel-debugbar": "^3.12",
+        "platformsh/config-reader": "^2.4.0",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/utilities": "^3.2",
         "laravel-doctrine/migrations": "^3.0",
@@ -28,7 +28,6 @@
         "paquettg/php-html-parser": "^1.7",
         "php-coveralls/php-coveralls": "^2.5",
         "phpoffice/phpspreadsheet": "^1.19",
-        "platformsh/config-reader": "^2.4.0",
         "skagarwal/google-places-api": "^2.0",
         "symfony/http-client": "^6.2",
         "symfony/mailgun-mailer": "^6.2",
