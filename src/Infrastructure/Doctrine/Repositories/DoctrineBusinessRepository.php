@@ -44,7 +44,8 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      *
      * @return array
      */
-    public function findAll($user, $seeall = FALSE)
+    // TODO We are using Basic Auth at the moment.
+    public function findAll($user, $seeall = TRUE)
     {
         $rsm = new ResultSetMappingBuilder($this->entityManager);
         $rsm->addRootEntityFromClassMetadata(Business::class, 'b');
@@ -92,7 +93,8 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      *
      * @return Business|null
      */
-    public function findBusinessForUser($uid, $user, $seeall = FALSE)
+    // TODO We are using Basic Auth at the moment.
+    public function findBusinessForUser($uid, $user, $seeall = TRUE)
     {
         $ret = null;
 
