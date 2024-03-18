@@ -192,6 +192,8 @@ return [
         App\Providers\FixometerServiceProvider::class,
         App\Providers\LocationServiceProvider::class,
         App\Providers\ScheduleServiceProvider::class,
+
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
