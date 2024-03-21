@@ -34,7 +34,8 @@ class ImportBusinessesCommand extends Command
         $file = $this->argument('file');
         $this->output->writeln('Reading ' . $file);
         $csv = Reader::createFromPath($file);
-        $rows = $csv->fetchAssoc();
+        $csv->setHeaderOffset(0);
+        $rows = $csv->getRecords();
         foreach ($rows as $row) {
             $commandBus->handle(new ImportFromCsvRowCommand($row));
         }
