@@ -78,7 +78,8 @@ return [
             |--------------------------------------------------------------------------
             */
             'mapping_types' => [
-                'point' => 'point'
+                'point' => 'point',
+                'enum' => 'string',
             ]
         ],
         'fixometer' => [
@@ -136,7 +137,8 @@ return [
             */
 
             'mapping_types' => [
-                'point' => 'point'
+                'point' => 'point',
+                'enum' => 'string',
             ]
         ],
         // NGM: commenting out for now, as just it's presence seems to cause Doctrine to parse it
@@ -203,7 +205,8 @@ return [
     */
     'custom_types'               => [
         'json' => LaravelDoctrine\ORM\Types\Json::class,
-        'point' => TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Types\PointType::class
+        'point' => TheRestartProject\RepairDirectory\Infrastructure\Doctrine\Types\PointType::class,
+        'geometry' => LongitudeOne\Spatial\DBAL\Types\GeometryType::class
     ],
     /*
     |--------------------------------------------------------------------------
