@@ -7,6 +7,11 @@ use TheRestartProject\Fixometer\Domain\Entities\Role;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * The user who can be logged into the application
  *
@@ -16,10 +21,12 @@ use Illuminate\Notifications\Notifiable;
  * @license  GPLv2 https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  * @link     https://laravel.com/docs/5.4/dusk
  */
-class User implements Authenticatable
+class User extends Model implements Authenticatable
 {
     // We want to be able to send notifications.
     use Notifiable;
+
+    use HasFactory;
 
     // Use the Authorizable trait so that we can call can() on a user to evaluation policies.
     use \Illuminate\Foundation\Auth\Access\Authorizable;

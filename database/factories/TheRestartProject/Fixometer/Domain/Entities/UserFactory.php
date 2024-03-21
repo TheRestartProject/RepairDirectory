@@ -1,9 +1,11 @@
 <?php
 
-namespace Database\Factories;
+// namespace Database\Factories;
+namespace Database\Factories\TheRestartProject\Fixometer\Domain\Entities;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use TheRestartProject\Fixometer\Domain\Entities\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,14 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = User::class;
+
     /**
      * Define the model's default state.
      *
@@ -33,7 +43,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-            'remember_token' => Str::random(10),
+            // 'remember_token' => Str::random(10),
         ];
     }
 
@@ -42,7 +52,7 @@ class UserFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition_2()
     {
         static $password;
 
@@ -59,6 +69,6 @@ class UserFactory extends Factory
             'modifiedAt' => $createdAt
         ];
 
-        return $user;
+        return [ $user ];
     }
 }
