@@ -4,11 +4,11 @@ case "$1" in
         cd docker
         docker-compose up -d restart-project.local db.restart-project.local
         cd ..
-        docker/bin/composer install
+        docker/bin/composer install --ignore-platform-req=ext-gd
         docker/bin/yarn
         docker/bin/npm run dev
         docker/bin/artisan doctrine:migrations:migrate
-        docker/bin/artisan doctrine:migrations:migrate --connection=fixometer
+        docker/bin/artisan doctrine:migrations:migrate --em=fixometer
         ;;
     'reports')
         docker/bin/test coverage

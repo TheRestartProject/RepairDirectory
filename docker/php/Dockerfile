@@ -1,11 +1,16 @@
-FROM php:7-alpine
+FROM php:8.2-alpine
 
 RUN apk --no-cache add \
-    zlib-dev \
+    libzip-dev \
     bzip2 \
-    bzip2-dev
-
-RUN docker-php-ext-install pdo pdo_mysql mysqli zip bz2
+    bzip2-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    freetype-dev \
+    php-gd \
+&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+&& docker-php-ext-install pdo pdo_mysql mysqli zip bz2 gd \
+&& docker-php-ext-enable gd 
 
 COPY php.ini /usr/local/etc/php/php.ini
 

@@ -46,8 +46,7 @@ proxy
         --net reverse-proxy \
         -p 80:80 \
         -v /var/run/docker.sock:/tmp/docker.sock:ro \
-        -v <path-to-proxy.conf>
-        /proxy.conf:/etc/nginx/proxy.conf \
+        -v <path-to-proxy.conf>/proxy.conf:/etc/nginx/proxy.conf \
         jwilder/nginx-proxy
         
 ### Edit the hosts file
@@ -61,7 +60,7 @@ For windows you will find your hosts file here
 
     C:\Windows\System32\drivers\etc\hosts
 
-You will want to add the following two lines to the bottom of your file
+You will want to add the following lines to the bottom of your file
 
     127.0.0.1 restart-project.local      # normal version application
     127.0.0.1 test.restart-project.local # test version of application
