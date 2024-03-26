@@ -159,6 +159,14 @@ class Business
     private $notes;
 
     /**
+     * Generic field 1 - used for minimum tech criteria in the Reuse Directory,
+     * but not currently used in the Repair Directory 
+     *
+     * @var string
+     */
+    private $genericField1;
+
+    /**
      * Percentage of reviews that are positive
      *
      * @var integer
@@ -883,6 +891,28 @@ class Business
     public function setNotes($notes)
     {
         $this->notes = $notes;
+    }
+
+    /**
+     * Get the first generic field data for the business
+     * 
+     * @return string
+     */
+    public function getGenericField1()
+    {
+        return $this->genericField1;
+    }
+
+    /**
+     * Set the first generic field data for the business
+     * 
+     * @param string $genericField1 The value to set
+     *
+     * @return void
+     */
+    public function setGenericField1($genericField1)
+    {
+        $this->genericField1 = $genericField1;
     }
 
     /**
