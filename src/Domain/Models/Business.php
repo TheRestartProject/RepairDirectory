@@ -823,8 +823,36 @@ class Business
     public function toArray()
     {
         $array = get_object_vars($this);
+        $array = $this->remapFieldNames($array);
         $array['geolocation'] = $this->getGeolocation() ? $this->getGeolocation()->toArray() : null;
         return $array;
+    }
+
+    /**
+     * Convert internal field references into configured field names
+     * when exporting as an array. If the configured target name already
+     * exists, the renamed field will still be renamed but have "_conflict"
+     * appended.
+     * 
+     * @param array $data   Array of incoming key-value pairs to remap
+     * @return array
+     */
+    private function remapFieldNames(array $data) {
+        
+        $field_map = config('businesses.field_mapping');
+
+        foreach ($field_map as $original_key => $new_key) {
+            if (array_key_exists($original_key, $data)) {
+                while (array_key_exists($new_key, $data)) {
+                    $new_key += '_conflict';
+                }
+                $data[$new_key] = $data[$original_key];
+                unset($data[$original_key]);
+            }
+        }
+
+        return $data;
+
     }
 
     /**

@@ -25,7 +25,7 @@ return [
     'qualifications' => 'Qualifications',
     'community_endorsement' => 'Community Endorsement',
     'notes' => 'Notes',
-    'generic_field1' => 'Device acceptance criteria',
+    'generic_field1' => env('BUSINESS_FIELD_LABEL_GENERIC_FIELD1', 'Device acceptance criteria'),
     'positive_review_percentage' => 'Positive Review Percentage',
     'average_scores' => 'Average score',
     'review_source' => 'Review Source',
