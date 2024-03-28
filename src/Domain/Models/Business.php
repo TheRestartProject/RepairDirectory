@@ -842,9 +842,9 @@ class Business
         $field_map = config('businesses.field_mapping');
 
         foreach ($field_map as $original_key => $new_key) {
-            if (array_key_exists($original_key, $data)) {
+            if ($original_key != $new_key && array_key_exists($original_key, $data)) {
                 while (array_key_exists($new_key, $data)) {
-                    $new_key += '_conflict';
+                    $new_key .= '_conflict';
                 }
                 $data[$new_key] = $data[$original_key];
                 unset($data[$original_key]);
