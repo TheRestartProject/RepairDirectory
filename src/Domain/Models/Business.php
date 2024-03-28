@@ -159,6 +159,14 @@ class Business
     private $notes;
 
     /**
+     * Generic field 1 - used for minimum tech criteria in the Reuse Directory,
+     * but not currently used in the Repair Directory 
+     *
+     * @var string
+     */
+    private $genericField1;
+
+    /**
      * Percentage of reviews that are positive
      *
      * @var integer
@@ -815,8 +823,36 @@ class Business
     public function toArray()
     {
         $array = get_object_vars($this);
+        $array = $this->remapFieldNames($array);
         $array['geolocation'] = $this->getGeolocation() ? $this->getGeolocation()->toArray() : null;
         return $array;
+    }
+
+    /**
+     * Convert internal field references into configured field names
+     * when exporting as an array. If the configured target name already
+     * exists, the renamed field will still be renamed but have "_conflict"
+     * appended.
+     * 
+     * @param array $data   Array of incoming key-value pairs to remap
+     * @return array
+     */
+    private function remapFieldNames(array $data) {
+        
+        $field_map = config('businesses.field_mapping');
+
+        foreach ($field_map as $original_key => $new_key) {
+            if (array_key_exists($original_key, $data)) {
+                while (array_key_exists($new_key, $data)) {
+                    $new_key += '_conflict';
+                }
+                $data[$new_key] = $data[$original_key];
+                unset($data[$original_key]);
+            }
+        }
+
+        return $data;
+
     }
 
     /**
@@ -883,6 +919,28 @@ class Business
     public function setNotes($notes)
     {
         $this->notes = $notes;
+    }
+
+    /**
+     * Get the first generic field data for the business
+     * 
+     * @return string
+     */
+    public function getGenericField1()
+    {
+        return $this->genericField1;
+    }
+
+    /**
+     * Set the first generic field data for the business
+     * 
+     * @param string $genericField1 The value to set
+     *
+     * @return void
+     */
+    public function setGenericField1($genericField1)
+    {
+        $this->genericField1 = $genericField1;
     }
 
     /**
