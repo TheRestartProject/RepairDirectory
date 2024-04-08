@@ -40,11 +40,12 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // We are guarding the site via Basic Auth, so we auto-login as a superadmin.
-        $this->app['auth']->setUser(new \TheRestartProject\Fixometer\Domain\Entities\User([
-                                                 'name' => 'Repair Directory Admin',
-                                                 'email' => 'tech@therestartproject.org',
-                                                 'repairDirectoryRole' => 'SuperAdmin'
-                                             ]));
+        $user = new \TheRestartProject\Fixometer\Domain\Entities\User([
+                                                                          'name' => 'Repair Directory Admin',
+                                                                          'email' => 'tech@therestartproject.org',
+                                                                          'repairDirectoryRole' => 'SuperAdmin'
+                                                                      ]);
+        $this->app['auth']->setUser($user);
 
         // Only users set with valid Repair Directory roles (via Restarters)
         // can access the admin section.
