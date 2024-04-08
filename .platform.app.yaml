@@ -58,9 +58,6 @@ hooks:
     sed -i 's/DB_DATABASE=.*$/DB_DATABASE=main/g' .env
     sed -i 's/DB_USERNAME=.*$/DB_USERNAME=root/g' .env
     sed -i 's/DB_PASSWORD=.*$/DB_PASSWORD=/g' .env
-    sed -i 's/GRAVITYFORMS_KEY=.*$/GRAVITYFORMS_KEY=/g' .env
-    sed -i 's/GRAVITYFORMS_SECRET=.*$/GRAVITYFORMS_SECRET=/g' .env
-    sed -i 's/GRAVITYFORMS_SUBMISSION_FORM_ID=.*$/GRAVITYFORMS_SUBMISSION_FORM_ID=/g' .env
     cp fixometer/config/config.dist.php fixometer/config/config.php
     composer install -n
     npm install
