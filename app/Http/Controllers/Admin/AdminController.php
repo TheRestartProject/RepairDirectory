@@ -12,11 +12,11 @@ class AdminController extends Controller
     public function index(BusinessRepository $repository)
     {
         // TODO Using Basic Auth.
-        try {
+//        try {
             $this->authorize('index', Business::class);
-        } catch (\Exception $e) {
-            error_log('Not authorised ' . $e->getMessage() . "\n");
-        }
+//        } catch (\Exception $e) {
+//            error_log('Not authorised ' . $e->getMessage() . "\n");
+//        }
 
         $businesses = $repository->findAll(Auth::user());
 

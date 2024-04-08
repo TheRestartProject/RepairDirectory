@@ -11,19 +11,17 @@
 
 use Geocoder\Provider\GoogleMaps\GoogleMaps;
 
+$api_key = env('GOOGLE_MAPS_API_KEY');
+
 try {
     $config = new \Platformsh\ConfigReader\Config();
 
-    if (!$config->isValidPlatform()) {
-        die("Not in a Platform.sh Environment.");
+    if ($config->isValidPlatform()) {
+        $api_key = $config->variable('GOOGLE_MAPS_API_KEY', '');
     }
-
-    $api_key = $config->variable('GOOGLE_MAPS_API_KEY', '');
 } catch (Exception $e) {
     # This can happen during build phase.
-    $api_key = '';
 }
-
 
 return [
     'cache-duraction' => 999999999,

@@ -45,12 +45,15 @@ class BusinessController extends Controller
 
         $this->authorize('view', $business);
 
-        if (!empty($business->getCreatedBy())) {
-            $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
-        }
-        if (!empty($business->getUpdatedBy())) {
-            $business->userWhoLastUpdated = $userRepository->find($business->getUpdatedBy());
-        }
+        // TODO User function disabled on Platform.
+        $business->userWhoCreated = null;
+        $business->userWhoLastUpdated = null;
+//        if (!empty($business->getCreatedBy())) {
+//            $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
+//        }
+//        if (!empty($business->getUpdatedBy())) {
+//            $business->userWhoLastUpdated = $userRepository->find($business->getUpdatedBy());
+//        }
 
         return $this->renderEdit($business, []);
     }
