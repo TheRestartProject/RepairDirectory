@@ -39,17 +39,20 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // TODO Only using Basic Auth at the moment.
+        // We are guarding the site via Basic Auth, so we auto-login as a superadmin.
+        $this->app['auth']->setUser(new \TheRestartProject\Fixometer\Domain\Entities\User([
+                                                 'name' => 'Repair Directory Admin',
+                                                 'email' => 'tech@therestartproject.org',
+                                                 'repairDirectoryRole' => 'SuperAdmin'
+                                             ]));
 
         // Only users set with valid Repair Directory roles (via Restarters)
         // can access the admin section.
         Gate::define('accessAdmin', function ($user) {
-            return true;
             return $user->isSuperAdmin() || $user->isRegionalAdmin() || $user->isEditor();
         });
 
         Gate::define('assignRole', function ($user, $nameOfRoleToAssign) {
-            return true;
             // At present, only superadmins can assign any of the existing roles.
             // This will change when Editor role introduced.
             if ($user->isSuperAdmin())

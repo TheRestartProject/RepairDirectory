@@ -78,7 +78,9 @@ return [
             |--------------------------------------------------------------------------
             */
             'mapping_types' => [
-                'point' => 'point'
+                'point' => 'point',
+                'geometry' => 'string',
+                'enum' => 'string'
             ]
         ],
         'fixometer' => [
