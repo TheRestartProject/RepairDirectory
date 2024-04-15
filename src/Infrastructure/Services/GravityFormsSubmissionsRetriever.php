@@ -17,6 +17,7 @@ class GravityFormsSubmissionsRetriever
         $this->consumerKey = config('gravityforms.api_key');
         $this->consumerSecret = config('gravityforms.api_secret');
         $this->submissionsFormId = config('gravityforms.submissions_form_id');
+        error_log("Submission form it " . config('gravityforms.submissions_form_id') . " vs  " . env('gravityforms.submissions_form_id'));
 
         $this->client = new Client([
             'base_uri' => 'https://londonrepairs.org/wp-json/gf/v2/',
