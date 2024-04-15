@@ -76,6 +76,7 @@ hooks:
     sed -i "s/GRAVITYFORMS_SECRET=.*\$/GRAVITYFORMS_SECRET=$GRAVITYFORMS_SECRET/g" .env
     sed -i "s/GRAVITYFORMS_SUBMISSION_FORM_ID=.*\$/GRAVITYFORMS_SUBMISSION_FORM_ID=$GRAVITYFORMS_SUBMISSION_FORM_ID/g" .env
     sed -i "s/MAP_SHARE_BASE_URL=.*\$/MAP_SHARE_BASE_URL=https:\/\/$MAP_SHARE_BASE_URL/g" .env
+    cat .env
     
     cp fixometer/config/config.dist.php fixometer/config/config.php
     composer install -n
