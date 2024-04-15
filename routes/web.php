@@ -21,7 +21,7 @@ Route::get('/businesses/{id}', [BusinessController::class, 'view'])->name('map.b
 
 Route::prefix('admin')
     ->middleware('basicAuth')
-//    ->middleware('can:accessAdmin')
+    ->middleware('can:accessAdmin')
     ->group(function () {
         Route::get('/', [Admin\AdminController::class, 'index'])->name('admin.index');
         Route::get('business/validate-field', [Admin\BusinessController::class, 'validateField'])->name('admin.business.validate-field');
