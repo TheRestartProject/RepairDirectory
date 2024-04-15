@@ -52,8 +52,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof AuthorizationException) {
-// TODO Remove for debugging
-//            return redirect()->route('home');
+            return redirect()->route('home');
         }
 
         return parent::render($request, $exception);

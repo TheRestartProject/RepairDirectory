@@ -45,15 +45,19 @@ class BusinessController extends Controller
 
         $this->authorize('view', $business);
 
-        // TODO User function disabled on Platform.
         $business->userWhoCreated = null;
         $business->userWhoLastUpdated = null;
-//        if (!empty($business->getCreatedBy())) {
-//            $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
-//        }
-//        if (!empty($business->getUpdatedBy())) {
-//            $business->userWhoLastUpdated = $userRepository->find($business->getUpdatedBy());
-//        }
+
+        // On Platform we don't have access to the user repository - that is available when we are colocated
+        // with Restarters.
+        if (getenv('PLATFORM_VARIABLES')) {
+            if (!empty($business->getCreatedBy())) {
+                $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
+            }
+            if (!empty($business->getUpdatedBy())) {
+                $business->userWhoLastUpdated = $userRepository->find($business->getUpdatedBy());
+            }
+        }
 
         return $this->renderEdit($business, []);
     }
