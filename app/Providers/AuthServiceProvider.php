@@ -41,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // We are guarding the site via Basic Auth, so we auto-login as a superadmin.
         $user = new \TheRestartProject\Fixometer\Domain\Entities\User([
+                                                                          'id' => 1,
                                                                           'name' => 'Repair Directory Admin',
                                                                           'email' => 'tech@therestartproject.org',
                                                                           'repairDirectoryRole' => 'SuperAdmin'
