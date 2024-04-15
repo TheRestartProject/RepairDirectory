@@ -63,9 +63,8 @@ hooks:
     
     # Some config is configured in platform.sh environment variables, which we can extract here to put in the
     # .env file for the code to pick up.
-    echo $PLATFORM_VARIABLES
-    $APP_NAME=`echo $PLATFORM_VARIABLES | base64 --decode | jq '.APP_NAME'`
-    sed -i 's/APP_NAME=.*$/APP_NAME=/g' .env
+    echo "App name is $APP_NAME"
+    sed -i 's/APP_NAME=.*$/$APP_NAME=/g' .env
     grep APP_NAME .env
     
     cp fixometer/config/config.dist.php fixometer/config/config.php
