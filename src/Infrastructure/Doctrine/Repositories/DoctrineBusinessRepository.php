@@ -92,7 +92,7 @@ class DoctrineBusinessRepository extends DoctrineRepository implements BusinessR
      *
      * @return Business|null
      */
-    public function findById($uid, $user, $seeall = FALSE)
+    public function findBusinessForUser($uid, $user, $seeall = FALSE)
     {
         $ret = null;
 
