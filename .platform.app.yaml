@@ -60,12 +60,22 @@ hooks:
     sed -i 's/DB_DATABASE=.*$/DB_DATABASE=main/g' .env
     sed -i 's/DB_USERNAME=.*$/DB_USERNAME=root/g' .env
     sed -i 's/DB_PASSWORD=.*$/DB_PASSWORD=/g' .env
+    sed -i "s/MAIL_MAILER=.*\$/MAIL_MAILER=mailgun/g" .env
+    sed -i "s/SESSION_DOMAIN=.*\$/SESSION_DOMAIN=.restarters.net/g" .env
     
     # Some config is configured in platform.sh environment variables, which we can extract here to put in the
     # .env file for the code to pick up.
-    echo "App name is $APP_NAME"
     sed -i "s/APP_NAME=.*\$/APP_NAME=$APP_NAME/g" .env
-    grep APP_NAME .env
+    sed -i "s/MAILGUN_DOMAIN=.*\$/MAILGUN_DOMAIN=$MAILGUN_DOMAIN/g" .env
+    sed -i "s/MAILGUN_SECRET=.*\$/MAILGUN_SECRET=$MAILGUN_SECRET/g" .env
+    sed -i "s/MAIL_FROM_ADDRESS=.*\$/MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS/g" .env
+    sed -i "s/MAIL_FROM_NAME=.*\$/MAIL_FROM_NAME=$MAIL_FROM_NAME/g" .env
+    sed -i "s/GA_TRACKING_ID=.*\$/GA_TRACKING_ID=$GA_TRACKING_ID/g" .env
+    sed -i "s/GOOGLE_MAPS_API_KEY=.*\$/GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY/g" .env
+    sed -i "s/GRAVITYFORMS_KEY=.*\$/GRAVITYFORMS_KEY=$GRAVITYFORMS_KEY/g" .env
+    sed -i "s/GRAVITYFORMS_SECRET=.*\$/GRAVITYFORMS_SECRET=$GRAVITYFORMS_SECRET/g" .env
+    sed -i "s/GRAVITYFORMS_SUBMISSION_FORM_ID=.*\$/GRAVITYFORMS_SUBMISSION_FORM_ID=$GRAVITYFORMS_SUBMISSION_FORM_ID/g" .env
+    sed -i "s/MAP_SHARE_BASE_URL=.*\$/MAP_SHARE_BASE_URL=$MAP_SHARE_BASE_URL/g" .env
     
     cp fixometer/config/config.dist.php fixometer/config/config.php
     composer install -n
