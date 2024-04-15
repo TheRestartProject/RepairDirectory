@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use League\Tactician\CommandBus;
+use TheRestartProject\Fixometer\Domain\Entities\Role;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionGuard;
 use TheRestartProject\RepairDirectory\Application\Auth\FixometerSessionService;
 use TheRestartProject\Fixometer\Domain\Repositories\FixometerSessionRepository;
@@ -44,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
                                                                           'id' => 1,
                                                                           'name' => 'Repair Directory Admin',
                                                                           'email' => 'tech@therestartproject.org',
-                                                                          'repairDirectoryRole' => 'SuperAdmin'
+                                                                          'repairDirectoryRole' => Role::SUPERADMIN
                                                                       ]);
         $this->app['auth']->setUser($user);
 
