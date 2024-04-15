@@ -18,18 +18,6 @@ class GravityFormsSubmissionsRetriever
         $this->consumerSecret = config('gravityforms.api_secret');
         $this->submissionsFormId = config('gravityforms.submissions_form_id');
 
-        try {
-            $config = new \Platformsh\ConfigReader\Config();
-
-            if ($config->isValidPlatform()) {
-                $this->consumerKey = $config->variable('GRAVITYFORMS_KEY', '');
-                $this->consumerSecret = $config->variable('GRAVITYFORMS_SECRET', '');
-                $this->submissionsFormId = $config->variable('GRAVITYFORMS_SUBMISSION_FORM_ID', '');
-            }
-        } catch (\Exception $e) {
-            error_log("No basic auth user and pass " . $e->getMessage());
-        }
-
         $this->client = new Client([
             'base_uri' => 'https://londonrepairs.org/wp-json/gf/v2/',
             'headers' => [
