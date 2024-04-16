@@ -146,15 +146,6 @@
             </div>
 
             <div class="form-group">
-                <label for="genericField1">{{ __('admin.generic_field1') }}</label>
-                <textarea id="genericField1" name="genericField1"
-                          class="form-control validate">{{ old('genericField1') ?: $business->getGenericField1() }}</textarea>
-                @if($errors->has('genericField1'))
-                    <small class="business-error">{{ $errors->first('genericField1') }}</small>
-                @endif
-            </div>
-
-            <div class="form-group">
                 <label for="qualifications">{{ __('admin.qualifications') }}</label>
                 <textarea id="qualifications" name="qualifications"
                           class="form-control validate">{{ old('qualifications') ?: $business->getQualifications() }}</textarea>
@@ -178,6 +169,15 @@
                           class="form-control validate">{{ old('notes') ?: $business->getNotes() }}</textarea>
                 @if($errors->has('notes'))
                     <small class="business-error">{{ $errors->first('notes') }}</small>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="genericField1">{{ __('admin.generic_field1') }}</label>
+                <textarea id="genericField1" name="genericField1"
+                          class="form-control validate">{{ old('genericField1') ?: $business->getGenericField1() }}</textarea>
+                @if($errors->has('genericField1'))
+                    <small class="business-error">{{ $errors->first('genericField1') }}</small>
                 @endif
             </div>
         </div>
