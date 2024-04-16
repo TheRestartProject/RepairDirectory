@@ -75,7 +75,7 @@ return [
                 'type' => 'string',
                 'nullable' => true
             ],
-            'genericField1' => [
+            'customField1' => [
                 'type' => 'string',
                 'nullable' => true
             ],

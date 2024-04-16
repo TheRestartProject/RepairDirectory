@@ -164,7 +164,7 @@ class Business
      *
      * @var string
      */
-    private $genericField1;
+    private $customField1;
 
     /**
      * Percentage of reviews that are positive
@@ -922,25 +922,25 @@ class Business
     }
 
     /**
-     * Get the first generic field data for the business
+     * Get the first custom field data for the business
      * 
      * @return string
      */
-    public function getGenericField1()
+    public function getCustomField1()
     {
-        return $this->genericField1;
+        return $this->customField1;
     }
 
     /**
-     * Set the first generic field data for the business
+     * Set the first custom field data for the business
      * 
-     * @param string $genericField1 The value to set
+     * @param string $customField1 The value to set
      *
      * @return void
      */
-    public function setGenericField1($genericField1)
+    public function setCustomField1($customField1)
     {
-        $this->genericField1 = $genericField1;
+        $this->customField1 = $customField1;
     }
 
     /**

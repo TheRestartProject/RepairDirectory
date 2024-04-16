@@ -75,7 +75,7 @@ class CreateBusinessPage extends Page
             '@qualifications' => 'qualifications',
             '@communityEndorsement' => 'communityEndorsement',
             '@notes' => 'notes',
-            '@genericField1' => 'genericField1',
+            '@customField1' => 'customField1',
             '@positiveReviewPc' => 'positiveReviewPc',
             '@reviewSource' => 'reviewSource',
             '@numberOfReviews' => 'numberOfReviews',
@@ -145,7 +145,7 @@ class CreateBusinessPage extends Page
             ->type('@qualifications', $this->faker->sentence())
             ->type('@communityEndorsement', $this->faker->sentence())
             ->type('@notes', $this->faker->sentence())
-            ->type('@genericField1', $this->faker->sentence())
+            ->type('@customField1', $this->faker->sentence())
             ->type('@positiveReviewPc', $this->faker->numberBetween(0, 100))
             ->select('@reviewSource', ReviewSource::GOOGLE)
             ->type('@numberOfReviews', $this->faker->numberBetween(0, 100))
