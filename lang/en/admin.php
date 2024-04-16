@@ -5,7 +5,7 @@ if (env('DIRECTORY_TYPE', 'repair') == 'reuse') {
     $warranty_offered_label = 'Has Data Erasure Policy';
     $warranty_details_label = 'Data Erasure Policy Details';
 } else {
-    $custom_field1_label = 'Generic Field';
+    $custom_field1_label = 'Custom Field (Unused)';
     $warranty_offered_label = 'Warranty Offered';
     $warranty_details_label = 'Warranty Details';
 }
