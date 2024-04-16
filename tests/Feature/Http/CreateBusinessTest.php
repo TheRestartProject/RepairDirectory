@@ -261,6 +261,7 @@ class CreateBusinessTest extends IntegrationTestCase
             'communityEndorsement' => $business->getCommunityEndorsement(),
             'notes' => $business->getNotes(),
             'customField1' => $business->getCustomField1(),
+            'customField2' => $business->getCustomField2(),
             'reviewSourceUrl' => $business->getReviewSourceUrl(),
             'positiveReviewPc' => $business->getPositiveReviewPc(),
             'reviewSource' => $business->getReviewSource(),

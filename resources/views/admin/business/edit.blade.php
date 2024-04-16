@@ -181,6 +181,15 @@
                 @endif
             </div>
 
+            <div class="form-group">
+                <label for="customField2">{{ __('admin.custom_field2') }}</label>
+                <textarea id="customField2" name="customField2"
+                          class="form-control validate">{{ old('customField2') ?: $business->getCustomField2() }}</textarea>
+                @if($errors->has('customField2'))
+                    <small class="business-error">{{ $errors->first('customField2') }}</small>
+                @endif
+            </div>
+
         </div>
 
         <div class="col-xs-12 col-md-4">

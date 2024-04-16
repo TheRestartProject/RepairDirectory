@@ -79,6 +79,10 @@ return [
                 'type' => 'string',
                 'nullable' => true
             ],
+            'customField2' => [
+                'type' => 'string',
+                'nullable' => true
+            ],            
             'qualifications' => [
                 'type' => 'string',
                 'nullable' => true

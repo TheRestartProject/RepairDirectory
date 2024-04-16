@@ -159,12 +159,20 @@ class Business
     private $notes;
 
     /**
-     * Generic field 1 - used for minimum tech criteria in the Reuse Directory,
+     * Custom field 1 - used for minimum tech criteria in the Reuse Directory,
      * but not currently used in the Repair Directory 
      *
      * @var string
      */
     private $customField1;
+
+    /**
+     * Custom field 2 - used for collection coverage area info in the Reuse Directory,
+     * but not currently used in the Repair Directory 
+     *
+     * @var string
+     */
+    private $customField2;
 
     /**
      * Percentage of reviews that are positive
@@ -942,6 +950,29 @@ class Business
     {
         $this->customField1 = $customField1;
     }
+
+    /**
+     * Get the second custom field data for the business
+     * 
+     * @return string
+     */
+    public function getCustomField2()
+    {
+        return $this->customField2;
+    }
+
+    /**
+     * Set the second custom field data for the business
+     * 
+     * @param string $customField2 The value to set
+     *
+     * @return void
+     */
+    public function setCustomField2($customField2)
+    {
+        $this->customField2 = $customField2;
+    }
+
 
     /**
      * Whether the business is published or not

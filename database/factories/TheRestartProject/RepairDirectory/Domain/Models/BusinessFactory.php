@@ -56,7 +56,8 @@ class BusinessFactory extends Factory
             'qualifications' => $this->faker->sentence(),
             'communityEndorsement' => $this->faker->sentence(),
             'notes' => $this->faker->sentence(),
-            'customField1' => $this->faker->sentence()
+            'customField1' => $this->faker->sentence(),
+            'customField2' => $this->faker->sentence()
         ];
     }
 
@@ -79,6 +80,7 @@ class BusinessFactory extends Factory
                 'communityEndorsement' => $this->faker->sentence(50, false),
                 'notes' => null,
                 'customField1' => null,
+                'customField2' => null,
                 'reviewSource' => 'abcd',
                 'positiveReviewPc' => -10,
                 'numberOfReviews' => -10,
@@ -112,7 +114,8 @@ class BusinessFactory extends Factory
                 'qualifications' => $this->faker->sentence(),
                 'communityEndorsement' => $this->faker->sentence(),
                 'notes' => $this->faker->sentence(),
-                'customField1' => $this->faker->sentence()
+                'customField1' => $this->faker->sentence(),
+                'customField2' => $this->faker->sentence()
             ];
         });
     }
