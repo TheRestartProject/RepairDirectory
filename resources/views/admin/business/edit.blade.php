@@ -171,6 +171,15 @@
                     <small class="business-error">{{ $errors->first('notes') }}</small>
                 @endif
             </div>
+
+            <div class="form-group">
+                <label for="genericField1">{{ __('admin.generic_field1') }}</label>
+                <textarea id="genericField1" name="genericField1"
+                          class="form-control validate">{{ old('genericField1') ?: $business->getGenericField1() }}</textarea>
+                @if($errors->has('genericField1'))
+                    <small class="business-error">{{ $errors->first('genericField1') }}</small>
+                @endif
+            </div>
         </div>
 
         <div class="col-xs-12 col-md-4">

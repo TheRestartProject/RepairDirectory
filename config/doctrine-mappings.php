@@ -75,6 +75,10 @@ return [
                 'type' => 'string',
                 'nullable' => true
             ],
+            'genericField1' => [
+                'type' => 'string',
+                'nullable' => true
+            ],
             'qualifications' => [
                 'type' => 'string',
                 'nullable' => true

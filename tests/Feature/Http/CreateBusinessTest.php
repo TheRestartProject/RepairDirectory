@@ -260,6 +260,7 @@ class CreateBusinessTest extends IntegrationTestCase
             'qualifications' => $business->getQualifications(),
             'communityEndorsement' => $business->getCommunityEndorsement(),
             'notes' => $business->getNotes(),
+            'genericField1' => $business->getGenericField1(),
             'reviewSourceUrl' => $business->getReviewSourceUrl(),
             'positiveReviewPc' => $business->getPositiveReviewPc(),
             'reviewSource' => $business->getReviewSource(),
