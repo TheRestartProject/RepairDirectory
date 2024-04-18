@@ -1,17 +1,20 @@
 <?php
 
 if (env('DIRECTORY_TYPE', 'repair') == 'reuse') {
-    $generic_field1_label = 'Device Acceptance Criteria';
+    $custom_field1_label = 'Device Acceptance Criteria';
+    $custom_field2_label = 'Collection Area';
     $warranty_offered_label = 'Has Data Erasure Policy';
     $warranty_details_label = 'Data Erasure Policy Details';
 } else {
-    $generic_field1_label = 'Generic Field (Unused)';
+    $custom_field1_label = 'Custom Field 1 (Unused)';
+    $custom_field2_label = 'Custom Field 2 (Unused)';
     $warranty_offered_label = 'Warranty Offered';
     $warranty_details_label = 'Warranty Details';
 }
 
 // Allow override in .env for now
-$generic_field1_label = env('BUSINESS_FIELD_LABEL_GENERIC_FIELD1', $generic_field1_label);
+$custom_field1_label = env('BUSINESS_FIELD_LABEL_CUSTOM_FIELD1', $custom_field1_label);
+$custom_field2_label = env('BUSINESS_FIELD_LABEL_CUSTOM_FIELD2', $custom_field2_label);
 $warranty_offered_label = env('BUSINESS_FIELD_LABEL_WARRANTY_OFFERED', $warranty_offered_label);
 $warranty_details_label = env('BUSINESS_FIELD_LABEL_WARRANTY_DETAILS', $warranty_details_label);
 
@@ -40,7 +43,8 @@ return [
     'qualifications' => 'Qualifications',
     'community_endorsement' => 'Community Endorsement',
     'notes' => 'Notes',
-    'generic_field1' => $generic_field1_label,
+    'custom_field1' => $custom_field1_label,
+    'custom_field2' => $custom_field2_label,
     'positive_review_percentage' => 'Positive Review Percentage',
     'average_scores' => 'Average score',
     'review_source' => 'Review Source',
