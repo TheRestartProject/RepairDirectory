@@ -4,12 +4,14 @@ if (env('DIRECTORY_TYPE', 'repair') == 'reuse') {
     // Reuse Directory config
     $custom_field1_label = 'Device Acceptance Criteria';
     $custom_field2_label = 'Collection Area';
+    $custom_field3_label = 'Drop-off Locations';
     $warranty_offered_label = 'Has Data Erasure Policy';
     $warranty_details_label = 'Data Erasure Policy Details';
 } else {
     // Repair Directory config
     $custom_field1_label = 'Custom Field 1 (Unused)';
     $custom_field2_label = 'Custom Field 2 (Unused)';
+    $custom_field3_label = 'Custom Field 3 (Unused)';
     $warranty_offered_label = 'Warranty Offered';
     $warranty_details_label = 'Warranty Details';
 }
@@ -41,6 +43,7 @@ return [
     'notes' => 'Notes',
     'custom_field1' => $custom_field1_label,
     'custom_field2' => $custom_field2_label,
+    'custom_field3' => $custom_field3_label,
     'positive_review_percentage' => 'Positive Review Percentage',
     'average_scores' => 'Average score',
     'review_source' => 'Review Source',

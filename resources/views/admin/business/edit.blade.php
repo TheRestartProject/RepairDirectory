@@ -190,6 +190,15 @@
                 @endif
             </div>
 
+            <div class="form-group show-for-reuse-directory">
+                <label for="customField3">{{ __('admin.custom_field3') }}</label>
+                <textarea id="customField3" name="customField3"
+                          class="form-control validate">{{ old('customField3') ?: $business->getCustomField3() }}</textarea>
+                @if($errors->has('customField3'))
+                    <small class="business-error">{{ $errors->first('customField3') }}</small>
+                @endif
+            </div>
+
         </div>
 
         <div class="col-xs-12 col-md-4">
