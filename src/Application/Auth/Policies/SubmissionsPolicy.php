@@ -9,27 +9,26 @@ class SubmissionsPolicy
 {
     public function before(User $user)
     {
-// TODO Using BasicAuth on Platform, so auto-login as SuperAdmin.
-//        if ($user->isSuperAdmin($user)) {
+        if ($user->isSuperAdmin($user)) {
             return true;
-//        }
+        }
     }
 
     public function index(User $user)
     {
-//        if ($user->isRegionalAdmin() || $user->isEditor())
+        if ($user->isSuperAdmin($user) || $user->isRegionalAdmin() || $user->isEditor())
             return true;
     }
 
     public function view(User $user)
     {
-//        if ($user->isRegionalAdmin() || $user->isEditor())
+        if ($user->isSuperAdmin($user) || $user->isRegionalAdmin() || $user->isEditor())
             return true;
     }
 
     public function update(User $user)
     {
-//        if ($user->isSuperAdmin() || $user->isRegionalAdmin())
+        if ($user->isSuperAdmin() || $user->isRegionalAdmin())
             return true;
     }
 }

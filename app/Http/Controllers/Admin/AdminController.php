@@ -11,11 +11,7 @@ class AdminController extends Controller
 {
     public function index(BusinessRepository $repository)
     {
-        try {
-            $this->authorize('index', Business::class);
-        } catch (\Exception $e) {
-            error_log('Not authorised ' . $e->getMessage() . "\n");
-        }
+        $this->authorize('index', Business::class);
 
         $businesses = $repository->findAll(Auth::user());
 

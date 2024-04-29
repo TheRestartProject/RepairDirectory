@@ -64,15 +64,15 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         });
 
-//        Auth::extend('fixometer', function ($app, $name, array $config) {
-//            // Return an instance of Illuminate\Contracts\Auth\Guard...
-//
-//            return new FixometerSessionGuard(
-//                $name,
-//                Auth::createUserProvider($config['provider']),
-//                $app->make(FixometerSessionService::class)
-//            );
-//        });
+        Auth::extend('fixometer', function ($app, $name, array $config) {
+            // Return an instance of Illuminate\Contracts\Auth\Guard...
+
+            return new FixometerSessionGuard(
+                $name,
+                Auth::createUserProvider($config['provider']),
+                $app->make(FixometerSessionService::class)
+            );
+        });
     }
 
 
