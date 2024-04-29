@@ -46,7 +46,8 @@ class AuthServiceProvider extends ServiceProvider
                                                                           'name' => 'Repair Directory Admin',
                                                                           'email' => 'tech@therestartproject.org',
                                                                       ]);
-        $user->setRepairDirectoryRole(\TheRestartProject\Fixometer\Domain\Entities\Role::SUPERADMIN);
+        $role = Role::where('name', 'Superadmin')->first();
+        $user->setRepairDirectoryRole($role);
         $this->app['auth']->setUser($user);
 
         // Only users set with valid Repair Directory roles (via Restarters)

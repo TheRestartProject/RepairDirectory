@@ -29,6 +29,8 @@ class SubmissionsPolicy
     public function update(User $user)
     {
         if ($user->isSuperAdmin() || $user->isRegionalAdmin())
+        {
             return true;
+        }
     }
 }
