@@ -110,7 +110,7 @@ class WebsitesCheck extends Command
             }
         }
 
-        if (count($errors)) {
+//        if (count($errors)) {
             $this->error("Found " . count($errors) . " errors");
 
             // In a Platform environment we will be automatically logged in, and we notify that user rather
@@ -135,6 +135,6 @@ class WebsitesCheck extends Command
                     $admin->notify(new AdminBusinessWebsiteInvalid($errors));
                 }
             }
-        }
+//        }
     }
 }
