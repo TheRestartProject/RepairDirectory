@@ -65,7 +65,7 @@ hooks:
     
     # Some config is configured in platform.sh environment variables, which we can extract here to put in the
     # .env file for the code to pick up.
-    sed -i "s/APP_NAME=.*\$/APP_NAME=$APP_NAME/g" .env
+    sed -i "s/APP_NAME=.*\$/APP_NAME=\"$APP_NAME\"/g" .env
     sed -i "s/MAILGUN_DOMAIN=.*\$/MAILGUN_DOMAIN=$MAILGUN_DOMAIN/g" .env
     sed -i "s/MAILGUN_SECRET=.*\$/MAILGUN_SECRET=$MAILGUN_SECRET/g" .env
     sed -i "s/MAIL_FROM_ADDRESS=.*\$/MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS/g" .env
