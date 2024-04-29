@@ -81,11 +81,11 @@ hooks:
     composer install -n
     npm install
     export NODE_OPTIONS=--max-old-space-size=8192;  npm rebuild node-sass; npm run prod
-    php artisan config:clear
     echo "Our build process is complete"
 
   deploy: |
     set -e
+    php artisan config:clear
     php artisan doctrine:migrations:migrate
     echo "Migrated"
 
