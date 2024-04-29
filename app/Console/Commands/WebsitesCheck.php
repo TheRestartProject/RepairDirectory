@@ -130,8 +130,8 @@ class WebsitesCheck extends Command
                     // In a Platform environment we will be automatically logged in, and we notify that user rather
                     // than look in the Restarters database (which isn't present).
                     $this->error("Notify logged in user");
-                    $this->error("Email is " . $user->email);
-                    Notification::route('mail', $user->email)->notify(new AdminBusinessWebsiteInvalid($errors));
+                    $this->error("Email is " . $user->getEmail());
+                    Notification::route('mail', $user->getEmail())->notify(new AdminBusinessWebsiteInvalid($errors));
                     $this->error("Notified logged in user");
                 } else {
                     // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
