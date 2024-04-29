@@ -46,7 +46,9 @@ class AuthServiceProvider extends ServiceProvider
                                                                           'name' => 'Repair Directory Admin',
                                                                           'email' => 'tech@therestartproject.org',
                                                                       ]);
-        $role = Role::where('name', 'Superadmin')->first();
+
+        $repository = $this->entityManager->getRepository(Role::class);
+        $role = $repository->findBy(['name' => 'Superadmin']);
         $user->setRepairDirectoryRole($role);
         $this->app['auth']->setUser($user);
 
