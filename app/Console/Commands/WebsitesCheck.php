@@ -122,27 +122,34 @@ class WebsitesCheck extends Command
         if (count($errors)) {
             $this->error("Found " . count($errors) . " errors");
 
-            $user = $this->authManager->guard()->user();
+            try {
+                $user = $this->authManager->guard()->user();
 
-            if ($user) {
-                // In a Platform environment we will be automatically logged in, and we notify that user rather
-                // than look in the Restarters database (which isn't present).
-                $user->notify(new AdminBusinessWebsiteInvalid($errors));
-            } else {
-                // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
-                // They then forward on to the relevant regional admins.
-                // In future, we may wish to split this out by regional admin.
-                $admins = $this->userRepository->findBy([
-                                                            [
-                                                                'field' => 'repairDirectoryRole',
-                                                                'operator' => Operators::EQUAL,
-                                                                'value' => Role::SUPERADMIN
-                                                            ]
-                                                        ]);
+                if ($user) {
+                    // In a Platform environment we will be automatically logged in, and we notify that user rather
+                    // than look in the Restarters database (which isn't present).
+                    $this->error("Notify logged in user");
+                    $user->notify(new AdminBusinessWebsiteInvalid($errors));
+                    $this->error("Notified logged in user");
+                } else {
+                    // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
+                    // They then forward on to the relevant regional admins.
+                    // In future, we may wish to split this out by regional admin.
+                    $this->error("Notify admins");
+                    $admins = $this->userRepository->findBy([
+                                                                [
+                                                                    'field' => 'repairDirectoryRole',
+                                                                    'operator' => Operators::EQUAL,
+                                                                    'value' => Role::SUPERADMIN
+                                                                ]
+                                                            ]);
 
-                foreach ($admins as $admin) {
-                    $admin->notify(new AdminBusinessWebsiteInvalid($errors));
+                    foreach ($admins as $admin) {
+                        $admin->notify(new AdminBusinessWebsiteInvalid($errors));
+                    }
                 }
+            } catch (\Exception $e) {
+                $this->error("Failed to notify " . $e->getMessage());
             }
         }
     }
