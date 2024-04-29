@@ -41,14 +41,17 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // We are guarding the site via Basic Auth, so we auto-login as a superadmin.
+        //
+        // Our use of roles is a bit hacky here, as we are working around not having a colocated Restarters
+        // database.
         $user = new \TheRestartProject\Fixometer\Domain\Entities\User([
                                                                           'id' => 1,
                                                                           'name' => 'Repair Directory Admin',
                                                                           'email' => 'tech@therestartproject.org',
                                                                       ]);
 
-        $repository = $this->entityManager->getRepository(Role::class);
-        $role = $repository->findBy(['name' => 'Superadmin']);
+        $role = new Role();
+        $role->setName('SuperAdmin');
         $user->setRepairDirectoryRole($role);
         $this->app['auth']->setUser($user);
 
