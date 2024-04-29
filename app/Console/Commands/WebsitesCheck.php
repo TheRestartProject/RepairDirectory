@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Auth\AuthManager;
 use App\Notifications\AdminBusinessWebsiteInvalid;
 use App\Notifications\AdminNewBusinessReadyForReview;
 use Illuminate\Console\Command;
@@ -40,15 +41,23 @@ class WebsitesCheck extends Command
     private $userRepository;
 
     /**
+     * The Laravel auth manager
+     *
+     * @var AuthManager
+     */
+    private $authManager;
+
+    /**
      * Create a new command instance.
      *
      * @param UserRepository $userRepository    The user repository
      *
      * @return void
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, AuthManager $authManager)
     {
         $this->userRepository = $userRepository;
+        $this->authManager = $authManager;
 
         parent::__construct();
     }
@@ -110,14 +119,14 @@ class WebsitesCheck extends Command
             }
         }
 
-//        if (count($errors)) {
+        if (count($errors)) {
             $this->error("Found " . count($errors) . " errors");
 
-            // In a Platform environment we will be automatically logged in, and we notify that user rather
-            // than look in the Restarters database (which isn't present).
-            $user = $this->app['auth']->getUser();
+            $user = $this->authManager->guard()->user();
 
             if ($user) {
+                // In a Platform environment we will be automatically logged in, and we notify that user rather
+                // than look in the Restarters database (which isn't present).
                 $user->notify(new AdminBusinessWebsiteInvalid($errors));
             } else {
                 // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
@@ -135,6 +144,6 @@ class WebsitesCheck extends Command
                     $admin->notify(new AdminBusinessWebsiteInvalid($errors));
                 }
             }
-//        }
+        }
     }
 }

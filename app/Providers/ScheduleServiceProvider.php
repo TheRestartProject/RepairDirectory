@@ -11,7 +11,7 @@ class ScheduleServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
-            $schedule->command('websites:check')->everyFiveMinutes();
+            $schedule->command('websites:check')->monthly();
         });
     }
 
