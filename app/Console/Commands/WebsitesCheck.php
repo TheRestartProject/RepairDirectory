@@ -16,7 +16,7 @@ use TheRestartProject\RepairDirectory\Domain\Models\Business;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 use TheRestartProject\RepairDirectory\Domain\Services\Geocoder;
 use TheRestartProject\RepairDirectory\Validation\Validators\WebsiteValidator;
-use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification;
 
 class WebsitesCheck extends Command
 {
@@ -124,14 +124,13 @@ class WebsitesCheck extends Command
             $this->info("Found " . count($errors) . " errors");
 
             try {
-                $user = $this->authManager->guard()->user();
+                $emailTo = env('INVALID_SITES_EMAIL');
 
-                if ($user) {
+                if ($emailTo) {
                     // In a Platform environment we will be automatically logged in, and we notify that user rather
                     // than look in the Restarters database (which isn't present).
-                    $this->error("Notify logged in user");
-                    $this->error("Email is " . $user->getEmail());
-                    Notification::route('mail', $user->getEmail())->notify(new AdminBusinessWebsiteInvalid($errors));
+                    $this->error("Notify $emailTo");
+                    Notification::route('mail', $emailTo)->notify(new AdminBusinessWebsiteInvalid($errors));
                     $this->error("Notified logged in user");
                 } else {
                     // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
