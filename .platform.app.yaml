@@ -66,8 +66,6 @@ hooks:
     # Some config is configured in platform.sh environment variables, which we can extract here to put in the
     # .env file for the code to pick up.
     sed -i "s/APP_NAME=.*\$/APP_NAME=\"$APP_NAME\"/g" .env
-    sed -i "s/MAILGUN_DOMAIN=.*\$/MAILGUN_DOMAIN=$MAILGUN_DOMAIN/g" .env
-    sed -i "s/MAILGUN_SECRET=.*\$/MAILGUN_SECRET=$MAILGUN_SECRET/g" .env
     sed -i "s/MAIL_FROM_ADDRESS=.*\$/MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS/g" .env
     sed -i "s/MAIL_FROM_NAME=.*\$/MAIL_FROM_NAME=\"$MAIL_FROM_NAME\"/g" .env
     sed -i "s/GA_TRACKING_ID=.*\$/GA_TRACKING_ID=$GA_TRACKING_ID/g" .env
@@ -76,6 +74,9 @@ hooks:
     sed -i "s/GRAVITYFORMS_SECRET=.*\$/GRAVITYFORMS_SECRET=$GRAVITYFORMS_SECRET/g" .env
     sed -i "s/GRAVITYFORMS_SUBMISSION_FORM_ID=.*\$/GRAVITYFORMS_SUBMISSION_FORM_ID=$GRAVITYFORMS_SUBMISSION_FORM_ID/g" .env
     sed -i "s/MAP_SHARE_BASE_URL=.*\$/MAP_SHARE_BASE_URL=https:\/\/$MAP_SHARE_BASE_URL/g" .env
+    
+    echo "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" >> .env
+    echo "MAILGUN_SECRET=$MAILGUN_SECRET" >> .env
     
     cp fixometer/config/config.dist.php fixometer/config/config.php
     composer install -n
