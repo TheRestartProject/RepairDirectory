@@ -113,19 +113,27 @@ class WebsitesCheck extends Command
         if (count($errors)) {
             $this->error("Found " . count($errors) . " errors");
 
-            // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
-            // They then forward on to the relevant regional admins.
-            // In future, we may wish to split this out by regional admin.
-            $admins = $this->userRepository->findBy([
-                                                        [
-                                                            'field' => 'repairDirectoryRole',
-                                                            'operator' => Operators::EQUAL,
-                                                            'value' => Role::SUPERADMIN
-                                                        ]
-                                                    ]);
+            // In a Platform environment we will be automatically logged in, and we notify that user rather
+            // than look in the Restarters database (which isn't present).
+            $user = $this->app['auth']->getUser();
 
-            foreach ($admins as $admin) {
-                $admin->notify(new AdminBusinessWebsiteInvalid($errors));
+            if ($user) {
+                $user->notify(new AdminBusinessWebsiteInvalid($errors));
+            } else {
+                // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
+                // They then forward on to the relevant regional admins.
+                // In future, we may wish to split this out by regional admin.
+                $admins = $this->userRepository->findBy([
+                                                            [
+                                                                'field' => 'repairDirectoryRole',
+                                                                'operator' => Operators::EQUAL,
+                                                                'value' => Role::SUPERADMIN
+                                                            ]
+                                                        ]);
+
+                foreach ($admins as $admin) {
+                    $admin->notify(new AdminBusinessWebsiteInvalid($errors));
+                }
             }
         }
     }
