@@ -121,7 +121,7 @@ class WebsitesCheck extends Command
         }
 
         if (count($errors)) {
-            $this->error("Found " . count($errors) . " errors");
+            $this->info("Found " . count($errors) . " errors");
 
             try {
                 $user = $this->authManager->guard()->user();
@@ -137,7 +137,6 @@ class WebsitesCheck extends Command
                     // Currently superadmins (i.e. a Restart team member) get notified regarding website issues.
                     // They then forward on to the relevant regional admins.
                     // In future, we may wish to split this out by regional admin.
-                    $this->error("Notify admins");
                     $admins = $this->userRepository->findBy([
                                                                 [
                                                                     'field' => 'repairDirectoryRole',
