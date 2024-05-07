@@ -45,6 +45,16 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
+        'mailpit' => [
+            'transport' => 'smtp',
+            'host' => env('MAILPIT_HOST', 'localhost'),
+            'port' => env('MAILPIT_PORT', 1025),
+            'encryption' => null,
+            'username' => null,
+            'password' => null,
+            'timeout' => null,
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],
