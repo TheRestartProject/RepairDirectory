@@ -146,7 +146,11 @@ return [
             'updatedBy' => [
                 'type' => 'integer',
                 'nullable' => true
-            ]
+            ],
+            'businessCheckMailSentAt' => [
+                'type' => 'datetime',
+                'nullable' => true
+            ],
         ]
     ],
     'TheRestartProject\RepairDirectory\Domain\Models\Suggestion' => [

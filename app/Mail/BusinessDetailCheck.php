@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Doctrine\ORM\EntityManagerInterface;
 
 use TheRestartProject\RepairDirectory\Domain\Models\Business;
 
@@ -29,15 +30,23 @@ class BusinessDetailCheck extends Mailable
     public $business;
 
     /**
+     * The EntityManagerInterface to use for updating the business
+     * 
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    public $em;
+
+    /**
      * Create a new message instance.
      *
      * @param \TheRestartProject\RepairDirectory\Domain\Models\Business $business
      * @return void
      */
-    public function __construct(Business $business, Array $reply_to)
+    public function __construct(Business $business, Array $reply_to, EntityManagerInterface $em)
     {
         $this->business = $business;
         $this->reply_to = $reply_to;
+        $this->em = $em;
     }
 
     /**

@@ -36,9 +36,11 @@ class SendBusinessCheckMails extends Command
         foreach ($businesses as $business) {
             if ($business->getEmail()) {
                 $reply_to = env('MAIL_BUSINESSCHECK_REPLYTO_MAIL');
-                Mail::to($business->getEmail())->send(new BusinessDetailCheck($business, [ $reply_to ]));
+                Mail::to($business->getEmail())
+                    ->send(new BusinessDetailCheck($business, [ $reply_to ], $em));
             }
         }
+        
         return Command::SUCCESS;
     }
 }

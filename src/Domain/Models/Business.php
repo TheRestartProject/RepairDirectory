@@ -283,6 +283,13 @@ class Business
     private $updatedBy;
 
     /**
+     * The last time an email was sent out to request a review of details
+     * 
+     * @var \DateTime
+     */
+    private $businessCheckMailSentAt;
+
+    /**
      * Return the business's unique id
      *
      * @return int
@@ -1119,4 +1126,25 @@ class Business
     {
         $this->updatedAt = $updatedAt;
     }
+
+    /**
+     * Return the date/time the business last sent an email to review details
+     * 
+     * @return \DateTime
+     */
+    public function getBusinessCheckMailSentAt()
+    {
+        return $this->businessCheckMailSentAt;
+    }
+
+    /**
+     * Set the date/time the business last sent an email to review details
+     * 
+     * @param \DateTime $businessCheckMailSentAt The value to set
+     */
+    public function setBusinessCheckMailSentAt($businessCheckMailSentAt)
+    {
+        $this->businessCheckMailSentAt = $businessCheckMailSentAt;
+    }
+
 }
