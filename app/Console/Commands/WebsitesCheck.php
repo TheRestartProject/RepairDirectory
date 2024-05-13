@@ -127,8 +127,8 @@ class WebsitesCheck extends Command
                 $emailTo = env('INVALID_SITES_EMAIL');
 
                 if ($emailTo) {
-                    // In a Platform environment we will be automatically logged in, and we notify that user rather
-                    // than look in the Restarters database (which isn't present).
+                    // In a Platform environment we don't have access to the Restarters database and just notify
+                    // a single configured email address.
                     $this->error("Notify $emailTo");
                     Notification::route('mail', $emailTo)->notify(new AdminBusinessWebsiteInvalid($errors));
                     $this->error("Notified logged in user");
