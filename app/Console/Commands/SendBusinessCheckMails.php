@@ -6,6 +6,8 @@ use App\Mail\BusinessDetailCheck;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use TheRestartProject\RepairDirectory\Application\QueryLanguage\Operators;
+use TheRestartProject\RepairDirectory\Domain\Enums\PublishingStatus;
 use TheRestartProject\RepairDirectory\Domain\Repositories\BusinessRepository;
 
 class SendBusinessCheckMails extends Command
@@ -31,7 +33,23 @@ class SendBusinessCheckMails extends Command
      */
     public function handle(EntityManagerInterface $em, BusinessRepository $businessRepository)
     {
-        $businesses = $businessRepository->findAll(null, TRUE);
+
+        // Only send mails to published businesses that haven't opted out.
+
+        $criteria = [
+            [
+                'field' => 'publishingStatus',
+                'operator' => Operators::EQUAL,
+                'value' => PublishingStatus::PUBLISHED
+            ],
+            [
+                'field' => 'businessCheckMailOptout',
+                'operator' => Operators::EQUAL,
+                'value' => false
+            ],           
+        ];
+
+        $businesses = $businessRepository->findBy($criteria);
 
         foreach ($businesses as $business) {
             if ($business->getEmail()) {

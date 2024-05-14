@@ -151,6 +151,10 @@ return [
                 'type' => 'datetime',
                 'nullable' => true
             ],
+            'businessCheckMailOptout' => [
+                'type' => 'boolean',
+                'nullable' => false  
+            ]
         ]
     ],
     'TheRestartProject\RepairDirectory\Domain\Models\Suggestion' => [
