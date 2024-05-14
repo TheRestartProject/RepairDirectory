@@ -63,7 +63,7 @@ class BusinessDetailCheck extends Mailable
         }
 
         return new Envelope(
-            subject: __(env('MAIL_BUSINESSCHECK_SUBJECT', 'Business Detail Check')),
+            subject: __(env('MAIL_BUSINESSCHECK_SUBJECT', '[Reuse Directory] Please review your details')),
             from: new Address(env('MAIL_BUSINESSCHECK_FROM_MAIL'), env('MAIL_BUSINESSCHECK_FROM_NAME')),
             replyTo: $reply_tos,
         );
