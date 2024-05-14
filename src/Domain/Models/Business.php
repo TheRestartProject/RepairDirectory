@@ -290,6 +290,13 @@ class Business
     private $businessCheckMailSentAt;
 
     /**
+     * Whether a business has opted out of receving review mails
+     * 
+     * @var bool
+     */
+    private $businessCheckMailOptout;
+
+    /**
      * Return the business's unique id
      *
      * @return int
@@ -1145,6 +1152,26 @@ class Business
     public function setBusinessCheckMailSentAt($businessCheckMailSentAt)
     {
         $this->businessCheckMailSentAt = $businessCheckMailSentAt;
+    }
+
+    /**
+     * Return whether the business has opted out of receiving review mails
+     * 
+     * @return bool
+     */
+    public function isBusinessCheckMailOptout()
+    {
+        return $this->businessCheckMailOptout;
+    }
+
+    /**
+     * Set whether the business has opted out of receiving review mails
+     * 
+     * @param bool $businessCheckMailOptout The value to set
+     */
+    public function setBusinessCheckMailOptout(bool $businessCheckMailOptout)
+    {
+        $this->businessCheckMailOptout = $businessCheckMailOptout;
     }
 
 }

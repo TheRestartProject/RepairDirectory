@@ -59,6 +59,7 @@ return [
     'warranty_offered' => $warranty_offered_label,
     'warranty_details' => $warranty_details_label,
     'publishing_status' => 'Publishing Status',
+    'business_check_mail_optout' => 'Avoid sending review emails',
     'hide_reason' => 'Hide Reason',
 
     'submissions' => 'Submissions',

@@ -270,7 +270,8 @@ class CreateBusinessTest extends IntegrationTestCase
             'averageScore' => $business->getAverageScore(),
             'warrantyOffered' => $business->isWarrantyOffered() ? 'Yes' : 'No',
             'warranty' => $business->getWarranty(),
-            'publishingStatus' => $business->getPublishingStatus()
+            'publishingStatus' => $business->getPublishingStatus(),
+            'businessCheckMailOptout' => $business->isBusinessCheckMailOptout() ? 'Yes' : 'No',
         ];
     }
 }

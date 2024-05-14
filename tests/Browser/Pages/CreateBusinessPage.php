@@ -86,6 +86,7 @@ class CreateBusinessPage extends Page
             '@warranty' => 'warranty',
             '@publishingStatus' => 'publishingStatus',
             '@submitButton' => '#submit',
+            '@businessCheckMailOptout' => 'businessCheckMailOptout',
         ];
     }
 
@@ -156,7 +157,8 @@ class CreateBusinessPage extends Page
             ->type('@averageScore', $this->faker->randomFloat(1, 0, 5))
             ->check('@warrantyOffered')
             ->type('@warranty', $this->faker->sentence())
-            ->select('@publishingStatus', PublishingStatus::DRAFT);
+            ->select('@publishingStatus', PublishingStatus::DRAFT)
+            ->check('@businessCheckMailOptout');
 
         return $this;
     }
