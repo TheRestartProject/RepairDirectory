@@ -172,7 +172,7 @@
                 @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group show-for-reuse-directory">
                 <label for="customField1">{{ __('admin.custom_field1') }}</label>
                 <textarea id="customField1" name="customField1"
                           class="form-control validate">{{ old('customField1') ?: $business->getCustomField1() }}</textarea>
@@ -181,12 +181,21 @@
                 @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group show-for-reuse-directory">
                 <label for="customField2">{{ __('admin.custom_field2') }}</label>
                 <textarea id="customField2" name="customField2"
                           class="form-control validate">{{ old('customField2') ?: $business->getCustomField2() }}</textarea>
                 @if($errors->has('customField2'))
                     <small class="business-error">{{ $errors->first('customField2') }}</small>
+                @endif
+            </div>
+
+            <div class="form-group show-for-reuse-directory">
+                <label for="customField3">{{ __('admin.custom_field3') }}</label>
+                <textarea id="customField3" name="customField3"
+                          class="form-control validate">{{ old('customField3') ?: $business->getCustomField3() }}</textarea>
+                @if($errors->has('customField3'))
+                    <small class="business-error">{{ $errors->first('customField3') }}</small>
                 @endif
             </div>
 

@@ -108,3 +108,12 @@ h1, h2, h3, h4, h5, h6 {
 .fas:hover {
     color:white;
 }
+
+// Hide any reuse-only fields, and show them if page has directory-type-reuse class
+.show-for-reuse-directory {
+  display: none;
+}
+
+.page.directory-type-reuse .show-for-reuse-directory {
+  display: block;
+}

@@ -82,7 +82,11 @@ return [
             'customField2' => [
                 'type' => 'string',
                 'nullable' => true
-            ],            
+            ],
+            'customField3' => [
+                'type' => 'string',
+                'nullable' => true
+            ],    
             'qualifications' => [
                 'type' => 'string',
                 'nullable' => true

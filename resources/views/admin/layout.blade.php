@@ -83,7 +83,7 @@
         </nav>
 
     <main role="main">
-      <div class="page">
+      <div class="page <?= 'directory-type-' . env('DIRECTORY_TYPE', 'repair'); ?>">
         <div class="container-fluid">
             @yield('content')
         </div>

@@ -175,6 +175,15 @@ class Business
     private $customField2;
 
     /**
+     * Custom field 3 - used for dropoff location info in the Reuse Directory,
+     * but not currently used in the Repair Directory 
+     *
+     * @var string
+     */
+    private $customField3;
+
+
+    /**
      * Percentage of reviews that are positive
      *
      * @var integer
@@ -973,6 +982,27 @@ class Business
         $this->customField2 = $customField2;
     }
 
+    /**
+     * Get the third custom field data for the business
+     * 
+     * @return string
+     */
+    public function getCustomField3()
+    {
+        return $this->customField3;
+    }
+
+    /**
+     * Set the third custom field data for the business
+     * 
+     * @param string $customField3 The value to set
+     *
+     * @return void
+     */
+    public function setCustomField3($customField3)
+    {
+        $this->customField3 = $customField3;
+    }
 
     /**
      * Whether the business is published or not
