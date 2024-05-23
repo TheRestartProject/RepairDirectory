@@ -1,7 +1,6 @@
 # Complete list of all available properties: https://docs.upsun.com/create-apps/app-reference.html
 applications:
   repair-directory:
-    # Application source code directory
     source:
       root: "\"
 
