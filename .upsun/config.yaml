@@ -1,9 +1,6 @@
 # Complete list of all available properties: https://docs.upsun.com/create-apps/app-reference.html
 applications:
   repair-directory:
-    source:
-      root: "./"
-
     # The runtime the application uses.
     # Complete list of available runtimes: https://docs.upsun.com/create-apps/app-reference.html#types
     type: "php:8.2"
