@@ -4,7 +4,6 @@ applications:
     # The runtime the application uses.
     # Complete list of available runtimes: https://docs.upsun.com/create-apps/app-reference.html#types
     type: "php:8.2"
-    disk: 3900
 
     # Choose which container profile (ratio CPU+RAM) your app will use. Default value comes from the image itself.
     # More information: https://docs.upsun.com/manage-resources/adjust-resources.html#adjust-a-container-profile
@@ -179,7 +178,6 @@ applications:
 services:
   mysql:
     type: oracle-mysql:5.7
-    disk: 1024
 
 # The routes of the project.
 #
