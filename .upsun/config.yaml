@@ -4,6 +4,7 @@ applications:
     # The runtime the application uses.
     # Complete list of available runtimes: https://docs.upsun.com/create-apps/app-reference.html#types
     type: "php:8.2"
+    disk: 3900
 
     # Choose which container profile (ratio CPU+RAM) your app will use. Default value comes from the image itself.
     # More information: https://docs.upsun.com/manage-resources/adjust-resources.html#adjust-a-container-profile
@@ -15,7 +16,7 @@ applications:
     # side is in the form `<service name>:<endpoint name>`.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#relationships
     relationships:
-      mysqldatabase: 'dbmysql:mysql'
+      mysqldatabase: 'mysql:mysql'
 
     # Mounts define directories that are writable after the build is complete.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#mounts
@@ -107,6 +108,7 @@ applications:
       build: |
         echo "Executing our build process"
         set -e
+        cd app
         mkdir env
         cp .env.example .env
         
@@ -175,8 +177,9 @@ applications:
 # More information: https://docs.upsun.com/add-services.html
 # Full list of available services: https://docs.upsun.com/add-services.html#available-services
 services:
-  dbmysql:
+  mysql:
     type: oracle-mysql:5.7
+    disk: 1024
 
 # The routes of the project.
 #
