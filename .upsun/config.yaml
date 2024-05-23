@@ -54,7 +54,7 @@ applications:
       # Each key in locations is a path on your site with a leading /.
       # More information: https://docs.upsun.com/create-apps/app-reference.html#locations
       commands:
-        start: 'unset DB_CONNECTION;unset DB_DATABASE;unset DB_HOST;unset DB_PORT;unset DB_USERNAME;unset DB_PASSWORD;/usr/bin/start-php-app ./index.php'
+        start: 'unset DB_CONNECTION;unset DB_DATABASE;unset DB_HOST;unset DB_PORT;unset DB_USERNAME;unset DB_PASSWORD;/usr/bin/start-php-app'
       locations:
         "/":
           passthru: "/index.php"
