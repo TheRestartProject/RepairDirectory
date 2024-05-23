@@ -150,6 +150,13 @@ applications:
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
       deploy: |
         set -eux
+        # Upsun sets these environment variables, which then override .env, which isn't what we want.
+        unset DB_CONNECTION
+        unset DB_DATABASE
+        unset DB_HOST
+        unset DB_PORT
+        unset DB_USERNAME
+        unset DB_PASSWORD
         mkdir -p storage/framework/sessions
         mkdir -p storage/framework/cache
         mkdir -p storage/framework/views
