@@ -1,0 +1,12 @@
+# Set database environment variables
+export DB_HOST="$MYSQL_HOST"
+export DB_PORT="$MYSQL_PORT"
+export DB_PATH="$MYSQL_PATH"
+export DB_USERNAME="$MYSQL_USERNAME"
+export DB_PASSWORD="$MYSQL_PASSWORD"
+export DB_SCHEME="$MYSQL_SCHEME"
+export DATABASE_URL="${DB_SCHEME}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_PATH}"
+
+# Set Laravel-specific environment variables
+export DB_CONNECTION="$DB_SCHEME"
+export DB_DATABASE="$DB_PATH"
