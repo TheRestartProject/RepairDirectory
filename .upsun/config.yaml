@@ -175,7 +175,7 @@ applications:
 # More information: https://docs.upsun.com/add-services.html
 # Full list of available services: https://docs.upsun.com/add-services.html#available-services
 services:
-  mysql:
+  dbmysql:
     type: oracle-mysql:5.7
 
 # The routes of the project.
