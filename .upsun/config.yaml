@@ -15,7 +15,7 @@ applications:
     # side is in the form `<service name>:<endpoint name>`.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#relationships
     relationships:
-      db: 'mysql:mysql'
+      mysqldatabase: 'mysql:mysql'
 
     # Mounts define directories that are writable after the build is complete.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#mounts
@@ -116,6 +116,14 @@ applications:
         sed -i 's/DB_PASSWORD=.*$/DB_PASSWORD=/g' .env
         sed -i "s/MAIL_MAILER=.*\$/MAIL_MAILER=mailgun/g" .env
         sed -i "s/SESSION_DOMAIN=.*\$/SESSION_DOMAIN=.restarters.net/g" .env
+        
+        # Upsun sets these environment variables, which then override .env, which isn't what we want.
+        unset DB_CONNECTION
+        unset DB_DATABASE
+        unset DB_HOST
+        unset DB_PORT
+        unset DB_USERNAME
+        unset DB_PASSWORD
         
         # Some config is configured in platform.sh environment variables, which we can extract here to put in the
         # .env file for the code to pick up.
