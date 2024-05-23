@@ -107,7 +107,6 @@ applications:
       build: |
         echo "Executing our build process"
         set -e
-        cd app
         mkdir env
         cp .env.example .env
         
