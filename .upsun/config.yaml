@@ -57,7 +57,7 @@ applications:
         start: 'unset DB_CONNECTION;unset DB_DATABASE;unset DB_HOST;unset DB_PORT;unset DB_USERNAME;unset DB_PASSWORD;/usr/bin/start-php-app ./index.php'
       locations:
         "/":
-          passthru: "index.php"
+          passthru: "/index.php"
           root: "public"
           
         
