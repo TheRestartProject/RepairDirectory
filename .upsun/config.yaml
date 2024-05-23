@@ -27,19 +27,19 @@ applications:
     # Mounts define directories that are writable after the build is complete.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#mounts
     mounts:
-      "/.config":
-        source: "storage"
-        source_path: "config"
-        
-      "bootstrap/cache":
-        source: "storage"
-        source_path: "cache"
-        
-      "storage":
-        source: "storage"
-        source_path: "storage"
-        
-      
+      'public/uploads':
+        source: local
+        source_path: uploads
+      # Laravel uses a directory off the root called "storage" for logs and cache.
+      # We don't support specifying nested directories so make these directories
+      # flat beyond "shared:files"
+      "/storage/app/public": "shared:files/app-public"
+      "/storage/framework/views": "shared:files/framework-views"
+      "/storage/framework/sessions": "shared:files/framework-sessions"
+      "/storage/framework/cache": "shared:files/framework-cache"
+      "/storage/logs": "shared:files/logs"
+      # And another cache directory here.
+      "/bootstrap/cache": "shared:files/bootstrap_cache"
 
     # The web key configures the web server running in front of your app.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#web
@@ -83,7 +83,8 @@ applications:
     variables:
       env:
         N_PREFIX: "/app/.global"
-        
+      php:
+        extension: /app/xmlrpc.so
 
     # Outbound firewall rules for the application. More information: https://docs.upsun.com/create-apps/app-reference.html#firewall
     # firewall:
@@ -111,11 +112,38 @@ applications:
       # The build hook is run after any build flavor.
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#build-hook
       build: |
-        set -eux
-        composer --no-ansi --no-interaction install --no-progress --prefer-dist --optimize-autoloader --no-dev
-        n auto || n lts
-        hash -r
-        yarn
+        echo "Executing our build process"
+        set -e
+        mkdir env
+        cp .env.example .env
+        
+        # The database config depends on the platform.sh setup.
+        sed -i 's/DB_DATABASE=.*$/DB_DATABASE=main/g' .env
+        sed -i 's/DB_USERNAME=.*$/DB_USERNAME=root/g' .env
+        sed -i 's/DB_PASSWORD=.*$/DB_PASSWORD=/g' .env
+        sed -i "s/MAIL_MAILER=.*\$/MAIL_MAILER=mailgun/g" .env
+        sed -i "s/SESSION_DOMAIN=.*\$/SESSION_DOMAIN=.restarters.net/g" .env
+        
+        # Some config is configured in platform.sh environment variables, which we can extract here to put in the
+        # .env file for the code to pick up.
+        sed -i "s/APP_NAME=.*\$/APP_NAME=\"$APP_NAME\"/g" .env
+        sed -i "s/MAIL_FROM_ADDRESS=.*\$/MAIL_FROM_ADDRESS=$MAIL_FROM_ADDRESS/g" .env
+        sed -i "s/MAIL_FROM_NAME=.*\$/MAIL_FROM_NAME=\"$MAIL_FROM_NAME\"/g" .env
+        sed -i "s/GA_TRACKING_ID=.*\$/GA_TRACKING_ID=$GA_TRACKING_ID/g" .env
+        sed -i "s/GOOGLE_MAPS_API_KEY=.*\$/GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY/g" .env
+        sed -i "s/GRAVITYFORMS_KEY=.*\$/GRAVITYFORMS_KEY=$GRAVITYFORMS_KEY/g" .env
+        sed -i "s/GRAVITYFORMS_SECRET=.*\$/GRAVITYFORMS_SECRET=$GRAVITYFORMS_SECRET/g" .env
+        sed -i "s/GRAVITYFORMS_SUBMISSION_FORM_ID=.*\$/GRAVITYFORMS_SUBMISSION_FORM_ID=$GRAVITYFORMS_SUBMISSION_FORM_ID/g" .env
+        sed -i "s/MAP_SHARE_BASE_URL=.*\$/MAP_SHARE_BASE_URL=https:\/\/$MAP_SHARE_BASE_URL/g" .env
+        
+        echo "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" >> .env
+        echo "MAILGUN_SECRET=$MAILGUN_SECRET" >> .env
+        
+        cp fixometer/config/config.dist.php fixometer/config/config.php
+        composer install -n
+        npm install
+        export NODE_OPTIONS=--max-old-space-size=8192;  npm rebuild node-sass; npm run prod
+        echo "Our build process is complete"
         
       # The deploy hook is run after the app container has been started, but before it has started accepting requests.
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
@@ -124,9 +152,10 @@ applications:
         mkdir -p storage/framework/sessions
         mkdir -p storage/framework/cache
         mkdir -p storage/framework/views
-        php artisan migrate --force
         php artisan optimize:clear
-        
+        php artisan config:clear
+        php artisan doctrine:migrations:migrate
+        echo "Migrated"        
 
       # The post_deploy hook is run after the app container has been started and after it has started accepting requests.
       # More information: https://docs.upsun.com/create-apps/hooks/hooks-comparison.html#deploy-hook
@@ -134,7 +163,11 @@ applications:
 
     # Scheduled tasks for the app.
     # More information: https://docs.upsun.com/create-apps/app-reference.html#crons
-    # crons:
+    crons:
+      # Run Laravel's scheduler every 5 minutes.
+      scheduler:
+        spec: '*/1 * * * *'
+        cmd: 'php artisan schedule:run > /tmp/schedule.out 2>&1'
 
     # Customizations to your PHP or Lisp runtime. More information: https://docs.upsun.com/create-apps/app-reference.html#runtime
     # runtime:
@@ -150,9 +183,7 @@ applications:
 # Full list of available services: https://docs.upsun.com/add-services.html#available-services
 services:
   mysql:
-    type: mysql:10.6 # All available versions are: 10.6, 10.5, 10.4, 10.3
-
-  
+    type: oracle-mysql:5.7
 
 # The routes of the project.
 #
