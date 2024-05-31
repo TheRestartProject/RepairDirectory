@@ -43,7 +43,7 @@ class BasicAuth
                 Log::error('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $pass);
             }
 
-            Log::error("Has supplied credentials $has_supplied_credentials, user " . $_SERVER['PHP_AUTH_USER'] . " pass " . $_SERVER['PHP_AUTH_PW']);
+            Log::error("Has supplied credentials $has_supplied_credentials");
             $is_not_authenticated = (
                 !$has_supplied_credentials ||
                 $_SERVER['PHP_AUTH_USER'] != $user ||
