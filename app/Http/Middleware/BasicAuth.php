@@ -15,20 +15,25 @@ class BasicAuth
     public function handle($request, Closure $next)
     {
         Log::error("Basic auth handle");
+        header('X-Debug-Upsun-1:', "Basic auth handle");
         $user = null;
         $pass = null;
 
         try {
             $config = new \Platformsh\ConfigReader\Config();
             Log::error("Got config");
+            header('X-Debug-Upsun-2:', "Got config");
 
             if ($config->isValidPlatform()) {
                 Log::error("Valid platform");
+                header('X-Debug-Upsun-3:', "Valid platform");
                 $user = $config->variable('BASIC_AUTH_USER', '');
                 $pass = $config->variable('BASIC_AUTH_PASS', '');
+                header('X-Debug-Upsun-4:', "Auth user " . $user);
             }
         } catch (\Exception $e) {
             Log::error("No basic auth user and pass " . $e->getMessage());
+            header('X-Debug-Upsun-5:', "No basic auth user and pass " . $e->getMessage());
         }
 
         if ($user && $pass) {
