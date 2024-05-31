@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Middleware;
 use Closure;
+use Illuminate\Support\Facades\Log;
 
 class BasicAuth
 {
@@ -13,21 +14,21 @@ class BasicAuth
      */
     public function handle($request, Closure $next)
     {
-        error_log("Basic auth handle");
+        Log::error("Basic auth handle");
         $user = null;
         $pass = null;
 
         try {
             $config = new \Platformsh\ConfigReader\Config();
-            error_log("Got config");
+            Log::error("Got config");
 
             if ($config->isValidPlatform()) {
-                error_log("Valid platform");
+                Log::error("Valid platform");
                 $user = $config->variable('BASIC_AUTH_USER', '');
                 $pass = $config->variable('BASIC_AUTH_PASS', '');
             }
         } catch (\Exception $e) {
-            error_log("No basic auth user and pass " . $e->getMessage());
+            Log::error("No basic auth user and pass " . $e->getMessage());
         }
 
         if ($user && $pass) {
@@ -35,8 +36,8 @@ class BasicAuth
             header('Cache-Control: no-cache, must-revalidate, max-age=0');
             $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
             if ($has_supplied_credentials) {
-                error_log('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $user);
-                error_log('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $pass);
+                Log::error('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $user);
+                Log::error('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $pass);
             }
 
             $is_not_authenticated = (
