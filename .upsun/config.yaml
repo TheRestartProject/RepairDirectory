@@ -30,6 +30,7 @@ applications:
       "/storage/framework/views": "shared:files/framework-views"
       "/storage/framework/sessions": "shared:files/framework-sessions"
       "/storage/framework/cache": "shared:files/framework-cache"
+      "/storage/debugbar": "shared:files/debugbar"
       "/storage/logs": "shared:files/logs"
       # And another cache directory here.
       "/bootstrap/cache": "shared:files/bootstrap_cache"
