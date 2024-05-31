@@ -13,13 +13,16 @@ class BasicAuth
      */
     public function handle($request, Closure $next)
     {
+        error_log("Basic auth handle");
         $user = null;
         $pass = null;
 
         try {
             $config = new \Platformsh\ConfigReader\Config();
+            error_log("Got config");
 
             if ($config->isValidPlatform()) {
+                error_log("Valid platform");
                 $user = $config->variable('BASIC_AUTH_USER', '');
                 $pass = $config->variable('BASIC_AUTH_PASS', '');
             }
