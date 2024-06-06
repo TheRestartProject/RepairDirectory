@@ -146,6 +146,14 @@ return [
             'updatedBy' => [
                 'type' => 'integer',
                 'nullable' => true
+            ],
+            'businessCheckMailSentAt' => [
+                'type' => 'datetime',
+                'nullable' => true
+            ],
+            'businessCheckMailOptout' => [
+                'type' => 'boolean',
+                'nullable' => false  
             ]
         ]
     ],

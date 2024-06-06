@@ -283,6 +283,20 @@ class Business
     private $updatedBy;
 
     /**
+     * The last time an email was sent out to request a review of details
+     * 
+     * @var \DateTime
+     */
+    private $businessCheckMailSentAt;
+
+    /**
+     * Whether a business has opted out of receving review mails
+     * 
+     * @var bool
+     */
+    private $businessCheckMailOptout;
+
+    /**
      * Return the business's unique id
      *
      * @return int
@@ -1119,4 +1133,45 @@ class Business
     {
         $this->updatedAt = $updatedAt;
     }
+
+    /**
+     * Return the date/time the business last sent an email to review details
+     * 
+     * @return \DateTime
+     */
+    public function getBusinessCheckMailSentAt()
+    {
+        return $this->businessCheckMailSentAt;
+    }
+
+    /**
+     * Set the date/time the business last sent an email to review details
+     * 
+     * @param \DateTime $businessCheckMailSentAt The value to set
+     */
+    public function setBusinessCheckMailSentAt($businessCheckMailSentAt)
+    {
+        $this->businessCheckMailSentAt = $businessCheckMailSentAt;
+    }
+
+    /**
+     * Return whether the business has opted out of receiving review mails
+     * 
+     * @return bool
+     */
+    public function isBusinessCheckMailOptout()
+    {
+        return $this->businessCheckMailOptout;
+    }
+
+    /**
+     * Set whether the business has opted out of receiving review mails
+     * 
+     * @param bool $businessCheckMailOptout The value to set
+     */
+    public function setBusinessCheckMailOptout(bool $businessCheckMailOptout)
+    {
+        $this->businessCheckMailOptout = $businessCheckMailOptout;
+    }
+
 }

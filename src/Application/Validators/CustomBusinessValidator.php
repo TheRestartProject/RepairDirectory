@@ -70,7 +70,8 @@ class CustomBusinessValidator implements BusinessValidator
             'averageScore' => new v\NumberRangeValidator('Average Score', 0, 5, true),
             'warrantyOffered' => new v\BooleanValidator(),
             'warranty' => new v\StringLengthValidator('Warranty Details', 10, 65535),
-            'publishingStatus' => new PublishingStatusValidator()
+            'publishingStatus' => new PublishingStatusValidator(),
+            'businessCheckMailOptout' => new v\ReviewMailOptoutValidator(),
         ];
     }
 

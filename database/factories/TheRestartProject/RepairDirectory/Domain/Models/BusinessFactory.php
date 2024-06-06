@@ -58,7 +58,8 @@ class BusinessFactory extends Factory
             'notes' => $this->faker->sentence(),
             'customField1' => $this->faker->sentence(),
             'customField2' => $this->faker->sentence(),
-            'customField3' => $this->faker->sentence()
+            'customField3' => $this->faker->sentence(),
+            'businessCheckMailOptout' => false,
         ];
     }
 
@@ -89,7 +90,8 @@ class BusinessFactory extends Factory
                 'averageScore' => -1,
                 'warrantyOffered' => 'abcd',
                 'warranty' => 'abcd',
-                'publishingStatus' => 'abcd'
+                'publishingStatus' => 'abcd',
+                'businessCheckMailOptout' => 'abcd',
             ];
         });
     }
@@ -118,7 +120,8 @@ class BusinessFactory extends Factory
                 'notes' => $this->faker->sentence(),
                 'customField1' => $this->faker->sentence(),
                 'customField2' => $this->faker->sentence(),
-                'customField3' => $this->faker->sentence()
+                'customField3' => $this->faker->sentence(),
+                'businessCheckMailOptout' => false,
             ];
         });
     }

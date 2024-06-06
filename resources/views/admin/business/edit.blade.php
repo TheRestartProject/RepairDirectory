@@ -276,6 +276,16 @@
                     <small class="business-error">{{ $errors->first('warranty') }}</small>
                 @endif
             </div>
+
+            <div class="form-group">
+                <label for="businessCheckMailOptout">{{ __('admin.business_check_mail_optout') }}</label>
+                <input type="checkbox" name="businessCheckMailOptout" id="businessCheckMailOptout" class="form-control"
+                       {{ old('businessCheckMailOptout') ? (old('businessCheckMailOptout') === 'Yes' ? 'checked' : '') : ($business->isBusinessCheckMailOptout() ? 'checked' : '') }} value="Yes">
+                @if($errors->has('businessCheckMailOptout'))
+                    <small class="business-error">{{ $errors->first('businessCheckMailOptout') }}</small>
+                @endif
+            </div>
+            
         </div>
         </div>
 
@@ -293,16 +303,17 @@
                         {{ $business->getCreatedAt()->format('d/m/Y H:i:s') }}
                     </div>
                 </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            Created by:
-                        </div>
-                        <div class="col-md-8">
-                            @if (!empty($business->getCreatedBy()) && $business->userWhoCreated)
-                                {{ $business->userWhoCreated->getName() }}
-                            @endif
-                        </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Created by:
                     </div>
+                    <div class="col-md-8">
+                        @if (!empty($business->getCreatedBy()) && $business->userWhoCreated)
+                            {{ $business->userWhoCreated->getName() }}
+                        @endif
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-4">
