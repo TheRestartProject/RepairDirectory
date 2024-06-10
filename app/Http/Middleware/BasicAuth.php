@@ -31,17 +31,11 @@ class BasicAuth
             Log::error("No basic auth user and pass " . $e->getMessage());
         }
 
-        Log::error("User $user pass $pass");
-
         if ($user && $pass) {
             // Basic auth configured, apply.
             Log::error("Basic auth configured");
             header('Cache-Control: no-cache, must-revalidate, max-age=0');
             $has_supplied_credentials = !(empty($_SERVER['PHP_AUTH_USER']) && empty($_SERVER['PHP_AUTH_PW']));
-            if ($has_supplied_credentials) {
-                Log::error('X-Auth-Debug1: ' . $_SERVER['PHP_AUTH_USER'] . " vs " . $user);
-                Log::error('X-Auth-Debug2: ' . $_SERVER['PHP_AUTH_PW'] . " vs " . $pass);
-            }
 
             Log::error("Has supplied credentials $has_supplied_credentials");
             $is_not_authenticated = (
