@@ -175,6 +175,15 @@ class Business
     private $customField2;
 
     /**
+     * Custom field 3 - used for dropoff location info in the Reuse Directory,
+     * but not currently used in the Repair Directory 
+     *
+     * @var string
+     */
+    private $customField3;
+
+
+    /**
      * Percentage of reviews that are positive
      *
      * @var integer
@@ -272,6 +281,20 @@ class Business
      * @var int
      */
     private $updatedBy;
+
+    /**
+     * The last time an email was sent out to request a review of details
+     * 
+     * @var \DateTime
+     */
+    private $businessCheckMailSentAt;
+
+    /**
+     * Whether a business has opted out of receving review mails
+     * 
+     * @var bool
+     */
+    private $businessCheckMailOptout;
 
     /**
      * Return the business's unique id
@@ -973,6 +996,27 @@ class Business
         $this->customField2 = $customField2;
     }
 
+    /**
+     * Get the third custom field data for the business
+     * 
+     * @return string
+     */
+    public function getCustomField3()
+    {
+        return $this->customField3;
+    }
+
+    /**
+     * Set the third custom field data for the business
+     * 
+     * @param string $customField3 The value to set
+     *
+     * @return void
+     */
+    public function setCustomField3($customField3)
+    {
+        $this->customField3 = $customField3;
+    }
 
     /**
      * Whether the business is published or not
@@ -1089,4 +1133,45 @@ class Business
     {
         $this->updatedAt = $updatedAt;
     }
+
+    /**
+     * Return the date/time the business last sent an email to review details
+     * 
+     * @return \DateTime
+     */
+    public function getBusinessCheckMailSentAt()
+    {
+        return $this->businessCheckMailSentAt;
+    }
+
+    /**
+     * Set the date/time the business last sent an email to review details
+     * 
+     * @param \DateTime $businessCheckMailSentAt The value to set
+     */
+    public function setBusinessCheckMailSentAt($businessCheckMailSentAt)
+    {
+        $this->businessCheckMailSentAt = $businessCheckMailSentAt;
+    }
+
+    /**
+     * Return whether the business has opted out of receiving review mails
+     * 
+     * @return bool
+     */
+    public function isBusinessCheckMailOptout()
+    {
+        return $this->businessCheckMailOptout;
+    }
+
+    /**
+     * Set whether the business has opted out of receiving review mails
+     * 
+     * @param bool $businessCheckMailOptout The value to set
+     */
+    public function setBusinessCheckMailOptout(bool $businessCheckMailOptout)
+    {
+        $this->businessCheckMailOptout = $businessCheckMailOptout;
+    }
+
 }

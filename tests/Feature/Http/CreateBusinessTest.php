@@ -262,6 +262,7 @@ class CreateBusinessTest extends IntegrationTestCase
             'notes' => $business->getNotes(),
             'customField1' => $business->getCustomField1(),
             'customField2' => $business->getCustomField2(),
+            'customField3' => $business->getCustomField3(),
             'reviewSourceUrl' => $business->getReviewSourceUrl(),
             'positiveReviewPc' => $business->getPositiveReviewPc(),
             'reviewSource' => $business->getReviewSource(),
@@ -269,7 +270,8 @@ class CreateBusinessTest extends IntegrationTestCase
             'averageScore' => $business->getAverageScore(),
             'warrantyOffered' => $business->isWarrantyOffered() ? 'Yes' : 'No',
             'warranty' => $business->getWarranty(),
-            'publishingStatus' => $business->getPublishingStatus()
+            'publishingStatus' => $business->getPublishingStatus(),
+            'businessCheckMailOptout' => $business->isBusinessCheckMailOptout() ? 'Yes' : 'No',
         ];
     }
 }

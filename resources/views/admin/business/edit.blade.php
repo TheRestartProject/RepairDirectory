@@ -172,7 +172,7 @@
                 @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group show-for-reuse-directory">
                 <label for="customField1">{{ __('admin.custom_field1') }}</label>
                 <textarea id="customField1" name="customField1"
                           class="form-control validate">{{ old('customField1') ?: $business->getCustomField1() }}</textarea>
@@ -181,12 +181,21 @@
                 @endif
             </div>
 
-            <div class="form-group">
+            <div class="form-group show-for-reuse-directory">
                 <label for="customField2">{{ __('admin.custom_field2') }}</label>
                 <textarea id="customField2" name="customField2"
                           class="form-control validate">{{ old('customField2') ?: $business->getCustomField2() }}</textarea>
                 @if($errors->has('customField2'))
                     <small class="business-error">{{ $errors->first('customField2') }}</small>
+                @endif
+            </div>
+
+            <div class="form-group show-for-reuse-directory">
+                <label for="customField3">{{ __('admin.custom_field3') }}</label>
+                <textarea id="customField3" name="customField3"
+                          class="form-control validate">{{ old('customField3') ?: $business->getCustomField3() }}</textarea>
+                @if($errors->has('customField3'))
+                    <small class="business-error">{{ $errors->first('customField3') }}</small>
                 @endif
             </div>
 
@@ -267,6 +276,16 @@
                     <small class="business-error">{{ $errors->first('warranty') }}</small>
                 @endif
             </div>
+
+            <div class="form-group">
+                <label for="businessCheckMailOptout">{{ __('admin.business_check_mail_optout') }}</label>
+                <input type="checkbox" name="businessCheckMailOptout" id="businessCheckMailOptout" class="form-control"
+                       {{ old('businessCheckMailOptout') ? (old('businessCheckMailOptout') === 'Yes' ? 'checked' : '') : ($business->isBusinessCheckMailOptout() ? 'checked' : '') }} value="Yes">
+                @if($errors->has('businessCheckMailOptout'))
+                    <small class="business-error">{{ $errors->first('businessCheckMailOptout') }}</small>
+                @endif
+            </div>
+            
         </div>
         </div>
 
@@ -284,16 +303,17 @@
                         {{ $business->getCreatedAt()->format('d/m/Y H:i:s') }}
                     </div>
                 </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            Created by:
-                        </div>
-                        <div class="col-md-8">
-                            @if (!empty($business->getCreatedBy()) && $business->userWhoCreated)
-                                {{ $business->userWhoCreated->getName() }}
-                            @endif
-                        </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Created by:
                     </div>
+                    <div class="col-md-8">
+                        @if (!empty($business->getCreatedBy()) && $business->userWhoCreated)
+                            {{ $business->userWhoCreated->getName() }}
+                        @endif
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-4">

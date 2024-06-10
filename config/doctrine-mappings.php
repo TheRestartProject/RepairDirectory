@@ -82,7 +82,11 @@ return [
             'customField2' => [
                 'type' => 'string',
                 'nullable' => true
-            ],            
+            ],
+            'customField3' => [
+                'type' => 'string',
+                'nullable' => true
+            ],    
             'qualifications' => [
                 'type' => 'string',
                 'nullable' => true
@@ -142,6 +146,14 @@ return [
             'updatedBy' => [
                 'type' => 'integer',
                 'nullable' => true
+            ],
+            'businessCheckMailSentAt' => [
+                'type' => 'datetime',
+                'nullable' => true
+            ],
+            'businessCheckMailOptout' => [
+                'type' => 'boolean',
+                'nullable' => false  
             ]
         ]
     ],

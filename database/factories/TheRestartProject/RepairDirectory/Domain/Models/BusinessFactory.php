@@ -57,7 +57,9 @@ class BusinessFactory extends Factory
             'communityEndorsement' => $this->faker->sentence(),
             'notes' => $this->faker->sentence(),
             'customField1' => $this->faker->sentence(),
-            'customField2' => $this->faker->sentence()
+            'customField2' => $this->faker->sentence(),
+            'customField3' => $this->faker->sentence(),
+            'businessCheckMailOptout' => false,
         ];
     }
 
@@ -81,13 +83,15 @@ class BusinessFactory extends Factory
                 'notes' => null,
                 'customField1' => null,
                 'customField2' => null,
+                'customField3' => null,
                 'reviewSource' => 'abcd',
                 'positiveReviewPc' => -10,
                 'numberOfReviews' => -10,
                 'averageScore' => -1,
                 'warrantyOffered' => 'abcd',
                 'warranty' => 'abcd',
-                'publishingStatus' => 'abcd'
+                'publishingStatus' => 'abcd',
+                'businessCheckMailOptout' => 'abcd',
             ];
         });
     }
@@ -115,7 +119,9 @@ class BusinessFactory extends Factory
                 'communityEndorsement' => $this->faker->sentence(),
                 'notes' => $this->faker->sentence(),
                 'customField1' => $this->faker->sentence(),
-                'customField2' => $this->faker->sentence()
+                'customField2' => $this->faker->sentence(),
+                'customField3' => $this->faker->sentence(),
+                'businessCheckMailOptout' => false,
             ];
         });
     }
