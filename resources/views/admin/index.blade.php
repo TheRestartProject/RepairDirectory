@@ -39,7 +39,7 @@
             <?php
                 // Log categories
                 $categories = $business->getCategories();
-                Log::info('Categories: ' . $categories);
+                Log::info('Categories: type ' . gettype($categories) . " value " . json_encode($categories));
             ?>
             <tr onclick="window.document.location='{{ route('admin.business.edit', ['id' => $business->getUid()]) }}'"
                 role="button">
