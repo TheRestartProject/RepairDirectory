@@ -36,6 +36,11 @@
         </thead>
         <tbody>
         @foreach($businesses as $business)
+            <?php
+                // Log categories
+                $categories = $business->getCategories();
+                Log::info('Categories: ' . $categories);
+            ?>
             <tr onclick="window.document.location='{{ route('admin.business.edit', ['id' => $business->getUid()]) }}'"
                 role="button">
                 <td>{{ $business->getName() }}</td>
