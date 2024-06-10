@@ -94,6 +94,14 @@ class ImportFromHttpRequestFactory
     {
         if (array_key_exists('warrantyOffered', $data)) {
             $data['warrantyOffered'] = $data['warrantyOffered'] === 'Yes';
+        } else {
+            $data['warrantyOffered'] = false;
+        }
+
+        if (array_key_exists('businessCheckMailOptout', $data)) {
+            $data['businessCheckMailOptout'] = $data['businessCheckMailOptout'] === 'Yes';
+        } else {
+            $data['businessCheckMailOptout'] = false;
         }
 
         if (array_key_exists('productsRepaired', $data)) {
