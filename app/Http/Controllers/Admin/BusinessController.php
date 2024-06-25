@@ -50,7 +50,7 @@ class BusinessController extends Controller
 
         // On Platform we don't have access to the user repository - that is available when we are colocated
         // with Restarters.
-        if (getenv('PLATFORM_VARIABLES')) {
+        if (! getenv('PLATFORM_VARIABLES')) {
             if (!empty($business->getCreatedBy())) {
                 $business->userWhoCreated = $userRepository->find($business->getCreatedBy());
             }
