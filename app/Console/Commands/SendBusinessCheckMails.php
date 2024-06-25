@@ -50,13 +50,31 @@ class SendBusinessCheckMails extends Command
         ];
 
         $businesses = $businessRepository->findBy($criteria);
+        $businesses_mailed = 0;
+        $businesses_no_email = 0;
+
+        // Get configured reply-to address. In future, this can be over-ridden according to 
+        // internal needs, eg for a specific contact for the region a business is in.
+        // For now, we only use the one address.
+        // NB This *must* be configured, currently.
+        $reply_to = env('MAIL_BUSINESSCHECK_REPLYTO_MAIL');
+        if (is_null($reply_to) || ! trim($reply_to)) {
+            $this->error('No default reply-to email address configured. Please set MAIL_BUSINESSCHECK_REPLYTO_MAIL in your environment.');
+            return Command::FAILURE;
+        }
 
         foreach ($businesses as $business) {
-            if ($business->getEmail()) {
-                $reply_to = env('MAIL_BUSINESSCHECK_REPLYTO_MAIL');
+            if ($business->getEmail()) {                
                 Mail::to($business->getEmail())->send(new BusinessDetailCheck($business, [ $reply_to ], $em));
+                $businesses_mailed++;
+            } else {
+                $businesses_no_email++;
             }
         }
+
+        $this->info('Success! Total businesses: ' . count($businesses) . 
+                     '. Mail queued: ' . $businesses_mailed . 
+                     '. Without email: ' . $businesses_no_email . '.');
 
         return Command::SUCCESS;
     }
