@@ -8,12 +8,21 @@
         <div id="email_content" style="width: 50vw; max-width: 900px;">
 
             <p>
-                Hi there, this is a quick regular e-mail just to check that we have the correct details about you.
+                Hi there,
             </p>
             <p>
-                Please have a look over the information below. If there's anything you would like corrected or amended, 
-                just hit "Reply" and let us know - all changes will be handled by a real person, so you don't need to 
-                log-in or fill in any forms.
+                Your organisation, {{ $business->getName() }}, is listed on The Restart Project's <a 
+                href="https://therestartproject.org/where-to-donate-your-computer/" target="_blank">directory of computer reuse 
+                organisations</a>.
+            </p>
+            <p>
+                To keep the directory up-to-date and effective, this is a quick regular e-mail just to check that we have 
+                the correct details about your organisation.
+            </p>
+            <p>
+                Please have a look over the information below. If there's anything you would like corrected or amended, just hit 
+                "Reply" and let us know - all changes will be handled by a real person, so you don't need to log-in or fill in 
+                any forms.
             </p>
 
             <div id="details">
