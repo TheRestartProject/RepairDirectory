@@ -431,10 +431,14 @@ class Business
     /**
      * Return the business website
      *
+     * @param bool $addLink     Set to true to return link wrapped in <a> tag
      * @return string
      */
-    public function getWebsite()
+    public function getWebsite(bool $addLink = false)
     {
+        if ($addLink) {
+            return $this->addLinksToUrls($this->website);
+        }
         return $this->website;
     }
 
@@ -563,10 +567,14 @@ class Business
     /**
      * Return the qualifications held by this business
      *
+     * @param bool $addLink     Set to true to return any links wrapped in <a> tags
      * @return string
      */
-    public function getQualifications()
+    public function getQualifications(bool $addLink = false)
     {
+        if ($addLink) {
+            return $this->addLinksToUrls($this->qualifications);
+        }
         return $this->qualifications;
     }
 
@@ -673,10 +681,14 @@ class Business
     /**
      * Return this business's warranty information
      *
+     * @param bool $addLink     Set to true to return any links wrapped in <a> tags
      * @return string
      */
-    public function getWarranty()
+    public function getWarranty(bool $addLink = false)
     {
+        if ($addLink) {
+            return $this->addLinksToUrls($this->customField1);
+        }
         return $this->warranty;
     }
 
@@ -955,10 +967,14 @@ class Business
     /**
      * Get the first custom field data for the business
      * 
+     * @param bool $addLink     Set to true to return any links wrapped in <a> tags
      * @return string
      */
-    public function getCustomField1()
+    public function getCustomField1(bool $addLink = false)
     {
+        if ($addLink) {
+            return $this->addLinksToUrls($this->customField1);
+        }
         return $this->customField1;
     }
 
@@ -977,10 +993,14 @@ class Business
     /**
      * Get the second custom field data for the business
      * 
+     * @param bool $addLink     Set to true to return any links wrapped in <a> tags
      * @return string
      */
-    public function getCustomField2()
+    public function getCustomField2(bool $addLink = false)
     {
+        if ($addLink) {
+            return $this->addLinksToUrls($this->customField1);
+        }
         return $this->customField2;
     }
 
@@ -999,10 +1019,14 @@ class Business
     /**
      * Get the third custom field data for the business
      * 
+     * @param bool $addLink     Set to true to return any links wrapped in <a> tags
      * @return string
      */
-    public function getCustomField3()
+    public function getCustomField3(bool $addLink = false)
     {
+        if ($addLink) {
+            return $this->addLinksToUrls($this->customField1);
+        }
         return $this->customField3;
     }
 
@@ -1172,6 +1196,28 @@ class Business
     public function setBusinessCheckMailOptout(bool $businessCheckMailOptout)
     {
         $this->businessCheckMailOptout = $businessCheckMailOptout;
+    }
+
+    /**
+     * Adds hyperlinks to any URL in given content.
+     * Links will always target _blank.
+     * 
+     * @param  String $content   Content to parse
+     * @return String            Content with added hyperlinks
+     */
+    private function addLinksToUrls(String $content): String {
+        // Regex taken from https://stackoverflow.com/questions/6427530/regular-expression-pattern-to-match-url-with-or-without-http-www
+        $regex = '((https?|ftp)://)?'; // SCHEME
+        $regex .= '([a-z0-9+!*(),;?&=$_.-]+(:[a-z0-9+!*(),;?&=$_.-]+)?@)?'; // User and Pass
+        $regex .= '([a-z0-9\-\.]*)\.(([a-z]{2,})|([0-9]{1,3}\.([0-9]{1,3})\.([0-9]{1,3})))'; // Host or IP address
+        $regex .= '(:[0-9]{2,5})?'; // Port
+        $regex .= '(/([a-z0-9+$_%-]\.?)+)*/?'; // Path
+        $regex .= '(\?[a-z+&\$_.-][a-z0-9;:@&%=+/$_.-]*)?'; // GET Query
+        $regex .= '(#[a-z_.-][a-z0-9+$%_.-]*)?'; // Anchor
+        
+        $content = preg_replace("~($regex)~i",
+                                "<a href=\"$1\" target=\"_blank\" class=\"external-link\">$1</a>", $content);
+        return $content;
     }
 
 }
