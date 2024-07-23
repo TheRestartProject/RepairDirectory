@@ -48,11 +48,18 @@
 
             <p>
                 Many thanks,<br />
-                The Restart Project team.
+                The Restart Project team.<br />
+                <img src="https://therestartproject.org/wp-content/themes/restart/images/logo-wordmark.svg" alt="The Restart Project logo" 
+                     style="width: 150px; margin-top: 1em" />
             </p>
         </div>
-        <div id="email_footer" style="font-size: smaller;">
-            Unsubscribe info and email sent from info.
+        <div id="email_footer" style="font-size: smaller; width: 50vw; max-width: 900px; padding-top: 1em;">
+            <hr />
+            You are receiving this email as your organisation is listed on The Restart Project's <a 
+            href="https://therestartproject.org/where-to-donate-your-computer/" target="_blank">directory of computer reuse 
+            organisations</a>.  If you would like to stop receiving these emails, please <a 
+            href="mailto:{{ env('MAIL_BUSINESSCHECK_REPLYTO_MAIL') }}?subject=Reuse Directory reminder: unsubscribe">reply</a> 
+            with the subject 'Reuse Directory reminder: unsubscribe'.
         </div>
 
     </div>
