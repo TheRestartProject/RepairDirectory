@@ -26,7 +26,7 @@
         "myclabs/php-enum": "^1.5",
         "paquettg/php-html-parser": "^1.7",
         "php-coveralls/php-coveralls": "^2.5",
-        "phpoffice/phpspreadsheet": "^1.19",
+        "phpoffice/phpspreadsheet": "^2.2",
         "skagarwal/google-places-api": "^2.0",
         "symfony/http-client": "^6.2",
         "symfony/mailgun-mailer": "^6.2",
