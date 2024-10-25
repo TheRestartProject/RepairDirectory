@@ -9,14 +9,18 @@
  * file that was distributed with this source code.
  */
 
-use Geocoder\Provider\GoogleMaps\GoogleMaps;
+use Geocoder\Provider\Mapbox\Mapbox;
+use Geocoder\Provider\Photon\Photon;
 
 return [
     'cache-duraction' => 999999999,
     'providers' => [
-        GoogleMaps::class => [
-            null,
-            env('GOOGLE_MAPS_API_KEY'),
+        Mapbox::class => [
+            env('MAPBOX_TOKEN'),
+            'GB'
         ],
+//        Photon::class => [
+//            'https://photon.komoot.io/',
+//        ]
     ]
 ];

@@ -9,6 +9,7 @@
     "type": "project",
     "require": {
         "php": "^8.0",
+        "geocoder-php/mapbox-provider": "^1.4",
         "guzzlehttp/guzzle": "^7.2",
         "laracasts/utilities": "^3.2",
         "laravel-doctrine/migrations": "^3.0",
@@ -27,7 +28,6 @@
         "paquettg/php-html-parser": "^1.7",
         "php-coveralls/php-coveralls": "^2.5",
         "phpoffice/phpspreadsheet": "^1.19",
-        "skagarwal/google-places-api": "^2.0",
         "symfony/http-client": "^6.2",
         "symfony/mailgun-mailer": "^6.2",
         "toin0u/geocoder-laravel": "^4.5"
